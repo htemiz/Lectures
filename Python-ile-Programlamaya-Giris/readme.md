@@ -1,4 +1,4 @@
-# Python dili ile Programlamaya Giriş
+# [Python ile Programlamaya Giriş Kitabı](Python-ile-Programlamaya-Giris.ipynb) 
 Dr. Hakan Temiz
 htemiz@artvin.edu.tr
 
