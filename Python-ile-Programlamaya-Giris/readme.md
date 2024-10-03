@@ -1,6 +1,9 @@
-# [Python ile Programlamaya Giriş Kitabı](Python-ile-Programlamaya-Giris.ipynb) 
+# [Python ile Programlamaya Giriş](Python-ile-Programlamaya-Giris.ipynb) 
 Dr. Hakan Temiz
+
 htemiz@artvin.edu.tr
+
+Bu kitap, geleneksel yaklaşımlardan farklı olarak, sadece bir okuma kitaı olmaktan ziyade, interaktif bir şekilde etkileşimde bulunularak kullanılabilmesi amacıyla Jupyter Notebook olarak Colab ortamında kullanılabilecek şekilde yazılmıştır. 
 
 İnteraktif çalışma kitabını [Python ile Programlamaya Giriş Kitabı](Python-ile-Programlamaya-Giris.ipynb) bağlantısından açabilirsiniz.
 
