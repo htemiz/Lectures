@@ -6,6 +6,7 @@ Dr. Hakan Temiz
 ## Bölümler
 Konulara ait örnekler ve çözümler bölümler halinde alt klasörlerde bulunmaktadır.
 
-* [Bölüm 03 - Python Diline Giriş]
-  *. [Alıştırmalar](Bolum-03-Python-Diline-Giris/Exercises_Pythona_Giris.ipynb)
+* [Bölüm 03 - Python Diline Giriş]((Bolum-03-Python-Diline-Giris/)
+  
+  * [Alıştırmalar](Bolum-03-Python-Diline-Giris/Exercises_Pythona_Giris.ipynb)
 
