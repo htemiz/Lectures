@@ -2,6 +2,7 @@
 Dr. Hakan Temiz
 
 htemiz@artvin.edu.tr
+
 &copyright; 2024.
 
 </br>
