@@ -2,7 +2,9 @@
 Dr. Hakan Temiz
 
 htemiz@artvin.edu.tr
+&copyright; 2024.
 
+</br>
 Bu kitap, geleneksel yaklaşımlardan farklı olarak, sadece bir okuma kitaı olmaktan ziyade, interaktif bir şekilde etkileşimde bulunularak kullanılabilmesi amacıyla Jupyter Notebook olarak Colab ortamında kullanılabilecek şekilde yazılmıştır. 
 
 İnteraktif çalışma kitabını [Python ile Programlamaya Giriş Kitabı](Python-ile-Programlamaya-Giris.ipynb) bağlantısından açabilirsiniz.
