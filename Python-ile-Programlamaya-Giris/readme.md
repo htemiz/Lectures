@@ -5,11 +5,14 @@ htemiz@artvin.edu.tr
 
 &copy; 2024
 
-</br>
+</br>&nbsp;
+
 Bu kitap, geleneksel yaklaşımlardan farklı olarak, sadece bir okuma kitaı olmaktan ziyade, interaktif bir şekilde etkileşimde bulunularak kullanılabilmesi amacıyla Jupyter Notebook olarak Colab ortamında kullanılabilecek şekilde yazılmıştır. 
 
 </br>
 İnteraktif çalışma kitabını [Python ile Programlamaya Giriş Kitabı](Python-ile-Programlamaya-Giris.ipynb) bağlantısından açabilir ve Colab ortamında interaktif kullanabilirsiniz.
+
+&nbsp;
 
 Konulara ait örnekler, çalışma soruları ve çözümler bölümler halinde alt klasörlerde bulunmaktadır.
 
