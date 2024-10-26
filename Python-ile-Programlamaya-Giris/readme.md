@@ -8,7 +8,7 @@ htemiz@artvin.edu.tr
 </br>
 &nbsp;
 
-Bu kitap, sadece bir okuma kitaı olmaktan ziyade, interaktif kullanılabilmesi amacıyla Jupyter Notebook olarak Colab ortamında kullanılabilecek şekilde yazılmıştır. 
+Bu kitap, sadece bir okuma kitabı olmaktan ziyade interaktif kullanılabilmesi amacıyla Jupyter Notebook olarak Colab ortamında kullanılmak üzere hazırlanmıştır. 
 </br>
 &nbsp;
 
