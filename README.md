@@ -4,7 +4,8 @@
 
 [Veri Yapıları](Veri-Yapilari/)
 
-</hr>
+
+___
 
 Dr. Hakan Temiz
 
