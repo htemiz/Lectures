@@ -41,7 +41,7 @@ Konulara ait örnekler, çalışma soruları ve çözümler bölümler halinde a
 
 * [Bölüm 06 - Gelişmiş-Veri-Tipleri](Bolum-06-Gelişmiş-Veri-Tipleri/)
   
-  * [Alıştırmalar](Bolum-06-Gelişmiş-Veri-Tipleri/Exercises_Gelismis_Veri_Tipleri.ip)
+  * [Alıştırmalar](Bolum-06-Gelişmiş-Veri-Tipleri/Exercises_Gelismis_Veri_Tipleri.ipynb)
 
 
 * [Bölüm 07 - Fonksiyonlar](Bolum-07-Fonksiyonlar/)
