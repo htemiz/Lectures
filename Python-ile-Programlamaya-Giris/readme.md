@@ -22,7 +22,7 @@ butonuna tıklayarak Colab ortamında interaktif kullanabilirsiniz.
 
 Konulara ait örnekler, çalışma soruları ve çözümler bölümler halinde alt klasörlerde bulunmaktadır.
 
-## Bölümler
+## Alıştırmalar
 
 * [Bölüm 03 - Python Diline Giriş](Bolum-03-Python-Diline-Giris/)
   
