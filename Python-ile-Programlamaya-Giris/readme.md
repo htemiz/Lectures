@@ -12,7 +12,7 @@ Bu kitap, sadece bir okuma kitabı olmaktan ziyade interaktif kullanılabilmesi 
 </br>
 &nbsp;
 
-Çalışma kitabını [Python ile Programlamaya Giriş Kitabı](Python-ile-Programlamaya-Giris.ipynb) bağlantısı ile açabilir ve dokümandaki
+Çalışma kitabını [buradan](Python-ile-Programlamaya-Giris.ipynb) açabilir ve dokümandaki
 
 <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/> 
 
