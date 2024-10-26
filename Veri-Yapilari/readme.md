@@ -4,15 +4,15 @@ Dr. Hakan Temiz
 
 htemiz@artvin.edu.tr
 
-&copy; 2020 - 2024
+&copy; 2024
 
 
 
-Sunumların pdf sürümleri [sunum](/sunum) klasöründe bulunmaktadır. 
+Sunumların pdf sürümleri [sunum](https://github.com/htemiz/Lectures/tree/main/Veri-Yapilari/sunum) klasöründe bulunmaktadır. 
 
-[Python Programlama Kitabı](https://github.com/htemiz/Lectures/blob/main/Python-ile-Programlamaya-Giris/Python-ile-Programlamaya-Giris.ipynb)
+Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kitabı](https://github.com/htemiz/Lectures/blob/main/Python-ile-Programlamaya-Giris/Python-ile-Programlamaya-Giris.ipynb)
 
-##Online sunumlar:
+## Online sunumlar:
 
 [Algoritmik Karmaşıklık](https://docs.google.com/presentation/d/e/2PACX-1vTgRWS70ZLaKyEQyARpULcfoapXgzveI9DYLZ70drJeSvrqqvdN-w_L4k_-sdxW7WR1MrX6S__qXXE_/pub?start=false&loop=false&delayms=30000&slide=id.g308935204fb_0_69)
 
