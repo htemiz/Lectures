@@ -14,7 +14,7 @@ Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kita
 
 ## Online sunumlar:
 
-[Algoritmik Karmaşıklık](https://docs.google.com/presentation/d/e/2PACX-1vTgRWS70ZLaKyEQyARpULcfoapXgzveI9DYLZ70drJeSvrqqvdN-w_L4k_-sdxW7WR1MrX6S__qXXE_/pub?start=false&loop=false&delayms=30000&slide=id.g308935204fb_0_69)
+[Algoritmik Karmaşıklık](https://docs.google.com/presentation/d/e/2PACX-1vTgRWS70ZLaKyEQyARpULcfoapXgzveI9DYLZ70drJeSvrqqvdN-w_L4k_-sdxW7WR1MrX6S__qXXE_/pub?start=true&loop=false&delayms=30000)
 
 [Diziler](https://docs.google.com/presentation/d/e/2PACX-1vSl_HN73FXLQS-1bUZYKZtpNhfyzQAd6edvXNkenQE0p3agB6kFJ8vIKR-ViH7K1ch8jAQGspnrzrsd/pub?start=false&loop=false&delayms=30000)
 
