@@ -1,11 +1,10 @@
-# Bilgisayar Mühendisliği Ders Notları
-
-## Dersler 
+# Dersler 
 
 [Python ile Programlamaya Giriş](Python-ile-Programlamaya-Giris)
 
 [Veri Yapıları](Veri-Yapilari/)
 
+</hr>
 
 Dr. Hakan Temiz
 
