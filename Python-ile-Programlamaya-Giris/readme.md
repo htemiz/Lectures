@@ -48,3 +48,13 @@ Konulara ait örnekler, çalışma soruları ve çözümler bölümler halinde a
   
   * [Alıştırmalar](Bolum-07-Fonksiyonlar/Exercises_Fonksiyonlar.ipynb)
 
+
+* [Bölüm 08 - Döngüler](Bolum-08-Döngüler/)
+  
+  * [Alıştırmalar](Bolum-08-Döngüler/Exercises-Donguler.ipynb)
+ 
+
+* [Bölüm 09 - Gelişmiş Metin](Bolum-09-Gelişmiş-Metin/)
+  
+  * [Alıştırmalar](Bolum-09-Gelişmiş-Metin/Exercises-Gelismis-Metin.ipynb)
+ 
