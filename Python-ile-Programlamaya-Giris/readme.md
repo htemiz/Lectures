@@ -51,10 +51,10 @@ Konulara ait örnekler, çalışma soruları ve çözümler bölümler halinde a
 
 * [Bölüm 08 - Döngüler](Bolum-08-Döngüler/)
   
-  * [Alıştırmalar](Bolum-08-Döngüler/Exercises-Donguler.ipynb)
+  * [Alıştırmalar](Bolum-08-Döngüler/Exercises_Donguler.ipynb)
  
 
 * [Bölüm 09 - Gelişmiş Metin](Bolum-09-Gelişmiş-Metin/)
   
-  * [Alıştırmalar](Bolum-09-Gelişmiş-Metin/Exercises-Gelismis-Metin.ipynb)
+  * [Alıştırmalar](Bolum-09-Gelişmiş-Metin/Exercises_Gelismis_Metin.ipynb)
  
