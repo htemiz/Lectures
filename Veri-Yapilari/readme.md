@@ -24,5 +24,5 @@ Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kita
 
 [Kuyruklar - Queues](https://docs.google.com/presentation/d/e/2PACX-1vQHBgpLAYBONajxYplRB2YUBNyPYLdseNBy7EYWqeitbuvuMJ3_e6VhpVlZ7VA6_gs8c47M14dikUPK/pub?start=true&loop=false&delayms=30000)
 
-[Ağaçlar - Trees](https://docs.google.com/presentation/d/106CGoO4WATE6Z_2XjCvGgXFxUfP2-k9srooPuZ23Xrc/edit?usp=drive_link)
+[Ağaçlar - Trees](https://docs.google.com/presentation/d/106CGoO4WATE6Z_2XjCvGgXFxUfP2-k9srooPuZ23Xrc/pub?start=true&loop=false&delayms=30000)
 
