@@ -25,3 +25,7 @@ Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kita
 [Kuyruklar - Queues](https://docs.google.com/presentation/d/e/2PACX-1vQHBgpLAYBONajxYplRB2YUBNyPYLdseNBy7EYWqeitbuvuMJ3_e6VhpVlZ7VA6_gs8c47M14dikUPK/pub?start=true&loop=false&delayms=30000)
 
 [Ağaçlar - Trees](https://docs.google.com/presentation/d/e/2PACX-1vT3CbaF9oYI9RYwTz_MhuLuiIV9U8SobPwA-bWOakOr4-XnFKcFJ5ixAYIdREUHUBCslxXACrTSRo-g/pub?start=true&loop=false&delayms=3000)
+
+[Öncelik Kuyrukları - Priority Queues](https://docs.google.com/presentation/d/e/2PACX-1vSecPiux3MNB2XqE6AZoAqISiJtMCYK5rhXxBKgmOx2d0kmAOlWgMXXrIByOl4sAuwB7Mwx4CDn3q-n/pub?start=true&loop=false&delayms=3000)
+
+[Çırpı (Hash) Tabloları](https://docs.google.com/presentation/d/e/2PACX-1vT5pjy_0UYvkuYg5ub_cL_6xuLiljAtpex-PH5BgqxPlNivx2ylFAjGWzOV7q9kKsMZcHemHVMOSs6I/pub?start=true&loop=false&delayms=3000)
