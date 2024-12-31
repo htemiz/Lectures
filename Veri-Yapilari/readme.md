@@ -29,3 +29,6 @@ Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kita
 [Öncelik Kuyrukları - Priority Queues](https://docs.google.com/presentation/d/e/2PACX-1vSecPiux3MNB2XqE6AZoAqISiJtMCYK5rhXxBKgmOx2d0kmAOlWgMXXrIByOl4sAuwB7Mwx4CDn3q-n/pub?start=true&loop=false&delayms=3000)
 
 [Çırpı (Hash) Tabloları](https://docs.google.com/presentation/d/e/2PACX-1vT5pjy_0UYvkuYg5ub_cL_6xuLiljAtpex-PH5BgqxPlNivx2ylFAjGWzOV7q9kKsMZcHemHVMOSs6I/pub?start=true&loop=false&delayms=3000)
+
+[Çizgeler/Graflar (Graphs)](https://docs.google.com/presentation/d/e/2PACX-1vTlNPbDDLG-j9Iqtx_V89mMoAI1ZkGeQLS0Ca-b-4Fj6aLfTmPVoWVevIPAUuJJ7L1hZCUIliuQf2My/pub?start=false&loop=false&delayms=5000)
+
