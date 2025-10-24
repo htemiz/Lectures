@@ -22,7 +22,9 @@ butonuna tıklayarak Colab ortamında interaktif kullanabilirsiniz.
 
 Konulara ait örnekler, çalışma soruları ve çözümler bölümler halinde alt klasörlerde bulunmaktadır.
 
-Güncel dönem ders oturumlarındaki çalışmalara şu linkten erişebilirsiniz:
+## Güncel Çalışmalar
+
+Güncel dönem ders oturumlarındaki örnek çalışmalara şu linkten erişebilirsiniz:
 
 [Güncel Çalışmalar](https://colab.research.google.com/drive/1Q2EgmkpAkDr2fcWF7D2FulCpY6SYQAnC?usp=sharing)
 
