@@ -12,6 +12,8 @@ Sunumların pdf sürümleri [sunum](https://github.com/htemiz/Lectures/tree/main
 
 Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kitabı](https://github.com/htemiz/Lectures/blob/main/Python-ile-Programlamaya-Giris/Python-ile-Programlamaya-Giris.ipynb)
 
+[Güncel Sınıf Çalışmalarına bu bağlantıdan erişebilirsiniz](https://colab.research.google.com/drive/1GWaL0WGJ60Rdpt255NjHoPW9qzSi3WUH?usp=sharing)
+
 ## Online sunumlar
 
 [Algoritmik Karmaşıklık - Algorithmic Complexity](https://docs.google.com/presentation/d/e/2PACX-1vTgRWS70ZLaKyEQyARpULcfoapXgzveI9DYLZ70drJeSvrqqvdN-w_L4k_-sdxW7WR1MrX6S__qXXE_/pub?start=true&loop=false&delayms=30000)
