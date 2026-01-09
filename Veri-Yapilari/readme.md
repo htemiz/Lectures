@@ -29,5 +29,5 @@ Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kita
 
 [Çırpı (Hash) Tabloları](https://docs.google.com/presentation/d/e/2PACX-1vT5pjy_0UYvkuYg5ub_cL_6xuLiljAtpex-PH5BgqxPlNivx2ylFAjGWzOV7q9kKsMZcHemHVMOSs6I/pub?start=true&loop=false&delayms=3000) &nbsp;&nbsp;&nbsp; [📥 pdf indir](https://docs.google.com/presentation/d/1Awc652m1S0LMnUNuBRUK4lt1KidO_w1G5AmRR3lr9aU/export/pdf)
 
-[Çizgeler/Graflar (Graphs)](https://docs.google.com/presentation/d/e/2PACX-1vTlNPbDDLG-j9Iqtx_V89mMoAI1ZkGeQLS0Ca-b-4Fj6aLfTmPVoWVevIPAUuJJ7L1hZCUIliuQf2My/pub?start=false&loop=false&delayms=5000)
+[Çizgeler/Graflar (Graphs)](https://docs.google.com/presentation/d/e/2PACX-1vTlNPbDDLG-j9Iqtx_V89mMoAI1ZkGeQLS0Ca-b-4Fj6aLfTmPVoWVevIPAUuJJ7L1hZCUIliuQf2My/pub?start=false&loop=false&delayms=5000)  &nbsp;&nbsp;&nbsp; [📥 pdf indir](https://docs.google.com/presentation/d/1tmcVYbaj9VqZ_M4Xn4VktdXI_Is3y0mUD5BK6-Q_O98/export/pdf)
 
