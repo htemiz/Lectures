@@ -7,9 +7,6 @@ htemiz@artvin.edu.tr
 &copy; 2024
 
 
-
-Sunumların pdf sürümleri [sunum](https://github.com/htemiz/Lectures/tree/main/Veri-Yapilari/sunum) klasöründe bulunmaktadır. 
-
 Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kitabı](https://github.com/htemiz/Lectures/blob/main/Python-ile-Programlamaya-Giris/Python-ile-Programlamaya-Giris.ipynb)
 
 **Güncel Sınıf Çalışmalarına** [bu bağlantıdan](https://colab.research.google.com/drive/1GWaL0WGJ60Rdpt255NjHoPW9qzSi3WUH?usp=sharing)  erişebilirsiniz.
