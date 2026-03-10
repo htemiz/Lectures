@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>3.01 Durum yönetimi (State management)</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#durum-yönetimi-state-management"
+id="toc-durum-yönetimi-state-management"><span
+class="toc-section-number">1</span> Durum yönetimi (State
+management)</a></li>
+<li><a href="#bildirimsel-declarative-düşünmeye-başlayın"
+id="toc-bildirimsel-declarative-düşünmeye-başlayın"><span
+class="toc-section-number">2</span> Bildirimsel (Declarative) düşünmeye
+başlayın</a></li>
+<li><a
+href="#geçici-durum-ephemeral-state-ve-uygulama-durumu-app-state-arasındaki-fark"
+id="toc-geçici-durum-ephemeral-state-ve-uygulama-durumu-app-state-arasındaki-fark"><span
+class="toc-section-number">3</span> Geçici durum (ephemeral state) ve
+uygulama durumu (app state) arasındaki fark</a>
+<ul>
+<li><a href="#geçici-durum-ephemeral-state"
+id="toc-geçici-durum-ephemeral-state"><span
+class="toc-section-number">3.1</span> Geçici durum (Ephemeral
+state)</a></li>
+<li><a href="#uygulama-durumu-app-state"
+id="toc-uygulama-durumu-app-state"><span
+class="toc-section-number">3.2</span> Uygulama durumu (App
+state)</a></li>
+<li><a href="#kesin-bir-kural-yoktur"
+id="toc-kesin-bir-kural-yoktur"><span
+class="toc-section-number">3.3</span> Kesin bir kural yoktur</a></li>
+</ul></li>
+<li><a href="#basit-uygulama-durumu-yönetimi"
+id="toc-basit-uygulama-durumu-yönetimi"><span
+class="toc-section-number">4</span> Basit uygulama durumu yönetimi</a>
+<ul>
+<li><a href="#örneğimiz" id="toc-örneğimiz"><span
+class="toc-section-number">4.1</span> Örneğimiz</a></li>
+<li><a href="#durumu-yukarı-taşımak-lifting-state-up"
+id="toc-durumu-yukarı-taşımak-lifting-state-up"><span
+class="toc-section-number">4.2</span> Durumu yukarı taşımak (Lifting
+state up)</a></li>
+<li><a href="#duruma-erişim" id="toc-duruma-erişim"><span
+class="toc-section-number">4.3</span> Duruma erişim</a>
+<ul>
+<li><a href="#changenotifier" id="toc-changenotifier"><span
+class="toc-section-number">4.3.1</span> ChangeNotifier</a></li>
+<li><a href="#changenotifierprovider"
+id="toc-changenotifierprovider"><span
+class="toc-section-number">4.3.2</span> ChangeNotifierProvider</a></li>
+<li><a href="#consumer" id="toc-consumer"><span
+class="toc-section-number">4.3.3</span> Consumer</a></li>
+<li><a href="#provider.of" id="toc-provider.of"><span
+class="toc-section-number">4.3.4</span> Provider.of</a></li>
+</ul></li>
+<li><a href="#hepsini-bir-araya-getirmek"
+id="toc-hepsini-bir-araya-getirmek"><span
+class="toc-section-number">4.4</span> Hepsini bir araya
+getirmek</a></li>
+</ul></li>
+<li><a href="#durum-yönetimi-yaklaşımları"
+id="toc-durum-yönetimi-yaklaşımları"><span
+class="toc-section-number">5</span> Durum yönetimi yaklaşımları</a>
+<ul>
+<li><a href="#genel-bakış" id="toc-genel-bakış"><span
+class="toc-section-number">5.1</span> Genel bakış</a></li>
+<li><a href="#yerleşik-yaklaşımlar" id="toc-yerleşik-yaklaşımlar"><span
+class="toc-section-number">5.2</span> Yerleşik yaklaşımlar</a>
+<ul>
+<li><a href="#setstate" id="toc-setstate"><span
+class="toc-section-number">5.2.1</span> setState</a></li>
+<li><a href="#valuenotifier-ve-inheritednotifier"
+id="toc-valuenotifier-ve-inheritednotifier"><span
+class="toc-section-number">5.2.2</span> ValueNotifier ve
+InheritedNotifier</a></li>
+<li><a href="#inheritedwidget-ve-inheritedmodel"
+id="toc-inheritedwidget-ve-inheritedmodel"><span
+class="toc-section-number">5.2.3</span> InheritedWidget ve
+InheritedModel</a></li>
+</ul></li>
+<li><a href="#topluluk-tarafından-sağlanan-paketler"
+id="toc-topluluk-tarafından-sağlanan-paketler"><span
+class="toc-section-number">5.3</span> Topluluk tarafından sağlanan
+paketler</a></li>
+<li><a href="#lisans-bilgisi" id="toc-lisans-bilgisi"><span
+class="toc-section-number">5.4</span> 📄 Lisans Bilgisi</a>
+<ul>
+<li><a href="#lisans-kapsamı" id="toc-lisans-kapsamı"><span
+class="toc-section-number">5.4.1</span> Lisans Kapsamı</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1" id="durum-yönetimi-state-management"><span
+class="header-section-number">1</span> Durum yönetimi (State
+management)</h1>
+<blockquote>
+<p><strong>Not</strong> Flutter kullanarak bir mobil uygulama
+geliştirdiyseniz ve yeniden başlatma sırasında uygulamanızın durumunun
+neden kaybolduğunu merak ediyorsanız, <strong>Android’de durumu geri
+yükleme</strong> veya <strong>iOS’te durumu geri yükleme</strong>
+bölümlerine göz atın.</p>
+</blockquote>
+<p><img src="images/130_state-management-explainer.webp" width=400></p>
+<p>Reaktif uygulamalarda durum yönetimine zaten aşinaysanız bu bölümü
+atlayabilirsiniz, ancak yine de <strong>farklı yaklaşımların
+listesini</strong> incelemek isteyebilirsiniz.</p>
+<p>Flutter’ı keşfettikçe, uygulamanız genelinde ekranlar arasında
+uygulama durumunu paylaşmanız gereken bir zaman gelecektir.
+Benimseyebileceğiniz birçok yaklaşım ve üzerine düşünmeniz gereken
+birçok soru vardır.</p>
+<p>Sonraki sayfalarda, Flutter uygulamalarında durumla (<em>state</em>)
+başa çıkmanın temellerini öğreneceksiniz.</p>
+<h1 data-number="2"
+id="bildirimsel-declarative-düşünmeye-başlayın"><span
+class="header-section-number">2</span> Bildirimsel (Declarative)
+düşünmeye başlayın</h1>
+<p>Bildirimsel programlama hakkında nasıl düşünülmeli.</p>
+<p>Flutter’a imperatif (emirsel) bir çerçeveden (Android SDK veya iOS
+UIKit gibi) geliyorsanız, uygulama geliştirmeye yeni bir perspektiften
+bakmaya başlamanız gerekir.</p>
+<p>Sahip olabileceğiniz birçok varsayım Flutter için geçerli değildir.
+Örneğin Flutter’da, kullanıcı arayüzünüzün (UI) parçalarını değiştirmek
+yerine sıfırdan yeniden oluşturmak sorun değildir. Flutter bunu,
+gerekirse her karede (frame) bile yapabilecek kadar hızlıdır.</p>
+<p>Flutter <strong>bildirimseldir</strong> (declarative). Bu, Flutter’ın
+kullanıcı arayüzünü uygulamanızın mevcut durumunu yansıtacak şekilde
+oluşturduğu anlamına gelir:</p>
+<p><img src="images/130_ui-equals-function-of-state.png" width=350></p>
+<p>Uygulamanızın durumu değiştiğinde (örneğin, kullanıcı ayarlar
+ekranındaki bir anahtarı değiştirdiğinde), durumu değiştirirsiniz ve bu,
+kullanıcı arayüzünün yeniden çizilmesini tetikler. Kullanıcı arayüzünün
+kendisinde (<code>widget.setText</code> gibi) imperatif bir değişiklik
+yoktur; siz durumu değiştirirsiniz ve kullanıcı arayüzü sıfırdan yeniden
+oluşturulur.</p>
+<p>Kullanıcı arayüzü programlamaya yönelik bildirimsel yaklaşım hakkında
+daha fazla bilgiyi <strong>başlangıç kılavuzunda</strong> okuyun.</p>
+<p>Bildirimsel kullanıcı arayüzü programlama tarzının birçok faydası
+vardır. Dikkat çekici bir şekilde, kullanıcı arayüzünün herhangi bir
+durumu için yalnızca tek bir kod yolu vardır. Kullanıcı arayüzünün
+herhangi bir durum için nasıl görünmesi gerektiğini bir kez
+tanımlarsınız ve hepsi bu kadardır.</p>
+<p>İlk başta, bu programlama tarzı imperatif tarz kadar sezgisel
+görünmeyebilir. Bu bölümün burada olmasının nedeni budur. Okumaya devam
+edin.</p>
+<h1 data-number="3"
+id="geçici-durum-ephemeral-state-ve-uygulama-durumu-app-state-arasındaki-fark"><span
+class="header-section-number">3</span> Geçici durum (ephemeral state) ve
+uygulama durumu (app state) arasındaki fark</h1>
+<p>Geçici durum ile uygulama durumu arasındaki fark nasıl anlaşılır?</p>
+<p>Bu belge; uygulama durumunu, geçici durumu ve bir Flutter
+uygulamasında her birini nasıl yönetebileceğinizi tanıtır.</p>
+<p>Mümkün olan en geniş anlamıyla, bir uygulamanın durumu (state),
+uygulama çalışırken bellekte var olan her şeydir. Buna uygulamanın
+varlıkları (assets), Flutter çerçevesinin (framework) UI, animasyon
+durumu, dokular, yazı tipleri vb. hakkında tuttuğu tüm değişkenler
+dahildir. Durumun bu en geniş tanımı geçerli olsa da, bir uygulamanın
+mimarisini oluşturmak için çok yararlı değildir.</p>
+<p>Birincisi, bazı durumları (dokular gibi) siz yönetmezsiniz bile.
+Çerçeve bunları sizin için halleder. Bu nedenle, durumun daha yararlı
+bir tanımı şudur: “Herhangi bir anda kullanıcı arayüzünüzü yeniden
+oluşturmak için ihtiyaç duyduğunuz her türlü veri”. İkincisi, kendiniz
+<strong>yönettiğiniz</strong> durum iki kavramsal türe ayrılabilir:
+geçici durum ve uygulama durumu.</p>
+<h2 data-number="3.1" id="geçici-durum-ephemeral-state"><span
+class="header-section-number">3.1</span> Geçici durum (Ephemeral
+state)</h2>
+<p>Geçici durum (bazen <strong>UI durumu</strong> veya <strong>yerel
+durum</strong> olarak da adlandırılır), tek bir widget içinde düzgün bir
+şekilde barındırabileceğiniz durumdur.</p>
+<p>Bu kasıtlı olarak belirsiz bir tanımdır, bu yüzden işte birkaç
+örnek:</p>
+<ul>
+<li>Bir <code>PageView</code> içindeki mevcut sayfa</li>
+<li>Karmaşık bir animasyonun mevcut ilerleme durumu</li>
+<li>Bir <code>BottomNavigationBar</code> içindeki mevcut seçili
+sekme</li>
+</ul>
+<p>Widget ağacının diğer kısımlarının bu tür bir duruma erişmesi nadiren
+gerekir. Bunu serileştirmeye gerek yoktur ve karmaşık şekillerde
+değişmez.</p>
+<p>Başka bir deyişle, bu tür bir durum üzerinde durum yönetimi
+tekniklerini (ScopedModel, Redux vb.) kullanmaya gerek yoktur. Tek
+ihtiyacınız olan bir <code>StatefulWidget</code>’tır.</p>
+<p>Aşağıda, alt gezinme çubuğunda o anda seçili olan öğenin
+<code>_MyHomepageState</code> sınıfının <code>_index</code> alanında
+nasıl tutulduğunu görebilirsiniz. Bu örnekte <code>_index</code> geçici
+bir durumdur.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyHomepage <span class="kw">extends</span> StatefulWidget <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> MyHomepage(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  State<span class="op">&lt;</span>MyHomepage<span class="op">&gt;</span> createState() <span class="op">=&gt;</span> _MyHomepageState();</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> _MyHomepageState <span class="kw">extends</span> State<span class="op">&lt;</span>MyHomepage<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> _index <span class="op">=</span> <span class="dv">0</span>;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> BottomNavigationBar(</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>      currentIndex<span class="op">:</span> _index<span class="op">,</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>      onTap<span class="op">:</span> (newIndex) <span class="op">{</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        setState(() <span class="op">{</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>          _index <span class="op">=</span> newIndex;</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>);</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>      <span class="op">},</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>      <span class="co">// ... öğeler ...</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Burada <code>setState()</code> ve <code>StatefulWidget</code>’ın
+State sınıfı içinde bir alan (field) kullanmak tamamen doğaldır.
+Uygulamanızın başka hiçbir parçasının <code>_index</code>e erişmesi
+gerekmez. Değişken yalnızca <code>MyHomepage</code> widget’ı içinde
+değişir. Ve kullanıcı uygulamayı kapatıp yeniden başlatırsa,
+<code>_index</code>in sıfıra sıfırlanması sizin için sorun olmaz.</p>
+<h2 data-number="3.2" id="uygulama-durumu-app-state"><span
+class="header-section-number">3.2</span> Uygulama durumu (App
+state)</h2>
+<p>Geçici olmayan, uygulamanızın birçok parçasıyla paylaşmak istediğiniz
+ve kullanıcı oturumları arasında saklamak istediğiniz durum, uygulama
+durumu (bazen <strong>paylaşılan durum</strong> olarak da adlandırılır)
+dediğimiz şeydir.</p>
+<p>Uygulama durumuna örnekler:</p>
+<ul>
+<li>Kullanıcı tercihleri</li>
+<li>Giriş bilgileri</li>
+<li>Bir sosyal ağ uygulamasındaki bildirimler</li>
+<li>Bir e-ticaret uygulamasındaki alışveriş sepeti</li>
+<li>Bir haber uygulamasındaki makalelerin okundu/okunmadı durumu</li>
+</ul>
+<p>Uygulama durumunu yönetmek için seçeneklerinizi araştırmak
+isteyeceksiniz. Seçiminiz uygulamanızın karmaşıklığına ve doğasına,
+ekibinizin önceki deneyimine ve diğer birçok yöne bağlıdır. Okumaya
+devam edin.</p>
+<h2 data-number="3.3" id="kesin-bir-kural-yoktur"><span
+class="header-section-number">3.3</span> Kesin bir kural yoktur</h2>
+<p>Açık olmak gerekirse, uygulamanızdaki tüm durumu yönetmek için
+<code>State</code> ve <code>setState()</code> kullanabilirsiniz. Aslında
+Flutter ekibi bunu birçok basit uygulama örneğinde (her
+<code>flutter create</code> ile aldığınız başlangıç uygulaması dahil)
+yapar.</p>
+<p>Tam tersi de geçerlidir. Örneğin, kendi uygulamanız bağlamında, bir
+alt gezinme çubuğundaki seçili sekmenin <strong>geçici durum
+olmadığına</strong> karar verebilirsiniz. Bunu sınıfın dışından
+değiştirmeniz, oturumlar arasında saklamanız vb. gerekebilir. Bu
+durumda, <code>_index</code> değişkeni uygulama durumudur.</p>
+<p>Belirli bir değişkenin geçici mi yoksa uygulama durumu mu olduğunu
+ayırt etmek için kesin, evrensel bir kural yoktur. Bazen, birini
+diğerine dönüştürmeniz (refactor) gerekir. Örneğin, açıkça geçici bir
+durumla başlarsınız, ancak uygulamanızın özellikleri arttıkça bunun
+uygulama durumuna taşınması gerekebilir.</p>
+<p>Bu nedenle, aşağıdaki diyagrama ihtiyatla yaklaşın:</p>
+<p><img src="images/130_ephemeral-vs-app-state.png" width=400></p>
+<p>React’in setState’i ile Redux’ın store’u karşılaştırıldığında,
+Redux’ın yazarı Dan Abramov şöyle yanıtlamıştır:</p>
+<blockquote>
+<p>“Genel kural şudur: Hangisi daha az tuhaf (zahmetli) geliyorsa onu
+yapın.”</p>
+</blockquote>
+<p>Özetle, herhangi bir Flutter uygulamasında iki kavramsal durum türü
+vardır. Geçici durum, <code>State</code> ve <code>setState()</code>
+kullanılarak uygulanabilir ve genellikle tek bir widget için yereldir.
+Geri kalanı uygulama durumunuzdur. Her iki türün de herhangi bir Flutter
+uygulamasında yeri vardır ve ikisi arasındaki ayrım kendi tercihinize ve
+uygulamanın karmaşıklığına bağlıdır.</p>
+<h1 data-number="4" id="basit-uygulama-durumu-yönetimi"><span
+class="header-section-number">4</span> Basit uygulama durumu
+yönetimi</h1>
+<p>Artık <strong>bildirimsel UI (arayüz) programlamayı</strong> ve
+<strong>geçici durum ile uygulama durumu</strong> arasındaki farkı
+bildiğinize göre, basit uygulama durumu yönetimini öğrenmeye
+hazırsınız.</p>
+<p>Bu sayfada, <code>provider</code> paketini kullanacağız. Flutter’da
+yeniyseniz ve başka bir yaklaşımı (Redux, Rx, kancalar (hooks) vb.)
+seçmek için güçlü bir nedeniniz yoksa, muhtemelen başlamanız gereken
+yaklaşım budur. <code>provider</code> paketinin anlaşılması kolaydır ve
+fazla kod kullanmaz. Ayrıca diğer tüm yaklaşımlarda geçerli olan
+kavramları kullanır.</p>
+<p>Bununla birlikte, diğer reaktif çerçevelerden gelen güçlü bir durum
+yönetimi geçmişiniz varsa, <strong>seçenekler sayfasında</strong>
+listelenen paketleri ve öğreticileri bulabilirsiniz.</p>
+<h2 data-number="4.1" id="örneğimiz"><span
+class="header-section-number">4.1</span> Örneğimiz</h2>
+<p>Açıklama amacıyla, aşağıdaki basit uygulamayı ele alalım.</p>
+<p><img src="images/130_model-shopper-screencast.webp" width=150></p>
+<p>Uygulamanın iki ayrı ekranı vardır: bir katalog ve bir sepet
+(sırasıyla <code>MyCatalog</code> ve <code>MyCart</code> widget’ları ile
+temsil edilir). Bu bir alışveriş uygulaması olabilir, ancak aynı yapıyı
+basit bir sosyal ağ uygulamasında da hayal edebilirsiniz (kataloğu
+“duvar” ve sepeti “favoriler” ile değiştirin).</p>
+<p>Katalog ekranı, özel bir uygulama çubuğu (<code>MyAppBar</code>) ve
+birçok liste öğesinin (<code>MyListItems</code>) kayan bir görünümünü
+içerir.</p>
+<p>İşte bir widget ağacı olarak görselleştirilmiş uygulama.</p>
+<p><img src="images/130_simple-widget-tree.png" width=200></p>
+<p>Yani en az 5 tane <code>Widget</code> alt sınıfımız var. Bunların
+çoğu başka bir yere “ait” olan duruma erişmeye ihtiyaç duyar. Örneğin,
+her bir <code>MyListItem</code>, kendini sepete ekleyebilmelidir.
+Ayrıca, o anda görüntülenen öğenin zaten sepette olup olmadığını görmek
+isteyebilir.</p>
+<p>Bu bizi ilk sorumuza götürür: Sepetin mevcut durumunu nereye
+koymalıyız?</p>
+<h2 data-number="4.2" id="durumu-yukarı-taşımak-lifting-state-up"><span
+class="header-section-number">4.2</span> Durumu yukarı taşımak (Lifting
+state up)</h2>
+<p>Flutter’da durumu, onu kullanan widget’ların üzerinde tutmak
+mantıklıdır.</p>
+<p>Neden? Flutter gibi bildirimsel çerçevelerde, kullanıcı arayüzünü
+(UI) değiştirmek istiyorsanız, onu yeniden oluşturmanız gerekir.
+<code>MyCart.updateWith(somethingNew)</code> gibi bir yöntem kullanmanın
+kolay bir yolu yoktur. Başka bir deyişle, bir widget’ı dışarıdan,
+üzerinde bir yöntem çağırarak zorunlu (imperative) olarak değiştirmek
+zordur. Ve bunu çalıştırabilseniz bile, çerçevenin size yardım etmesine
+izin vermek yerine onunla savaşıyor olurdunuz.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// KÖTÜ: BUNU YAPMAYIN</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> myTapHandler() <span class="op">{</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">var</span> cartWidget <span class="op">=</span> somehowGetMyCartWidget();</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  cartWidget<span class="op">.</span>updateWith(item);</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Yukarıdaki kodu çalıştırsanız bile, <code>MyCart</code> widget’ında
+aşağıdakilerle uğraşmak zorunda kalırdınız:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// KÖTÜ: BUNU YAPMAYIN</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> SomeWidget(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Sepetin başlangıç durumu.</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> updateWith(Item item) <span class="op">{</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Bir şekilde UI&#39;ı buradan değiştirmeniz gerekir.</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Kullanıcı arayüzünün mevcut durumunu dikkate almanız ve yeni verileri
+buna uygulamanız gerekirdi. Bu şekilde hatalardan (bug) kaçınmak
+zordur.</p>
+<p>Flutter’da, içeriği her değiştiğinde yeni bir widget oluşturursunuz.
+<code>MyCart.updateWith(somethingNew)</code> (bir yöntem çağrısı) yerine
+<code>MyCart(contents)</code> (bir yapıcı - constructor) kullanırsınız.
+Yeni widget’ları yalnızca ebeveynlerinin <code>build</code>
+yöntemlerinde oluşturabildiğiniz için, <code>contents</code> (içerik)
+değişecekse, bunun <code>MyCart</code>’ın ebeveyninde veya daha
+yukarısında yaşaması gerekir.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// İYİ</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> myTapHandler(BuildContext context) <span class="op">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">var</span> cartModel <span class="op">=</span> somehowGetMyCartModel(context);</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  cartModel<span class="op">.</span>add(item);</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Şimdi <code>MyCart</code>, kullanıcı arayüzünün herhangi bir sürümünü
+oluşturmak için yalnızca tek bir kod yoluna sahiptir.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// İYİ</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">var</span> cartModel <span class="op">=</span> somehowGetMyCartModel(context);</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> SomeWidget(</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Sepetin mevcut durumunu kullanarak UI&#39;ı sadece bir kez oluşturun.</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ···</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Örneğimizde, <code>contents</code>’in <code>MyApp</code> içinde
+yaşaması gerekir. Ne zaman değişirse, <code>MyCart</code>’ı yukarıdan
+yeniden oluşturur (buna daha sonra değineceğiz). Bu nedenle,
+<code>MyCart</code> yaşam döngüsü (lifecycle) hakkında endişelenmek
+zorunda değildir; sadece herhangi bir <code>contents</code> için ne
+göstereceğini bildirir. Bu değiştiğinde, eski <code>MyCart</code>
+widget’ı kaybolur ve tamamen yenisiyle değiştirilir.</p>
+<p>Widget’lar değişmezdir (immutable) dediğimizde kastettiğimiz budur.
+Değişmezler, yerlerine yenileri gelir.</p>
+<p><img src="images/130_simple-widget-tree-with-cart.png" width=300></p>
+<p>Artık sepetin durumunu nereye koyacağımızı bildiğimize göre, ona
+nasıl erişeceğimize bakalım.</p>
+<h2 data-number="4.3" id="duruma-erişim"><span
+class="header-section-number">4.3</span> Duruma erişim</h2>
+<p>Kullanıcı katalogdaki öğelerden birine tıkladığında, öğe sepete
+eklenir. Ancak sepet <code>MyListItem</code>’ın üzerinde yaşadığına
+göre, bunu nasıl yaparız?</p>
+<p>Basit bir seçenek, <code>MyListItem</code> tıklandığında
+çağırabileceği bir geri çağrı (callback) sağlamaktır. Dart’ın işlevleri
+birinci sınıf nesnelerdir, bu yüzden onları istediğiniz herhangi bir
+şekilde dolaştırabilirsiniz. Yani, <code>MyCatalog</code> içinde
+aşağıdakini tanımlayabilirsiniz:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> SomeWidget(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Yukarıdaki yönteme bir referans ileterek widget&#39;ı oluşturun.</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    MyListItem(myTapCallback)<span class="op">,</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> myTapCallback(Item item) <span class="op">{</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  print(<span class="st">&#39;kullanıcı şuna tıkladı: $item&#39;</span>);</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Bu işe yarar, ancak birçok farklı yerden değiştirmeniz gereken bir
+uygulama durumu için, etrafta çok fazla geri çağrı (callback)
+dolaştırmanız gerekir; bu da oldukça hızlı bir şekilde eskimeye
+(yetersiz kalmaya) başlar.</p>
+<p>Neyse ki Flutter, widget’ların verileri ve hizmetleri torunlarına
+(başka bir deyişle, sadece çocuklarına değil, altlarındaki herhangi bir
+widget’a) sağlaması için mekanizmalara sahiptir. Flutter’dan
+bekleyeceğiniz gibi, (Her şeyin bir Widget™ olduğu yerde), bu
+mekanizmalar sadece özel türde widget’lardır:
+<code>InheritedWidget</code>, <code>InheritedNotifier</code>,
+<code>InheritedModel</code> ve daha fazlası. Bunları burada ele
+almayacağız çünkü yapmaya çalıştığımız şey için biraz düşük
+seviyeliler.</p>
+<p>Bunun yerine, düşük seviyeli widget’larla çalışan ancak kullanımı
+basit olan bir paket kullanacağız. Adı <code>provider</code>.</p>
+<p><code>provider</code> ile çalışmadan önce, <code>pubspec.yaml</code>
+dosyanıza bağımlılığı eklemeyi unutmayın.</p>
+<p><code>provider</code> paketini bağımlılık olarak eklemek için
+<code>flutter pub add</code> komutunu çalıştırın:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">flutter</span> pub add provider</span></code></pre></div>
+<p>Artık <code>import 'package:provider/provider.dart';</code> yapabilir
+ve oluşturmaya başlayabilirsiniz.</p>
+<p><code>provider</code> ile geri çağrılar veya
+<code>InheritedWidgets</code> hakkında endişelenmenize gerek yoktur.
+Ancak 3 kavramı anlamanız gerekir:</p>
+<ol type="1">
+<li>ChangeNotifier</li>
+<li>ChangeNotifierProvider</li>
+<li>Consumer</li>
+</ol>
+<h3 data-number="4.3.1" id="changenotifier"><span
+class="header-section-number">4.3.1</span> ChangeNotifier</h3>
+<p><code>ChangeNotifier</code>, Flutter SDK’sına dahil olan ve
+dinleyicilerine değişiklik bildirimi sağlayan basit bir sınıftır. Başka
+bir deyişle, bir şey <code>ChangeNotifier</code> ise, değişikliklerine
+abone olabilirsiniz. (Bu terime aşina olanlar için, bu bir
+Gözlemlenebilir (Observable) biçimidir.)</p>
+<p><code>provider</code> içinde <code>ChangeNotifier</code>, uygulama
+durumunuzu kapsüllemenin bir yoludur. Çok basit uygulamalar için tek bir
+<code>ChangeNotifier</code> ile idare edebilirsiniz. Karmaşık olanlarda,
+birkaç modeliniz ve dolayısıyla birkaç <code>ChangeNotifier</code>’ınız
+olacaktır. (<code>provider</code> ile <code>ChangeNotifier</code>
+kullanmak zorunda değilsiniz, ancak çalışması kolay bir sınıftır.)</p>
+<p>Alışveriş uygulaması örneğimizde, sepetin durumunu bir
+<code>ChangeNotifier</code> içinde yönetmek istiyoruz. Aşağıdaki gibi
+onu genişleten (extend) yeni bir sınıf oluşturuyoruz:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CartModel <span class="kw">extends</span> ChangeNotifier <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">/// Sepetin dahili, özel durumu.</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">List</span><span class="op">&lt;</span>Item<span class="op">&gt;</span> _items <span class="op">=</span> [];</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">/// Sepetteki öğelerin değiştirilemez bir görünümü.</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  UnmodifiableListView<span class="op">&lt;</span>Item<span class="op">&gt;</span> <span class="kw">get</span> items <span class="op">=&gt;</span> UnmodifiableListView(_items);</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">/// Tüm öğelerin güncel toplam fiyatı (tüm öğelerin 42$ olduğunu varsayarsak).</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> <span class="kw">get</span> totalPrice <span class="op">=&gt;</span> _items<span class="op">.</span>length <span class="op">*</span> <span class="dv">42</span>;</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">/// [item] öğesini sepete ekler. Bu ve [removeAll], sepeti dışarıdan</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">/// değiştirmenin tek yoludur.</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> add(Item item) <span class="op">{</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    _items<span class="op">.</span>add(item);</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Bu çağrı, bu modeli dinleyen widget&#39;lara yeniden oluşturulmalarını söyler.</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    notifyListeners();</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">/// Sepetteki tüm öğeleri kaldırır.</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> removeAll() <span class="op">{</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    _items<span class="op">.</span>clear();</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Bu çağrı, bu modeli dinleyen widget&#39;lara yeniden oluşturulmalarını söyler.</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    notifyListeners();</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><code>ChangeNotifier</code>’a özgü olan tek kod
+<code>notifyListeners()</code> çağrısıdır. Model, uygulamanızın
+arayüzünü değiştirebilecek şekilde değiştiğinde bu yöntemi çağırın.
+<code>CartModel</code> içindeki diğer her şey modelin kendisi ve iş
+mantığıdır.</p>
+<p><code>ChangeNotifier</code>, <code>flutter:foundation</code>’ın bir
+parçasıdır ve Flutter’daki herhangi bir üst düzey sınıfa bağlı değildir.
+Kolayca test edilebilir (bunun için <strong>widget testi</strong>
+kullanmanıza bile gerek yoktur). Örneğin, işte <code>CartModel</code>’in
+basit bir birim testi:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>test(<span class="st">&#39;öğe eklemek toplam maliyeti artırır&#39;</span><span class="op">,</span> () <span class="op">{</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> cart <span class="op">=</span> CartModel();</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> startingPrice <span class="op">=</span> cart<span class="op">.</span>totalPrice;</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">var</span> i <span class="op">=</span> <span class="dv">0</span>;</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  cart<span class="op">.</span>addListener(() <span class="op">{</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    expect(cart<span class="op">.</span>totalPrice<span class="op">,</span> greaterThan(startingPrice));</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    i<span class="op">++</span>;</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span>);</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  cart<span class="op">.</span>add(Item(<span class="st">&#39;Dash&#39;</span>));</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  expect(i<span class="op">,</span> <span class="dv">1</span>);</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>);</span></code></pre></div>
+<h3 data-number="4.3.2" id="changenotifierprovider"><span
+class="header-section-number">4.3.2</span> ChangeNotifierProvider</h3>
+<p><code>ChangeNotifierProvider</code>, torunlarına bir
+<code>ChangeNotifier</code> örneği sağlayan widget’tır.
+<code>provider</code> paketinden gelir.</p>
+<p><code>ChangeNotifierProvider</code>’ı nereye koyacağımızı zaten
+biliyoruz: ona erişmesi gereken widget’ların üzerine.
+<code>CartModel</code> durumunda bu, hem <code>MyCart</code> hem de
+<code>MyCatalog</code>’un üzerinde bir yer anlamına gelir.</p>
+<p><code>ChangeNotifierProvider</code>’ı gerekenden daha yükseğe
+yerleştirmek istemezsiniz (çünkü kapsamı kirletmek istemezsiniz). Ancak
+bizim durumumuzda, hem <code>MyCart</code> hem de
+<code>MyCatalog</code>’un üzerinde olan tek widget
+<code>MyApp</code>’tir.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main() <span class="op">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  runApp(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    ChangeNotifierProvider(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>      create<span class="op">:</span> (context) <span class="op">=&gt;</span> CartModel()<span class="op">,</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> <span class="at">const</span> MyApp()<span class="op">,</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Yeni bir <code>CartModel</code> örneği oluşturan bir oluşturucu
+(builder) tanımladığımıza dikkat edin.
+<code>ChangeNotifierProvider</code>, kesinlikle gerekli olmadıkça
+<code>CartModel</code>’i yeniden oluşturmayacak kadar akıllıdır. Ayrıca,
+örneğe artık ihtiyaç duyulmadığında <code>CartModel</code> üzerinde
+otomatik olarak <code>dispose()</code> yöntemini çağırır.</p>
+<p>Birden fazla sınıf sağlamak istiyorsanız, <code>MultiProvider</code>
+kullanabilirsiniz:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main() <span class="op">{</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  runApp(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    MultiProvider(</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>      providers<span class="op">:</span> [</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        ChangeNotifierProvider(create<span class="op">:</span> (context) <span class="op">=&gt;</span> CartModel())<span class="op">,</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        Provider(create<span class="op">:</span> (context) <span class="op">=&gt;</span> SomeOtherClass())<span class="op">,</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>      ]<span class="op">,</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> <span class="at">const</span> MyApp()<span class="op">,</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="4.3.3" id="consumer"><span
+class="header-section-number">4.3.3</span> Consumer</h3>
+<p><code>CartModel</code> artık üstteki
+<code>ChangeNotifierProvider</code> beyanı aracılığıyla uygulamamızdaki
+widget’lara sağlandığına göre, onu kullanmaya başlayabiliriz.</p>
+<p>Bu, <code>Consumer</code> widget’ı aracılığıyla yapılır.</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">return</span> Consumer<span class="op">&lt;</span>CartModel<span class="op">&gt;</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  builder<span class="op">:</span> (context<span class="op">,</span> cart<span class="op">,</span> child) <span class="op">{</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Text(<span class="st">&#39;Total price: ${cart.totalPrice}&#39;</span>);</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">},</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p>Erişmek istediğimiz modelin türünü belirtmeliyiz. Bu durumda
+<code>CartModel</code> istiyoruz, bu yüzden
+<code>Consumer&lt;CartModel&gt;</code> yazıyoruz. Jenerik türü
+(<code>&lt;CartModel&gt;</code>) belirtmezseniz, <code>provider</code>
+paketi size yardımcı olamaz. <code>provider</code> türlere dayalıdır ve
+tür olmadan ne istediğinizi bilemez.</p>
+<p><code>Consumer</code> widget’ının tek zorunlu argümanı
+<code>builder</code>’dır. Builder, <code>ChangeNotifier</code> her
+değiştiğinde çağrılan bir işlevdir. (Başka bir deyişle, modelinizde
+<code>notifyListeners()</code> çağrısı yaptığınızda, ilgili tüm
+<code>Consumer</code> widget’larının tüm oluşturucu yöntemleri
+çağrılır.)</p>
+<p>Oluşturucu (builder) üç argümanla çağrılır. Birincisi
+<code>context</code>’tir, bunu her derleme (build) yönteminde de
+alırsınız.</p>
+<p>Oluşturucu işlevinin ikinci argümanı <code>ChangeNotifier</code>
+örneğidir. En başta istediğimiz şey budur. Herhangi bir noktada
+kullanıcı arayüzünün nasıl görünmesi gerektiğini tanımlamak için
+modeldeki verileri kullanabilirsiniz.</p>
+<p>Üçüncü argüman <code>child</code>’dır ve optimizasyon için oradadır.
+<code>Consumer</code> altında, model değiştiğinde <em>değişmeyen</em>
+büyük bir widget alt ağacınız varsa, bunu bir kez oluşturabilir ve
+oluşturucu aracılığıyla alabilirsiniz.</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">return</span> Consumer<span class="op">&lt;</span>CartModel<span class="op">&gt;</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  builder<span class="op">:</span> (context<span class="op">,</span> cart<span class="op">,</span> child) <span class="op">=&gt;</span> Stack(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    children<span class="op">:</span> [</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>      <span class="co">// SomeExpensiveWidget&#39;ı her seferinde yeniden oluşturmadan burada kullanın.</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (child <span class="op">!=</span> <span class="cn">null</span>) child<span class="op">,</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>      Text(<span class="st">&#39;Total price: ${cart.totalPrice}&#39;</span>)<span class="op">,</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Maliyetli widget&#39;ı burada oluşturun.</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  child<span class="op">:</span> <span class="at">const</span> SomeExpensiveWidget()<span class="op">,</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p><code>Consumer</code> widget’larınızı ağacın mümkün olduğunca
+derinlerine yerleştirmek en iyi uygulamadır. Sadece bir yerdeki bir
+ayrıntı değişti diye kullanıcı arayüzünün büyük bölümlerini yeniden
+oluşturmak istemezsiniz.</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">// BUNU YAPMAYIN</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">return</span> Consumer<span class="op">&lt;</span>CartModel<span class="op">&gt;</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  builder<span class="op">:</span> (context<span class="op">,</span> cart<span class="op">,</span> child) <span class="op">{</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> HumongousWidget(</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>      <span class="co">// ...</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> AnotherMonstrousWidget(</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ...</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> Text(<span class="st">&#39;Total price: ${cart.totalPrice}&#39;</span>)<span class="op">,</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="op">},</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p>Bunun yerine:</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">// BUNU YAPIN</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">return</span> HumongousWidget(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  child<span class="op">:</span> AnotherMonstrousWidget(</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ...</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    child<span class="op">:</span> Consumer<span class="op">&lt;</span>CartModel<span class="op">&gt;</span>(</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>      builder<span class="op">:</span> (context<span class="op">,</span> cart<span class="op">,</span> child) <span class="op">{</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">return</span> Text(<span class="st">&#39;Total price: ${cart.totalPrice}&#39;</span>);</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>      <span class="op">},</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<h3 data-number="4.3.4" id="provider.of"><span
+class="header-section-number">4.3.4</span> Provider.of</h3>
+<p>Bazen, kullanıcı arayüzünü değiştirmek için modeldeki <em>veriye</em>
+gerçekten ihtiyaç duymazsınız, ancak yine de ona erişmeniz gerekir.
+Örneğin, bir <code>ClearCart</code> (Sepeti Temizle) düğmesi,
+kullanıcının sepetten her şeyi kaldırmasına izin vermek ister. Sepetin
+içeriğini görüntülemesi gerekmez, sadece <code>clear()</code> yöntemini
+çağırması gerekir.</p>
+<p>Bunun için <code>Consumer&lt;CartModel&gt;</code> kullanabilirdik,
+ancak bu israf olurdu. Çerçeveden, yeniden oluşturulması gerekmeyen bir
+widget’ı yeniden oluşturmasını istiyor olurduk.</p>
+<p>Bu kullanım durumu için, <code>listen</code> parametresi
+<code>false</code> olarak ayarlanmış <code>Provider.of</code>
+kullanabiliriz.</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>Provider<span class="op">.</span>of<span class="op">&lt;</span>CartModel<span class="op">&gt;</span>(context<span class="op">,</span> listen<span class="op">:</span> <span class="cn">false</span>)<span class="op">.</span>removeAll();</span></code></pre></div>
+<p>Yukarıdaki satırı bir derleme (build) yönteminde kullanmak,
+<code>notifyListeners</code> çağrıldığında bu widget’ın yeniden
+oluşturulmasına neden olmaz.</p>
+<h2 data-number="4.4" id="hepsini-bir-araya-getirmek"><span
+class="header-section-number">4.4</span> Hepsini bir araya getirmek</h2>
+<p>Bu makalede ele alınan <strong>örneği inceleyebilirsiniz</strong>.
+Daha basit bir şey istiyorsanız, basit Sayaç uygulamasının
+<strong>provider ile oluşturulduğunda</strong> nasıl göründüğüne
+bakın.</p>
+<p>Bu makaleleri takip ederek, durum tabanlı uygulamalar oluşturma
+yeteneğinizi büyük ölçüde geliştirdiniz. Bu becerilerde ustalaşmak için
+kendiniz <code>provider</code> ile bir uygulama oluşturmayı deneyin.</p>
+<h1 data-number="5" id="durum-yönetimi-yaklaşımları"><span
+class="header-section-number">5</span> Durum yönetimi yaklaşımları</h1>
+<p>Durum yönetimi karmaşık bir konudur. Sorularınızın bazılarının
+yanıtlanmadığını veya bu sayfalarda açıklanan yaklaşımın kullanım
+durumlarınız için uygun olmadığını düşünüyorsanız, muhtemelen
+haklısınız.</p>
+<p>Çoğu Flutter topluluğu tarafından katkıda bulunulan aşağıdaki
+kaynaklardan daha fazla bilgi edinin.</p>
+<h2 data-number="5.1" id="genel-bakış"><span
+class="header-section-number">5.1</span> Genel bakış</h2>
+<p>Bir yaklaşım seçmeden önce gözden geçirilmesi gerekenler.</p>
+<ul>
+<li><strong>Durum yönetimine giriş:</strong> Bu bölümün başlangıcıdır
+(doğrudan bu Seçenekler sayfasına gelen ve önceki sayfaları
+kaçıranlarınız için).</li>
+<li><strong>Flutter’da Pragmatik Durum Yönetimi:</strong> Google I/O
+2019’dan bir video.</li>
+<li><strong>Flutter Mimari Örnekleri:</strong> Brian Egan
+tarafından.</li>
+</ul>
+<h2 data-number="5.2" id="yerleşik-yaklaşımlar"><span
+class="header-section-number">5.2</span> Yerleşik yaklaşımlar</h2>
+<h3 data-number="5.2.1" id="setstate"><span
+class="header-section-number">5.2.1</span> setState</h3>
+<p>Widget’a özgü, geçici durum için kullanılacak düşük seviyeli
+yaklaşım.</p>
+<ul>
+<li><strong>Flutter uygulamanıza etkileşim ekleme:</strong> Bir Flutter
+eğitimi.</li>
+<li><strong>Google Flutter’da temel durum yönetimi:</strong> Agung Surya
+tarafından.</li>
+</ul>
+<h3 data-number="5.2.2" id="valuenotifier-ve-inheritednotifier"><span
+class="header-section-number">5.2.2</span> ValueNotifier ve
+InheritedNotifier</h3>
+<p>Durumu güncellemek ve değişiklikleri kullanıcı arayüzüne bildirmek
+için yalnızca Flutter tarafından sağlanan API’leri kullanan bir
+yaklaşım.</p>
+<ul>
+<li><strong>ValueNotifier ve InheritedNotifier kullanarak Durum
+Yönetimi:</strong> Tadas Petra tarafından.</li>
+</ul>
+<h3 data-number="5.2.3" id="inheritedwidget-ve-inheritedmodel"><span
+class="header-section-number">5.2.3</span> InheritedWidget ve
+InheritedModel</h3>
+<p>Widget ağacındaki atalar (ancestors) ve çocuklar (children) arasında
+iletişim kurmak için kullanılan düşük seviyeli yaklaşım.
+<code>package:provider</code> ve diğer birçok yaklaşımın kaputun altında
+kullandığı şey budur.</p>
+<p>Aşağıdaki eğitmen liderliğindeki video atölyesi,
+<code>InheritedWidget</code>’ın nasıl kullanılacağını kapsar:</p>
+<p><a href="https://www.youtube.com/watch?v=LFcGPS6cGrY">Video</a></p>
+<p>Diğer yararlı belgeler şunlardır:</p>
+<ul>
+<li><strong>InheritedWidget belgeleri</strong></li>
+<li><strong>InheritedWidgets ile Flutter Uygulama Durumunu
+Yönetme:</strong> Hans Muller tarafından.</li>
+<li><strong>Widget’ları Kalıtım Yoluyla Alma (Inheriting
+Widgets):</strong> Mehmet Fidanboylu tarafından.</li>
+<li><strong>Flutter Inherited Widget’larını Etkili Bir Şekilde
+Kullanma:</strong> Eric Windmill tarafından.</li>
+<li><strong>Widget - State - Context - InheritedWidget:</strong> Didier
+Bolelens tarafından.</li>
+</ul>
+<h2 data-number="5.3" id="topluluk-tarafından-sağlanan-paketler"><span
+class="header-section-number">5.3</span> Topluluk tarafından sağlanan
+paketler</h2>
+<p>Uygulamanızın karmaşıklığına ve ekibinizin tercihlerine bağlı olarak,
+bir durum yönetimi paketini benimsemeyi yararlı bulabilirsiniz. Durum
+yönetimi paketleri genellikle basmakalıp (boilerplate) kodu azaltmaya
+yardımcı olur, özel hata ayıklama araçları sağlar ve daha net ve tutarlı
+bir uygulama mimarisi oluşturmaya yardımcı olabilir.</p>
+<p>Flutter topluluğu çok çeşitli durum yönetimi paketleri sunar.
+Uygulamanız için en iyi seçim genellikle uygulamanın karmaşıklığına,
+ekibinizin tercihlerine ve çözmeniz gereken belirli sorunlara
+bağlıdır.</p>
+<p>Mevcut seçenekleri keşfetmeye başlamak için pub.dev sitesindeki
+<strong>#state-management</strong> konusuna göz atın ve ihtiyaçlarınıza
+uyan paketleri bulmak için aramayı daraltın.</p>
+<h2 data-number="5.4" id="lisans-bilgisi"><span
+class="header-section-number">5.4</span> 📄 Lisans Bilgisi</h2>
+<p>Bu doküman, <strong>Flutter resmi dokümantasyonundan</strong>
+türetilmiş Türkçe ders notudur.</p>
+<p><strong>Orijinal kaynak:</strong><br />
+https://docs.flutter.dev/data-and-backend/state-mgmt/intro</p>
+<p><strong>Türkçe çeviri ve düzenleme:</strong><br />
+<a href="mailto:htemiz@artvin.edu.tr">Doç. Dr. Hakan Temiz</a></p>
+<hr />
+<h3 data-number="5.4.1" id="lisans-kapsamı"><span
+class="header-section-number">5.4.1</span> Lisans Kapsamı</h3>
+<p>Bu dokümandaki içerikler aşağıdaki açık lisanslar kapsamında
+sunulmaktadır:</p>
+<p><strong>Metin içerikleri (anlatım ve açıklamalar):</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> Creative Commons Attribution 4.0 International
+(CC BY 4.0)<br />
+https://creativecommons.org/licenses/by/4.0/</p>
+<p>Bu lisans kapsamında: - İçerik kopyalanabilir, dağıtılabilir ve
+uyarlanabilir<br />
+- Ticari kullanım serbesttir<br />
+- Kaynak belirtilmesi zorunludur</p>
+<p><strong>Kod örnekleri:</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> BSD 3-Clause License<br />
+https://opensource.org/licenses/BSD-3-Clause</p>
+<p>Bu lisans kapsamında: - Kodlar kopyalanabilir, değiştirilebilir ve
+dağıtılabilir<br />
+- Ticari kullanım serbesttir<br />
+- Lisans bildiriminin korunması gerekir</p>
+</body>
+</html>

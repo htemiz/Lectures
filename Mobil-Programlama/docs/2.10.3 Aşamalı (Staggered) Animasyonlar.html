@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>2.10.3 Aşamalı (Staggered) Animasyonlar</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#aşamalı-staggered-animasyonlar"
+id="toc-aşamalı-staggered-animasyonlar"><span
+class="toc-section-number">1</span> Aşamalı (Staggered) Animasyonlar</a>
+<ul>
+<li><a href="#örnekler" id="toc-örnekler"><span
+class="toc-section-number">1.1</span> Örnekler</a></li>
+<li><a href="#aşamalı-bir-animasyonun-temel-yapısı"
+id="toc-aşamalı-bir-animasyonun-temel-yapısı"><span
+class="toc-section-number">1.2</span> Aşamalı bir animasyonun temel
+yapısı</a></li>
+<li><a href="#tamamlanmış-aşamalı-animasyon"
+id="toc-tamamlanmış-aşamalı-animasyon"><span
+class="toc-section-number">1.3</span> Tamamlanmış aşamalı animasyon</a>
+<ul>
+<li><a href="#stateless-widget-staggeranimation"
+id="toc-stateless-widget-staggeranimation"><span
+class="toc-section-number">1.3.1</span> Stateless widget:
+StaggerAnimation</a></li>
+<li><a href="#stateful-widget-staggerdemo"
+id="toc-stateful-widget-staggerdemo"><span
+class="toc-section-number">1.3.2</span> Stateful widget:
+StaggerDemo</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#kademeli-staggered-bir-menü-animasyonu-oluşturun"
+id="toc-kademeli-staggered-bir-menü-animasyonu-oluşturun"><span
+class="toc-section-number">2</span> Kademeli (Staggered) Bir Menü
+Animasyonu Oluşturun</a>
+<ul>
+<li><a href="#menüyü-animasyonlar-olmadan-oluşturun"
+id="toc-menüyü-animasyonlar-olmadan-oluşturun"><span
+class="toc-section-number">2.1</span> Menüyü animasyonlar olmadan
+oluşturun</a></li>
+<li><a href="#animasyonlara-hazırlık"
+id="toc-animasyonlara-hazırlık"><span
+class="toc-section-number">2.2</span> Animasyonlara hazırlık</a></li>
+<li><a href="#liste-öğelerini-ve-düğmeyi-canlandırın"
+id="toc-liste-öğelerini-ve-düğmeyi-canlandırın"><span
+class="toc-section-number">2.3</span> Liste öğelerini ve düğmeyi
+canlandırın</a></li>
+<li><a href="#interaktif-örnek" id="toc-interaktif-örnek"><span
+class="toc-section-number">2.4</span> İnteraktif Örnek</a></li>
+</ul></li>
+<li><a href="#animasyon-apisine-genel-bakış"
+id="toc-animasyon-apisine-genel-bakış"><span
+class="toc-section-number">3</span> Animasyon API’sine Genel Bakış</a>
+<ul>
+<li><a href="#animation-animasyon" id="toc-animation-animasyon"><span
+class="toc-section-number">3.1</span> Animation (Animasyon)</a>
+<ul>
+<li><a href="#addlistener-dinleyici-ekle"
+id="toc-addlistener-dinleyici-ekle"><span
+class="toc-section-number">3.1.1</span> addListener (Dinleyici
+Ekle)</a></li>
+<li><a href="#addstatuslistener-durum-dinleyicisi-ekle"
+id="toc-addstatuslistener-durum-dinleyicisi-ekle"><span
+class="toc-section-number">3.1.2</span> addStatusListener (Durum
+Dinleyicisi Ekle)</a></li>
+</ul></li>
+<li><a href="#animationcontroller-animasyon-denetleyicisi"
+id="toc-animationcontroller-animasyon-denetleyicisi"><span
+class="toc-section-number">3.2</span> AnimationController (Animasyon
+Denetleyicisi)</a></li>
+<li><a href="#tweens-aradegerler" id="toc-tweens-aradegerler"><span
+class="toc-section-number">3.3</span> Tweens (Aradegerler)</a></li>
+<li><a href="#mimari-architecture" id="toc-mimari-architecture"><span
+class="toc-section-number">3.4</span> Mimari (Architecture)</a>
+<ul>
+<li><a href="#scheduler-zamanlayıcı"
+id="toc-scheduler-zamanlayıcı"><span
+class="toc-section-number">3.4.1</span> Scheduler (Zamanlayıcı)</a></li>
+<li><a href="#tickers-tikler" id="toc-tickers-tikler"><span
+class="toc-section-number">3.4.2</span> Tickers (Tikler)</a></li>
+<li><a href="#simulations-simülasyonlar"
+id="toc-simulations-simülasyonlar"><span
+class="toc-section-number">3.4.3</span> Simulations
+(Simülasyonlar)</a></li>
+<li><a href="#animatables-canlandırılabilirler"
+id="toc-animatables-canlandırılabilirler"><span
+class="toc-section-number">3.4.4</span> Animatables
+(Canlandırılabilirler)</a></li>
+<li><a href="#tweens-aradegerler-1" id="toc-tweens-aradegerler-1"><span
+class="toc-section-number">3.4.5</span> Tweens (Aradegerler)</a></li>
+<li><a href="#composing-animatables-canlandırılabilirleri-besteleyin"
+id="toc-composing-animatables-canlandırılabilirleri-besteleyin"><span
+class="toc-section-number">3.4.6</span> Composing animatables
+(Canlandırılabilirleri Besteleyin)</a></li>
+<li><a href="#curves-eğriler" id="toc-curves-eğriler"><span
+class="toc-section-number">3.4.7</span> Curves (Eğriler)</a></li>
+<li><a href="#animations-animasyonlar"
+id="toc-animations-animasyonlar"><span
+class="toc-section-number">3.4.8</span> Animations
+(Animasyonlar)</a></li>
+<li><a href="#composable-animations-bestelenebilir-animasyonlar"
+id="toc-composable-animations-bestelenebilir-animasyonlar"><span
+class="toc-section-number">3.4.9</span> Composable animations
+(Bestelenebilir Animasyonlar)</a></li>
+<li><a href="#animation-controllers-animasyon-denetleyicileri"
+id="toc-animation-controllers-animasyon-denetleyicileri"><span
+class="toc-section-number">3.4.10</span> Animation controllers
+(Animasyon Denetleyicileri)</a></li>
+<li><a
+href="#attaching-animatables-to-animations-canlandırılabilirleri-animasyonlara-ekleme"
+id="toc-attaching-animatables-to-animations-canlandırılabilirleri-animasyonlara-ekleme"><span
+class="toc-section-number">3.4.11</span> Attaching animatables to
+animations (Canlandırılabilirleri Animasyonlara Ekleme)</a></li>
+</ul></li>
+<li><a href="#lisans-bilgisi" id="toc-lisans-bilgisi"><span
+class="toc-section-number">3.5</span> 📄 Lisans Bilgisi</a>
+<ul>
+<li><a href="#lisans-kapsamı" id="toc-lisans-kapsamı"><span
+class="toc-section-number">3.5.1</span> Lisans Kapsamı</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1" id="aşamalı-staggered-animasyonlar"><span
+class="header-section-number">1</span> Aşamalı (Staggered)
+Animasyonlar</h1>
+<p><strong>Neler öğreneceksiniz?</strong> * Aşamalı bir animasyon,
+sıralı veya örtüşen animasyonlardan oluşur. * Aşamalı bir animasyon
+oluşturmak için birden fazla <code>Animation</code> nesnesi kullanın. *
+Tek bir <code>AnimationController</code>, tüm
+<code>Animation</code>’ları kontrol eder. * Her <code>Animation</code>
+nesnesi, bir <code>Interval</code> (Aralık) boyunca animasyonu belirtir.
+* Canlandırılan her özellik için bir <code>Tween</code> oluşturun.</p>
+<p><strong>Terminoloji</strong> Tween’ler veya ara değerleme (tweening)
+kavramı sizin için yeniyse, “Flutter’da Animasyonlar” eğitimine
+bakın.</p>
+<p>Aşamalı animasyonlar basit bir kavramdır: görsel değişiklikler, hepsi
+aynı anda olmak yerine bir dizi işlem olarak gerçekleşir. Animasyon, bir
+değişikliğin diğerinden sonra gerçekleştiği tamamen sıralı olabilir veya
+kısmen ya da tamamen örtüşebilir. Ayrıca hiçbir değişikliğin olmadığı
+boşluklara da sahip olabilir.</p>
+<p>Bu kılavuz, Flutter’da aşamalı bir animasyonun nasıl oluşturulacağını
+gösterir.</p>
+<h2 data-number="1.1" id="örnekler"><span
+class="header-section-number">1.1</span> Örnekler</h2>
+<p>Bu kılavuz <code>basic_staggered_animation</code> örneğini
+açıklamaktadır. Daha karmaşık bir örnek olan
+<code>staggered_pic_selection</code>’a da başvurabilirsiniz.</p>
+<p><strong>basic_staggered_animation</strong> Tek bir widget’ın bir dizi
+sıralı ve örtüşen animasyonunu gösterir. Ekrana dokunmak; opaklığı,
+boyutu, şekli, rengi ve dolguyu (padding) değiştiren bir animasyonu
+başlatır.</p>
+<p><strong>staggered_pic_selection</strong> Üç boyuttan birinde
+görüntülenen bir resim listesinden bir resmin silinmesini gösterir. Bu
+örnek iki animasyon denetleyicisi kullanır: biri resim seçimi/seçim
+kaldırma için, diğeri ise resim silme için. Seçim/seçim kaldırma
+animasyonu aşamalıdır. (Bu efekti görmek için <code>timeDilation</code>
+değerini artırmanız gerekebilir.) En büyük resimlerden birini seçin;
+mavi bir daire içinde bir onay işareti görüntülerken küçülür. Ardından,
+en küçük resimlerden birini seçin; onay işareti kaybolurken büyük resim
+genişler. Büyük resim genişlemeyi bitirmeden önce, küçük resim onay
+işaretini görüntülemek için küçülür. Bu aşamalı davranış, Google
+Fotoğraflar’da görebileceğiniz davranışa benzer.</p>
+<p>Aşağıdaki video, <code>basic_staggered_animation</code> tarafından
+gerçekleştirilen animasyonu göstermektedir:</p>
+<p><a href="https://www.youtube.com/watch?v=0fFvnZemmh8">video</a></p>
+<p>Videoda, hafif yuvarlatılmış köşelere sahip kenarlıklı mavi bir kare
+olarak başlayan tek bir widget’ın aşağıdaki animasyonunu görürsünüz.
+Kare, aşağıdaki sırayla değişikliklerden geçer: 1. Belirir (Fade in) 2.
+Genişler 3. Yukarı doğru hareket ederken boyu uzar 4. Kenarlıklı bir
+daireye dönüşür 5. Rengi turuncuya döner</p>
+<p>İleriye doğru çalıştıktan sonra, animasyon tersine çalışır.</p>
+<blockquote>
+<p><strong>Flutter’da yeni misiniz?</strong> Bu sayfa, Flutter’ın
+widget’larını kullanarak nasıl düzen (layout) oluşturacağınızı
+bildiğinizi varsayar. Daha fazla bilgi için “Flutter’da Düzen Oluşturma”
+bölümüne bakın.</p>
+</blockquote>
+<h2 data-number="1.2" id="aşamalı-bir-animasyonun-temel-yapısı"><span
+class="header-section-number">1.2</span> Aşamalı bir animasyonun temel
+yapısı</h2>
+<p><strong>Amaç ne?</strong> * Tüm animasyonlar aynı
+<code>AnimationController</code> tarafından yönetilir. * Animasyon
+gerçek zamanlı olarak ne kadar sürerse sürsün, denetleyicinin değerleri
+0.0 ile 1.0 (dahil) arasında olmalıdır. * Her animasyonun 0.0 ile 1.0
+(dahil) arasında bir <code>Interval</code>’i (Aralığı) vardır. * Bir
+aralıkta canlandırılan her özellik için bir <code>Tween</code>
+oluşturun. <code>Tween</code>, o özellik için başlangıç ve bitiş
+değerlerini belirtir. * <code>Tween</code>, denetleyici tarafından
+yönetilen bir <code>Animation</code> nesnesi üretir.</p>
+<p>Aşağıdaki diyagram, <code>basic_staggered_animation</code> örneğinde
+kullanılan <code>Interval</code>’leri göstermektedir.</p>
+<p><img src="images/120_StaggeredAnimationIntervals.png" width=450></p>
+<p>Aşağıdaki özellikleri fark edebilirsiniz: * Opaklık, zaman
+çizelgesinin ilk %10’luk diliminde değişir. * Opaklık değişimi ile
+genişlik değişimi arasında çok küçük bir boşluk vardır. * Zaman
+çizelgesinin son %25’lik diliminde hiçbir şey canlanmaz. * Dolguyu
+(padding) artırmak, widget’ın yukarı doğru yükseliyor gibi görünmesini
+sağlar. * Kenarlık yarıçapını (border radius) 0.5’e çıkarmak,
+yuvarlatılmış köşeli kareyi bir daireye dönüştürür. * Dolgu ve yükseklik
+değişiklikleri tam olarak aynı aralıkta gerçekleşir, ancak zorunda
+değildirler.</p>
+<p><strong>Animasyonu ayarlamak için:</strong></p>
+<ol type="1">
+<li>Tüm <code>Animation</code>’ları yöneten bir
+<code>AnimationController</code> oluşturun.</li>
+<li>Canlandırılan her özellik için bir <code>Tween</code> oluşturun.
+<code>Tween</code> bir değer aralığı tanımlar.</li>
+<li><code>Tween</code>’in <code>animate</code> yöntemi,
+<code>parent</code> (ebeveyn) denetleyiciyi gerektirir ve o özellik için
+bir <code>Animation</code> üretir.</li>
+<li><code>Animation</code>’ın <code>curve</code> özelliğinde aralığı
+(interval) belirtin.</li>
+</ol>
+<p>Kontrol eden animasyonun değeri değiştiğinde, yeni animasyonun değeri
+değişir ve kullanıcı arayüzünün güncellenmesini tetikler.</p>
+<p>Aşağıdaki kod, <code>width</code> (genişlik) özelliği için bir tween
+oluşturur. Yumuşatılmış (eased) bir eğri belirterek bir
+<code>CurvedAnimation</code> oluşturur. Mevcut diğer önceden tanımlanmış
+animasyon eğrileri için <code>Curves</code> bölümüne bakın.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>width <span class="op">=</span> Tween<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  begin<span class="op">:</span> <span class="fl">50.0</span><span class="op">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  end<span class="op">:</span> <span class="fl">150.0</span><span class="op">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>)<span class="op">.</span>animate(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  CurvedAnimation(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    parent<span class="op">:</span> controller<span class="op">,</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    curve<span class="op">:</span> <span class="at">const</span> Interval(</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      <span class="fl">0.125</span><span class="op">,</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="fl">0.250</span><span class="op">,</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      curve<span class="op">:</span> Curves<span class="op">.</span>ease<span class="op">,</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<p><code>begin</code> ve <code>end</code> değerleri double (ondalıklı
+sayı) olmak zorunda değildir. Aşağıdaki kod,
+<code>BorderRadius.circular()</code> kullanarak
+<code>borderRadius</code> özelliği (karenin köşelerinin yuvarlaklığını
+kontrol eder) için tween’i oluşturur.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>borderRadius <span class="op">=</span> BorderRadiusTween(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  begin<span class="op">:</span> BorderRadius<span class="op">.</span>circular(<span class="dv">4</span>)<span class="op">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  end<span class="op">:</span> BorderRadius<span class="op">.</span>circular(<span class="dv">75</span>)<span class="op">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>)<span class="op">.</span>animate(</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  CurvedAnimation(</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    parent<span class="op">:</span> controller<span class="op">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    curve<span class="op">:</span> <span class="at">const</span> Interval(</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>      <span class="fl">0.375</span><span class="op">,</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>      <span class="fl">0.500</span><span class="op">,</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>      curve<span class="op">:</span> Curves<span class="op">.</span>ease<span class="op">,</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<h2 data-number="1.3" id="tamamlanmış-aşamalı-animasyon"><span
+class="header-section-number">1.3</span> Tamamlanmış aşamalı
+animasyon</h2>
+<p>Tüm etkileşimli widget’lar gibi, tam animasyon bir widget çiftinden
+oluşur: durumsuz (stateless) ve durumlu (stateful) bir widget.</p>
+<ul>
+<li><strong>Stateless widget</strong>, <code>Tween</code>’leri belirtir,
+<code>Animation</code> nesnelerini tanımlar ve widget ağacının
+canlandırılan kısmını oluşturmaktan sorumlu bir <code>build()</code>
+işlevi sağlar.</li>
+<li><strong>Stateful widget</strong>, denetleyiciyi oluşturur,
+animasyonu oynatır ve widget ağacının canlanmayan kısmını oluşturur.
+Animasyon, ekranda herhangi bir yere dokunulduğunda başlar.</li>
+</ul>
+<p><code>basic_staggered_animation</code>’ın main.dart dosyası için tam
+kod:</p>
+<h3 data-number="1.3.1" id="stateless-widget-staggeranimation"><span
+class="header-section-number">1.3.1</span> Stateless widget:
+StaggerAnimation</h3>
+<p>Stateless widget olan <code>StaggerAnimation</code> içinde,
+<code>build()</code> işlevi, animasyonlar oluşturmak için genel amaçlı
+bir widget olan <code>AnimatedBuilder</code>’ı örneklendirir.
+<code>AnimatedBuilder</code> bir widget oluşturur ve
+<code>Tween</code>’lerin geçerli değerlerini kullanarak onu
+yapılandırır. Örnek, <code>_buildAnimation()</code> adında (gerçek UI
+güncellemelerini yapan) bir işlev oluşturur ve bunu <code>builder</code>
+özelliğine atar. AnimatedBuilder, animasyon denetleyicisinden gelen
+bildirimleri dinler ve değerler değiştikçe widget ağacını kirli (dirty)
+olarak işaretler. Animasyonun her bir “tık”ı (tick) için değerler
+güncellenir ve bu da <code>_buildAnimation()</code> çağrısıyla
+sonuçlanır.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> StaggerAnimation <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  StaggerAnimation(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">,</span> required <span class="kw">this</span><span class="op">.</span>controller<span class="op">}</span>) <span class="op">:</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Burada tanımlanan her animasyon, değerini animasyonun aralığı (interval)</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// tarafından tanımlanan denetleyici süresinin alt kümesi sırasında dönüştürür.</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Örneğin, opaklık animasyonu değerini denetleyici süresinin</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ilk %10&#39;u sırasında dönüştürür.</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    opacity <span class="op">=</span> Tween<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span>(</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>      begin<span class="op">:</span> <span class="fl">0.0</span><span class="op">,</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>      end<span class="op">:</span> <span class="fl">1.0</span><span class="op">,</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    )<span class="op">.</span>animate(</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>      CurvedAnimation(</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        parent<span class="op">:</span> controller<span class="op">,</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        curve<span class="op">:</span> <span class="at">const</span> Interval(</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>          <span class="fl">0.0</span><span class="op">,</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>          <span class="fl">0.100</span><span class="op">,</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>          curve<span class="op">:</span> Curves<span class="op">.</span>ease<span class="op">,</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ... Diğer tween tanımları ...</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> AnimationController controller;</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> Animation<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> opacity;</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> Animation<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> width;</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> Animation<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> height;</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> Animation<span class="op">&lt;</span>EdgeInsets<span class="op">&gt;</span> padding;</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> Animation<span class="op">&lt;</span>BorderRadius<span class="op">?&gt;</span> borderRadius;</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> Animation<span class="op">&lt;</span>Color<span class="op">?&gt;</span> color;</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Bu işlev, denetleyici yeni bir kareyi her &quot;tık&quot;ladığında çağrılır.</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Çalıştığında, tüm animasyon değerleri denetleyicinin</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>  <span class="co">// geçerli değerini yansıtacak şekilde güncellenmiş olacaktır.</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>  Widget _buildAnimation(BuildContext context<span class="op">,</span> Widget<span class="op">?</span> child) <span class="op">{</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Container(</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>      padding<span class="op">:</span> padding<span class="op">.</span>value<span class="op">,</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>      alignment<span class="op">:</span> Alignment<span class="op">.</span>bottomCenter<span class="op">,</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Opacity(</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>        opacity<span class="op">:</span> opacity<span class="op">.</span>value<span class="op">,</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> Container(</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>          width<span class="op">:</span> width<span class="op">.</span>value<span class="op">,</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>          height<span class="op">:</span> height<span class="op">.</span>value<span class="op">,</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>          decoration<span class="op">:</span> BoxDecoration(</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>            color<span class="op">:</span> color<span class="op">.</span>value<span class="op">,</span></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>            border<span class="op">:</span> Border<span class="op">.</span>all(</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>              color<span class="op">:</span> Colors<span class="op">.</span>indigo[<span class="dv">300</span>]<span class="op">!,</span></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>              width<span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>            )<span class="op">,</span></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>            borderRadius<span class="op">:</span> borderRadius<span class="op">.</span>value<span class="op">,</span></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> AnimatedBuilder(</span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>      builder<span class="op">:</span> _buildAnimation<span class="op">,</span></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>      animation<span class="op">:</span> controller<span class="op">,</span></span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="1.3.2" id="stateful-widget-staggerdemo"><span
+class="header-section-number">1.3.2</span> Stateful widget:
+StaggerDemo</h3>
+<p>Stateful widget olan <code>StaggerDemo</code>,
+<code>AnimationController</code>’ı (hepsini yöneten) oluşturur ve 2000
+ms’lik bir süre belirtir. Animasyonu oynatır ve widget ağacının
+canlanmayan kısmını oluşturur. Animasyon, ekranda bir dokunuş
+algılandığında başlar. Animasyon ileri, sonra geri çalışır.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> StaggerDemo <span class="kw">extends</span> StatefulWidget <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  State<span class="op">&lt;</span>StaggerDemo<span class="op">&gt;</span> createState() <span class="op">=&gt;</span> _StaggerDemoState();</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> _StaggerDemoState <span class="kw">extends</span> State<span class="op">&lt;</span>StaggerDemo<span class="op">&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">with</span> TickerProviderStateMixin <span class="op">{</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">late</span> AnimationController _controller;</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> initState() <span class="op">{</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span>initState();</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    _controller <span class="op">=</span> AnimationController(</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>      duration<span class="op">:</span> <span class="at">const</span> Duration(milliseconds<span class="op">:</span> <span class="dv">2000</span>)<span class="op">,</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>      vsync<span class="op">:</span> <span class="kw">this</span><span class="op">,</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...Boilerplate (Standart Kodlar)...</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="dt">Future</span><span class="op">&lt;</span><span class="dt">void</span><span class="op">&gt;</span> _playAnimation() <span class="at">async</span> <span class="op">{</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">await</span> _controller<span class="op">.</span>forward()<span class="op">.</span>orCancel;</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">await</span> _controller<span class="op">.</span>reverse()<span class="op">.</span>orCancel;</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="kw">on</span> TickerCanceled <span class="op">{</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Animasyon iptal edildi, muhtemelen dispose edildiği için.</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    timeDilation <span class="op">=</span> <span class="fl">10.0</span>; <span class="co">// 1.0 normal animasyon hızıdır.</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Scaffold(</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>      appBar<span class="op">:</span> AppBar(</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>        title<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Staggered Animation&#39;</span>)<span class="op">,</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>      body<span class="op">:</span> GestureDetector(</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>        behavior<span class="op">:</span> HitTestBehavior<span class="op">.</span>opaque<span class="op">,</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>        onTap<span class="op">:</span> () <span class="op">{</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>          _playAnimation();</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>        <span class="op">},</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> Center(</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> Container(</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>            width<span class="op">:</span> <span class="dv">300</span><span class="op">,</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>            height<span class="op">:</span> <span class="dv">300</span><span class="op">,</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>            decoration<span class="op">:</span> BoxDecoration(</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>              color<span class="op">:</span> Colors<span class="op">.</span>black<span class="op">.</span>withValues(alpha<span class="op">:</span> <span class="fl">0.1</span>)<span class="op">,</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>              border<span class="op">:</span> Border<span class="op">.</span>all(</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>                color<span class="op">:</span> Colors<span class="op">.</span>black<span class="op">.</span>withValues(alpha<span class="op">:</span> <span class="fl">0.5</span>)<span class="op">,</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>              )<span class="op">,</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>            )<span class="op">,</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>            child<span class="op">:</span> StaggerAnimation(controller<span class="op">:</span>_controller<span class="op">.</span>view)<span class="op">,</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h1 data-number="2"
+id="kademeli-staggered-bir-menü-animasyonu-oluşturun"><span
+class="header-section-number">2</span> Kademeli (Staggered) Bir Menü
+Animasyonu Oluşturun</h1>
+<p>Tek bir uygulama ekranı birden fazla animasyon içerebilir. Tüm
+animasyonları aynı anda oynatmak bunaltıcı olabilir. Animasyonları arka
+arkaya oynatmak ise çok uzun sürebilir. Daha iyi bir seçenek,
+animasyonları kademeli (staggered) hale getirmektir. Her animasyon
+farklı bir zamanda başlar, ancak animasyonlar daha kısa bir toplam süre
+oluşturmak için örtüşür. Bu tarifte, kademeli animasyonlu içeriğe sahip
+ve en altta aniden beliren (pop in) bir düğmesi olan bir çekmece
+(drawer) menüsü oluşturacaksınız.</p>
+<p>Aşağıdaki animasyon uygulamanın davranışını göstermektedir:</p>
+<p><img src="images/120_StaggeredMenuAnimation.webp" width=150></p>
+<h2 data-number="2.1" id="menüyü-animasyonlar-olmadan-oluşturun"><span
+class="header-section-number">2.1</span> Menüyü animasyonlar olmadan
+oluşturun</h2>
+<p>Çekmece menüsü bir başlık listesi ve ardından menünün altında bir
+“Get Started” (Başlayın) düğmesi görüntüler.</p>
+<p>Listeyi ve düğmeyi statik konumlarda görüntüleyen <code>Menu</code>
+adında bir <code>StatefulWidget</code> tanımlayın.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Menu <span class="kw">extends</span> StatefulWidget <span class="op">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> Menu(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  State<span class="op">&lt;</span>Menu<span class="op">&gt;</span> createState() <span class="op">=&gt;</span> _MenuState();</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> _MenuState <span class="kw">extends</span> State<span class="op">&lt;</span>Menu<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">static</span> <span class="at">const</span> _menuTitles <span class="op">=</span> [</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;Declarative Style&#39;</span><span class="op">,</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;Premade Widgets&#39;</span><span class="op">,</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;Stateful Hot Reload&#39;</span><span class="op">,</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;Native Performance&#39;</span><span class="op">,</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;Great Community&#39;</span><span class="op">,</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  ];</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Container(</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>      color<span class="op">:</span> Colors<span class="op">.</span>white<span class="op">,</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Stack(</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        fit<span class="op">:</span> StackFit<span class="op">.</span>expand<span class="op">,</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        children<span class="op">:</span> [_buildFlutterLogo()<span class="op">,</span> _buildContent()]<span class="op">,</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  Widget _buildFlutterLogo() <span class="op">{</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    <span class="co">// </span><span class="al">TODO</span><span class="co">: Bunu daha sonra uygulayacağız.</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Container();</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>  Widget _buildContent() <span class="op">{</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Column(</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>      crossAxisAlignment<span class="op">:</span> CrossAxisAlignment<span class="op">.</span>start<span class="op">,</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>      children<span class="op">:</span> [</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>        <span class="at">const</span> SizedBox(height<span class="op">:</span> <span class="dv">16</span>)<span class="op">,</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>        <span class="op">...</span>_buildListItems()<span class="op">,</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>        <span class="at">const</span> Spacer()<span class="op">,</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>        _buildGetStartedButton()<span class="op">,</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>      ]<span class="op">,</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>  <span class="dt">List</span><span class="op">&lt;</span>Widget<span class="op">&gt;</span> _buildListItems() <span class="op">{</span></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> listItems <span class="op">=</span> <span class="op">&lt;</span>Widget<span class="op">&gt;</span>[];</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="dt">var</span> i <span class="op">=</span> <span class="dv">0</span>; i <span class="op">&lt;</span> _menuTitles<span class="op">.</span>length; <span class="op">++</span>i) <span class="op">{</span></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>      listItems<span class="op">.</span>add(</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>        Padding(</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>          padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>symmetric(horizontal<span class="op">:</span> <span class="dv">36</span><span class="op">,</span> vertical<span class="op">:</span> <span class="dv">16</span>)<span class="op">,</span></span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> Text(</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>            _menuTitles[i]<span class="op">,</span></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>            textAlign<span class="op">:</span> TextAlign<span class="op">.</span>left<span class="op">,</span></span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>            style<span class="op">:</span> <span class="at">const</span> TextStyle(fontSize<span class="op">:</span> <span class="dv">24</span><span class="op">,</span> fontWeight<span class="op">:</span> FontWeight<span class="op">.</span>w500)<span class="op">,</span></span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>      );</span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> listItems;</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>  Widget _buildGetStartedButton() <span class="op">{</span></span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> SizedBox(</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>      width<span class="op">:</span> <span class="dt">double</span><span class="op">.</span>infinity<span class="op">,</span></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Padding(</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>        padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>all(<span class="dv">24</span>)<span class="op">,</span></span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> ElevatedButton(</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>          style<span class="op">:</span> ElevatedButton<span class="op">.</span>styleFrom(</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>            shape<span class="op">:</span> <span class="at">const</span> StadiumBorder()<span class="op">,</span></span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>            backgroundColor<span class="op">:</span> Colors<span class="op">.</span>blue<span class="op">,</span></span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>            padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>symmetric(horizontal<span class="op">:</span> <span class="dv">48</span><span class="op">,</span> vertical<span class="op">:</span> <span class="dv">14</span>)<span class="op">,</span></span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>          onPressed<span class="op">:</span> () <span class="op">{},</span></span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> <span class="at">const</span> Text(</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;Get Started&#39;</span><span class="op">,</span></span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>            style<span class="op">:</span> TextStyle(color<span class="op">:</span> Colors<span class="op">.</span>white<span class="op">,</span> fontSize<span class="op">:</span> <span class="dv">22</span>)<span class="op">,</span></span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 data-number="2.2" id="animasyonlara-hazırlık"><span
+class="header-section-number">2.2</span> Animasyonlara hazırlık</h2>
+<p>Animasyon zamanlamasının kontrolü bir
+<code>AnimationController</code> gerektirir.</p>
+<p><code>SingleTickerProviderStateMixin</code>’i <code>MenuState</code>
+sınıfına ekleyin. Ardından, bir <code>AnimationController</code>
+bildirin ve örneklendirin.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> _MenuState <span class="kw">extends</span> State<span class="op">&lt;</span>Menu<span class="op">&gt;</span> <span class="kw">with</span> SingleTickerProviderStateMixin <span class="op">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">late</span> AnimationController _staggeredController;</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> initState() <span class="op">{</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span>initState();</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    _staggeredController <span class="op">=</span> AnimationController(vsync<span class="op">:</span> <span class="kw">this</span>);</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> dispose() <span class="op">{</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    _staggeredController<span class="op">.</span>dispose();</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span>dispose();</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Her animasyondan önceki gecikme süresi size kalmıştır. Animasyon
+gecikmelerini, bireysel animasyon sürelerini ve toplam animasyon
+süresini tanımlayın.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> _MenuState <span class="kw">extends</span> State<span class="op">&lt;</span>Menu<span class="op">&gt;</span> <span class="kw">with</span> SingleTickerProviderStateMixin <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">static</span> <span class="at">const</span> _initialDelayTime <span class="op">=</span> Duration(milliseconds<span class="op">:</span> <span class="dv">50</span>);</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">static</span> <span class="at">const</span> _itemSlideTime <span class="op">=</span> Duration(milliseconds<span class="op">:</span> <span class="dv">250</span>);</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">static</span> <span class="at">const</span> _staggerTime <span class="op">=</span> Duration(milliseconds<span class="op">:</span> <span class="dv">50</span>);</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">static</span> <span class="at">const</span> _buttonDelayTime <span class="op">=</span> Duration(milliseconds<span class="op">:</span> <span class="dv">150</span>);</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">static</span> <span class="at">const</span> _buttonTime <span class="op">=</span> Duration(milliseconds<span class="op">:</span> <span class="dv">500</span>);</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> _animationDuration <span class="op">=</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>      _initialDelayTime <span class="op">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>      (_staggerTime <span class="op">*</span> _menuTitles<span class="op">.</span>length) <span class="op">+</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>      _buttonDelayTime <span class="op">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>      _buttonTime;</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Bu durumda, tüm animasyonlar 50 ms gecikmelidir. Bundan sonra, liste
+öğeleri görünmeye başlar. Her liste öğesinin görünümü, önceki liste
+öğesinin kaymaya başlamasından 50 ms sonra gerçekleşir. Her liste
+öğesinin sağdan sola kayması 250 ms sürer. Son liste öğesi kaymaya
+başladıktan sonra, alttaki düğme belirmek için 150 ms daha bekler. Düğme
+animasyonu 500 ms sürer.</p>
+<p>Tanımlanan her gecikme ve animasyon süresi ile toplam süre
+hesaplanır, böylece bireysel animasyon zamanlarını hesaplamak için
+kullanılabilir.</p>
+<p>İstenen animasyon zamanları aşağıdaki diyagramda
+gösterilmektedir:</p>
+<p><img src="images/120_TimingDiagram.png" width=300></p>
+<p>Daha büyük bir animasyonun bir alt bölümü sırasında bir değeri
+canlandırmak için Flutter <code>Interval</code> sınıfını sağlar. Bir
+<code>Interval</code> (Aralık), bir başlangıç zamanı yüzdesi ve bir
+bitiş zamanı yüzdesi alır. Bu <code>Interval</code> daha sonra, tüm
+animasyonun başlangıç ve bitiş zamanlarını kullanmak yerine, bu
+başlangıç ve bitiş zamanları arasında bir değeri canlandırmak için
+kullanılabilir. Örneğin, 1 saniye süren bir animasyon verildiğinde,
+0.2’den 0.5’e kadar olan bir aralık 200 ms’de (%20) başlayıp 500 ms’de
+(%50) biter.</p>
+<p>Her liste öğesinin <code>Interval</code>’ını ve alt düğme
+<code>Interval</code>’ını bildirin ve hesaplayın.</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> _MenuState <span class="kw">extends</span> State<span class="op">&lt;</span>Menu<span class="op">&gt;</span> <span class="kw">with</span> SingleTickerProviderStateMixin <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">List</span><span class="op">&lt;</span>Interval<span class="op">&gt;</span> _itemSlideIntervals <span class="op">=</span> [];</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">late</span> Interval _buttonInterval;</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> initState() <span class="op">{</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span>initState();</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    _createAnimationIntervals();</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    _staggeredController <span class="op">=</span> AnimationController(</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>      vsync<span class="op">:</span> <span class="kw">this</span><span class="op">,</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>      duration<span class="op">:</span> _animationDuration<span class="op">,</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> _createAnimationIntervals() <span class="op">{</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="dt">var</span> i <span class="op">=</span> <span class="dv">0</span>; i <span class="op">&lt;</span> _menuTitles<span class="op">.</span>length; <span class="op">++</span>i) <span class="op">{</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">final</span> startTime <span class="op">=</span> _initialDelayTime <span class="op">+</span> (_staggerTime <span class="op">*</span> i);</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">final</span> endTime <span class="op">=</span> startTime <span class="op">+</span> _itemSlideTime;</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>      _itemSlideIntervals<span class="op">.</span>add(</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>        Interval(</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>          startTime<span class="op">.</span>inMilliseconds <span class="op">/</span> _animationDuration<span class="op">.</span>inMilliseconds<span class="op">,</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>          endTime<span class="op">.</span>inMilliseconds <span class="op">/</span> _animationDuration<span class="op">.</span>inMilliseconds<span class="op">,</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>      );</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> buttonStartTime <span class="op">=</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>        Duration(milliseconds<span class="op">:</span> _menuTitles<span class="op">.</span>length <span class="op">*</span> <span class="dv">50</span>) <span class="op">+</span> _buttonDelayTime;</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> buttonEndTime <span class="op">=</span> buttonStartTime <span class="op">+</span> _buttonTime;</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    _buttonInterval <span class="op">=</span> Interval(</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>      buttonStartTime<span class="op">.</span>inMilliseconds <span class="op">/</span> _animationDuration<span class="op">.</span>inMilliseconds<span class="op">,</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>      buttonEndTime<span class="op">.</span>inMilliseconds <span class="op">/</span> _animationDuration<span class="op">.</span>inMilliseconds<span class="op">,</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 data-number="2.3" id="liste-öğelerini-ve-düğmeyi-canlandırın"><span
+class="header-section-number">2.3</span> Liste öğelerini ve düğmeyi
+canlandırın</h2>
+<p>Kademeli animasyon, menü görünür hale gelir gelmez oynatılır.</p>
+<p>Animasyonu <code>initState()</code> içinde başlatın.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> initState() <span class="op">{</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">super</span><span class="op">.</span>initState();</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  _createAnimationIntervals();</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  _staggeredController <span class="op">=</span> AnimationController(</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    vsync<span class="op">:</span> <span class="kw">this</span><span class="op">,</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    duration<span class="op">:</span> _animationDuration<span class="op">,</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  )<span class="op">..</span>forward();</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Her liste öğesi sağdan sola kayar ve aynı anda belirginleşir (fade
+in).</p>
+<p>Her liste öğesinin opaklık ve öteleme (translation) değerlerini
+canlandırmak için liste öğesinin <code>Interval</code>’ını ve bir
+<code>easeOut</code> eğrisini kullanın.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dt">List</span><span class="op">&lt;</span>Widget<span class="op">&gt;</span> _buildListItems() <span class="op">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> listItems <span class="op">=</span> <span class="op">&lt;</span>Widget<span class="op">&gt;</span>[];</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="dt">var</span> i <span class="op">=</span> <span class="dv">0</span>; i <span class="op">&lt;</span> _menuTitles<span class="op">.</span>length; <span class="op">++</span>i) <span class="op">{</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    listItems<span class="op">.</span>add(</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>      AnimatedBuilder(</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>        animation<span class="op">:</span> _staggeredController<span class="op">,</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        builder<span class="op">:</span> (context<span class="op">,</span> child) <span class="op">{</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">final</span> animationPercent <span class="op">=</span> Curves<span class="op">.</span>easeOut<span class="op">.</span>transform(</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>            _itemSlideIntervals[i]<span class="op">.</span>transform(_staggeredController<span class="op">.</span>value)<span class="op">,</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>          );</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">final</span> opacity <span class="op">=</span> animationPercent;</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">final</span> slideDistance <span class="op">=</span> (<span class="fl">1.0</span> <span class="op">-</span> animationPercent) <span class="op">*</span> <span class="dv">150</span>;</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>          <span class="kw">return</span> Opacity(</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>            opacity<span class="op">:</span> opacity<span class="op">,</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>            child<span class="op">:</span> Transform<span class="op">.</span>translate(</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>              offset<span class="op">:</span> Offset(slideDistance<span class="op">,</span> <span class="dv">0</span>)<span class="op">,</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>              child<span class="op">:</span> child<span class="op">,</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>            )<span class="op">,</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>          );</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>        <span class="op">},</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> Padding(</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>          padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>symmetric(horizontal<span class="op">:</span> <span class="dv">36</span><span class="op">,</span> vertical<span class="op">:</span> <span class="dv">16</span>)<span class="op">,</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> Text(</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>            _menuTitles[i]<span class="op">,</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>            textAlign<span class="op">:</span> TextAlign<span class="op">.</span>left<span class="op">,</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>            style<span class="op">:</span> <span class="at">const</span> TextStyle(fontSize<span class="op">:</span> <span class="dv">24</span><span class="op">,</span> fontWeight<span class="op">:</span> FontWeight<span class="op">.</span>w500)<span class="op">,</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> listItems;</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Alt düğmenin opaklığını ve ölçeğini canlandırmak için aynı yaklaşımı
+kullanın. Bu sefer, düğmeye yaylanma efekti vermek için bir
+<code>elasticOut</code> eğrisi kullanın.</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>Widget _buildGetStartedButton() <span class="op">{</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> SizedBox(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    width<span class="op">:</span> <span class="dt">double</span><span class="op">.</span>infinity<span class="op">,</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    child<span class="op">:</span> Padding(</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>      padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>all(<span class="dv">24</span>)<span class="op">,</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> AnimatedBuilder(</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        animation<span class="op">:</span> _staggeredController<span class="op">,</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        builder<span class="op">:</span> (context<span class="op">,</span> child) <span class="op">{</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">final</span> animationPercent <span class="op">=</span> Curves<span class="op">.</span>elasticOut<span class="op">.</span>transform(</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>            _buttonInterval<span class="op">.</span>transform(_staggeredController<span class="op">.</span>value)<span class="op">,</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>          );</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">final</span> opacity <span class="op">=</span> animationPercent<span class="op">.</span>clamp(<span class="fl">0.0</span><span class="op">,</span> <span class="fl">1.0</span>);</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">final</span> scale <span class="op">=</span> (animationPercent <span class="op">*</span> <span class="fl">0.5</span>) <span class="op">+</span> <span class="fl">0.5</span>;</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>          <span class="kw">return</span> Opacity(</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>            opacity<span class="op">:</span> opacity<span class="op">,</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>            child<span class="op">:</span> Transform<span class="op">.</span>scale(scale<span class="op">:</span> scale<span class="op">,</span> child<span class="op">:</span> child)<span class="op">,</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>          );</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>        <span class="op">},</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> ElevatedButton(</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>          style<span class="op">:</span> ElevatedButton<span class="op">.</span>styleFrom(</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>            shape<span class="op">:</span> <span class="at">const</span> StadiumBorder()<span class="op">,</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>            backgroundColor<span class="op">:</span> Colors<span class="op">.</span>blue<span class="op">,</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>            padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>symmetric(horizontal<span class="op">:</span> <span class="dv">48</span><span class="op">,</span> vertical<span class="op">:</span> <span class="dv">14</span>)<span class="op">,</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>          onPressed<span class="op">:</span> () <span class="op">{},</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> <span class="at">const</span> Text(</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;Get Started&#39;</span><span class="op">,</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>            style<span class="op">:</span> TextStyle(color<span class="op">:</span> Colors<span class="op">.</span>white<span class="op">,</span> fontSize<span class="op">:</span> <span class="dv">22</span>)<span class="op">,</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 data-number="2.4" id="interaktif-örnek"><span
+class="header-section-number">2.4</span> İnteraktif Örnek</h2>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter/material.dart&#39;</span>;</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main() <span class="op">{</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  runApp(</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">const</span> MaterialApp(</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>      home<span class="op">:</span> ExampleStaggeredAnimations()<span class="op">,</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>      debugShowCheckedModeBanner<span class="op">:</span> <span class="cn">false</span><span class="op">,</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ExampleStaggeredAnimations <span class="kw">extends</span> StatefulWidget <span class="op">{</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> ExampleStaggeredAnimations(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  State<span class="op">&lt;</span>ExampleStaggeredAnimations<span class="op">&gt;</span> createState() <span class="op">=&gt;</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>      _ExampleStaggeredAnimationsState();</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> _ExampleStaggeredAnimationsState <span class="kw">extends</span> State<span class="op">&lt;</span>ExampleStaggeredAnimations<span class="op">&gt;</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">with</span> SingleTickerProviderStateMixin <span class="op">{</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">late</span> AnimationController _drawerSlideController;</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> initState() <span class="op">{</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span>initState();</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    _drawerSlideController <span class="op">=</span> AnimationController(</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>      vsync<span class="op">:</span> <span class="kw">this</span><span class="op">,</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>      duration<span class="op">:</span> <span class="at">const</span> Duration(milliseconds<span class="op">:</span> <span class="dv">150</span>)<span class="op">,</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> dispose() <span class="op">{</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    _drawerSlideController<span class="op">.</span>dispose();</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span>dispose();</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bool</span> _isDrawerOpen() <span class="op">{</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> _drawerSlideController<span class="op">.</span>value <span class="op">==</span> <span class="fl">1.0</span>;</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bool</span> _isDrawerOpening() <span class="op">{</span></span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> _drawerSlideController<span class="op">.</span>status <span class="op">==</span> AnimationStatus<span class="op">.</span>forward;</span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bool</span> _isDrawerClosed() <span class="op">{</span></span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> _drawerSlideController<span class="op">.</span>value <span class="op">==</span> <span class="fl">0.0</span>;</span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> _toggleDrawer() <span class="op">{</span></span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (_isDrawerOpen() <span class="op">||</span> _isDrawerOpening()) <span class="op">{</span></span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>      _drawerSlideController<span class="op">.</span>reverse();</span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>      _drawerSlideController<span class="op">.</span>forward();</span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Scaffold(</span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>      backgroundColor<span class="op">:</span> Colors<span class="op">.</span>white<span class="op">,</span></span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>      appBar<span class="op">:</span> _buildAppBar()<span class="op">,</span></span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>      body<span class="op">:</span> Stack(children<span class="op">:</span> [_buildContent()<span class="op">,</span> _buildDrawer()])<span class="op">,</span></span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>  PreferredSizeWidget _buildAppBar() <span class="op">{</span></span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> AppBar(</span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a>      title<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Flutter Menu&#39;</span><span class="op">,</span> style<span class="op">:</span> TextStyle(color<span class="op">:</span> Colors<span class="op">.</span>black))<span class="op">,</span></span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a>      backgroundColor<span class="op">:</span> Colors<span class="op">.</span>transparent<span class="op">,</span></span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>      elevation<span class="op">:</span> <span class="fl">0.0</span><span class="op">,</span></span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a>      automaticallyImplyLeading<span class="op">:</span> <span class="cn">false</span><span class="op">,</span></span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a>      actions<span class="op">:</span> [</span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a>        AnimatedBuilder(</span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a>          animation<span class="op">:</span> _drawerSlideController<span class="op">,</span></span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a>          builder<span class="op">:</span> (context<span class="op">,</span> child) <span class="op">{</span></span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>            <span class="kw">return</span> IconButton(</span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>              onPressed<span class="op">:</span> _toggleDrawer<span class="op">,</span></span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a>              icon<span class="op">:</span> _isDrawerOpen() <span class="op">||</span> _isDrawerOpening()</span>
+<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a>                  <span class="op">?</span> <span class="at">const</span> Icon(Icons<span class="op">.</span>clear<span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>black)</span>
+<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a>                  <span class="op">:</span> <span class="at">const</span> Icon(Icons<span class="op">.</span>menu<span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>black)<span class="op">,</span></span>
+<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a>            );</span>
+<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a>          <span class="op">},</span></span>
+<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a>      ]<span class="op">,</span></span>
+<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a>  Widget _buildContent() <span class="op">{</span></span>
+<span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Put page content here.</span></span>
+<span id="cb12-93"><a href="#cb12-93" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> <span class="at">const</span> SizedBox();</span>
+<span id="cb12-94"><a href="#cb12-94" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-96"><a href="#cb12-96" aria-hidden="true" tabindex="-1"></a>  Widget _buildDrawer() <span class="op">{</span></span>
+<span id="cb12-97"><a href="#cb12-97" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> AnimatedBuilder(</span>
+<span id="cb12-98"><a href="#cb12-98" aria-hidden="true" tabindex="-1"></a>      animation<span class="op">:</span> _drawerSlideController<span class="op">,</span></span>
+<span id="cb12-99"><a href="#cb12-99" aria-hidden="true" tabindex="-1"></a>      builder<span class="op">:</span> (context<span class="op">,</span> child) <span class="op">{</span></span>
+<span id="cb12-100"><a href="#cb12-100" aria-hidden="true" tabindex="-1"></a>        <span class="kw">return</span> FractionalTranslation(</span>
+<span id="cb12-101"><a href="#cb12-101" aria-hidden="true" tabindex="-1"></a>          translation<span class="op">:</span> Offset(<span class="fl">1.0</span> <span class="op">-</span> _drawerSlideController<span class="op">.</span>value<span class="op">,</span> <span class="fl">0.0</span>)<span class="op">,</span></span>
+<span id="cb12-102"><a href="#cb12-102" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> _isDrawerClosed() <span class="op">?</span> <span class="at">const</span> SizedBox() <span class="op">:</span> <span class="at">const</span> Menu()<span class="op">,</span></span>
+<span id="cb12-103"><a href="#cb12-103" aria-hidden="true" tabindex="-1"></a>        );</span>
+<span id="cb12-104"><a href="#cb12-104" aria-hidden="true" tabindex="-1"></a>      <span class="op">},</span></span>
+<span id="cb12-105"><a href="#cb12-105" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb12-106"><a href="#cb12-106" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb12-107"><a href="#cb12-107" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb12-108"><a href="#cb12-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-109"><a href="#cb12-109" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Menu <span class="kw">extends</span> StatefulWidget <span class="op">{</span></span>
+<span id="cb12-110"><a href="#cb12-110" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> Menu(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb12-111"><a href="#cb12-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-112"><a href="#cb12-112" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb12-113"><a href="#cb12-113" aria-hidden="true" tabindex="-1"></a>  State<span class="op">&lt;</span>Menu<span class="op">&gt;</span> createState() <span class="op">=&gt;</span> _MenuState();</span>
+<span id="cb12-114"><a href="#cb12-114" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb12-115"><a href="#cb12-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-116"><a href="#cb12-116" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> _MenuState <span class="kw">extends</span> State<span class="op">&lt;</span>Menu<span class="op">&gt;</span> <span class="kw">with</span> SingleTickerProviderStateMixin <span class="op">{</span></span>
+<span id="cb12-117"><a href="#cb12-117" aria-hidden="true" tabindex="-1"></a>  <span class="at">static</span> <span class="at">const</span> _menuTitles <span class="op">=</span> [</span>
+<span id="cb12-118"><a href="#cb12-118" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;Declarative style&#39;</span><span class="op">,</span></span>
+<span id="cb12-119"><a href="#cb12-119" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;Premade widgets&#39;</span><span class="op">,</span></span>
+<span id="cb12-120"><a href="#cb12-120" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;Stateful hot reload&#39;</span><span class="op">,</span></span>
+<span id="cb12-121"><a href="#cb12-121" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;Native performance&#39;</span><span class="op">,</span></span>
+<span id="cb12-122"><a href="#cb12-122" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;Great community&#39;</span><span class="op">,</span></span>
+<span id="cb12-123"><a href="#cb12-123" aria-hidden="true" tabindex="-1"></a>  ];</span>
+<span id="cb12-124"><a href="#cb12-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-125"><a href="#cb12-125" aria-hidden="true" tabindex="-1"></a>  <span class="at">static</span> <span class="at">const</span> _initialDelayTime <span class="op">=</span> Duration(milliseconds<span class="op">:</span> <span class="dv">50</span>);</span>
+<span id="cb12-126"><a href="#cb12-126" aria-hidden="true" tabindex="-1"></a>  <span class="at">static</span> <span class="at">const</span> _itemSlideTime <span class="op">=</span> Duration(milliseconds<span class="op">:</span> <span class="dv">250</span>);</span>
+<span id="cb12-127"><a href="#cb12-127" aria-hidden="true" tabindex="-1"></a>  <span class="at">static</span> <span class="at">const</span> _staggerTime <span class="op">=</span> Duration(milliseconds<span class="op">:</span> <span class="dv">50</span>);</span>
+<span id="cb12-128"><a href="#cb12-128" aria-hidden="true" tabindex="-1"></a>  <span class="at">static</span> <span class="at">const</span> _buttonDelayTime <span class="op">=</span> Duration(milliseconds<span class="op">:</span> <span class="dv">150</span>);</span>
+<span id="cb12-129"><a href="#cb12-129" aria-hidden="true" tabindex="-1"></a>  <span class="at">static</span> <span class="at">const</span> _buttonTime <span class="op">=</span> Duration(milliseconds<span class="op">:</span> <span class="dv">500</span>);</span>
+<span id="cb12-130"><a href="#cb12-130" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> _animationDuration <span class="op">=</span></span>
+<span id="cb12-131"><a href="#cb12-131" aria-hidden="true" tabindex="-1"></a>      _initialDelayTime <span class="op">+</span></span>
+<span id="cb12-132"><a href="#cb12-132" aria-hidden="true" tabindex="-1"></a>      (_staggerTime <span class="op">*</span> _menuTitles<span class="op">.</span>length) <span class="op">+</span></span>
+<span id="cb12-133"><a href="#cb12-133" aria-hidden="true" tabindex="-1"></a>      _buttonDelayTime <span class="op">+</span></span>
+<span id="cb12-134"><a href="#cb12-134" aria-hidden="true" tabindex="-1"></a>      _buttonTime;</span>
+<span id="cb12-135"><a href="#cb12-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-136"><a href="#cb12-136" aria-hidden="true" tabindex="-1"></a>  <span class="at">late</span> AnimationController _staggeredController;</span>
+<span id="cb12-137"><a href="#cb12-137" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">List</span><span class="op">&lt;</span>Interval<span class="op">&gt;</span> _itemSlideIntervals <span class="op">=</span> [];</span>
+<span id="cb12-138"><a href="#cb12-138" aria-hidden="true" tabindex="-1"></a>  <span class="at">late</span> Interval _buttonInterval;</span>
+<span id="cb12-139"><a href="#cb12-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-140"><a href="#cb12-140" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb12-141"><a href="#cb12-141" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> initState() <span class="op">{</span></span>
+<span id="cb12-142"><a href="#cb12-142" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span>initState();</span>
+<span id="cb12-143"><a href="#cb12-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-144"><a href="#cb12-144" aria-hidden="true" tabindex="-1"></a>    _createAnimationIntervals();</span>
+<span id="cb12-145"><a href="#cb12-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-146"><a href="#cb12-146" aria-hidden="true" tabindex="-1"></a>    _staggeredController <span class="op">=</span> AnimationController(</span>
+<span id="cb12-147"><a href="#cb12-147" aria-hidden="true" tabindex="-1"></a>      vsync<span class="op">:</span> <span class="kw">this</span><span class="op">,</span></span>
+<span id="cb12-148"><a href="#cb12-148" aria-hidden="true" tabindex="-1"></a>      duration<span class="op">:</span> _animationDuration<span class="op">,</span></span>
+<span id="cb12-149"><a href="#cb12-149" aria-hidden="true" tabindex="-1"></a>    )<span class="op">..</span>forward();</span>
+<span id="cb12-150"><a href="#cb12-150" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb12-151"><a href="#cb12-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-152"><a href="#cb12-152" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> _createAnimationIntervals() <span class="op">{</span></span>
+<span id="cb12-153"><a href="#cb12-153" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="dt">var</span> i <span class="op">=</span> <span class="dv">0</span>; i <span class="op">&lt;</span> _menuTitles<span class="op">.</span>length; <span class="op">++</span>i) <span class="op">{</span></span>
+<span id="cb12-154"><a href="#cb12-154" aria-hidden="true" tabindex="-1"></a>      <span class="at">final</span> startTime <span class="op">=</span> _initialDelayTime <span class="op">+</span> (_staggerTime <span class="op">*</span> i);</span>
+<span id="cb12-155"><a href="#cb12-155" aria-hidden="true" tabindex="-1"></a>      <span class="at">final</span> endTime <span class="op">=</span> startTime <span class="op">+</span> _itemSlideTime;</span>
+<span id="cb12-156"><a href="#cb12-156" aria-hidden="true" tabindex="-1"></a>      _itemSlideIntervals<span class="op">.</span>add(</span>
+<span id="cb12-157"><a href="#cb12-157" aria-hidden="true" tabindex="-1"></a>        Interval(</span>
+<span id="cb12-158"><a href="#cb12-158" aria-hidden="true" tabindex="-1"></a>          startTime<span class="op">.</span>inMilliseconds <span class="op">/</span> _animationDuration<span class="op">.</span>inMilliseconds<span class="op">,</span></span>
+<span id="cb12-159"><a href="#cb12-159" aria-hidden="true" tabindex="-1"></a>          endTime<span class="op">.</span>inMilliseconds <span class="op">/</span> _animationDuration<span class="op">.</span>inMilliseconds<span class="op">,</span></span>
+<span id="cb12-160"><a href="#cb12-160" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb12-161"><a href="#cb12-161" aria-hidden="true" tabindex="-1"></a>      );</span>
+<span id="cb12-162"><a href="#cb12-162" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb12-163"><a href="#cb12-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-164"><a href="#cb12-164" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> buttonStartTime <span class="op">=</span></span>
+<span id="cb12-165"><a href="#cb12-165" aria-hidden="true" tabindex="-1"></a>        Duration(milliseconds<span class="op">:</span> _menuTitles<span class="op">.</span>length <span class="op">*</span> <span class="dv">50</span>) <span class="op">+</span> _buttonDelayTime;</span>
+<span id="cb12-166"><a href="#cb12-166" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> buttonEndTime <span class="op">=</span> buttonStartTime <span class="op">+</span> _buttonTime;</span>
+<span id="cb12-167"><a href="#cb12-167" aria-hidden="true" tabindex="-1"></a>    _buttonInterval <span class="op">=</span> Interval(</span>
+<span id="cb12-168"><a href="#cb12-168" aria-hidden="true" tabindex="-1"></a>      buttonStartTime<span class="op">.</span>inMilliseconds <span class="op">/</span> _animationDuration<span class="op">.</span>inMilliseconds<span class="op">,</span></span>
+<span id="cb12-169"><a href="#cb12-169" aria-hidden="true" tabindex="-1"></a>      buttonEndTime<span class="op">.</span>inMilliseconds <span class="op">/</span> _animationDuration<span class="op">.</span>inMilliseconds<span class="op">,</span></span>
+<span id="cb12-170"><a href="#cb12-170" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb12-171"><a href="#cb12-171" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb12-172"><a href="#cb12-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-173"><a href="#cb12-173" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb12-174"><a href="#cb12-174" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> dispose() <span class="op">{</span></span>
+<span id="cb12-175"><a href="#cb12-175" aria-hidden="true" tabindex="-1"></a>    _staggeredController<span class="op">.</span>dispose();</span>
+<span id="cb12-176"><a href="#cb12-176" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span>dispose();</span>
+<span id="cb12-177"><a href="#cb12-177" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb12-178"><a href="#cb12-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-179"><a href="#cb12-179" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb12-180"><a href="#cb12-180" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb12-181"><a href="#cb12-181" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Container(</span>
+<span id="cb12-182"><a href="#cb12-182" aria-hidden="true" tabindex="-1"></a>      color<span class="op">:</span> Colors<span class="op">.</span>white<span class="op">,</span></span>
+<span id="cb12-183"><a href="#cb12-183" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Stack(</span>
+<span id="cb12-184"><a href="#cb12-184" aria-hidden="true" tabindex="-1"></a>        fit<span class="op">:</span> StackFit<span class="op">.</span>expand<span class="op">,</span></span>
+<span id="cb12-185"><a href="#cb12-185" aria-hidden="true" tabindex="-1"></a>        children<span class="op">:</span> [_buildFlutterLogo()<span class="op">,</span> _buildContent()]<span class="op">,</span></span>
+<span id="cb12-186"><a href="#cb12-186" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb12-187"><a href="#cb12-187" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb12-188"><a href="#cb12-188" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb12-189"><a href="#cb12-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-190"><a href="#cb12-190" aria-hidden="true" tabindex="-1"></a>  Widget _buildFlutterLogo() <span class="op">{</span></span>
+<span id="cb12-191"><a href="#cb12-191" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> <span class="at">const</span> Positioned(</span>
+<span id="cb12-192"><a href="#cb12-192" aria-hidden="true" tabindex="-1"></a>      right<span class="op">:</span> <span class="op">-</span><span class="dv">100</span><span class="op">,</span></span>
+<span id="cb12-193"><a href="#cb12-193" aria-hidden="true" tabindex="-1"></a>      bottom<span class="op">:</span> <span class="op">-</span><span class="dv">30</span><span class="op">,</span></span>
+<span id="cb12-194"><a href="#cb12-194" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Opacity(opacity<span class="op">:</span> <span class="fl">0.2</span><span class="op">,</span> child<span class="op">:</span> FlutterLogo(size<span class="op">:</span> <span class="dv">400</span>))<span class="op">,</span></span>
+<span id="cb12-195"><a href="#cb12-195" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb12-196"><a href="#cb12-196" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb12-197"><a href="#cb12-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-198"><a href="#cb12-198" aria-hidden="true" tabindex="-1"></a>  Widget _buildContent() <span class="op">{</span></span>
+<span id="cb12-199"><a href="#cb12-199" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Column(</span>
+<span id="cb12-200"><a href="#cb12-200" aria-hidden="true" tabindex="-1"></a>      crossAxisAlignment<span class="op">:</span> CrossAxisAlignment<span class="op">.</span>start<span class="op">,</span></span>
+<span id="cb12-201"><a href="#cb12-201" aria-hidden="true" tabindex="-1"></a>      children<span class="op">:</span> [</span>
+<span id="cb12-202"><a href="#cb12-202" aria-hidden="true" tabindex="-1"></a>        <span class="at">const</span> SizedBox(height<span class="op">:</span> <span class="dv">16</span>)<span class="op">,</span></span>
+<span id="cb12-203"><a href="#cb12-203" aria-hidden="true" tabindex="-1"></a>        <span class="op">...</span>_buildListItems()<span class="op">,</span></span>
+<span id="cb12-204"><a href="#cb12-204" aria-hidden="true" tabindex="-1"></a>        <span class="at">const</span> Spacer()<span class="op">,</span></span>
+<span id="cb12-205"><a href="#cb12-205" aria-hidden="true" tabindex="-1"></a>        _buildGetStartedButton()<span class="op">,</span></span>
+<span id="cb12-206"><a href="#cb12-206" aria-hidden="true" tabindex="-1"></a>      ]<span class="op">,</span></span>
+<span id="cb12-207"><a href="#cb12-207" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb12-208"><a href="#cb12-208" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb12-209"><a href="#cb12-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-210"><a href="#cb12-210" aria-hidden="true" tabindex="-1"></a>  <span class="dt">List</span><span class="op">&lt;</span>Widget<span class="op">&gt;</span> _buildListItems() <span class="op">{</span></span>
+<span id="cb12-211"><a href="#cb12-211" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> listItems <span class="op">=</span> <span class="op">&lt;</span>Widget<span class="op">&gt;</span>[];</span>
+<span id="cb12-212"><a href="#cb12-212" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="dt">var</span> i <span class="op">=</span> <span class="dv">0</span>; i <span class="op">&lt;</span> _menuTitles<span class="op">.</span>length; <span class="op">++</span>i) <span class="op">{</span></span>
+<span id="cb12-213"><a href="#cb12-213" aria-hidden="true" tabindex="-1"></a>      listItems<span class="op">.</span>add(</span>
+<span id="cb12-214"><a href="#cb12-214" aria-hidden="true" tabindex="-1"></a>        AnimatedBuilder(</span>
+<span id="cb12-215"><a href="#cb12-215" aria-hidden="true" tabindex="-1"></a>          animation<span class="op">:</span> _staggeredController<span class="op">,</span></span>
+<span id="cb12-216"><a href="#cb12-216" aria-hidden="true" tabindex="-1"></a>          builder<span class="op">:</span> (context<span class="op">,</span> child) <span class="op">{</span></span>
+<span id="cb12-217"><a href="#cb12-217" aria-hidden="true" tabindex="-1"></a>            <span class="at">final</span> animationPercent <span class="op">=</span> Curves<span class="op">.</span>easeOut<span class="op">.</span>transform(</span>
+<span id="cb12-218"><a href="#cb12-218" aria-hidden="true" tabindex="-1"></a>              _itemSlideIntervals[i]<span class="op">.</span>transform(_staggeredController<span class="op">.</span>value)<span class="op">,</span></span>
+<span id="cb12-219"><a href="#cb12-219" aria-hidden="true" tabindex="-1"></a>            );</span>
+<span id="cb12-220"><a href="#cb12-220" aria-hidden="true" tabindex="-1"></a>            <span class="at">final</span> opacity <span class="op">=</span> animationPercent;</span>
+<span id="cb12-221"><a href="#cb12-221" aria-hidden="true" tabindex="-1"></a>            <span class="at">final</span> slideDistance <span class="op">=</span> (<span class="fl">1.0</span> <span class="op">-</span> animationPercent) <span class="op">*</span> <span class="dv">150</span>;</span>
+<span id="cb12-222"><a href="#cb12-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-223"><a href="#cb12-223" aria-hidden="true" tabindex="-1"></a>            <span class="kw">return</span> Opacity(</span>
+<span id="cb12-224"><a href="#cb12-224" aria-hidden="true" tabindex="-1"></a>              opacity<span class="op">:</span> opacity<span class="op">,</span></span>
+<span id="cb12-225"><a href="#cb12-225" aria-hidden="true" tabindex="-1"></a>              child<span class="op">:</span> Transform<span class="op">.</span>translate(</span>
+<span id="cb12-226"><a href="#cb12-226" aria-hidden="true" tabindex="-1"></a>                offset<span class="op">:</span> Offset(slideDistance<span class="op">,</span> <span class="dv">0</span>)<span class="op">,</span></span>
+<span id="cb12-227"><a href="#cb12-227" aria-hidden="true" tabindex="-1"></a>                child<span class="op">:</span> child<span class="op">,</span></span>
+<span id="cb12-228"><a href="#cb12-228" aria-hidden="true" tabindex="-1"></a>              )<span class="op">,</span></span>
+<span id="cb12-229"><a href="#cb12-229" aria-hidden="true" tabindex="-1"></a>            );</span>
+<span id="cb12-230"><a href="#cb12-230" aria-hidden="true" tabindex="-1"></a>          <span class="op">},</span></span>
+<span id="cb12-231"><a href="#cb12-231" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> Padding(</span>
+<span id="cb12-232"><a href="#cb12-232" aria-hidden="true" tabindex="-1"></a>            padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>symmetric(horizontal<span class="op">:</span> <span class="dv">36</span><span class="op">,</span> vertical<span class="op">:</span> <span class="dv">16</span>)<span class="op">,</span></span>
+<span id="cb12-233"><a href="#cb12-233" aria-hidden="true" tabindex="-1"></a>            child<span class="op">:</span> Text(</span>
+<span id="cb12-234"><a href="#cb12-234" aria-hidden="true" tabindex="-1"></a>              _menuTitles[i]<span class="op">,</span></span>
+<span id="cb12-235"><a href="#cb12-235" aria-hidden="true" tabindex="-1"></a>              textAlign<span class="op">:</span> TextAlign<span class="op">.</span>left<span class="op">,</span></span>
+<span id="cb12-236"><a href="#cb12-236" aria-hidden="true" tabindex="-1"></a>              style<span class="op">:</span> <span class="at">const</span> TextStyle(fontSize<span class="op">:</span> <span class="dv">24</span><span class="op">,</span> fontWeight<span class="op">:</span> FontWeight<span class="op">.</span>w500)<span class="op">,</span></span>
+<span id="cb12-237"><a href="#cb12-237" aria-hidden="true" tabindex="-1"></a>            )<span class="op">,</span></span>
+<span id="cb12-238"><a href="#cb12-238" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb12-239"><a href="#cb12-239" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb12-240"><a href="#cb12-240" aria-hidden="true" tabindex="-1"></a>      );</span>
+<span id="cb12-241"><a href="#cb12-241" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb12-242"><a href="#cb12-242" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> listItems;</span>
+<span id="cb12-243"><a href="#cb12-243" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb12-244"><a href="#cb12-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-245"><a href="#cb12-245" aria-hidden="true" tabindex="-1"></a>  Widget _buildGetStartedButton() <span class="op">{</span></span>
+<span id="cb12-246"><a href="#cb12-246" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> SizedBox(</span>
+<span id="cb12-247"><a href="#cb12-247" aria-hidden="true" tabindex="-1"></a>      width<span class="op">:</span> <span class="dt">double</span><span class="op">.</span>infinity<span class="op">,</span></span>
+<span id="cb12-248"><a href="#cb12-248" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Padding(</span>
+<span id="cb12-249"><a href="#cb12-249" aria-hidden="true" tabindex="-1"></a>        padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>all(<span class="dv">24</span>)<span class="op">,</span></span>
+<span id="cb12-250"><a href="#cb12-250" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> AnimatedBuilder(</span>
+<span id="cb12-251"><a href="#cb12-251" aria-hidden="true" tabindex="-1"></a>          animation<span class="op">:</span> _staggeredController<span class="op">,</span></span>
+<span id="cb12-252"><a href="#cb12-252" aria-hidden="true" tabindex="-1"></a>          builder<span class="op">:</span> (context<span class="op">,</span> child) <span class="op">{</span></span>
+<span id="cb12-253"><a href="#cb12-253" aria-hidden="true" tabindex="-1"></a>            <span class="at">final</span> animationPercent <span class="op">=</span> Curves<span class="op">.</span>elasticOut<span class="op">.</span>transform(</span>
+<span id="cb12-254"><a href="#cb12-254" aria-hidden="true" tabindex="-1"></a>              _buttonInterval<span class="op">.</span>transform(_staggeredController<span class="op">.</span>value)<span class="op">,</span></span>
+<span id="cb12-255"><a href="#cb12-255" aria-hidden="true" tabindex="-1"></a>            );</span>
+<span id="cb12-256"><a href="#cb12-256" aria-hidden="true" tabindex="-1"></a>            <span class="at">final</span> opacity <span class="op">=</span> animationPercent<span class="op">.</span>clamp(<span class="fl">0.0</span><span class="op">,</span> <span class="fl">1.0</span>);</span>
+<span id="cb12-257"><a href="#cb12-257" aria-hidden="true" tabindex="-1"></a>            <span class="at">final</span> scale <span class="op">=</span> (animationPercent <span class="op">*</span> <span class="fl">0.5</span>) <span class="op">+</span> <span class="fl">0.5</span>;</span>
+<span id="cb12-258"><a href="#cb12-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-259"><a href="#cb12-259" aria-hidden="true" tabindex="-1"></a>            <span class="kw">return</span> Opacity(</span>
+<span id="cb12-260"><a href="#cb12-260" aria-hidden="true" tabindex="-1"></a>              opacity<span class="op">:</span> opacity<span class="op">,</span></span>
+<span id="cb12-261"><a href="#cb12-261" aria-hidden="true" tabindex="-1"></a>              child<span class="op">:</span> Transform<span class="op">.</span>scale(scale<span class="op">:</span> scale<span class="op">,</span> child<span class="op">:</span> child)<span class="op">,</span></span>
+<span id="cb12-262"><a href="#cb12-262" aria-hidden="true" tabindex="-1"></a>            );</span>
+<span id="cb12-263"><a href="#cb12-263" aria-hidden="true" tabindex="-1"></a>          <span class="op">},</span></span>
+<span id="cb12-264"><a href="#cb12-264" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> ElevatedButton(</span>
+<span id="cb12-265"><a href="#cb12-265" aria-hidden="true" tabindex="-1"></a>            style<span class="op">:</span> ElevatedButton<span class="op">.</span>styleFrom(</span>
+<span id="cb12-266"><a href="#cb12-266" aria-hidden="true" tabindex="-1"></a>              shape<span class="op">:</span> <span class="at">const</span> StadiumBorder()<span class="op">,</span></span>
+<span id="cb12-267"><a href="#cb12-267" aria-hidden="true" tabindex="-1"></a>              backgroundColor<span class="op">:</span> Colors<span class="op">.</span>blue<span class="op">,</span></span>
+<span id="cb12-268"><a href="#cb12-268" aria-hidden="true" tabindex="-1"></a>              padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>symmetric(horizontal<span class="op">:</span> <span class="dv">48</span><span class="op">,</span> vertical<span class="op">:</span> <span class="dv">14</span>)<span class="op">,</span></span>
+<span id="cb12-269"><a href="#cb12-269" aria-hidden="true" tabindex="-1"></a>            )<span class="op">,</span></span>
+<span id="cb12-270"><a href="#cb12-270" aria-hidden="true" tabindex="-1"></a>            onPressed<span class="op">:</span> () <span class="op">{},</span></span>
+<span id="cb12-271"><a href="#cb12-271" aria-hidden="true" tabindex="-1"></a>            child<span class="op">:</span> <span class="at">const</span> Text(</span>
+<span id="cb12-272"><a href="#cb12-272" aria-hidden="true" tabindex="-1"></a>              <span class="st">&#39;Get started&#39;</span><span class="op">,</span></span>
+<span id="cb12-273"><a href="#cb12-273" aria-hidden="true" tabindex="-1"></a>              style<span class="op">:</span> TextStyle(color<span class="op">:</span> Colors<span class="op">.</span>white<span class="op">,</span> fontSize<span class="op">:</span> <span class="dv">22</span>)<span class="op">,</span></span>
+<span id="cb12-274"><a href="#cb12-274" aria-hidden="true" tabindex="-1"></a>            )<span class="op">,</span></span>
+<span id="cb12-275"><a href="#cb12-275" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb12-276"><a href="#cb12-276" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb12-277"><a href="#cb12-277" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb12-278"><a href="#cb12-278" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb12-279"><a href="#cb12-279" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb12-280"><a href="#cb12-280" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<hr />
+<h1 data-number="3" id="animasyon-apisine-genel-bakış"><span
+class="header-section-number">3</span> Animasyon API’sine Genel
+Bakış</h1>
+<p>Flutter’daki animasyon sistemi, türlendirilmiş (typed)
+<code>Animation</code> nesnelerine dayanır. Widget’lar, bu animasyonları
+doğrudan derleme (build) işlevlerine dahil ederek mevcut değerlerini
+okuyabilir ve durum değişikliklerini dinleyebilir veya bu animasyonları
+diğer widget’lara ilettikleri daha ayrıntılı animasyonların temeli
+olarak kullanabilirler.</p>
+<h2 data-number="3.1" id="animation-animasyon"><span
+class="header-section-number">3.1</span> Animation (Animasyon)</h2>
+<p>Animasyon sisteminin birincil yapı taşı <code>Animation</code>
+sınıfıdır. Bir animasyon, animasyonun ömrü boyunca değişebilen belirli
+bir türdeki değeri temsil eder. Animasyon gerçekleştiren çoğu widget,
+parametre olarak bir <code>Animation</code> nesnesi alır; bu nesneden
+animasyonun geçerli değerini okur ve bu değerdeki değişiklikleri
+dinler.</p>
+<h3 data-number="3.1.1" id="addlistener-dinleyici-ekle"><span
+class="header-section-number">3.1.1</span> addListener (Dinleyici
+Ekle)</h3>
+<p>Animasyonun değeri her değiştiğinde, animasyon
+<code>addListener</code> ile eklenen tüm dinleyicileri (listeners)
+bilgilendirir. Genellikle, bir animasyonu dinleyen bir
+<code>State</code> nesnesi, widget sistemine animasyonun yeni değeriyle
+yeniden oluşturulması gerektiğini bildirmek için dinleyici geri
+çağrısında (callback) kendi üzerinde <code>setState</code> çağırır.</p>
+<p>Bu desen o kadar yaygındır ki, animasyonlar değer değiştirdiğinde
+widget’ların yeniden oluşturulmasına yardımcı olan iki widget vardır:
+<code>AnimatedWidget</code> ve <code>AnimatedBuilder</code>. *
+Birincisi, <strong><code>AnimatedWidget</code></strong>, durumu olmayan
+(stateless) animasyonlu widget’lar için en yararlısıdır.
+<code>AnimatedWidget</code>’ı kullanmak için, onu alt sınıf olarak
+tanımlayın ve <code>build</code> işlevini uygulayın. * İkincisi,
+<strong><code>AnimatedBuilder</code></strong>, bir animasyonu daha büyük
+bir derleme işlevinin parçası olarak dahil etmek isteyen daha karmaşık
+widget’lar için yararlıdır. <code>AnimatedBuilder</code>’ı kullanmak
+için, widget’ı oluşturun ve ona bir <code>builder</code> işlevi
+iletin.</p>
+<h3 data-number="3.1.2"
+id="addstatuslistener-durum-dinleyicisi-ekle"><span
+class="header-section-number">3.1.2</span> addStatusListener (Durum
+Dinleyicisi Ekle)</h3>
+<p>Animasyonlar ayrıca, animasyonun zaman içinde nasıl gelişeceğini
+gösteren bir <code>AnimationStatus</code> sağlar. Animasyonun durumu her
+değiştiğinde, animasyon <code>addListener</code> ile eklenen tüm
+dinleyicileri bilgilendirir. Genellikle, animasyonlar
+<code>dismissed</code> (reddedildi/başlangıçta) durumunda başlar, bu da
+aralıklarının başında oldukları anlamına gelir. Örneğin, 0.0’dan 1.0’a
+ilerleyen animasyonlar, değerleri 0.0 olduğunda <code>dismissed</code>
+durumunda olacaktır. Bir animasyon daha sonra <code>forward</code>
+(ileri, 0.0’dan 1.0’a) veya belki <code>reverse</code> (geri, 1.0’dan
+0.0’a) çalışabilir. Sonunda, animasyon aralığının sonuna (1.0) ulaşırsa,
+<code>completed</code> (tamamlandı) durumuna ulaşır.</p>
+<h2 data-number="3.2"
+id="animationcontroller-animasyon-denetleyicisi"><span
+class="header-section-number">3.2</span> AnimationController (Animasyon
+Denetleyicisi)</h2>
+<p>Bir animasyon oluşturmak için önce bir
+<code>AnimationController</code> oluşturun. Kendisi de bir animasyon
+olmasının yanı sıra, <code>AnimationController</code> animasyonu kontrol
+etmenizi sağlar. Örneğin, denetleyiciye animasyonu ileri
+(<code>forward</code>) oynatmasını veya durdurmasını (<code>stop</code>)
+söyleyebilirsiniz. Ayrıca, animasyonu sürmek için yay gibi fiziksel bir
+simülasyon kullanan fırlatma (<code>fling</code>) animasyonları da
+yapabilirsiniz.</p>
+<p>Bir animasyon denetleyicisi oluşturduktan sonra, buna dayalı başka
+animasyonlar oluşturmaya başlayabilirsiniz. Örneğin, orijinal animasyonu
+yansıtan ancak ters yönde (1.0’dan 0.0’a) çalışan bir
+<code>ReverseAnimation</code> oluşturabilirsiniz. Benzer şekilde, değeri
+bir Eğri (<code>Curve</code>) tarafından ayarlanan bir
+<code>CurvedAnimation</code> oluşturabilirsiniz.</p>
+<h2 data-number="3.3" id="tweens-aradegerler"><span
+class="header-section-number">3.3</span> Tweens (Aradegerler)</h2>
+<p>0.0 ile 1.0 aralığının ötesinde animasyon yapmak için,
+<code>begin</code> (başlangıç) ve <code>end</code> (bitiş) değerleri
+arasında interpolasyon (ara değer hesaplama) yapan bir
+<code>Tween&lt;T&gt;</code> kullanabilirsiniz. Birçok türün, türe özgü
+interpolasyon sağlayan özel <code>Tween</code> alt sınıfları vardır.
+Örneğin, <code>ColorTween</code> renkler arasında ve
+<code>RectTween</code> dikdörtgenler (rects) arasında interpolasyon
+yapar. Kendi <code>Tween</code> alt sınıfınızı oluşturarak ve
+<code>lerp</code> işlevini geçersiz kılarak (override) kendi
+interpolasyonlarınızı tanımlayabilirsiniz.</p>
+<p>Tek başına bir tween, yalnızca iki değer arasında nasıl interpolasyon
+yapılacağını tanımlar. Bir animasyonun geçerli karesi için somut bir
+değer elde etmek üzere, geçerli durumu belirlemek için bir animasyona da
+ihtiyacınız vardır. Somut bir değer elde etmek için bir tween’i bir
+animasyonla birleştirmenin iki yolu vardır:</p>
+<ol type="1">
+<li>Tween’i bir animasyonun geçerli değerinde
+<strong>değerlendirebilirsiniz (evaluate)</strong>. Bu yaklaşım,
+halihazırda animasyonu dinleyen ve bu nedenle animasyon değer
+değiştirdiğinde yeniden oluşturulan widget’lar için en
+yararlısıdır.</li>
+<li>Tween’i animasyona dayalı olarak <strong>canlandırabilirsiniz
+(animate)</strong>. Tek bir değer döndürmek yerine, animate işlevi
+tween’i içeren yeni bir <code>Animation</code> döndürür. Bu yaklaşım,
+yeni oluşturulan animasyonu, tween’i içeren geçerli değeri okuyabilen ve
+değerdeki değişiklikleri dinleyebilen başka bir widget’a vermek
+istediğinizde en yararlısıdır.</li>
+</ol>
+<h2 data-number="3.4" id="mimari-architecture"><span
+class="header-section-number">3.4</span> Mimari (Architecture)</h2>
+<p>Animasyonlar aslında bir dizi temel yapı taşından
+oluşturulmuştur.</p>
+<h3 data-number="3.4.1" id="scheduler-zamanlayıcı"><span
+class="header-section-number">3.4.1</span> Scheduler (Zamanlayıcı)</h3>
+<p><code>SchedulerBinding</code>, Flutter zamanlama temellerini
+(primitives) dışa aktaran tekil (singleton) bir sınıftır. Bu tartışma
+için temel öğe çerçeve geri çağrılarıdır (frame callbacks). Ekranda bir
+karenin gösterilmesi gerektiğinde, Flutter’ın motoru, zamanlayıcının
+<code>scheduleFrameCallback()</code> kullanılarak kaydedilen tüm
+dinleyicilere çoğulladığı (multiplex) bir “kareyi başlat” (begin frame)
+geri çağrısını tetikler. Tüm bu geri çağrılara, rastgele bir başlangıç
+zamanından (epoch) itibaren bir <code>Duration</code> (Süre) biçiminde
+karenin resmi zaman damgası verilir. Tüm geri çağrılar aynı zamana sahip
+olduğundan, bu geri çağrılardan tetiklenen tüm animasyonlar, yürütülmesi
+birkaç milisaniye sürse bile tam olarak senkronize edilmiş gibi
+görünecektir.</p>
+<h3 data-number="3.4.2" id="tickers-tikler"><span
+class="header-section-number">3.4.2</span> Tickers (Tikler)</h3>
+<p><code>Ticker</code> sınıfı, her tikte (tick) bir geri çağrıyı
+çağırmak için zamanlayıcının <code>scheduleFrameCallback()</code>
+mekanizmasına bağlanır. Bir <code>Ticker</code> başlatılabilir ve
+durdurulabilir. Başlatıldığında, durdurulduğunda çözülecek bir
+<code>Future</code> döndürür. Her tikte, <code>Ticker</code>, geri
+çağrıya başlatıldıktan sonraki ilk tikten bu yana geçen süreyi sağlar.
+Tikler her zaman başlatıldıktan sonraki ilk tike göre geçen süreyi
+verdiğinden; tiklerin tümü senkronizedir. İki tik arasında farklı
+zamanlarda üç tik başlatırsanız, yine de hepsi aynı başlangıç zamanıyla
+senkronize edilecek ve ardından kilitli adımda (lockstep) tikleyecektir.
+Bir otobüs durağındaki insanlar gibi, tüm tikler hareket etmeye (zamanı
+saymaya) başlamak için düzenli olarak gerçekleşen bir olayı (tiki)
+bekler.</p>
+<h3 data-number="3.4.3" id="simulations-simülasyonlar"><span
+class="header-section-number">3.4.3</span> Simulations
+(Simülasyonlar)</h3>
+<p><code>Simulation</code> soyut sınıfı, göreli bir zaman değerini
+(geçen bir süre) bir double değerine eşler ve bir tamamlanma kavramına
+sahiptir. Prensipte simülasyonlar durumsuzdur (stateless), ancak
+pratikte bazı simülasyonlar (örneğin,
+<code>BouncingScrollSimulation</code> ve
+<code>ClampingScrollSimulation</code>) sorgulandığında durumu geri
+döndürülemez şekilde değiştirir. Farklı efektler için
+<code>Simulation</code> sınıfının çeşitli somut uygulamaları vardır.</p>
+<h3 data-number="3.4.4" id="animatables-canlandırılabilirler"><span
+class="header-section-number">3.4.4</span> Animatables
+(Canlandırılabilirler)</h3>
+<p><code>Animatable</code> soyut sınıfı, bir double’ı belirli bir
+türdeki bir değere eşler. <code>Animatable</code> sınıfları durumsuzdur
+ve değişmezdir (immutable).</p>
+<h3 data-number="3.4.5" id="tweens-aradegerler-1"><span
+class="header-section-number">3.4.5</span> Tweens (Aradegerler)</h3>
+<p><code>Tween&lt;T&gt;</code> soyut sınıfı, nominal olarak 0.0-1.0
+aralığındaki bir double değerini türlendirilmiş bir değere (örneğin, bir
+<code>Color</code> veya başka bir double) eşler. Bu bir
+<code>Animatable</code>’dır. Bir çıktı türü (T), o türden bir
+<code>begin</code> (başlangıç) değeri ve <code>end</code> (bitiş) değeri
+ve belirli bir giriş değeri (nominal olarak 0.0-1.0 aralığındaki double)
+için başlangıç ve bitiş değerleri arasında interpolasyon (lerp) yapmanın
+bir yoluna sahiptir. <code>Tween</code> sınıfları durumsuzdur ve
+değişmezdir.</p>
+<h3 data-number="3.4.6"
+id="composing-animatables-canlandırılabilirleri-besteleyin"><span
+class="header-section-number">3.4.6</span> Composing animatables
+(Canlandırılabilirleri Besteleyin)</h3>
+<p>Bir <code>Animatable&lt;double&gt;</code>’ı (ebeveyn) bir
+<code>Animatable</code>’ın <code>chain()</code> yöntemine geçirmek, önce
+ebeveynin eşlemesini ardından çocuğun eşlemesini uygulayan yeni bir
+<code>Animatable</code> alt sınıfı oluşturur.</p>
+<h3 data-number="3.4.7" id="curves-eğriler"><span
+class="header-section-number">3.4.7</span> Curves (Eğriler)</h3>
+<p><code>Curve</code> soyut sınıfı, nominal olarak 0.0-1.0 aralığındaki
+double’ları, nominal olarak 0.0-1.0 aralığındaki double’lara eşler.
+<code>Curve</code> sınıfları durumsuzdur ve değişmezdir.</p>
+<h3 data-number="3.4.8" id="animations-animasyonlar"><span
+class="header-section-number">3.4.8</span> Animations
+(Animasyonlar)</h3>
+<p><code>Animation</code> soyut sınıfı, belirli bir türde bir değer, bir
+animasyon yönü ve animasyon durumu kavramı ve değer veya durum
+değiştiğinde çağrılan geri çağrıları kaydetmek için bir dinleyici
+arayüzü sağlar. <code>Animation</code>’ın bazı alt sınıfları asla
+değişmeyen değerlere sahiptir (<code>kAlwaysCompleteAnimation</code>,
+<code>kAlwaysDismissedAnimation</code>,
+<code>AlwaysStoppedAnimation</code>); bunlara geri çağrı kaydetmenin
+hiçbir etkisi yoktur çünkü geri çağrılar asla çağrılmaz.
+<code>Animation&lt;double&gt;</code> varyantı özeldir çünkü
+<code>Curve</code> ve <code>Tween</code> sınıfları ile
+<code>Animation</code>’ın bazı diğer alt sınıfları tarafından beklenen
+girdi olan nominal olarak 0.0-1.0 aralığındaki bir double’ı temsil etmek
+için kullanılabilir. Bazı <code>Animation</code> alt sınıfları
+durumsuzdur, sadece dinleyicileri ebeveynlerine iletir. Bazıları ise çok
+durumludur (stateful).</p>
+<h3 data-number="3.4.9"
+id="composable-animations-bestelenebilir-animasyonlar"><span
+class="header-section-number">3.4.9</span> Composable animations
+(Bestelenebilir Animasyonlar)</h3>
+<p>Çoğu <code>Animation</code> alt sınıfı açık bir “ebeveyn”
+<code>Animation&lt;double&gt;</code> alır. O ebeveyn tarafından
+sürülürler.</p>
+<ul>
+<li><code>CurvedAnimation</code> alt sınıfı girdi olarak bir
+<code>Animation&lt;double&gt;</code> sınıfı (ebeveyn) ve birkaç
+<code>Curve</code> sınıfı (ileri ve geri eğrileri) alır ve çıktısını
+belirlemek üzere eğrilere girdi olarak ebeveynin değerini kullanır.
+<code>CurvedAnimation</code> değişmez ve durumsuzdur.</li>
+<li><code>ReverseAnimation</code> alt sınıfı, ebeveyni olarak bir
+<code>Animation&lt;double&gt;</code> sınıfı alır ve animasyonun tüm
+değerlerini tersine çevirir. Ebeveynin nominal olarak 0.0-1.0 aralığında
+bir değer kullandığını varsayar ve 1.0-0.0 aralığında bir değer
+döndürür. Ebeveyn animasyonunun durumu ve yönü de tersine çevrilir.
+<code>ReverseAnimation</code> değişmez ve durumsuzdur.</li>
+<li><code>ProxyAnimation</code> alt sınıfı, ebeveyni olarak bir
+<code>Animation&lt;double&gt;</code> sınıfı alır ve sadece o ebeveynin
+geçerli durumunu iletir. Ancak, ebeveyn değiştirilebilir (mutable).</li>
+<li><code>TrainHoppingAnimation</code> alt sınıfı iki ebeveyn alır ve
+değerleri kesiştiğinde aralarında geçiş yapar.</li>
+</ul>
+<h3 data-number="3.4.10"
+id="animation-controllers-animasyon-denetleyicileri"><span
+class="header-section-number">3.4.10</span> Animation controllers
+(Animasyon Denetleyicileri)</h3>
+<p><code>AnimationController</code>, kendisine hayat vermek için bir
+<code>Ticker</code> kullanan durumlu bir
+<code>Animation&lt;double&gt;</code>’dır. Başlatılabilir ve
+durdurulabilir. Her tikte, başlatıldığından beri geçen süreyi alır ve
+bir değer elde etmek için bunu bir <code>Simulation</code>’a iletir.
+Raporladığı değer budur. Eğer <code>Simulation</code> o anda sona
+erdiğini bildirirse, denetleyici kendini durdurur.</p>
+<p>Animasyon denetleyicisine arasında animasyon yapacağı bir alt ve üst
+sınır ve bir süre verilebilir.</p>
+<ul>
+<li>Basit durumda (<code>forward()</code> veya <code>reverse()</code>
+kullanarak), animasyon denetleyicisi verilen süre boyunca alt sınırdan
+üst sınıra (veya ters yön için tam tersi) doğrusal bir interpolasyon
+yapar.</li>
+<li><code>repeat()</code> kullanıldığında, animasyon denetleyicisi
+verilen süre boyunca verilen sınırlar arasında doğrusal bir
+interpolasyon kullanır ancak durmaz.</li>
+<li><code>animateTo()</code> kullanıldığında, animasyon denetleyicisi
+verilen süre boyunca geçerli değerden verilen hedefe doğrusal bir
+interpolasyon yapar. Yönteme bir süre verilmezse, animasyonun hızını
+belirlemek için denetleyicinin varsayılan süresi ve denetleyicinin alt
+ve üst sınırı tarafından tanımlanan aralık kullanılır.</li>
+<li><code>fling()</code> kullanıldığında, denetleyiciyi sürmek için
+kullanılan belirli bir simülasyon oluşturmak üzere bir
+<code>Force</code> (Kuvvet) kullanılır.</li>
+<li><code>animateWith()</code> kullanıldığında, denetleyiciyi sürmek
+için verilen simülasyon kullanılır.</li>
+</ul>
+<p>Bu yöntemlerin tümü, <code>Ticker</code>’ın sağladığı ve denetleyici
+bir sonraki durduğunda veya simülasyon değiştirdiğinde çözülecek olan
+“geleceği” (future) döndürür.</p>
+<h3 data-number="3.4.11"
+id="attaching-animatables-to-animations-canlandırılabilirleri-animasyonlara-ekleme"><span
+class="header-section-number">3.4.11</span> Attaching animatables to
+animations (Canlandırılabilirleri Animasyonlara Ekleme)</h3>
+<p>Bir <code>Animatable</code>’ın <code>animate()</code> yöntemine bir
+<code>Animation&lt;double&gt;</code> (yeni ebeveyn) geçirmek,
+<code>Animatable</code> gibi davranan ancak verilen ebeveyn tarafından
+sürülen yeni bir <code>Animation</code> alt sınıfı oluşturur.</p>
+<h2 data-number="3.5" id="lisans-bilgisi"><span
+class="header-section-number">3.5</span> 📄 Lisans Bilgisi</h2>
+<p>Bu doküman, <strong>Flutter resmi dokümantasyonundan</strong>
+türetilmiş Türkçe ders notudur.</p>
+<p><strong>Orijinal kaynak:</strong><br />
+https://docs.flutter.dev/ui/animations/staggered-animations</p>
+<p><strong>Türkçe çeviri ve düzenleme:</strong><br />
+<a href="mailto:htemiz@artvin.edu.tr">Doç. Dr. Hakan Temiz</a></p>
+<hr />
+<h3 data-number="3.5.1" id="lisans-kapsamı"><span
+class="header-section-number">3.5.1</span> Lisans Kapsamı</h3>
+<p>Bu dokümandaki içerikler aşağıdaki açık lisanslar kapsamında
+sunulmaktadır:</p>
+<p><strong>Metin içerikleri (anlatım ve açıklamalar):</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> Creative Commons Attribution 4.0 International
+(CC BY 4.0)<br />
+https://creativecommons.org/licenses/by/4.0/</p>
+<p>Bu lisans kapsamında: - İçerik kopyalanabilir, dağıtılabilir ve
+uyarlanabilir<br />
+- Ticari kullanım serbesttir<br />
+- Kaynak belirtilmesi zorunludur</p>
+<p><strong>Kod örnekleri:</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> BSD 3-Clause License<br />
+https://opensource.org/licenses/BSD-3-Clause</p>
+<p>Bu lisans kapsamında: - Kodlar kopyalanabilir, değiştirilebilir ve
+dağıtılabilir<br />
+- Ticari kullanım serbesttir<br />
+- Lisans bildiriminin korunması gerekir</p>
+</body>
+</html>

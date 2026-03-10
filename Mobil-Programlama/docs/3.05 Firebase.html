@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>3.05 Firebase</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#firebase" id="toc-firebase"><span
+class="toc-section-number">1</span> Firebase</a>
+<ul>
+<li><a href="#flutter-ve-firebase-kaynakları"
+id="toc-flutter-ve-firebase-kaynakları"><span
+class="toc-section-number">1.1</span> Flutter ve Firebase kaynakları</a>
+<ul>
+<li><a href="#dokümantasyon" id="toc-dokümantasyon"><span
+class="toc-section-number">1.1.1</span> Dokümantasyon</a></li>
+<li><a href="#blog-yazıları" id="toc-blog-yazıları"><span
+class="toc-section-number">1.1.2</span> Blog Yazıları</a></li>
+<li><a href="#eğitimler" id="toc-eğitimler"><span
+class="toc-section-number">1.1.3</span> Eğitimler</a></li>
+</ul></li>
+<li><a href="#flutter-ve-firebase-topluluk-kaynakları"
+id="toc-flutter-ve-firebase-topluluk-kaynakları"><span
+class="toc-section-number">1.2</span> Flutter ve Firebase topluluk
+kaynakları</a>
+<ul>
+<li><a href="#blog-yazıları-1" id="toc-blog-yazıları-1"><span
+class="toc-section-number">1.2.1</span> Blog Yazıları</a></li>
+<li><a href="#videolar" id="toc-videolar"><span
+class="toc-section-number">1.2.2</span> Videolar</a></li>
+</ul></li>
+<li><a href="#online-eğitim" id="toc-online-eğitim"><span
+class="toc-section-number">1.3</span> Online Eğitim</a></li>
+</ul></li>
+<li><a href="#firebasei-flutter-uygulamanıza-ekleyin"
+id="toc-firebasei-flutter-uygulamanıza-ekleyin"><span
+class="toc-section-number">2</span> Firebase’i Flutter Uygulamanıza
+Ekleyin</a>
+<ul>
+<li><a href="#ön-koşullar" id="toc-ön-koşullar"><span
+class="toc-section-number">2.1</span> Ön Koşullar</a></li>
+<li><a href="#adım-gerekli-komut-satırı-araçlarını-yükleyin"
+id="toc-adım-gerekli-komut-satırı-araçlarını-yükleyin"><span
+class="toc-section-number">2.2</span> 1. Adım: Gerekli komut satırı
+araçlarını yükleyin</a></li>
+<li><a href="#adım-uygulamanızı-yapılandırın"
+id="toc-adım-uygulamanızı-yapılandırın"><span
+class="toc-section-number">2.3</span> 2. Adım: Uygulamanızı
+yapılandırın</a>
+<ul>
+<li><a href="#flutterfire-configure-ne-işe-yarar"
+id="toc-flutterfire-configure-ne-işe-yarar"><span
+class="toc-section-number">2.3.1</span>
+<code>flutterfire configure</code> ne işe yarar?</a></li>
+</ul></li>
+<li><a href="#adım-uygulamanızda-firebasei-başlatın"
+id="toc-adım-uygulamanızda-firebasei-başlatın"><span
+class="toc-section-number">2.4</span> 3. Adım: Uygulamanızda Firebase’i
+başlatın</a></li>
+<li><a href="#adım-firebase-eklentilerini-ekleyin"
+id="toc-adım-firebase-eklentilerini-ekleyin"><span
+class="toc-section-number">2.5</span> 4. Adım: Firebase eklentilerini
+ekleyin</a>
+<ul>
+<li><a href="#mevcut-eklentiler" id="toc-mevcut-eklentiler"><span
+class="toc-section-number">2.5.1</span> Mevcut Eklentiler</a></li>
+</ul></li>
+<li><a href="#örnek-analytics-ile-uygulamayı-test-etme"
+id="toc-örnek-analytics-ile-uygulamayı-test-etme"><span
+class="toc-section-number">2.6</span> Örnek: Analytics ile Uygulamayı
+Test Etme</a></li>
+<li><a href="#lisans-bilgisi" id="toc-lisans-bilgisi"><span
+class="toc-section-number">2.7</span> 📄 Lisans Bilgisi</a>
+<ul>
+<li><a href="#lisans-kapsamı" id="toc-lisans-kapsamı"><span
+class="toc-section-number">2.7.1</span> Lisans Kapsamı</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<p><img src="images/xxxx.webp" width=200></p>
+<h1 data-number="1" id="firebase"><span
+class="header-section-number">1</span> Firebase</h1>
+<p>Firebase, gerçek zamanlı veritabanı (realtime database), bulut
+depolama (cloud storage), kimlik doğrulama (authentication), kilitlenme
+raporlama (crash reporting), makine öğrenimi, uzaktan yapılandırma
+(remote configuration) ve statik dosyalarınız için barındırma (hosting)
+gibi barındırılan arka uç hizmetleri sağlayan bir Hizmet Olarak Arka Uç
+(BaaS) uygulama geliştirme platformudur.</p>
+<h2 data-number="1.1" id="flutter-ve-firebase-kaynakları"><span
+class="header-section-number">1.1</span> Flutter ve Firebase
+kaynakları</h2>
+<p>Firebase, Flutter’ı destekler. Daha fazla bilgi edinmek için
+aşağıdaki kaynaklara göz atın.</p>
+<h3 data-number="1.1.1" id="dokümantasyon"><span
+class="header-section-number">1.1.1</span> Dokümantasyon</h3>
+<ul>
+<li><a href="https://firebase.google.com/docs/flutter/setup">Firebase ve
+Flutter’a başlangıç</a></li>
+<li><a
+href="https://firebase.google.com/docs/flutter/setup#available-plugins">Firebase
+eklentileri</a></li>
+</ul>
+<h3 data-number="1.1.2" id="blog-yazıları"><span
+class="header-section-number">1.1.2</span> Blog Yazıları</h3>
+<ul>
+<li><a
+href="https://blog.flutter.dev/must-try-use-firebase-to-host-your-flutter-app-on-the-web-852ee533a469">Flutter
+uygulamanızı web’de barındırmak için Firebase’i kullanın</a></li>
+</ul>
+<h3 data-number="1.1.3" id="eğitimler"><span
+class="header-section-number">1.1.3</span> Eğitimler</h3>
+<ul>
+<li><strong>Flutter için Firebase’i tanıyın</strong>
+<ul>
+<li><a
+href="https://codelabs.developers.google.com/codelabs/firebase-get-to-know-flutter">eğitim</a></li>
+<li><a href="https://www.youtube.com/watch/4wunbF29Kkg">video
+atölyesi</a></li>
+</ul></li>
+</ul>
+<h2 data-number="1.2" id="flutter-ve-firebase-topluluk-kaynakları"><span
+class="header-section-number">1.2</span> Flutter ve Firebase topluluk
+kaynakları</h2>
+<p>Flutter topluluğu aşağıdaki yararlı kaynakları oluşturdu.</p>
+<h3 data-number="1.2.1" id="blog-yazıları-1"><span
+class="header-section-number">1.2.1</span> Blog Yazıları</h3>
+<ul>
+<li><strong>Flutter ve Firebase ile sohbet uygulaması
+oluşturma</strong></li>
+</ul>
+<h3 data-number="1.2.2" id="videolar"><span
+class="header-section-number">1.2.2</span> Videolar</h3>
+<ul>
+<li><a
+href="https://www.youtube.com/watch/DqJ_KjFzL9I&amp;t#38s">Flutter
+uygulamanız için arka uç olarak Firestore’u kullanma</a></li>
+<li><a href="https://www.youtube.com/watch/OlcYP6UXlm8">Flutter ile
+Canlı Kodlama Firebase Kimlik Doğrulama</a></li>
+<li><a href="https://www.youtube.com/watch/u_Lyx8KJWpg">Flutter ve
+Firebase Auth 01</a></li>
+<li><a href="https://www.youtube.com/watch/13-jNF984C0">Flutter:
+Firebase Eğitimi Bölüm 1 - Auth ve Giriş yapma</a></li>
+</ul>
+<h2 data-number="1.3" id="online-eğitim"><span
+class="header-section-number">1.3</span> Online Eğitim</h2>
+<p><a
+href="https://firebase.google.com/docs/flutter/setup?hl=tr&amp;platform=android">eğitim
+web sayfası</a></p>
+<p>İşte metnin Türkçe çevirisi ve düzenlenmiş Markdown formatındaki
+hali:</p>
+<h1 data-number="2" id="firebasei-flutter-uygulamanıza-ekleyin"><span
+class="header-section-number">2</span> Firebase’i Flutter Uygulamanıza
+Ekleyin</h1>
+<p>Bu kılavuz, Flutter uygulamanızda Firebase hizmetlerini nasıl
+kullanmaya başlayacağınızı anlatır. Hem iOS, Android hem de Web
+platformlarını destekler.</p>
+<h2 data-number="2.1" id="ön-koşullar"><span
+class="header-section-number">2.1</span> Ön Koşullar</h2>
+<p>Başlamadan önce aşağıdakilere sahip olduğunuzdan emin olun:</p>
+<ul>
+<li><p><strong>Editör:</strong> Tercih ettiğiniz düzenleyici veya IDE
+(VS Code, Android Studio vb.) yüklü olmalıdır.</p></li>
+<li><p><strong>Cihaz/Emülatör:</strong> Uygulamanızı çalıştırmak için
+bir cihaz veya emülatör.</p></li>
+<li><p><em>Emülatör Notu:</em> Emülatörler Google Play’i içeren bir
+sistem görüntüsü (system image) kullanmalıdır.</p></li>
+<li><p><strong>Android Gereksinimleri:</strong></p></li>
+<li><p>API düzeyi 23 (Marshmallow) veya sonraki sürümleri
+hedeflemelidir.</p></li>
+<li><p>Cihazda Android 6.0 veya sonraki bir sürüm yüklü
+olmalıdır.</p></li>
+<li><p><strong>Flutter Kurulumu:</strong> İşletim sisteminiz için şunlar
+yüklenmiş olmalıdır:</p></li>
+<li><p>Flutter SDK</p></li>
+<li><p>Desteklenen kütüphaneler</p></li>
+<li><p>Platforma özel yazılımlar ve SDK’lar</p></li>
+<li><p><strong>Firebase Hesabı:</strong> Google Hesabınızı kullanarak
+Firebase’de oturum açmış olmalısınız.</p></li>
+</ul>
+<blockquote>
+<p><strong>Not:</strong> Henüz bir uygulamanız yoksa,
+<code>flutter create</code> komutuyla veya IDE’niz aracılığıyla yeni bir
+proje oluşturun.</p>
+</blockquote>
+<hr />
+<h2 data-number="2.2"
+id="adım-gerekli-komut-satırı-araçlarını-yükleyin"><span
+class="header-section-number">2.2</span> 1. Adım: Gerekli komut satırı
+araçlarını yükleyin</h2>
+<ol type="1">
+<li>Henüz yapmadıysanız <strong>Firebase CLI</strong>’yı yükleyin.</li>
+<li>Aşağıdaki komutu çalıştırarak Google Hesabınızla Firebase’e giriş
+yapın:</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">firebase</span> login</span></code></pre></div>
+<ol start="3" type="1">
+<li><strong>FlutterFire CLI</strong>’yı yüklemek için herhangi bir
+dizinden şu komutu çalıştırın:</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dart</span> pub global activate flutterfire_cli</span></code></pre></div>
+<h2 data-number="2.3" id="adım-uygulamanızı-yapılandırın"><span
+class="header-section-number">2.3</span> 2. Adım: Uygulamanızı
+yapılandırın</h2>
+<p>Flutter uygulamalarınızı Firebase’e bağlamak için <strong>FlutterFire
+CLI</strong> kullanılır. Bu araç, Firebase projenizle Flutter projeniz
+arasındaki köprüyü kurar.</p>
+<ol type="1">
+<li>Uygulama yapılandırma iş akışını başlatmak için <strong>Flutter
+proje dizininizden</strong> aşağıdaki komutu çalıştırın:</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">flutterfire</span> configure</span></code></pre></div>
+<h3 data-number="2.3.1" id="flutterfire-configure-ne-işe-yarar"><span
+class="header-section-number">2.3.1</span>
+<code>flutterfire configure</code> ne işe yarar?</h3>
+<p>Bu komut, projeniz için bir <code>firebase_options.dart</code>
+dosyası oluşturur ve uygulamanızı Firebase projenize kaydeder. Aşağıdaki
+durumlarda bu komutu <strong>yeniden çalıştırmanız</strong> gerekir:</p>
+<ul>
+<li>Flutter uygulamanızda yeni bir platformu (örneğin Web veya MacOS)
+desteklemeye başladığınızda.</li>
+<li>Yeni bir Firebase hizmeti kullanmaya başladığınızda (özellikle
+Google Sign-In, Crashlytics, Performance Monitoring veya Realtime
+Database).</li>
+</ul>
+<hr />
+<h2 data-number="2.4" id="adım-uygulamanızda-firebasei-başlatın"><span
+class="header-section-number">2.4</span> 3. Adım: Uygulamanızda
+Firebase’i başlatın</h2>
+<ol type="1">
+<li>Temel Firebase çekirdek eklentisini (<code>firebase_core</code>)
+yüklemek için proje dizininde şu komutu çalıştırın:</li>
+</ol>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">flutter</span> pub add firebase_core</span></code></pre></div>
+<ol start="2" type="1">
+<li>Yapılandırmanın güncel olduğundan emin olmak için tekrar
+yapılandırma komutunu çalıştırın:</li>
+</ol>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">flutterfire</span> configure</span></code></pre></div>
+<ol start="3" type="1">
+<li><code>lib/main.dart</code> dosyanızda gerekli paketleri içe
+aktarın:</li>
+</ol>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:firebase_core/firebase_core.dart&#39;</span>;</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;firebase_options.dart&#39;</span>;</span></code></pre></div>
+<ol start="4" type="1">
+<li>Yine <code>lib/main.dart</code> dosyanızda, <code>main</code>
+fonksiyonunu <code>async</code> hale getirin ve Firebase’i
+başlatın:</li>
+</ol>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main() <span class="at">async</span> <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  WidgetsFlutterBinding<span class="op">.</span>ensureInitialized();</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">await</span> Firebase<span class="op">.</span>initializeApp(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    options<span class="op">:</span> DefaultFirebaseOptions<span class="op">.</span>currentPlatform<span class="op">,</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  runApp(<span class="at">const</span> MyApp());</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<ol start="5" type="1">
+<li>Uygulamanızı çalıştırın:</li>
+</ol>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">flutter</span> run</span></code></pre></div>
+<blockquote>
+<p><strong>Demo Projesi İpucu:</strong> Eğer Firebase Emülatörlerini
+kullanıyorsanız veya bir demo projesiyle çalışıyorsanız, başlatma kodunu
+şu şekilde <code>demoProjectId</code> ile yapabilirsiniz:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="at">await</span> Firebase<span class="op">.</span>initializeApp(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  demoProjectId<span class="op">:</span> <span class="st">&quot;demo-project-id&quot;</span><span class="op">,</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+</blockquote>
+<hr />
+<h2 data-number="2.5" id="adım-firebase-eklentilerini-ekleyin"><span
+class="header-section-number">2.5</span> 4. Adım: Firebase eklentilerini
+ekleyin</h2>
+<p>Firebase ürünlerine (Authentication, Firestore vb.) erişmek için
+ilgili eklentileri yüklemeniz gerekir.</p>
+<ol type="1">
+<li>İstediğiniz eklentiyi ekleyin (Örneğin:
+<code>firebase_auth</code>):</li>
+</ol>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">flutter</span> pub add PLUGIN_NAME</span></code></pre></div>
+<ol start="2" type="1">
+<li><strong>Önemli:</strong> Her yeni eklenti eklediğinizde, Android/iOS
+tarafındaki yerel yapılandırmaların (Gradle eklentileri vb.)
+güncellenmesi için yapılandırma komutunu tekrar çalıştırın:</li>
+</ol>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">flutterfire</span> configure</span></code></pre></div>
+<ol start="3" type="1">
+<li>Uygulamayı yeniden derleyin:</li>
+</ol>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">flutter</span> run</span></code></pre></div>
+<h3 data-number="2.5.1" id="mevcut-eklentiler"><span
+class="header-section-number">2.5.1</span> Mevcut Eklentiler</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Ürün</th>
+<th>Eklenti Adı</th>
+<th>Destek Durumu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Firebase AI Logic</strong></td>
+<td><code>firebase_vertexai</code></td>
+<td>Beta (Eski adıyla <code>firebase_ai</code>)</td>
+</tr>
+<tr>
+<td><strong>Analytics</strong></td>
+<td><code>firebase_analytics</code></td>
+<td>Beta</td>
+</tr>
+<tr>
+<td><strong>App Check</strong></td>
+<td><code>firebase_app_check</code></td>
+<td>Beta</td>
+</tr>
+<tr>
+<td><strong>Authentication</strong></td>
+<td><code>firebase_auth</code></td>
+<td>Beta</td>
+</tr>
+<tr>
+<td><strong>Cloud Firestore</strong></td>
+<td><code>cloud_firestore</code></td>
+<td>Beta</td>
+</tr>
+<tr>
+<td><strong>Cloud Functions</strong></td>
+<td><code>cloud_functions</code></td>
+<td>Beta</td>
+</tr>
+<tr>
+<td><strong>Cloud Messaging</strong></td>
+<td><code>firebase_messaging</code></td>
+<td>Beta</td>
+</tr>
+<tr>
+<td><strong>Cloud Storage</strong></td>
+<td><code>firebase_storage</code></td>
+<td>Beta</td>
+</tr>
+<tr>
+<td><strong>Crashlytics</strong></td>
+<td><code>firebase_crashlytics</code></td>
+<td>Beta</td>
+</tr>
+<tr>
+<td><strong>Data Connect</strong></td>
+<td><code>firebase_data_connect</code></td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>Dynamic Links</strong></td>
+<td><code>firebase_dynamic_links</code></td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>In-App Messaging</strong></td>
+<td><code>firebase_in_app_messaging</code></td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>Installations</strong></td>
+<td><code>firebase_app_installations</code></td>
+<td>Beta</td>
+</tr>
+<tr>
+<td><strong>ML Model Downloader</strong></td>
+<td><code>firebase_ml_model_downloader</code></td>
+<td>Beta</td>
+</tr>
+<tr>
+<td><strong>Performance</strong></td>
+<td><code>firebase_performance</code></td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>Realtime Database</strong></td>
+<td><code>firebase_database</code></td>
+<td>Beta</td>
+</tr>
+<tr>
+<td><strong>Remote Config</strong></td>
+<td><code>firebase_remote_config</code></td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Dikkat:</strong> Windows üzerinde Firebase desteği şu an için
+üretim (production) amaçlı değildir, yalnızca yerel geliştirme iş
+akışları içindir.</p>
+</blockquote>
+<hr />
+<h2 data-number="2.6"
+id="örnek-analytics-ile-uygulamayı-test-etme"><span
+class="header-section-number">2.6</span> Örnek: Analytics ile Uygulamayı
+Test Etme</h2>
+<p>Kurulumunuzun doğru yapıldığını test etmek için basit bir Analytics
+entegrasyonu yapabilirsiniz.</p>
+<ol type="1">
+<li>Firebase yapılandırmasını tamamladığınız bir projeyi açın.</li>
+<li><code>lib/main.dart</code> dosyasının içeriğini silin.</li>
+<li><a
+href="https://github.com/firebase/flutterfire/tree/master/packages/firebase_analytics/firebase_analytics/example">Google
+Analytics Örnek Deposu</a>’ndan <code>main.dart</code> ve
+<code>tabs_page.dart</code> kodlarını alıp projenize yapıştırın.</li>
+<li>Uygulamayı çalıştırın (<code>flutter run</code>).</li>
+<li><strong>Firebase Konsolu</strong>’na gidin ve sol menüden
+<strong>Analytics</strong> &gt; <strong>Dashboard</strong> (Kontrol
+Paneli) seçeneğine tıklayın.</li>
+<li>“Son 30 dakika içinde etkin olan kullanıcı sayısı” panelini kontrol
+edin. Ayrıca anlık olayları görmek için <strong>DebugView</strong>
+sekmesini kullanabilirsiniz.</li>
+</ol>
+<h2 data-number="2.7" id="lisans-bilgisi"><span
+class="header-section-number">2.7</span> 📄 Lisans Bilgisi</h2>
+<p>Bu doküman, <strong>Flutter resmi dokümantasyonundan</strong>
+türetilmiş Türkçe ders notudur.</p>
+<p><strong>Orijinal kaynak:</strong><br />
+https://docs.flutter.dev/data-and-backend/firebase</p>
+<p><strong>Türkçe çeviri ve düzenleme:</strong><br />
+<a href="mailto:htemiz@artvin.edu.tr">Doç. Dr. Hakan Temiz</a></p>
+<hr />
+<h3 data-number="2.7.1" id="lisans-kapsamı"><span
+class="header-section-number">2.7.1</span> Lisans Kapsamı</h3>
+<p>Bu dokümandaki içerikler aşağıdaki açık lisanslar kapsamında
+sunulmaktadır:</p>
+<p><strong>Metin içerikleri (anlatım ve açıklamalar):</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> Creative Commons Attribution 4.0 International
+(CC BY 4.0)<br />
+https://creativecommons.org/licenses/by/4.0/</p>
+<p>Bu lisans kapsamında: - İçerik kopyalanabilir, dağıtılabilir ve
+uyarlanabilir<br />
+- Ticari kullanım serbesttir<br />
+- Kaynak belirtilmesi zorunludur</p>
+<p><strong>Kod örnekleri:</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> BSD 3-Clause License<br />
+https://opensource.org/licenses/BSD-3-Clause</p>
+<p>Bu lisans kapsamında: - Kodlar kopyalanabilir, değiştirilebilir ve
+dağıtılabilir<br />
+- Ticari kullanım serbesttir<br />
+- Lisans bildiriminin korunması gerekir</p>
+</body>
+</html>

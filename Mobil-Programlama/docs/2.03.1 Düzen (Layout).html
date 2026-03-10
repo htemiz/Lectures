@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>2.03.1 Düzen (Layout)</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#flutterda-düzenler-layouts"
+id="toc-flutterda-düzenler-layouts"><span
+class="toc-section-number">1</span> Flutter’da Düzenler (Layouts)</a>
+<ul>
+<li><a href="#genel-bakış" id="toc-genel-bakış"><span
+class="toc-section-number">1.1</span> Genel Bakış</a>
+<ul>
+<li><a href="#amaç-ne" id="toc-amaç-ne"><span
+class="toc-section-number">1.1.1</span> Amaç ne?</a></li>
+<li><a href="#kavramsal-örnek" id="toc-kavramsal-örnek"><span
+class="toc-section-number">1.1.2</span> Kavramsal örnek</a></li>
+</ul></li>
+<li><a href="#bir-widgetı-düzenleme"
+id="toc-bir-widgetı-düzenleme"><span
+class="toc-section-number">1.2</span> Bir widget’ı düzenleme</a>
+<ul>
+<li><a href="#bir-düzen-widgetı-seçin"
+id="toc-bir-düzen-widgetı-seçin"><span
+class="toc-section-number">1.2.1</span> 1. Bir düzen widget’ı
+seçin</a></li>
+<li><a href="#görünür-bir-widget-oluşturun"
+id="toc-görünür-bir-widget-oluşturun"><span
+class="toc-section-number">1.2.2</span> 2. Görünür bir widget
+oluşturun</a></li>
+<li><a href="#görünür-widgetı-düzen-widgetına-ekleyin"
+id="toc-görünür-widgetı-düzen-widgetına-ekleyin"><span
+class="toc-section-number">1.2.3</span> 3. Görünür widget’ı düzen
+widget’ına ekleyin</a></li>
+<li><a href="#düzen-widgetını-sayfaya-ekleyin"
+id="toc-düzen-widgetını-sayfaya-ekleyin"><span
+class="toc-section-number">1.2.4</span> 4. Düzen widget’ını sayfaya
+ekleyin</a></li>
+<li><a href="#uygulamanızı-çalıştırın"
+id="toc-uygulamanızı-çalıştırın"><span
+class="toc-section-number">1.2.5</span> 5. Uygulamanızı
+çalıştırın</a></li>
+</ul></li>
+<li><a href="#birden-fazla-widgetı-dikey-ve-yatay-olarak-düzenleme"
+id="toc-birden-fazla-widgetı-dikey-ve-yatay-olarak-düzenleme"><span
+class="toc-section-number">1.3</span> Birden fazla widget’ı dikey ve
+yatay olarak düzenleme</a>
+<ul>
+<li><a href="#amaç-ne-1" id="toc-amaç-ne-1"><span
+class="toc-section-number">1.3.1</span> Amaç ne?</a></li>
+<li><a href="#widgetları-hizalama" id="toc-widgetları-hizalama"><span
+class="toc-section-number">1.3.2</span> Widget’ları hizalama</a></li>
+<li><a href="#widgetları-boyutlandırma"
+id="toc-widgetları-boyutlandırma"><span
+class="toc-section-number">1.3.3</span> Widget’ları
+boyutlandırma</a></li>
+<li><a href="#widgetları-sıkıştırma-packing-widgets"
+id="toc-widgetları-sıkıştırma-packing-widgets"><span
+class="toc-section-number">1.3.4</span> Widget’ları sıkıştırma (Packing
+widgets)</a></li>
+<li><a href="#satırları-ve-sütunları-iç-içe-yerleştirme"
+id="toc-satırları-ve-sütunları-iç-içe-yerleştirme"><span
+class="toc-section-number">1.3.5</span> Satırları ve sütunları iç içe
+yerleştirme</a></li>
+</ul></li>
+<li><a href="#yaygın-düzen-widgetları"
+id="toc-yaygın-düzen-widgetları"><span
+class="toc-section-number">1.4</span> Yaygın düzen widget’ları</a>
+<ul>
+<li><a href="#container" id="toc-container"><span
+class="toc-section-number">1.4.1</span> Container</a></li>
+<li><a href="#gridview" id="toc-gridview"><span
+class="toc-section-number">1.4.2</span> GridView</a></li>
+<li><a href="#listview" id="toc-listview"><span
+class="toc-section-number">1.4.3</span> ListView</a></li>
+<li><a href="#stack" id="toc-stack"><span
+class="toc-section-number">1.4.4</span> Stack</a></li>
+<li><a href="#card" id="toc-card"><span
+class="toc-section-number">1.4.5</span> Card</a></li>
+<li><a href="#listtile" id="toc-listtile"><span
+class="toc-section-number">1.4.6</span> ListTile</a></li>
+</ul></li>
+<li><a href="#kısıtlamalar-constraints"
+id="toc-kısıtlamalar-constraints"><span
+class="toc-section-number">1.5</span> Kısıtlamalar
+(Constraints)</a></li>
+<li><a href="#videolar" id="toc-videolar"><span
+class="toc-section-number">1.6</span> Videolar</a></li>
+<li><a href="#diğer-kaynaklar" id="toc-diğer-kaynaklar"><span
+class="toc-section-number">1.7</span> Diğer kaynaklar</a></li>
+<li><a href="#lisans-bilgisi" id="toc-lisans-bilgisi"><span
+class="toc-section-number">1.8</span> 📄 Lisans Bilgisi</a>
+<ul>
+<li><a href="#lisans-kapsamı" id="toc-lisans-kapsamı"><span
+class="toc-section-number">1.8.1</span> Lisans Kapsamı</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1" id="flutterda-düzenler-layouts"><span
+class="header-section-number">1</span> Flutter’da Düzenler
+(Layouts)</h1>
+<p>Flutter’ın düzen mekanizmasının nasıl çalıştığını ve uygulamanızın
+düzenini nasıl oluşturacağınızı öğrenin.</p>
+<h2 data-number="1.1" id="genel-bakış"><span
+class="header-section-number">1.1</span> Genel Bakış</h2>
+<h3 data-number="1.1.1" id="amaç-ne"><span
+class="header-section-number">1.1.1</span> Amaç ne?</h3>
+<ul>
+<li>Flutter’da düzenler widget’larla oluşturulur.</li>
+<li>Widget’lar, UI (Kullanıcı Arayüzü) oluşturmak için kullanılan
+sınıflardır.</li>
+<li>Widget’lar ayrıca UI öğelerini oluşturmak için de kullanılır.</li>
+<li>Karmaşık widget’lar oluşturmak için basit widget’ları
+birleştirin.</li>
+</ul>
+<p>Flutter’ın düzen mekanizmasının çekirdeği widget’lardır. Flutter’da
+neredeyse her şey bir widget’tır; düzen modelleri bile widget’tır. Bir
+Flutter uygulamasında gördüğünüz resimler, simgeler ve metinlerin hepsi
+birer widget’tır. Ancak satırlar, sütunlar ve ızgaralar gibi görünür
+widget’ları düzenleyen, kısıtlayan ve hizalayan göremediğiniz şeyler de
+widget’tır. Daha karmaşık widget’lar oluşturmak için widget’ları
+birleştirerek bir düzen oluşturursunuz.</p>
+<h3 data-number="1.1.2" id="kavramsal-örnek"><span
+class="header-section-number">1.1.2</span> Kavramsal örnek</h3>
+<p>Aşağıdaki örnekte, ilk ekran görüntüsü etiketli üç simgeyi
+görüntülerken, ikinci ekran görüntüsü satırlar ve sütunlar için görsel
+düzeni içerir. İkinci ekran görüntüsünde, görsel düzeni görebilmeniz
+için <code>debugPaintSizeEnabled</code> özelliği <code>true</code>
+olarak ayarlanmıştır.</p>
+<p><img src="images/60_lakes-icons.png" width=300>
+<img src="images/60_lakes-icons-visual.png" width=300></p>
+<p>Önceki örnek için widget ağacının bir diyagramı şöyledir:</p>
+<p><img src="images/60_sample-flutter-layout.png" width=350></p>
+<p>Bunun çoğu beklediğiniz gibi görünebilir, ancak kapsayıcıları (pembe
+renkte gösterilen) merak ediyor olabilirsiniz. <code>Container</code>,
+alt widget’ını özelleştirmenize olanak tanıyan bir widget sınıfıdır.
+Dolgu (padding), kenar boşlukları (margins), kenarlıklar (borders) veya
+arka plan rengi eklemek istediğinizde (yeteneklerinden sadece birkaçı)
+bir <code>Container</code> kullanın.</p>
+<p>Her <code>Text</code> widget’ı, kenar boşlukları eklemek için bir
+<code>Container</code> içine yerleştirilir. Tüm <code>Row</code> (Satır)
+da satırın etrafına dolgu eklemek için bir <code>Container</code> içine
+yerleştirilir.</p>
+<p>UI’ın geri kalanı özellikler (properties) tarafından kontrol edilir.
+Bir <code>Icon</code>’un rengini <code>color</code> özelliğini
+kullanarak ayarlayın. Yazı tipini, rengini, kalınlığını vb. ayarlamak
+için <code>Text.style</code> özelliğini kullanın. Sütunlar ve satırlar,
+çocuklarının dikey veya yatay olarak nasıl hizalanacağını ve çocukların
+ne kadar alan kaplayacağını belirtmenize olanak tanıyan özelliklere
+sahiptir.</p>
+<p><strong>Not</strong> Bu eğitimdeki ekran görüntülerinin çoğu, görsel
+düzeni görebilmeniz için <code>debugPaintSizeEnabled</code> özelliği
+<code>true</code> olarak ayarlanmış şekilde görüntülenir. Daha fazla
+bilgi için, “Düzen sorunlarını görsel olarak hata ayıklama” konusuna
+bakın.</p>
+<h2 data-number="1.2" id="bir-widgetı-düzenleme"><span
+class="header-section-number">1.2</span> Bir widget’ı düzenleme</h2>
+<p>Flutter’da tek bir widget’ı nasıl düzenlersiniz? Bu bölüm, basit bir
+widget’ın nasıl oluşturulacağını ve görüntüleneceğini gösterir. Ayrıca
+basit bir Hello World uygulaması için tüm kodu da gösterir.</p>
+<p>Flutter’da ekrana metin, simge veya resim koymak sadece birkaç adım
+sürer.</p>
+<h3 data-number="1.2.1" id="bir-düzen-widgetı-seçin"><span
+class="header-section-number">1.2.1</span> 1. Bir düzen widget’ı
+seçin</h3>
+<p>Görünür bir widget’ı nasıl hizalamak veya kısıtlamak istediğinize
+bağlı olarak çeşitli düzen widget’ları arasından seçim yapın, çünkü bu
+özellikler genellikle içerilen widget’a aktarılır. Örneğin, görünür bir
+widget’ı hem yatay hem de dikey olarak ortalamak için
+<code>Center</code> düzen widget’ını kullanabilirsiniz:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Center(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Content to be centered here.</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<h3 data-number="1.2.2" id="görünür-bir-widget-oluşturun"><span
+class="header-section-number">1.2.2</span> 2. Görünür bir widget
+oluşturun</h3>
+<p>Uygulamanızın <code>metin</code>, <code>resim</code> veya
+<code>simge</code> gibi görünür öğeler içermesi için görünür bir widget
+seçin. Örneğin, bir metin görüntülemek için <code>Text</code> widget’ını
+kullanabilirsiniz:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Text(<span class="st">&#39;Hello World&#39;</span>)</span></code></pre></div>
+<h3 data-number="1.2.3"
+id="görünür-widgetı-düzen-widgetına-ekleyin"><span
+class="header-section-number">1.2.3</span> 3. Görünür widget’ı düzen
+widget’ına ekleyin</h3>
+<p>Tüm düzen widget’ları aşağıdakilerden birine sahiptir:</p>
+<ul>
+<li>Tek bir çocuk alıyorlarsa bir <code>child</code> özelliği (örneğin,
+<code>Center</code> veya <code>Container</code>).</li>
+<li>Bir widget listesi alıyorlarsa bir <code>children</code> özelliği
+(örneğin, <code>Row</code>, <code>Column</code>, <code>ListView</code>
+veya <code>Stack</code>).</li>
+</ul>
+<p><code>Text</code> widget’ını <code>Center</code> widget’ına
+ekleyin:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> Center(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  child<span class="op">:</span> Text(<span class="st">&#39;Hello World&#39;</span>)<span class="op">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<h3 data-number="1.2.4" id="düzen-widgetını-sayfaya-ekleyin"><span
+class="header-section-number">1.2.4</span> 4. Düzen widget’ını sayfaya
+ekleyin</h3>
+<p>Bir Flutter uygulaması kendisi de bir widget’tır ve çoğu widget’ın
+bir <code>build()</code> yöntemi vardır. Uygulamanın
+<code>build()</code> yönteminde bir widget’ı örneklemek ve döndürmek
+widget’ı görüntüler.</p>
+<p>Genel bir uygulama için, <code>Container</code> widget’ını
+uygulamanın <code>build()</code> yöntemine ekleyebilirsiniz:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyApp <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> MyApp(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Container(</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>      decoration<span class="op">:</span> <span class="at">const</span> BoxDecoration(color<span class="op">:</span> Colors<span class="op">.</span>white)<span class="op">,</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> <span class="at">const</span> Center(</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> Text(</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>          <span class="st">&#39;Hello World&#39;</span><span class="op">,</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>          textDirection<span class="op">:</span> TextDirection<span class="op">.</span>ltr<span class="op">,</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>          style<span class="op">:</span> TextStyle(fontSize<span class="op">:</span> <span class="dv">32</span><span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>black87)<span class="op">,</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Varsayılan olarak, genel bir uygulama bir <code>AppBar</code>, başlık
+veya arka plan rengi içermez. Genel bir uygulamada bu özellikleri
+istiyorsanız, bunları kendiniz oluşturmalısınız. Bu uygulama, bir
+Material uygulamasını taklit etmek için arka plan rengini beyaza ve
+metni koyu griye değiştirir.</p>
+<h3 data-number="1.2.5" id="uygulamanızı-çalıştırın"><span
+class="header-section-number">1.2.5</span> 5. Uygulamanızı
+çalıştırın</h3>
+<p>Widget’larınızı ekledikten sonra uygulamanızı çalıştırın. Uygulamayı
+çalıştırdığınızda <code>Hello World</code> görmelisiniz.</p>
+<p>Uygulama kaynak kodu:</p>
+<ul>
+<li><a
+href="https://github.com/flutter/website/tree/main/examples/layout/base">Material
+uygulaması</a></li>
+<li><a
+href="https://github.com/flutter/website/tree/main/examples/layout/non_material">Material
+olmayan uygulama</a></li>
+</ul>
+<h2 data-number="1.3"
+id="birden-fazla-widgetı-dikey-ve-yatay-olarak-düzenleme"><span
+class="header-section-number">1.3</span> Birden fazla widget’ı dikey ve
+yatay olarak düzenleme</h2>
+<p>En yaygın düzen desenlerinden biri widget’ları dikey veya yatay
+olarak düzenlemektir. Widget’ları yatay olarak düzenlemek için bir
+<code>Row</code> widget’ı, dikey olarak düzenlemek için ise bir
+<code>Column</code> widget’ı kullanabilirsiniz.</p>
+<h3 data-number="1.3.1" id="amaç-ne-1"><span
+class="header-section-number">1.3.1</span> Amaç ne?</h3>
+<ul>
+<li><code>Row</code> ve <code>Column</code>, en sık kullanılan düzen
+desenlerinden ikisidir.</li>
+<li><code>Row</code> ve <code>Column</code> her biri bir alt widget
+listesi alır.</li>
+<li>Bir alt widget’ın kendisi de bir <code>Row</code>,
+<code>Column</code> veya diğer karmaşık widget’lar olabilir.</li>
+<li>Bir <code>Row</code> veya <code>Column</code>’un çocuklarını hem
+dikey hem de yatay olarak nasıl hizalayacağını belirleyebilirsiniz.</li>
+<li>Belirli alt widget’ları uzatabilir veya kısıtlayabilirsiniz.</li>
+<li>Alt widget’ların <code>Row</code> veya <code>Column</code>’un
+kullanılabilir alanını nasıl kullanacağını belirleyebilirsiniz.</li>
+</ul>
+<p>Flutter’da bir satır veya sütun oluşturmak için, bir <code>Row</code>
+veya <code>Column</code> widget’ına çocuk widget’lardan oluşan bir liste
+eklersiniz. Buna karşılık, her çocuk kendisi de bir satır veya sütun
+olabilir ve bu böyle devam eder. Aşağıdaki örnek, satırların veya
+sütunların satırlar veya sütunlar içine nasıl iç içe
+yerleştirilebileceğini göstermektedir.</p>
+<p>Bu düzen bir <code>Row</code> olarak organize edilmiştir. Satır iki
+çocuk içerir: solda bir sütun ve sağda bir resim:</p>
+<p><img src="images/60_pavlova-diagram.png" width=550></p>
+<p>Sol sütunun widget ağacı satırları ve sütunları iç içe
+barındırır.</p>
+<p><img src="images/60_pavlova-left-column-diagram.png" width=550></p>
+<p>Pavlova’nın düzen kodunun bir kısmını “Satırları ve sütunları iç içe
+yerleştirme” bölümünde uygulayacaksınız.</p>
+<p><strong>Not</strong> <code>Row</code> ve <code>Column</code>, yatay
+ve dikey düzenler için temel ilkel widget’lardır; bu düşük seviyeli
+widget’lar maksimum özelleştirme sağlar. Flutter ayrıca ihtiyaçlarınız
+için yeterli olabilecek özelleşmiş, daha yüksek seviyeli widget’lar da
+sunar. Örneğin, <code>Row</code> yerine, baştaki ve sondaki simgeler ve
+3 satıra kadar metin için özelliklere sahip kullanımı kolay bir widget
+olan <code>ListTile</code>’ı tercih edebilirsiniz. <code>Column</code>
+yerine, içeriği kullanılabilir alana sığmayacak kadar uzunsa otomatik
+olarak kayan sütun benzeri bir düzen olan <code>ListView</code>’ı tercih
+edebilirsiniz. Daha fazla bilgi için “Yaygın düzen widget’ları”na
+bakın.</p>
+<h3 data-number="1.3.2" id="widgetları-hizalama"><span
+class="header-section-number">1.3.2</span> Widget’ları hizalama</h3>
+<p><code>mainAxisAlignment</code> ve <code>crossAxisAlignment</code>
+özelliklerini kullanarak bir satır veya sütunun çocuklarını nasıl
+hizalayacağını kontrol edersiniz. Bir satır için ana eksen (main axis)
+yatay olarak çalışır ve çapraz eksen (cross axis) dikey olarak çalışır.
+Bir sütun için ana eksen dikey olarak çalışır ve çapraz eksen yatay
+olarak çalışır.</p>
+<p><img src="images/60_row-diagram.png" width=250>     
+<img src="images/60_column-diagram.png" width=100></p>
+<p><code>MainAxisAlignment</code> ve <code>CrossAxisAlignment</code>
+enum’ları, hizalamayı kontrol etmek için çeşitli sabitler sunar.</p>
+<p><strong>Not</strong> Projenize resim eklediğinizde, bunlara erişmek
+için <code>pubspec.yaml</code> dosyasını güncellemeniz gerekir; bu örnek
+resimleri görüntülemek için <code>Image.asset</code> kullanır. Daha
+fazla bilgi için bu örneğin <code>pubspec.yaml</code> dosyasına veya
+“Varlıklar ve resimler ekleme” konusuna bakın. Çevrimiçi resimlere
+<code>Image.network</code> kullanarak başvuruyorsanız bunu yapmanıza
+gerek yoktur.</p>
+<p>Aşağıdaki örnekte, 3 resmin her biri 100 piksel genişliğindedir.
+Render kutusu (bu durumda tüm ekran) 300 pikselden daha geniştir, bu
+nedenle ana eksen hizalamasını <code>spaceEvenly</code> olarak
+ayarlamak, boş yatay alanı her resmin arasına, önüne ve arkasına eşit
+olarak böler.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Row(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  mainAxisAlignment<span class="op">:</span> MainAxisAlignment<span class="op">.</span>spaceEvenly<span class="op">,</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  children<span class="op">:</span> [</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    Image<span class="op">.</span>asset(<span class="st">&#39;images/pic1.jpg&#39;</span>)<span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    Image<span class="op">.</span>asset(<span class="st">&#39;images/pic2.jpg&#39;</span>)<span class="op">,</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    Image<span class="op">.</span>asset(<span class="st">&#39;images/pic3.jpg&#39;</span>)<span class="op">,</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p><img src="images/60_row-spaceevenly-visual.png" width=300></p>
+<p>Uygulama kaynağı: <a
+href="https://github.com/flutter/website/tree/main/examples/layout/row_column"><code>row_column</code></a></p>
+<p>Sütunlar satırlarla aynı şekilde çalışır. Aşağıdaki örnek, her biri
+100 piksel yüksekliğinde olan 3 resimden oluşan bir sütunu
+göstermektedir. Render kutusunun yüksekliği (bu durumda tüm ekran) 300
+pikselden fazladır, bu nedenle ana eksen hizalamasını
+<code>spaceEvenly</code> olarak ayarlamak, boş dikey alanı her resmin
+arasına, üstüne ve altına eşit olarak böler.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Column(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  mainAxisAlignment<span class="op">:</span> MainAxisAlignment<span class="op">.</span>spaceEvenly<span class="op">,</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  children<span class="op">:</span> [</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    Image<span class="op">.</span>asset(<span class="st">&#39;images/pic1.jpg&#39;</span>)<span class="op">,</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    Image<span class="op">.</span>asset(<span class="st">&#39;images/pic2.jpg&#39;</span>)<span class="op">,</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    Image<span class="op">.</span>asset(<span class="st">&#39;images/pic3.jpg&#39;</span>)<span class="op">,</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p><img src="images/60_column-visual.png" width=55></p>
+<p>Uygulama kaynağı: <a
+href="https://github.com/flutter/website/tree/main/examples/layout/row_column"><code>row_column</code></a></p>
+<h3 data-number="1.3.3" id="widgetları-boyutlandırma"><span
+class="header-section-number">1.3.3</span> Widget’ları
+boyutlandırma</h3>
+<p>Bir düzen bir cihaza sığmayacak kadar büyük olduğunda, etkilenen
+kenar boyunca sarı ve siyah çizgili bir desen görünür. İşte çok geniş
+bir satırın örneği:</p>
+<p><img src="images/60_layout-too-large.png" width=155></p>
+<p>Widget’lar, <a
+href="https://api.flutter.dev/flutter/widgets/Expanded-class.html"><code>Expanded</code></a>
+widget’ı kullanılarak bir satıra veya sütuna sığacak şekilde
+boyutlandırılabilir. Resim satırının render kutusu için çok geniş olduğu
+önceki örneği düzeltmek için, her resmi bir <code>Expanded</code>
+widget’ı ile sarın.</p>
+<p><img src="images/60_row-expanded-2-visual.png" width=155></p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>Row(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  crossAxisAlignment<span class="op">:</span> CrossAxisAlignment<span class="op">.</span>center<span class="op">,</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  children<span class="op">:</span> [</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    Expanded(child<span class="op">:</span> Image<span class="op">.</span>asset(<span class="st">&#39;images/pic1.jpg&#39;</span>))<span class="op">,</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    Expanded(child<span class="op">:</span> Image<span class="op">.</span>asset(<span class="st">&#39;images/pic2.jpg&#39;</span>))<span class="op">,</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    Expanded(child<span class="op">:</span> Image<span class="op">.</span>asset(<span class="st">&#39;images/pic3.jpg&#39;</span>))<span class="op">,</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p>Uygulama kaynağı: <a
+href="https://github.com/flutter/website/tree/main/examples/layout/sizing"><code>sizing</code></a></p>
+<p>Belki bir widget’ın kardeşlerinden iki kat daha fazla yer kaplamasını
+istiyorsunuz. Bunun için, bir widget için esneme faktörünü belirleyen
+bir tamsayı olan <code>Expanded</code> widget’ının <code>flex</code>
+özelliğini kullanın. Varsayılan esneme faktörü 1’dir. Aşağıdaki kod,
+ortadaki resmin esneme faktörünü 2 olarak ayarlar:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>Row(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  crossAxisAlignment<span class="op">:</span> CrossAxisAlignment<span class="op">.</span>center<span class="op">,</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  children<span class="op">:</span> [</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    Expanded(child<span class="op">:</span> Image<span class="op">.</span>asset(<span class="st">&#39;images/pic1.jpg&#39;</span>))<span class="op">,</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    Expanded(flex<span class="op">:</span> <span class="dv">2</span><span class="op">,</span> child<span class="op">:</span> Image<span class="op">.</span>asset(<span class="st">&#39;images/pic2.jpg&#39;</span>))<span class="op">,</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    Expanded(child<span class="op">:</span> Image<span class="op">.</span>asset(<span class="st">&#39;images/pic3.jpg&#39;</span>))<span class="op">,</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p><img src="images/60_row-expanded-visual.png" width=155></p>
+<p>Uygulama kaynağı: <a
+href="https://github.com/flutter/website/tree/main/examples/layout/sizing"><code>sizing</code></a></p>
+<h3 data-number="1.3.4" id="widgetları-sıkıştırma-packing-widgets"><span
+class="header-section-number">1.3.4</span> Widget’ları sıkıştırma
+(Packing widgets)</h3>
+<p>Varsayılan olarak, bir satır veya sütun ana ekseni boyunca mümkün
+olduğunca fazla yer kaplar, ancak çocukları birbirine yakın bir şekilde
+sıkıştırmak istiyorsanız, <code>mainAxisSize</code> özelliğini
+<code>MainAxisSize.min</code> olarak ayarlayın. Aşağıdaki örnek, yıldız
+simgelerini bir arada toplamak için bu özelliği kullanır.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Row(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  mainAxisSize<span class="op">:</span> MainAxisSize<span class="op">.</span>min<span class="op">,</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  children<span class="op">:</span> [</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    Icon(Icons<span class="op">.</span>star<span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>green[<span class="dv">500</span>])<span class="op">,</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    Icon(Icons<span class="op">.</span>star<span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>green[<span class="dv">500</span>])<span class="op">,</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    Icon(Icons<span class="op">.</span>star<span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>green[<span class="dv">500</span>])<span class="op">,</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">const</span> Icon(Icons<span class="op">.</span>star<span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>black)<span class="op">,</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">const</span> Icon(Icons<span class="op">.</span>star<span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>black)<span class="op">,</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><img src="images/60_packed.png" width=200></p>
+<p>Uygulama kaynağı: <a
+href="https://github.com/flutter/website/tree/main/examples/layout/pavlova"><code>pavlova</code></a></p>
+<h3 data-number="1.3.5"
+id="satırları-ve-sütunları-iç-içe-yerleştirme"><span
+class="header-section-number">1.3.5</span> Satırları ve sütunları iç içe
+yerleştirme</h3>
+<p>Düzen çerçevesi, satırları ve sütunları ihtiyaç duyduğunuz derinlikte
+satırlar ve sütunlar içine yerleştirmenize olanak tanır. Aşağıdaki
+düzenin ana hatları çizilmiş bölümünün koduna bakalım:</p>
+<p><img src="images/60_pavlova-large-annotated.png" width=400></p>
+<p>Ana hatları çizilen bölüm iki satır olarak uygulanmıştır.
+Derecelendirme (ratings) satırı beş yıldız ve inceleme sayısını içerir.
+Simgeler (icons) satırı üç sütun simge ve metin içerir.</p>
+<p>Derecelendirme satırı için widget ağacı:</p>
+<p><img src="images/60_widget-tree-pavlova-rating-row.png" width=350></p>
+<p><code>ratings</code> değişkeni, 5 yıldız simgesinden oluşan daha
+küçük bir satır ve metin içeren bir satır oluşturur:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="at">final</span> stars <span class="op">=</span> Row(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  mainAxisSize<span class="op">:</span> MainAxisSize<span class="op">.</span>min<span class="op">,</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  children<span class="op">:</span> [</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    Icon(Icons<span class="op">.</span>star<span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>green[<span class="dv">500</span>])<span class="op">,</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    Icon(Icons<span class="op">.</span>star<span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>green[<span class="dv">500</span>])<span class="op">,</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    Icon(Icons<span class="op">.</span>star<span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>green[<span class="dv">500</span>])<span class="op">,</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">const</span> Icon(Icons<span class="op">.</span>star<span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>black)<span class="op">,</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">const</span> Icon(Icons<span class="op">.</span>star<span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>black)<span class="op">,</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="at">final</span> ratings <span class="op">=</span> Container(</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>all(<span class="dv">20</span>)<span class="op">,</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  child<span class="op">:</span> Row(</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    mainAxisAlignment<span class="op">:</span> MainAxisAlignment<span class="op">.</span>spaceEvenly<span class="op">,</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    children<span class="op">:</span> [</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>      stars<span class="op">,</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">const</span> Text(</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">&#39;170 Reviews&#39;</span><span class="op">,</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        style<span class="op">:</span> TextStyle(</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>          color<span class="op">:</span> Colors<span class="op">.</span>black<span class="op">,</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>          fontWeight<span class="op">:</span> FontWeight<span class="op">.</span>w800<span class="op">,</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>          fontFamily<span class="op">:</span> <span class="st">&#39;Roboto&#39;</span><span class="op">,</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>          letterSpacing<span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>          fontSize<span class="op">:</span> <span class="dv">20</span><span class="op">,</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p><strong>İpucu</strong> Yoğun şekilde iç içe geçmiş düzen kodunun
+neden olabileceği görsel karışıklığı en aza indirmek için, UI
+parçalarını değişkenler ve fonksiyonlar içinde uygulayın.</p>
+<p>Derecelendirme satırının altındaki simgeler satırı 3 sütun içerir;
+her sütun bir simge ve iki satır metin içerir, widget ağacında
+görebileceğiniz gibi:</p>
+<p><img src="images/60_widget-tree-pavlova-icon-row.png" width=550></p>
+<p><code>iconList</code> değişkeni simgeler satırını tanımlar:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> descTextStyle <span class="op">=</span> TextStyle(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  color<span class="op">:</span> Colors<span class="op">.</span>black<span class="op">,</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  fontWeight<span class="op">:</span> FontWeight<span class="op">.</span>w800<span class="op">,</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  fontFamily<span class="op">:</span> <span class="st">&#39;Roboto&#39;</span><span class="op">,</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  letterSpacing<span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  fontSize<span class="op">:</span> <span class="dv">18</span><span class="op">,</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  height<span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co">// DefaultTextStyle.merge() allows you to create a default text</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">// style that is inherited by its child and all subsequent children.</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="at">final</span> iconList <span class="op">=</span> DefaultTextStyle<span class="op">.</span>merge(</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  style<span class="op">:</span> descTextStyle<span class="op">,</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  child<span class="op">:</span> Container(</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>all(<span class="dv">20</span>)<span class="op">,</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    child<span class="op">:</span> Row(</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>      mainAxisAlignment<span class="op">:</span> MainAxisAlignment<span class="op">.</span>spaceEvenly<span class="op">,</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>      children<span class="op">:</span> [</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>        Column(</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>          children<span class="op">:</span> [</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>            Icon(Icons<span class="op">.</span>kitchen<span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>green[<span class="dv">500</span>])<span class="op">,</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">const</span> Text(<span class="st">&#39;PREP:&#39;</span>)<span class="op">,</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>            <span class="at">const</span> Text(<span class="st">&#39;25 min&#39;</span>)<span class="op">,</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>          ]<span class="op">,</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>        Column(</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>          children<span class="op">:</span> [</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>            Icon(Icons<span class="op">.</span>timer<span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>green[<span class="dv">500</span>])<span class="op">,</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>            <span class="at">const</span> Text(<span class="st">&#39;COOK:&#39;</span>)<span class="op">,</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>            <span class="at">const</span> Text(<span class="st">&#39;1 hr&#39;</span>)<span class="op">,</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>          ]<span class="op">,</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>        Column(</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>          children<span class="op">:</span> [</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>            Icon(Icons<span class="op">.</span>restaurant<span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>green[<span class="dv">500</span>])<span class="op">,</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>            <span class="at">const</span> Text(<span class="st">&#39;FEEDS:&#39;</span>)<span class="op">,</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>            <span class="at">const</span> Text(<span class="st">&#39;4-6&#39;</span>)<span class="op">,</span></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>          ]<span class="op">,</span></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>      ]<span class="op">,</span></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p><code>leftColumn</code> değişkeni derecelendirme ve simge
+satırlarını, ayrıca Pavlova’yı açıklayan başlığı ve metni içerir:</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="at">final</span> leftColumn <span class="op">=</span> Container(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>fromLTRB(<span class="dv">20</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">,</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  child<span class="op">:</span> Column(children<span class="op">:</span> [titleText<span class="op">,</span> subTitle<span class="op">,</span> ratings<span class="op">,</span> iconList])<span class="op">,</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p>Sol sütun, genişliğini kısıtlamak için bir <code>SizedBox</code>
+içine yerleştirilir. Son olarak, UI, bir <code>Card</code> içindeki tüm
+satır (sol sütunu ve resmi içeren) ile oluşturulur.</p>
+<p>Pavlova resmi Pixabay’dan alınmıştır. <code>Image.network()</code>
+kullanarak netten bir resim gömebilirsiniz ancak bu örnek için resim
+projedeki bir images dizinine kaydedilmiş, <code>pubspec</code>
+dosyasına eklenmiş ve <code>Images.asset()</code> kullanılarak
+erişilmiştir. Daha fazla bilgi için “Varlıklar ve resimler ekleme”
+konusuna bakın.</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>body<span class="op">:</span> Center(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  child<span class="op">:</span> Container(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    margin<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>fromLTRB(<span class="dv">0</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">,</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    height<span class="op">:</span> <span class="dv">600</span><span class="op">,</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    child<span class="op">:</span> Card(</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Row(</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        crossAxisAlignment<span class="op">:</span> CrossAxisAlignment<span class="op">.</span>start<span class="op">,</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        children<span class="op">:</span> [</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>          SizedBox(width<span class="op">:</span> <span class="dv">440</span><span class="op">,</span> child<span class="op">:</span> leftColumn)<span class="op">,</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>          mainImage<span class="op">,</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        ]<span class="op">,</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<p><strong>İpucu</strong> Pavlova örneği en iyi tablet gibi geniş bir
+cihazda yatay olarak çalışır. Bu örneği iOS simülatöründe
+çalıştırıyorsanız, <strong>Hardware &gt; Device</strong> menüsünü
+kullanarak farklı bir cihaz seçebilirsiniz. Bu örnek için iPad Pro’yu
+öneririz. Yönünü <strong>Hardware &gt; Rotate</strong> kullanarak yatay
+moda değiştirebilirsiniz. Ayrıca simülatör penceresinin boyutunu
+(mantıksal piksel sayısını değiştirmeden) <strong>Window &gt;
+Scale</strong> kullanarak değiştirebilirsiniz.</p>
+<p>Uygulama kaynağı: <code>pavlova</code></p>
+<h2 data-number="1.4" id="yaygın-düzen-widgetları"><span
+class="header-section-number">1.4</span> Yaygın düzen widget’ları</h2>
+<p>Flutter zengin bir düzen widget kütüphanesine sahiptir. İşte en sık
+kullanılanlardan birkaçı. Amaç sizi tam bir listeyle bunaltmak yerine
+mümkün olduğunca çabuk işe koyulmanızı sağlamaktır. Diğer mevcut
+widget’lar hakkında bilgi için “Widget kataloğu”na bakın veya API
+referans belgelerindeki Arama kutusunu kullanın. Ayrıca, API
+belgelerindeki widget sayfaları genellikle ihtiyaçlarınıza daha uygun
+olabilecek benzer widget’lar hakkında önerilerde bulunur.</p>
+<p>Aşağıdaki widget’lar iki kategoriye ayrılır: widget kütüphanesinden
+standart widget’lar ve Material kütüphanesinden özel widget’lar.
+Herhangi bir uygulama widget kütüphanesini kullanabilir ancak yalnızca
+Material uygulamaları Material Components kütüphanesini
+kullanabilir.</p>
+<ul>
+<li><strong>Container</strong>: Bir widget’a dolgu, kenar boşlukları,
+kenarlıklar, arka plan rengi veya diğer süslemeler ekler.</li>
+<li><strong>GridView</strong>: Widget’ları kaydırılabilir bir ızgara
+olarak düzenler.</li>
+<li><strong>ListView</strong>: Widget’ları kaydırılabilir bir liste
+olarak düzenler.</li>
+<li><strong>Stack</strong>: Bir widget’ı diğerinin üzerine
+bindirir.</li>
+</ul>
+<h3 data-number="1.4.1" id="container"><span
+class="header-section-number">1.4.1</span> Container</h3>
+<p>Birçok düzen, widget’ları dolgu kullanarak ayırmak veya kenarlıklar
+veya kenar boşlukları eklemek için <code>Container</code>’ları bolca
+kullanır. Tüm düzeni bir <code>Container</code> içine yerleştirerek ve
+arka plan rengini veya resmini değiştirerek cihazın arka planını
+değiştirebilirsiniz.</p>
+<p><strong>Özet (Container)</strong></p>
+<ul>
+<li>Dolgu, kenar boşlukları, kenarlıklar ekler.</li>
+<li>Arka plan rengini veya resmini değiştirir.</li>
+<li>Tek bir çocuk widget içerir, ancak bu çocuk bir <code>Row</code>,
+<code>Column</code> veya hatta bir widget ağacının kökü olabilir.</li>
+</ul>
+<p><img src="images/60_margin-padding-border.png" width=250></p>
+<p><strong>Örnekler (Container)</strong> Bu düzen, her biri 2 resim
+içeren iki satıra sahip bir sütundan oluşur. Sütunun arka plan rengini
+daha açık bir griye değiştirmek için bir <code>Container</code>
+kullanılır.</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Widget _buildImageColumn() <span class="op">{</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> Container(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    decoration<span class="op">:</span> <span class="at">const</span> BoxDecoration(color<span class="op">:</span> Colors<span class="op">.</span>black26)<span class="op">,</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    child<span class="op">:</span> Column(children<span class="op">:</span> [_buildImageRow(<span class="dv">1</span>)<span class="op">,</span> _buildImageRow(<span class="dv">3</span>)])<span class="op">,</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><img src="images/60_container.png" width=200></p>
+<p>Her resme yuvarlatılmış bir kenarlık ve kenar boşlukları eklemek için
+de bir <code>Container</code> kullanılır:</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>Widget _buildDecoratedImage(<span class="dt">int</span> imageIndex) <span class="op">=&gt;</span> Expanded(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  child<span class="op">:</span> Container(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    decoration<span class="op">:</span> BoxDecoration(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>      border<span class="op">:</span> Border<span class="op">.</span>all(width<span class="op">:</span> <span class="dv">10</span><span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>black38)<span class="op">,</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>      borderRadius<span class="op">:</span> <span class="at">const</span> BorderRadius<span class="op">.</span>all(Radius<span class="op">.</span>circular(<span class="dv">8</span>))<span class="op">,</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    margin<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>all(<span class="dv">4</span>)<span class="op">,</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    child<span class="op">:</span> Image<span class="op">.</span>asset(<span class="st">&#39;images/pic$imageIndex.jpg&#39;</span>)<span class="op">,</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>Widget _buildImageRow(<span class="dt">int</span> imageIndex) <span class="op">=&gt;</span> Row(</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  children<span class="op">:</span> [</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    _buildDecoratedImage(imageIndex)<span class="op">,</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    _buildDecoratedImage(imageIndex <span class="op">+</span> <span class="dv">1</span>)<span class="op">,</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p>Daha fazla <code>Container</code> örneğini eğitimde bulabilirsiniz.
+Uygulama kaynağı: <code>container</code></p>
+<h3 data-number="1.4.2" id="gridview"><span
+class="header-section-number">1.4.2</span> GridView</h3>
+<p>Widget’ları iki boyutlu bir liste olarak düzenlemek için
+<code>GridView</code> kullanın. <code>GridView</code> önceden
+hazırlanmış iki liste sağlar veya kendi özel ızgaranızı
+oluşturabilirsiniz. Bir <code>GridView</code> içeriğinin render kutusuna
+sığmayacak kadar uzun olduğunu algıladığında otomatik olarak kayar.</p>
+<p><strong>Özet (GridView)</strong></p>
+<ul>
+<li>Widget’ları bir ızgara içinde düzenler.</li>
+<li>Sütun içeriği render kutusunu aştığında algılar ve otomatik olarak
+kaydırma sağlar.</li>
+<li>Kendi özel ızgaranızı oluşturun veya sağlanan ızgaralardan birini
+kullanın:</li>
+<li><code>GridView.count</code>: Sütun sayısını belirtmenize olanak
+tanır.</li>
+<li><code>GridView.extent</code>: Bir döşemenin maksimum piksel
+genişliğini belirtmenize olanak tanır.</li>
+</ul>
+<p><strong>Not</strong> Bir hücrenin hangi satır ve sütunu işgal
+ettiğinin önemli olduğu iki boyutlu bir liste görüntülerken (örneğin,
+“avokado” satırı için “kalori” sütunundaki giriş), <code>Table</code>
+veya <code>DataTable</code> kullanın.</p>
+<p><strong>Örnekler (GridView)</strong></p>
+<p><img src="images/60_gridview-extent.png" width=200></p>
+<p>Maksimum 150 piksel genişliğinde döşemelere sahip bir ızgara
+oluşturmak için <code>GridView.extent</code> kullanır. Uygulama kaynağı:
+<a
+href="https://github.com/flutter/website/tree/main/examples/layout/grid_and_list"><code>grid_and_list</code></a></p>
+<p><img src="images/60_gridview-count-flutter-gallery.png" width=200></p>
+<p>Portre modunda 2 döşeme genişliğinde ve manzara modunda 3 döşeme
+genişliğinde bir ızgara oluşturmak için <code>GridView.count</code>
+kullanır. Başlıklar, her <code>GridTile</code> için <code>footer</code>
+özelliği ayarlanarak oluşturulur.</p>
+<p>Dart kodu: <a
+href="https://github.com/flutter/website/tree/main/examples/layout/gallery/lib/grid_list_demo.dart"><code>grid_list_demo.dart</code></a></p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>Widget _buildGrid() <span class="op">=&gt;</span> GridView<span class="op">.</span>extent(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  maxCrossAxisExtent<span class="op">:</span> <span class="dv">150</span><span class="op">,</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>all(<span class="dv">4</span>)<span class="op">,</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  mainAxisSpacing<span class="op">:</span> <span class="dv">4</span><span class="op">,</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  crossAxisSpacing<span class="op">:</span> <span class="dv">4</span><span class="op">,</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  children<span class="op">:</span> _buildGridTileList(<span class="dv">30</span>)<span class="op">,</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co">// The images are saved with names pic0.jpg, pic1.jpg...pic29.jpg.</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co">// The List.generate() constructor allows an easy way to create</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co">// a list when objects have a predictable naming pattern.</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="dt">List</span><span class="op">&lt;</span>Widget<span class="op">&gt;</span> _buildGridTileList(<span class="dt">int</span> count) <span class="op">=&gt;</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">List</span><span class="op">.</span>generate(count<span class="op">,</span> (i) <span class="op">=&gt;</span> Image<span class="op">.</span>asset(<span class="st">&#39;images/pic$i.jpg&#39;</span>));</span></code></pre></div>
+<h3 data-number="1.4.3" id="listview"><span
+class="header-section-number">1.4.3</span> ListView</h3>
+<p><code>ListView</code>, sütun benzeri bir widget’tır ve içeriği render
+kutusu için çok uzun olduğunda otomatik olarak kaydırma sağlar.</p>
+<p><strong>Özet (ListView)</strong></p>
+<ul>
+<li>Bir kutu listesini düzenlemek için özelleşmiş bir
+<code>Column</code>.</li>
+<li>Yatay veya dikey olarak düzenlenebilir.</li>
+<li>İçeriği sığmadığında algılar ve kaydırma sağlar.</li>
+<li><code>Column</code>’dan daha az yapılandırılabilir, ancak kullanımı
+daha kolaydır ve kaydırmayı destekler.</li>
+</ul>
+<p><strong>Örnekler (ListView)</strong> <code>ListTiles</code>
+kullanarak bir işletme listesi görüntülemek için <code>ListView</code>
+kullanır. Bir <code>Divider</code>, tiyatroları restoranlardan
+ayırır.</p>
+<p><img src="images/60_listview.png" width=200></p>
+<p>Uygulama kaynağı: <a
+href="https://github.com/flutter/website/tree/main/examples/layout/grid_and_list"><code>grid_and_list</code></a></p>
+<p>Belirli bir renk ailesi için Material 2 Tasarım paletindeki
+<code>Renkleri</code> görüntülemek için <code>ListView</code>
+kullanır.</p>
+<p><img src="images/60_listview-color-gallery.png" width=200></p>
+<p>Dart kodu: <a
+href="https://github.com/flutter/website/tree/main/examples/layout/gallery/lib/colors_demo.dart"><code>colors_demo.dart</code></a></p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>Widget _buildList() <span class="op">{</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> ListView(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    children<span class="op">:</span> [</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>      _tile(<span class="st">&#39;CineArts at the Empire&#39;</span><span class="op">,</span> <span class="st">&#39;85 W Portal Ave&#39;</span><span class="op">,</span> Icons<span class="op">.</span>theaters)<span class="op">,</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>      _tile(<span class="st">&#39;The Castro Theater&#39;</span><span class="op">,</span> <span class="st">&#39;429 Castro St&#39;</span><span class="op">,</span> Icons<span class="op">.</span>theaters)<span class="op">,</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>      _tile(<span class="st">&#39;Alamo Drafthouse Cinema&#39;</span><span class="op">,</span> <span class="st">&#39;2550 Mission St&#39;</span><span class="op">,</span> Icons<span class="op">.</span>theaters)<span class="op">,</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>      _tile(<span class="st">&#39;Roxie Theater&#39;</span><span class="op">,</span> <span class="st">&#39;3117 16th St&#39;</span><span class="op">,</span> Icons<span class="op">.</span>theaters)<span class="op">,</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>      _tile(</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">&#39;United Artists Stonestown Twin&#39;</span><span class="op">,</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">&#39;501 Buckingham Way&#39;</span><span class="op">,</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>        Icons<span class="op">.</span>theaters<span class="op">,</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>      _tile(<span class="st">&#39;AMC Metreon 16&#39;</span><span class="op">,</span> <span class="st">&#39;135 4th St #3000&#39;</span><span class="op">,</span> Icons<span class="op">.</span>theaters)<span class="op">,</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">const</span> Divider()<span class="op">,</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>      _tile(<span class="st">&#39;K</span><span class="sc">\&#39;</span><span class="st">s Kitchen&#39;</span><span class="op">,</span> <span class="st">&#39;757 Monterey Blvd&#39;</span><span class="op">,</span> Icons<span class="op">.</span>restaurant)<span class="op">,</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>      _tile(<span class="st">&#39;Emmy</span><span class="sc">\&#39;</span><span class="st">s Restaurant&#39;</span><span class="op">,</span> <span class="st">&#39;1923 Ocean Ave&#39;</span><span class="op">,</span> Icons<span class="op">.</span>restaurant)<span class="op">,</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>      _tile(<span class="st">&#39;Chaiya Thai Restaurant&#39;</span><span class="op">,</span> <span class="st">&#39;272 Claremont Blvd&#39;</span><span class="op">,</span> Icons<span class="op">.</span>restaurant)<span class="op">,</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>      _tile(<span class="st">&#39;La Ciccia&#39;</span><span class="op">,</span> <span class="st">&#39;291 30th St&#39;</span><span class="op">,</span> Icons<span class="op">.</span>restaurant)<span class="op">,</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>ListTile _tile(<span class="dt">String</span> title<span class="op">,</span> <span class="dt">String</span> subtitle<span class="op">,</span> IconData icon) <span class="op">{</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> ListTile(</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>    title<span class="op">:</span> Text(</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>      title<span class="op">,</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>      style<span class="op">:</span> <span class="at">const</span> TextStyle(fontWeight<span class="op">:</span> FontWeight<span class="op">.</span>w500<span class="op">,</span> fontSize<span class="op">:</span> <span class="dv">20</span>)<span class="op">,</span></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>    subtitle<span class="op">:</span> Text(subtitle)<span class="op">,</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>    leading<span class="op">:</span> Icon(icon<span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>blue[<span class="dv">500</span>])<span class="op">,</span></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="1.4.4" id="stack"><span
+class="header-section-number">1.4.4</span> Stack</h3>
+<p>Widget’ları bir temel widget’ın (genellikle bir resim) üzerine
+düzenlemek için <code>Stack</code> kullanın. Widget’lar temel widget ile
+tamamen veya kısmen örtüşebilir.</p>
+<p><strong>Özet (Stack)</strong></p>
+<ul>
+<li>Başka bir widget ile örtüşen widget’lar için kullanın.</li>
+<li>Çocuk listesindeki ilk widget temel widget’tır; sonraki çocuklar o
+temel widget’ın üzerine bindirilir.</li>
+<li>Bir <code>Stack</code>’in içeriği kaydırılamaz.</li>
+<li>Render kutusunu aşan çocukları kırpmayı seçebilirsiniz.</li>
+</ul>
+<p><strong>Örnekler (Stack)</strong></p>
+<p><img src="images/60_stack.png" width=100></p>
+<p>Bir <code>CircleAvatar</code>’ın üzerine (<code>Text</code>’ini yarı
+saydam siyah bir arka planda görüntüleyen) bir <code>Container</code>
+bindirmek için <code>Stack</code> kullanır. <code>Stack</code>, metni
+<code>alignment</code> özelliği ve <code>Alignments</code> kullanarak
+kaydırır.</p>
+<p>Uygulama kaynağı: <code>card_and_stack</code></p>
+<p>Bir resmin üzerine bir simge bindirmek için <code>Stack</code>
+kullanır. <img src="images/60_stack-flutter-gallery.png" width=200></p>
+<p>Dart kodu: <a
+href="https://github.com/flutter/website/tree/main/examples/layout/gallery/lib/bottom_navigation_demo.dart"><code>bottom_navigation_demo.dart</code></a></p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>Widget _buildStack() <span class="op">{</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> Stack(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    alignment<span class="op">:</span> <span class="at">const</span> Alignment(<span class="fl">0.6</span><span class="op">,</span> <span class="fl">0.6</span>)<span class="op">,</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    children<span class="op">:</span> [</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">const</span> CircleAvatar(</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>        backgroundImage<span class="op">:</span> AssetImage(<span class="st">&#39;images/pic.jpg&#39;</span>)<span class="op">,</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        radius<span class="op">:</span> <span class="dv">100</span><span class="op">,</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>      Container(</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>        decoration<span class="op">:</span> <span class="at">const</span> BoxDecoration(color<span class="op">:</span> Colors<span class="op">.</span>black45)<span class="op">,</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> <span class="at">const</span> Text(</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>          <span class="st">&#39;Mia B&#39;</span><span class="op">,</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>          style<span class="op">:</span> TextStyle(</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>            fontSize<span class="op">:</span> <span class="dv">20</span><span class="op">,</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>            fontWeight<span class="op">:</span> FontWeight<span class="op">.</span>bold<span class="op">,</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>            color<span class="op">:</span> Colors<span class="op">.</span>white<span class="op">,</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="1.4.5" id="card"><span
+class="header-section-number">1.4.5</span> Card</h3>
+<p>Material kütüphanesinden bir <code>Card</code>, ilgili bilgi
+parçacıklarını içerir ve neredeyse her widget’tan oluşturulabilir, ancak
+genellikle <code>ListTile</code> ile birlikte kullanılır.
+<code>Card</code> tek bir çocuğa sahiptir, ancak çocuğu bir sütun,
+satır, liste, ızgara veya birden fazla çocuğu destekleyen diğer
+widget’lar olabilir. Varsayılan olarak, bir <code>Card</code> boyutunu
+0’a 0 piksele küçültür. Bir kartın boyutunu kısıtlamak için
+<code>SizedBox</code> kullanabilirsiniz.</p>
+<p>Flutter’da bir <code>Card</code>, hafifçe yuvarlatılmış köşelere ve
+bir gölgeye sahiptir ve bu ona 3B efekti verir. Bir <code>Card</code>’ın
+<code>elevation</code> özelliğini değiştirmek, gölge efektini kontrol
+etmenizi sağlar. Örneğin, yüksekliği 24’e ayarlamak, <code>Card</code>’ı
+görsel olarak yüzeyden daha yukarı kaldırır ve gölgenin daha dağılmasına
+neden olur. Desteklenen yükseklik değerlerinin bir listesi için Material
+yönergelerindeki Yükseklik (Elevation) bölümüne bakın. Desteklenmeyen
+bir değer belirtmek gölgeyi tamamen devre dışı bırakır.</p>
+<p><strong>Özet (Card)</strong></p>
+<ul>
+<li>Bir Material kartı uygular.</li>
+<li>İlgili bilgi parçacıklarını sunmak için kullanılır.</li>
+<li>Tek bir çocuk kabul eder, ancak bu çocuk bir çocuk listesi tutan
+<code>Row</code>, <code>Column</code> veya başka bir widget
+olabilir.</li>
+<li>Yuvarlatılmış köşeler ve bir gölge ile görüntülenir.</li>
+<li>Bir <code>Card</code>’ın içeriği kaydırılamaz.</li>
+<li>Material kütüphanesinden gelir.</li>
+</ul>
+<p><strong>Örnekler (Card)</strong> 3 ListTile içeren ve bir
+<code>SizedBox</code> ile sarılarak boyutlandırılmış bir
+<code>Card</code>. Bir <code>Divider</code> birinci ve ikinci
+<code>ListTiles</code>’ı ayırır.</p>
+<p><img src="images/60_card.png" width=200></p>
+<p>Uygulama kaynağı: <a
+href="https://github.com/flutter/website/tree/main/examples/layout/card_and_stack"><code>card_and_stack</code></a></p>
+<p>Bir resim ve metin içeren bir <code>Card</code>.</p>
+<p><img src="images/60_card-flutter-gallery.png" width=250></p>
+<p>Dart kodu: <a
+href="https://github.com/flutter/website/tree/main/examples/layout/gallery/lib/cards_demo.dart"><code>cards_demo.dart</code></a></p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>Widget _buildCard() <span class="op">{</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> SizedBox(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    height<span class="op">:</span> <span class="dv">210</span><span class="op">,</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    child<span class="op">:</span> Card(</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Column(</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        children<span class="op">:</span> [</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>          ListTile(</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>            title<span class="op">:</span> <span class="at">const</span> Text(</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>              <span class="st">&#39;1625 Main Street&#39;</span><span class="op">,</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>              style<span class="op">:</span> TextStyle(fontWeight<span class="op">:</span> FontWeight<span class="op">.</span>w500)<span class="op">,</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>            )<span class="op">,</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>            subtitle<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;My City, CA 99984&#39;</span>)<span class="op">,</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>            leading<span class="op">:</span> Icon(Icons<span class="op">.</span>restaurant_menu<span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>blue[<span class="dv">500</span>])<span class="op">,</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>          <span class="at">const</span> Divider()<span class="op">,</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>          ListTile(</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>            title<span class="op">:</span> <span class="at">const</span> Text(</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>              <span class="st">&#39;(408) 555-1212&#39;</span><span class="op">,</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>              style<span class="op">:</span> TextStyle(fontWeight<span class="op">:</span> FontWeight<span class="op">.</span>w500)<span class="op">,</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>            )<span class="op">,</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>            leading<span class="op">:</span> Icon(Icons<span class="op">.</span>contact_phone<span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>blue[<span class="dv">500</span>])<span class="op">,</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>          ListTile(</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>            title<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;costa@example.com&#39;</span>)<span class="op">,</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>            leading<span class="op">:</span> Icon(Icons<span class="op">.</span>contact_mail<span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>blue[<span class="dv">500</span>])<span class="op">,</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>        ]<span class="op">,</span></span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="1.4.6" id="listtile"><span
+class="header-section-number">1.4.6</span> ListTile</h3>
+<p>3 satıra kadar metin ve isteğe bağlı baştaki ve sondaki simgeleri
+içeren bir satır oluşturmanın kolay bir yolu için Material
+kütüphanesinden özel bir satır widget’ı olan <code>ListTile</code>
+kullanın. <code>ListTile</code> en yaygın olarak <code>Card</code> veya
+<code>ListView</code> içinde kullanılır, ancak başka yerlerde de
+kullanılabilir.</p>
+<p><strong>Özet (ListTile)</strong></p>
+<ul>
+<li>3 satıra kadar metin ve isteğe bağlı simgeler içeren özel bir
+satır.</li>
+<li><code>Row</code>’dan daha az yapılandırılabilir, ancak kullanımı
+daha kolaydır.</li>
+<li>Material kütüphanesinden gelir.</li>
+</ul>
+<p><strong>Örnekler (ListTile)</strong> 3 <code>ListTiles</code> içeren
+bir <code>Card</code>.</p>
+<p><img src="images/60_card_2.png" width=200></p>
+<p>Uygulama kaynağı: <a
+href="https://github.com/flutter/website/tree/main/examples/layout/card_and_stack"><code>card_and_stack</code></a></p>
+<p>Öncü widget’larla <code>ListTile</code> kullanımı.</p>
+<p><img src="images/60_listtile-flutter-gallery.png" width=200></p>
+<p>Dart kodu: <a
+href="https://github.com/flutter/website/tree/main/examples/layout/gallery/lib/list_demo.dart"><code>list_demo.dart</code></a></p>
+<h2 data-number="1.5" id="kısıtlamalar-constraints"><span
+class="header-section-number">1.5</span> Kısıtlamalar (Constraints)</h2>
+<p>Flutter’ın düzen sistemini tam olarak anlamak için, Flutter’ın bir
+düzendeki bileşenleri nasıl konumlandırdığını ve boyutlandırdığını
+öğrenmeniz gerekir. Daha fazla bilgi için “Kısıtlamaları Anlamak”
+(Understanding constraints) konusuna bakın.</p>
+<h2 data-number="1.6" id="videolar"><span
+class="header-section-number">1.6</span> Videolar</h2>
+<p>“Flutter in Focus” serisinin bir parçası olan aşağıdaki videolar,
+<code>Stateless</code> ve <code>Stateful</code> widget’ları açıklar.</p>
+<p>[Flutter in Focus playlist placeholder]</p>
+<p>“Widget of the Week” (Haftanın Widget’ı) serisinin her bölümü bir
+widget’a odaklanır. Bunların birçoğu düzen widget’larını içerir.</p>
+<p>[Flutter Widget of the Week playlist placeholder]</p>
+<h2 data-number="1.7" id="diğer-kaynaklar"><span
+class="header-section-number">1.7</span> Diğer kaynaklar</h2>
+<p>Aşağıdaki kaynaklar düzen kodu yazarken yardımcı olabilir.</p>
+<ul>
+<li><strong>Düzen eğitimi (Layout tutorial)</strong>: Bir düzenin nasıl
+oluşturulacağını öğrenin.</li>
+<li><strong>Widget kataloğu (Widget catalog)</strong>: Flutter’da
+bulunan birçok widget’ı tanımlar.</li>
+<li><strong>Flutter’da HTML/CSS Karşılıkları (HTML/CSS Analogs in
+Flutter)</strong>: Web programlamaya aşina olanlar için bu sayfa
+HTML/CSS işlevselliğini Flutter özellikleriyle eşleştirir.</li>
+<li><strong>API referans belgeleri (API reference docs)</strong>: Tüm
+Flutter kütüphaneleri için referans belgeleri.</li>
+<li><strong>Varlıklar ve resimler ekleme (Adding assets and
+images)</strong>: Uygulamanızın paketine resimlerin ve diğer varlıkların
+nasıl ekleneceğini açıklar.</li>
+<li><strong>Flutter ile Sıfırdan Bire (Zero to One with
+Flutter)</strong>: Bir kişinin ilk Flutter uygulamasını yazma
+deneyimi.</li>
+</ul>
+<h2 data-number="1.8" id="lisans-bilgisi"><span
+class="header-section-number">1.8</span> 📄 Lisans Bilgisi</h2>
+<p>Bu doküman, <strong>Flutter resmi dokümantasyonundan</strong>
+türetilmiş Türkçe ders notudur.</p>
+<p><strong>Orijinal kaynak:</strong><br />
+https://docs.flutter.dev/ui/layout</p>
+<p><strong>Türkçe çeviri ve düzenleme:</strong><br />
+<a href="mailto:htemiz@artvin.edu.tr">Doç. Dr. Hakan Temiz</a></p>
+<hr />
+<h3 data-number="1.8.1" id="lisans-kapsamı"><span
+class="header-section-number">1.8.1</span> Lisans Kapsamı</h3>
+<p>Bu dokümandaki içerikler aşağıdaki açık lisanslar kapsamında
+sunulmaktadır:</p>
+<p><strong>Metin içerikleri (anlatım ve açıklamalar):</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> Creative Commons Attribution 4.0 International
+(CC BY 4.0)<br />
+https://creativecommons.org/licenses/by/4.0/</p>
+<p>Bu lisans kapsamında: - İçerik kopyalanabilir, dağıtılabilir ve
+uyarlanabilir<br />
+- Ticari kullanım serbesttir<br />
+- Kaynak belirtilmesi zorunludur</p>
+<p><strong>Kod örnekleri:</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> BSD 3-Clause License<br />
+https://opensource.org/licenses/BSD-3-Clause</p>
+<p>Bu lisans kapsamında: - Kodlar kopyalanabilir, değiştirilebilir ve
+dağıtılabilir<br />
+- Ticari kullanım serbesttir<br />
+- Lisans bildiriminin korunması gerekir</p>
+</body>
+</html>

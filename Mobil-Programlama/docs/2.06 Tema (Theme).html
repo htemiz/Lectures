@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>2.06 Tema (Theme)</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a
+href="#renkleri-ve-yazı-tipi-stillerini-paylaşmak-için-temaları-kullanın"
+id="toc-renkleri-ve-yazı-tipi-stillerini-paylaşmak-için-temaları-kullanın"><span
+class="toc-section-number">1</span> Renkleri ve yazı tipi stillerini
+paylaşmak için temaları kullanın</a>
+<ul>
+<li><a href="#bir-uygulama-teması-oluşturun"
+id="toc-bir-uygulama-teması-oluşturun"><span
+class="toc-section-number">1.1</span> Bir uygulama teması
+oluşturun</a></li>
+<li><a href="#bir-tema-uygulayın" id="toc-bir-tema-uygulayın"><span
+class="toc-section-number">1.2</span> Bir tema uygulayın</a></li>
+<li><a href="#bir-temayı-geçersiz-kılın-override"
+id="toc-bir-temayı-geçersiz-kılın-override"><span
+class="toc-section-number">1.3</span> Bir temayı geçersiz kılın
+(Override)</a>
+<ul>
+<li><a href="#benzersiz-bir-themedata-örneği-oluşturun"
+id="toc-benzersiz-bir-themedata-örneği-oluşturun"><span
+class="toc-section-number">1.3.1</span> Benzersiz bir ThemeData örneği
+oluşturun</a></li>
+<li><a href="#üst-temayı-genişletin"
+id="toc-üst-temayı-genişletin"><span
+class="toc-section-number">1.3.2</span> Üst temayı genişletin</a></li>
+</ul></li>
+<li><a href="#theme-hakkında-bir-video-izleyin"
+id="toc-theme-hakkında-bir-video-izleyin"><span
+class="toc-section-number">1.4</span> Theme hakkında bir video
+izleyin</a></li>
+<li><a href="#bir-örnek-yapın" id="toc-bir-örnek-yapın"><span
+class="toc-section-number">1.5</span> Bir örnek yapın</a></li>
+</ul></li>
+<li><a href="#flutter-için-material-design"
+id="toc-flutter-için-material-design"><span
+class="toc-section-number">2</span> Flutter için Material Design</a>
+<ul>
+<li><a href="#uyarı" id="toc-uyarı"><span
+class="toc-section-number">2.1</span> Uyarı</a></li>
+<li><a href="#daha-fazla-bilgi" id="toc-daha-fazla-bilgi"><span
+class="toc-section-number">2.2</span> Daha fazla bilgi</a></li>
+</ul></li>
+<li><a href="#material-3e-geçiş" id="toc-material-3e-geçiş"><span
+class="toc-section-number">3</span> Material 3’e Geçiş</a>
+<ul>
+<li><a href="#özet" id="toc-özet"><span
+class="toc-section-number">3.1</span> Özet</a></li>
+<li><a href="#geçiş-kılavuzu" id="toc-geçiş-kılavuzu"><span
+class="toc-section-number">3.2</span> Geçiş Kılavuzu</a>
+<ul>
+<li><a href="#renkler-colors" id="toc-renkler-colors"><span
+class="toc-section-number">3.2.1</span> Renkler (Colors)</a></li>
+<li><a href="#tipografi-typography" id="toc-tipografi-typography"><span
+class="toc-section-number">3.2.2</span> Tipografi (Typography)</a></li>
+<li><a href="#bileşenler-components"
+id="toc-bileşenler-components"><span
+class="toc-section-number">3.2.3</span> Bileşenler (Components)</a></li>
+</ul></li>
+<li><a href="#yeni-bileşenler" id="toc-yeni-bileşenler"><span
+class="toc-section-number">3.3</span> Yeni Bileşenler</a></li>
+<li><a href="#zaman-çizelgesi" id="toc-zaman-çizelgesi"><span
+class="toc-section-number">3.4</span> Zaman Çizelgesi</a></li>
+<li><a href="#referanslar" id="toc-referanslar"><span
+class="toc-section-number">3.5</span> Referanslar</a></li>
+</ul></li>
+<li><a
+href="#flutter-ders-notları-yazı-tipleri-ve-tipografi-fonts-typography"
+id="toc-flutter-ders-notları-yazı-tipleri-ve-tipografi-fonts-typography"><span
+class="toc-section-number">4</span> Flutter Ders Notları: Yazı Tipleri
+ve Tipografi (Fonts &amp; Typography)</a>
+<ul>
+<li><a href="#yazı-tipi-türleri" id="toc-yazı-tipi-türleri"><span
+class="toc-section-number">4.1</span> 1. Yazı Tipi Türleri</a>
+<ul>
+<li><a href="#a.-statik-yazı-tipleri-static-fonts"
+id="toc-a.-statik-yazı-tipleri-static-fonts"><span
+class="toc-section-number">4.1.1</span> A. Statik Yazı Tipleri (Static
+Fonts)</a></li>
+<li><a href="#b.-değişken-yazı-tipleri-variable-fonts"
+id="toc-b.-değişken-yazı-tipleri-variable-fonts"><span
+class="toc-section-number">4.1.2</span> B. Değişken Yazı Tipleri
+(Variable Fonts)</a></li>
+</ul></li>
+<li><a href="#tipografik-ölçek-typographic-scale"
+id="toc-tipografik-ölçek-typographic-scale"><span
+class="toc-section-number">4.2</span> 2. Tipografik Ölçek (Typographic
+Scale)</a></li>
+<li><a href="#google-fonts-paketi-kullanımı"
+id="toc-google-fonts-paketi-kullanımı"><span
+class="toc-section-number">4.3</span> 3. Google Fonts Paketi
+Kullanımı</a>
+<ul>
+<li><a href="#kurulum" id="toc-kurulum"><span
+class="toc-section-number">4.3.1</span> Kurulum</a></li>
+<li><a href="#basit-kullanım" id="toc-basit-kullanım"><span
+class="toc-section-number">4.3.2</span> Basit Kullanım</a></li>
+<li><a href="#özelleştirilmiş-kullanım"
+id="toc-özelleştirilmiş-kullanım"><span
+class="toc-section-number">4.3.3</span> Özelleştirilmiş
+Kullanım</a></li>
+</ul></li>
+<li><a href="#yazı-tiplerini-programatik-olarak-değiştirme"
+id="toc-yazı-tiplerini-programatik-olarak-değiştirme"><span
+class="toc-section-number">4.4</span> 4. Yazı Tiplerini Programatik
+Olarak Değiştirme</a>
+<ul>
+<li><a href="#ipucu-google-fonts-type-tester"
+id="toc-ipucu-google-fonts-type-tester"><span
+class="toc-section-number">4.4.1</span> İpucu: Google Fonts Type
+Tester</a></li>
+</ul></li>
+<li><a href="#lisans-bilgisi" id="toc-lisans-bilgisi"><span
+class="toc-section-number">4.5</span> 📄 Lisans Bilgisi</a>
+<ul>
+<li><a href="#lisans-kapsamı" id="toc-lisans-kapsamı"><span
+class="toc-section-number">4.5.1</span> Lisans Kapsamı</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1"
+id="renkleri-ve-yazı-tipi-stillerini-paylaşmak-için-temaları-kullanın"><span
+class="header-section-number">1</span> Renkleri ve yazı tipi stillerini
+paylaşmak için temaları kullanın</h1>
+<p>Temaları (Themes) kullanarak bir uygulama genelinde renklerin ve yazı
+tipi stillerinin nasıl paylaşılacağını öğrenin.</p>
+<p><strong>Not:</strong> Bu tarif, Flutter’ın <a
+href="https://m3.material.io/">Material 3</a> desteğini ve
+<code>google_fonts</code> paketini kullanır. Flutter 3.16 sürümünden
+itibaren Material 3, Flutter’ın varsayılan temasıdır.</p>
+<p>Uygulama genelinde renkleri ve yazı tipi stillerini paylaşmak için
+temaları kullanın.</p>
+<p>Uygulama çapında temalar tanımlayabilirsiniz. Bir bileşen için tema
+stilini değiştirmek üzere bir temayı genişletebilirsiniz. Her tema;
+renkleri, yazı tipini ve Material bileşeni türü için geçerli olan diğer
+parametreleri tanımlar.</p>
+<p>Flutter stillendirmeyi aşağıdaki sırayla uygular:</p>
+<ol type="1">
+<li>Belirli bir widget’a uygulanan stiller.</li>
+<li>Doğrudan üst temayı geçersiz kılan temalar.</li>
+<li>Tüm uygulama için ana tema.</li>
+</ol>
+<p>Bir <code>Theme</code> tanımladıktan sonra, bunu kendi
+widget’larınızda kullanın. Flutter’ın Material widget’ları; uygulama
+çubukları, düğmeler, onay kutuları ve daha fazlası için arka plan
+renklerini ve yazı tipi stillerini ayarlamak üzere temanızı
+kullanır.</p>
+<h2 data-number="1.1" id="bir-uygulama-teması-oluşturun"><span
+class="header-section-number">1.1</span> Bir uygulama teması
+oluşturun</h2>
+<p>Bir <code>Theme</code>’i tüm uygulamanızda paylaşmak için,
+<code>MaterialApp</code> kurucunuzdaki (constructor) <code>theme</code>
+özelliğini ayarlayın. Bu özellik bir <code>ThemeData</code> örneği
+alır.</p>
+<p>Flutter 3.16 sürümünden itibaren Material 3, Flutter’ın varsayılan
+temasıdır.</p>
+<p>Eğer kurucuda bir tema belirtmezseniz, Flutter sizin için varsayılan
+bir tema oluşturur.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>MaterialApp(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  title<span class="op">:</span> appName<span class="op">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  theme<span class="op">:</span> ThemeData(</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Define the default brightness and colors.</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    colorScheme<span class="op">:</span> ColorScheme<span class="op">.</span>fromSeed(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      seedColor<span class="op">:</span> Colors<span class="op">.</span>purple<span class="op">,</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="co">// ···</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      brightness<span class="op">:</span> Brightness<span class="op">.</span>dark<span class="op">,</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Define the default `TextTheme`. Use this to specify the default</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// text styling for headlines, titles, bodies of text, and more.</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    textTheme<span class="op">:</span> TextTheme(</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>      displayLarge<span class="op">:</span> <span class="at">const</span> TextStyle(</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        fontSize<span class="op">:</span> <span class="dv">72</span><span class="op">,</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        fontWeight<span class="op">:</span> FontWeight<span class="op">.</span>bold<span class="op">,</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>      <span class="co">// ···</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>      titleLarge<span class="op">:</span> GoogleFonts<span class="op">.</span>oswald(</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        fontSize<span class="op">:</span> <span class="dv">30</span><span class="op">,</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        fontStyle<span class="op">:</span> FontStyle<span class="op">.</span>italic<span class="op">,</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>      bodyMedium<span class="op">:</span> GoogleFonts<span class="op">.</span>merriweather()<span class="op">,</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>      displaySmall<span class="op">:</span> GoogleFonts<span class="op">.</span>pacifico()<span class="op">,</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  home<span class="op">:</span> <span class="at">const</span> MyHomePage(title<span class="op">:</span> appName)<span class="op">,</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p>Çoğu <code>ThemeData</code> örneği aşağıdaki iki özellik için değer
+ayarlar. Bu özellikler tüm uygulamayı etkiler.</p>
+<ul>
+<li><code>colorScheme</code> renkleri tanımlar.</li>
+<li><code>textTheme</code> metin stillendirmesini tanımlar.</li>
+</ul>
+<p>Hangi renkleri, yazı tiplerini ve diğer özellikleri
+tanımlayabileceğinizi öğrenmek için <code>ThemeData</code> belgelerine
+göz atın.</p>
+<h2 data-number="1.2" id="bir-tema-uygulayın"><span
+class="header-section-number">1.2</span> Bir tema uygulayın</h2>
+<p>Yeni temanızı uygulamak için, bir widget’ın stil özelliklerini
+belirtirken <code>Theme.of(context)</code> yöntemini kullanın. Bunlar
+<code>style</code> ve <code>color</code> özelliklerini içerebilir ancak
+bunlarla sınırlı değildir.</p>
+<p><code>Theme.of(context)</code> yöntemi widget ağacını (widget tree)
+yukarı doğru arar ve ağaçtaki en yakın <code>Theme</code>’i alır. Eğer
+bağımsız bir <code>Theme</code> varsa, o uygulanır. Yoksa, Flutter
+uygulamanın temasını uygular.</p>
+<p>Aşağıdaki örnekte, <code>Container</code> kurucusu <code>color</code>
+özelliğini ayarlamak için bu tekniği kullanır.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Container(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>symmetric(horizontal<span class="op">:</span> <span class="dv">12</span><span class="op">,</span> vertical<span class="op">:</span> <span class="dv">12</span>)<span class="op">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  color<span class="op">:</span> Theme<span class="op">.</span>of(context)<span class="op">.</span>colorScheme<span class="op">.</span>primary<span class="op">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  child<span class="op">:</span> Text(</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;Text with a background color&#39;</span><span class="op">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ···</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    style<span class="op">:</span> Theme<span class="op">.</span>of(context)<span class="op">.</span>textTheme<span class="op">.</span>bodyMedium<span class="op">!.</span>copyWith(</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>      color<span class="op">:</span> Theme<span class="op">.</span>of(context)<span class="op">.</span>colorScheme<span class="op">.</span>onPrimary<span class="op">,</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<h2 data-number="1.3" id="bir-temayı-geçersiz-kılın-override"><span
+class="header-section-number">1.3</span> Bir temayı geçersiz kılın
+(Override)</h2>
+<p>Uygulamanın bir bölümünde genel temayı geçersiz kılmak için,
+uygulamanın o bölümünü bir <code>Theme</code> widget’ı içine sarın.</p>
+<p>Bir temayı iki şekilde geçersiz kılabilirsiniz:</p>
+<ol type="1">
+<li>Benzersiz bir <code>ThemeData</code> örneği oluşturarak.</li>
+<li>Üst temayı genişleterek.</li>
+</ol>
+<h3 data-number="1.3.1"
+id="benzersiz-bir-themedata-örneği-oluşturun"><span
+class="header-section-number">1.3.1</span> Benzersiz bir ThemeData
+örneği oluşturun</h3>
+<p>Uygulamanızın bir bileşeninin genel temayı görmezden gelmesini
+istiyorsanız, bir <code>ThemeData</code> örneği oluşturun. Bu örneği
+<code>Theme</code> widget’ına iletin.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Theme(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Create a unique theme with `ThemeData`.</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  data<span class="op">:</span> ThemeData(colorScheme<span class="op">:</span> ColorScheme<span class="op">.</span>fromSeed(seedColor<span class="op">:</span> Colors<span class="op">.</span>pink))<span class="op">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  child<span class="op">:</span> FloatingActionButton(onPressed<span class="op">:</span> () <span class="op">{},</span> child<span class="op">:</span> <span class="at">const</span> Icon(Icons<span class="op">.</span>add))<span class="op">,</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<h3 data-number="1.3.2" id="üst-temayı-genişletin"><span
+class="header-section-number">1.3.2</span> Üst temayı genişletin</h3>
+<p>Her şeyi geçersiz kılmak yerine, üst temayı genişletmeyi düşünün. Bir
+temayı genişletmek için <code>copyWith()</code> yöntemini kullanın.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Theme(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Find and extend the parent theme using `copyWith`.</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">// To learn more, check out the section on `Theme.of`.</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  data<span class="op">:</span> Theme<span class="op">.</span>of(</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    context<span class="op">,</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  )<span class="op">.</span>copyWith(colorScheme<span class="op">:</span> ColorScheme<span class="op">.</span>fromSeed(seedColor<span class="op">:</span> Colors<span class="op">.</span>pink))<span class="op">,</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  child<span class="op">:</span> <span class="at">const</span> FloatingActionButton(onPressed<span class="op">:</span> <span class="cn">null</span><span class="op">,</span> child<span class="op">:</span> Icon(Icons<span class="op">.</span>add))<span class="op">,</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<h2 data-number="1.4" id="theme-hakkında-bir-video-izleyin"><span
+class="header-section-number">1.4</span> Theme hakkında bir video
+izleyin</h2>
+<p>Daha fazla bilgi edinmek için, <code>Theme</code> widget’ı hakkındaki
+bu kısa “Haftanın Widget’ı” <a
+href="https://www.youtube.com/watch?v=oTvQDJOBXmM&amp;t=2s">videosunu</a>
+izleyin:</p>
+<h2 data-number="1.5" id="bir-örnek-yapın"><span
+class="header-section-number">1.5</span> Bir örnek yapın</h2>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter/material.dart&#39;</span>;</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">// Include the Google Fonts package to provide more text format options</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">// https://pub.dev/packages/google_fonts</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:google_fonts/google_fonts.dart&#39;</span>;</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main() <span class="op">{</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  runApp(<span class="at">const</span> MyApp());</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyApp <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> MyApp(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">const</span> appName <span class="op">=</span> <span class="st">&#39;Custom Themes&#39;</span>;</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> MaterialApp(</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>      title<span class="op">:</span> appName<span class="op">,</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>      theme<span class="op">:</span> ThemeData(</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Define the default brightness and colors.</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        colorScheme<span class="op">:</span> ColorScheme<span class="op">.</span>fromSeed(</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>          seedColor<span class="op">:</span> Colors<span class="op">.</span>purple<span class="op">,</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>          <span class="co">// TRY THIS: Change to &quot;Brightness.light&quot;</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>          <span class="co">//           and see that all colors change</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>          <span class="co">//           to better contrast a light background.</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>          brightness<span class="op">:</span> Brightness<span class="op">.</span>dark<span class="op">,</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Define the default `TextTheme`. Use this to specify the default</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>        <span class="co">// text styling for headlines, titles, bodies of text, and more.</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        textTheme<span class="op">:</span> TextTheme(</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>          displayLarge<span class="op">:</span> <span class="at">const</span> TextStyle(</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>            fontSize<span class="op">:</span> <span class="dv">72</span><span class="op">,</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>            fontWeight<span class="op">:</span> FontWeight<span class="op">.</span>bold<span class="op">,</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>          <span class="co">// TRY THIS: Change one of the GoogleFonts</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>          <span class="co">//           to &quot;lato&quot;, &quot;poppins&quot;, or &quot;lora&quot;.</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>          <span class="co">//           The title uses &quot;titleLarge&quot;</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>          <span class="co">//           and the middle text uses &quot;bodyMedium&quot;.</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>          titleLarge<span class="op">:</span> GoogleFonts<span class="op">.</span>oswald(</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>            fontSize<span class="op">:</span> <span class="dv">30</span><span class="op">,</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>            fontStyle<span class="op">:</span> FontStyle<span class="op">.</span>italic<span class="op">,</span></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>          bodyMedium<span class="op">:</span> GoogleFonts<span class="op">.</span>merriweather()<span class="op">,</span></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>          displaySmall<span class="op">:</span> GoogleFonts<span class="op">.</span>pacifico()<span class="op">,</span></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>      home<span class="op">:</span> <span class="at">const</span> MyHomePage(title<span class="op">:</span> appName)<span class="op">,</span></span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyHomePage <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> title;</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> MyHomePage(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">,</span> required <span class="kw">this</span><span class="op">.</span>title<span class="op">}</span>);</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Scaffold(</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>      appBar<span class="op">:</span> AppBar(</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>        title<span class="op">:</span> Text(</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>          title<span class="op">,</span></span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>          style<span class="op">:</span> Theme<span class="op">.</span>of(context)<span class="op">.</span>textTheme<span class="op">.</span>titleLarge<span class="op">!.</span>copyWith(</span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>            color<span class="op">:</span> Theme<span class="op">.</span>of(context)<span class="op">.</span>colorScheme<span class="op">.</span>onSecondary<span class="op">,</span></span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>        backgroundColor<span class="op">:</span> Theme<span class="op">.</span>of(context)<span class="op">.</span>colorScheme<span class="op">.</span>secondary<span class="op">,</span></span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>      body<span class="op">:</span> Center(</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> Container(</span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>          padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>symmetric(horizontal<span class="op">:</span> <span class="dv">12</span><span class="op">,</span> vertical<span class="op">:</span> <span class="dv">12</span>)<span class="op">,</span></span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>          color<span class="op">:</span> Theme<span class="op">.</span>of(context)<span class="op">.</span>colorScheme<span class="op">.</span>primary<span class="op">,</span></span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> Text(</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;Text with a background color&#39;</span><span class="op">,</span></span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>            <span class="co">// TRY THIS: Change the Text value</span></span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>            <span class="co">//           or change the Theme.of(context).textTheme</span></span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>            <span class="co">//           to &quot;displayLarge&quot; or &quot;displaySmall&quot;.</span></span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>            style<span class="op">:</span> Theme<span class="op">.</span>of(context)<span class="op">.</span>textTheme<span class="op">.</span>bodyMedium<span class="op">!.</span>copyWith(</span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>              color<span class="op">:</span> Theme<span class="op">.</span>of(context)<span class="op">.</span>colorScheme<span class="op">.</span>onPrimary<span class="op">,</span></span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>            )<span class="op">,</span></span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>      floatingActionButton<span class="op">:</span> Theme(</span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>        data<span class="op">:</span> Theme<span class="op">.</span>of(context)<span class="op">.</span>copyWith(</span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>          <span class="co">// TRY THIS: Change the seedColor to &quot;Colors.red&quot; or</span></span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>          <span class="co">//           &quot;Colors.blue&quot;.</span></span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a>          colorScheme<span class="op">:</span> ColorScheme<span class="op">.</span>fromSeed(</span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a>            seedColor<span class="op">:</span> Colors<span class="op">.</span>pink<span class="op">,</span></span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>            brightness<span class="op">:</span> Brightness<span class="op">.</span>dark<span class="op">,</span></span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> FloatingActionButton(</span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a>          onPressed<span class="op">:</span> () <span class="op">{},</span></span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> <span class="at">const</span> Icon(Icons<span class="op">.</span>add)<span class="op">,</span></span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h1 data-number="2" id="flutter-için-material-design"><span
+class="header-section-number">2</span> Flutter için Material Design</h1>
+<p>Flutter için Material Design hakkında bilgi edinin.</p>
+<p>Material Design, Google tasarımcıları ve geliştiricileri tarafından
+oluşturulan ve desteklenen açık kaynaklı bir tasarım sistemidir.</p>
+<p>En son sürüm olan <strong>Material 3</strong>; dinamik renkler ve
+gelişmiş erişilebilirlikten, büyük ekran düzenleri ve tasarım
+belirteçleri (design tokens) için temellere kadar kişisel, uyarlanabilir
+ve etkileyici deneyimler sağlar.</p>
+<h2 data-number="2.1" id="uyarı"><span
+class="header-section-number">2.1</span> Uyarı</h2>
+<p><strong>Flutter 3.16 sürümü itibarıyla Material 3 varsayılan olarak
+etkindir.</strong></p>
+<p>Şimdilik, <code>useMaterial3</code> özelliğini <code>false</code>
+olarak ayarlayarak Material 3 kullanımından vazgeçebilirsiniz. Ancak,
+<code>useMaterial3</code> özelliğinin ve Material 2 desteğinin,
+Flutter’ın kullanımdan kaldırma (deprecation) politikasına göre sonunda
+kaldırılacağını unutmayın.</p>
+<p><strong>Çoğu</strong> Flutter widget’ı için Material 3’e yükseltme
+sorunsuzdur. Ancak <strong>bazı</strong> widget’lar güncellenemedi;
+<code>NavigationBar</code> gibi tamamen yeni uygulamalar
+(implementations) gerekti. Bu değişiklikleri kodunuzda manuel olarak
+yapmalısınız. Uygulamanız tamamen güncellenene kadar, kullanıcı arayüzü
+biraz garip görünebilir veya davranabilir. Tamamen yeni Material
+bileşenlerini <strong>Etkilenen widget’lar</strong> (Affected widgets)
+sayfasını ziyaret ederek bulabilirsiniz.</p>
+<p>Güncellenmiş bileşenleri, tipografiyi, renk sistemini ve yükseklik
+(elevation) desteğini <strong>Material 3 demosu</strong> ile
+keşfedin.</p>
+<h2 data-number="2.2" id="daha-fazla-bilgi"><span
+class="header-section-number">2.2</span> Daha fazla bilgi</h2>
+<p>Material Design ve Flutter hakkında daha fazla bilgi edinmek için
+şunlara göz atın:</p>
+<ul>
+<li>Material.io geliştirici belgeleri</li>
+<li>Taha Tesser tarafından yazılan “Bir Flutter uygulamasını Material
+3’e taşıma” blog yazısı</li>
+<li>GitHub’daki şemsiye (ana) konu (Umbrella issue)</li>
+</ul>
+<h1 data-number="3" id="material-3e-geçiş"><span
+class="header-section-number">3</span> Material 3’e Geçiş</h1>
+<p>Flutter uygulamanızın arayüzünü Material 2’den Material 3’e nasıl
+taşıyacağınızı öğrenin.</p>
+<blockquote>
+<p><strong>Önemli</strong> Bu, kırılmaya neden olan değişiklik belgeleri
+(breaking change docs), yayınlandığı sürüm itibarıyla doğrudur. Zamanla,
+burada açıklanan geçici çözümler geçerliliğini yitirebilir. Genel
+olarak, bu tür belgeleri her sürümde güncel tutmuyoruz. <a
+href="https://docs.flutter.dev/release/breaking-changes">Kırılmaya neden
+olan değişiklikler dizin dosyası</a>, her sürüm için oluşturulan
+belgeleri listeler.</p>
+</blockquote>
+<h2 data-number="3.1" id="özet"><span
+class="header-section-number">3.1</span> Özet</h2>
+<p>Material kütüphanesi, Material 3 Tasarım şartnamesine uyacak şekilde
+güncellendi. Değişiklikler yeni bileşenleri, bileşen temalarını,
+güncellenmiş bileşen görsellerini ve çok daha fazlasını içerir. Bu
+güncellemelerin çoğu sorunsuz bir şekilde gerçekleşir. Uygulamanızı 3.16
+(veya üzeri) sürümle yeniden derlediğinizde etkilenen widget’ın yeni
+sürümünü göreceksiniz. Ancak geçişi tamamlamak için bazı manuel işlemler
+de gereklidir.</p>
+<h2 data-number="3.2" id="geçiş-kılavuzu"><span
+class="header-section-number">3.2</span> Geçiş Kılavuzu</h2>
+<p>3.16 sürümünden önce, <code>useMaterial3</code> bayrağını
+<code>true</code> yaparak Material 3 değişikliklerini isteğe bağlı
+olarak kullanabiliyordunuz. Flutter 3.16 sürümü (Kasım 2023) itibarıyla,
+<strong><code>useMaterial3</code> varsayılan olarak
+<code>true</code>’dur.</strong></p>
+<p>Bu arada, <code>useMaterial3</code> değerini <code>false</code>
+yaparak uygulamanızda Material 2 davranışına geri dönebilirsiniz. Ancak
+bu sadece geçici bir çözümdür. <code>useMaterial3</code> bayrağı ve
+Material 2 uygulaması, Flutter’ın kullanımdan kaldırma (deprecation)
+politikasının bir parçası olarak sonunda kaldırılacaktır.</p>
+<h3 data-number="3.2.1" id="renkler-colors"><span
+class="header-section-number">3.2.1</span> Renkler (Colors)</h3>
+<p><code>ThemeData.colorScheme</code> için varsayılan değerler, Material
+3 Tasarım şartnamesine uyacak şekilde güncellendi.</p>
+<p><code>ColorScheme.fromSeed</code> kurucusu (constructor), verilen
+<code>seedColor</code>’dan türetilen bir <code>ColorScheme</code>
+oluşturur. Bu kurucu tarafından oluşturulan renkler, birlikte iyi
+çalışacak ve Material 3 Tasarım sistemindeki erişilebilirlik için
+kontrast gereksinimlerini karşılayacak şekilde tasarlanmıştır.</p>
+<p>3.16 sürümüne güncellerken, arayüzünüz doğru <code>ColorScheme</code>
+olmadan biraz tuhaf görünebilir. Bunu düzeltmek için
+<code>ColorScheme.fromSeed</code> kurucusuyla oluşturulan
+<code>ColorScheme</code> yapısına geçiş yapın.</p>
+<p><strong>Geçiş öncesi kod:</strong></p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>theme<span class="op">:</span> ThemeData(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  colorScheme<span class="op">:</span> ColorScheme<span class="op">.</span>light(primary<span class="op">:</span> Colors<span class="op">.</span>blue)<span class="op">,</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<p><strong>Geçiş sonrası kod:</strong></p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>theme<span class="op">:</span> ThemeData(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  colorScheme<span class="op">:</span> ColorScheme<span class="op">.</span>fromSeed(seedColor<span class="op">:</span> Colors<span class="op">.</span>blue)<span class="op">,</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<p>İçeriğe dayalı dinamik bir renk şeması oluşturmak için
+<code>ColorScheme.fromImageProvider</code> statik yöntemini kullanın.
+Bir renk şeması oluşturma örneği için, <a
+href="https://api.flutter.dev/flutter/material/ColorScheme/fromImageProvider.html">ağ
+görselinden ColorScheme oluşturma örneğine</a> göz atın.</p>
+<p>Flutter Material 3 değişiklikleri yeni bir arka plan rengi içerir.
+<code>ColorScheme.surfaceTint</code>, yükseltilmiş (elevated) bir
+widget’ı belirtir. Bazı widget’lar farklı renkler kullanır.</p>
+<p>Uygulamanızın arayüzünü önceki davranışına döndürmek için (ki bunu
+önermiyoruz):</p>
+<ul>
+<li><code>Colors.grey[50]!</code> değerini
+<code>ColorScheme.background</code> olarak ayarlayın (tema
+<code>Brightness.light</code> olduğunda).</li>
+<li><code>Colors.grey[850]!</code> değerini
+<code>ColorScheme.background</code> olarak ayarlayın (tema
+<code>Brightness.dark</code> olduğunda).</li>
+</ul>
+<p><strong>Geçiş öncesi kod:</strong></p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>theme<span class="op">:</span> ThemeData(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  colorScheme<span class="op">:</span> ColorScheme<span class="op">.</span>fromSeed(seedColor<span class="op">:</span> Colors<span class="op">.</span>deepPurple)<span class="op">,</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<p><strong>Geçiş sonrası kod:</strong></p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>theme<span class="op">:</span> ThemeData(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  colorScheme<span class="op">:</span> ColorScheme<span class="op">.</span>fromSeed(seedColor<span class="op">:</span> Colors<span class="op">.</span>deepPurple)<span class="op">.</span>copyWith(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    background<span class="op">:</span> Colors<span class="op">.</span>grey[<span class="dv">50</span>]<span class="op">!,</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>darkTheme<span class="op">:</span> ThemeData(</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  colorScheme<span class="op">:</span> ColorScheme<span class="op">.</span>fromSeed(</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    seedColor<span class="op">:</span> Colors<span class="op">.</span>deepPurple<span class="op">,</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    brightness<span class="op">:</span> Brightness<span class="op">.</span>dark<span class="op">,</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  )<span class="op">.</span>copyWith(background<span class="op">:</span> Colors<span class="op">.</span>grey[<span class="dv">850</span>]<span class="op">!</span>)<span class="op">,</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<p><code>ColorScheme.surfaceTint</code> değeri, Material 3’te bir
+bileşenin yüksekliğini (elevation) belirtir. Bazı widget’lar yüksekliği
+belirtmek için hem <code>surfaceTint</code> hem de
+<code>shadowColor</code> kullanabilir (örneğin <code>Card</code> ve
+<code>ElevatedButton</code>), diğerleri ise yüksekliği belirtmek için
+sadece <code>surfaceTint</code> kullanabilir (örneğin
+<code>AppBar</code>).</p>
+<p>Widget’ın önceki davranışına dönmek için, temada
+<code>ColorScheme.surfaceTint</code> değerini
+<code>Colors.transparent</code> olarak ayarlayın. Bir widget’ın
+gölgesini içerikten ayırt etmek için (gölgesi olmadığında), varsayılan
+gölge rengi olmayan widget temasında <code>ColorScheme.shadow</code>
+rengini <code>shadowColor</code> özelliğine ayarlayın.</p>
+<p><strong>Geçiş öncesi kod:</strong></p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>theme<span class="op">:</span> ThemeData(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  colorScheme<span class="op">:</span> ColorScheme<span class="op">.</span>fromSeed(seedColor<span class="op">:</span> Colors<span class="op">.</span>deepPurple)<span class="op">,</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<p><strong>Geçiş sonrası kod:</strong></p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>theme<span class="op">:</span> ThemeData(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  colorScheme<span class="op">:</span> ColorScheme<span class="op">.</span>fromSeed(seedColor<span class="op">:</span> Colors<span class="op">.</span>deepPurple)<span class="op">.</span>copyWith(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    surfaceTint<span class="op">:</span> Colors<span class="op">.</span>transparent<span class="op">,</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  appBarTheme<span class="op">:</span> AppBarTheme(</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>   elevation<span class="op">:</span> <span class="fl">4.0</span><span class="op">,</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>   shadowColor<span class="op">:</span> Theme<span class="op">.</span>of(context)<span class="op">.</span>colorScheme<span class="op">.</span>shadow<span class="op">,</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a> )<span class="op">,</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<p><code>ElevatedButton</code> artık kendini yeni bir renk
+kombinasyonuyla stillendiriyor. Daha önce, <code>useMaterial3</code>
+bayrağı <code>false</code> olduğunda, <code>ElevatedButton</code> arka
+plan için <code>ColorScheme.primary</code> ve ön plan için
+<code>ColorScheme.onPrimary</code> kullanıyordu. Aynı görselleri elde
+etmek için, yükseklik değişiklikleri veya gölge olmadan yeni
+<code>FilledButton</code> widget’ına geçin.</p>
+<p><strong>Geçiş öncesi kod:</strong></p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ElevatedButton(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  onPressed<span class="op">:</span> () <span class="op">{},</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  child<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Button&#39;</span>)<span class="op">,</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<p><strong>Geçiş sonrası kod:</strong></p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ElevatedButton(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  style<span class="op">:</span> ElevatedButton<span class="op">.</span>styleFrom(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    backgroundColor<span class="op">:</span> Theme<span class="op">.</span>of(context)<span class="op">.</span>colorScheme<span class="op">.</span>primary<span class="op">,</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    foregroundColor<span class="op">:</span> Theme<span class="op">.</span>of(context)<span class="op">.</span>colorScheme<span class="op">.</span>onPrimary<span class="op">,</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  onPressed<span class="op">:</span> () <span class="op">{},</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  child<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Button&#39;</span>)<span class="op">,</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<h3 data-number="3.2.2" id="tipografi-typography"><span
+class="header-section-number">3.2.2</span> Tipografi (Typography)</h3>
+<p><code>ThemeData.textTheme</code> için varsayılan değerler, Material 3
+varsayılanlarıyla eşleşecek şekilde güncellendi. Değişiklikler arasında
+güncellenmiş yazı tipi boyutu, yazı tipi ağırlığı, harf aralığı ve satır
+yüksekliği bulunur. Daha fazla ayrıntı için <a
+href="https://api.flutter.dev/flutter/material/TextTheme-class.html">TextTheme
+dokümantasyonuna</a> göz atın.</p>
+<p>Aşağıdaki örnekte gösterildiği gibi, 3.16 sürümünden önce, kısıtlı
+bir düzende <code>TextTheme.bodyLarge</code> kullanan uzun bir dizeye
+sahip <code>Text</code> widget’ı metni iki satıra sarıyordu. Ancak, 3.16
+sürümü metni üç satıra sarar. Önceki davranışı elde etmeniz gerekiyorsa,
+metin stilini ve gerekirse harf aralığını ayarlayın.</p>
+<p><strong>Geçiş öncesi kod:</strong></p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ConstrainedBox(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  constraints<span class="op">:</span> <span class="at">const</span> BoxConstraints(maxWidth<span class="op">:</span> <span class="dv">200</span>)<span class="op">,</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    child<span class="op">:</span> Text(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>      <span class="st">&#39;This is a very long text that should wrap to multiple lines.&#39;</span><span class="op">,</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>      style<span class="op">:</span> Theme<span class="op">.</span>of(context)<span class="op">.</span>textTheme<span class="op">.</span>bodyLarge<span class="op">,</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<p><strong>Geçiş sonrası kod:</strong></p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ConstrainedBox(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  constraints<span class="op">:</span> <span class="at">const</span> BoxConstraints(maxWidth<span class="op">:</span> <span class="dv">200</span>)<span class="op">,</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    child<span class="op">:</span> Text(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>      <span class="st">&#39;This is a very long text that should wrap to multiple lines.&#39;</span><span class="op">,</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>      style<span class="op">:</span> Theme<span class="op">.</span>of(context)<span class="op">.</span>textTheme<span class="op">.</span>bodyMedium<span class="op">!.</span>copyWith(</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        letterSpacing<span class="op">:</span> <span class="fl">0.0</span><span class="op">,</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<h3 data-number="3.2.3" id="bileşenler-components"><span
+class="header-section-number">3.2.3</span> Bileşenler (Components)</h3>
+<p>Bazı bileşenler sadece Material 3 Tasarım şartnamesine uyacak şekilde
+güncellenemedi, tamamen yeni bir uygulama gerektiriyordu. Flutter SDK
+tam olarak ne istediğinizi bilemeyeceğinden, bu tür bileşenler manuel
+geçiş gerektirir.</p>
+<p>Material 2 tarzı <code>BottomNavigationBar</code> widget’ını yeni
+<code>NavigationBar</code> widget’ı ile değiştirin. Bu widget biraz daha
+uzundur, hap şeklinde gezinme göstergeleri içerir ve yeni renk
+eşlemeleri kullanır.</p>
+<p><strong>Geçiş öncesi kod:</strong></p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>BottomNavigationBar(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  items<span class="op">:</span> <span class="at">const</span> <span class="op">&lt;</span>BottomNavigationBarItem<span class="op">&gt;</span>[</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    BottomNavigationBarItem(</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>      icon<span class="op">:</span> Icon(Icons<span class="op">.</span>home)<span class="op">,</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>      label<span class="op">:</span> <span class="st">&#39;Home&#39;</span><span class="op">,</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    BottomNavigationBarItem(</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>      icon<span class="op">:</span> Icon(Icons<span class="op">.</span>business)<span class="op">,</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>      label<span class="op">:</span> <span class="st">&#39;Business&#39;</span><span class="op">,</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    BottomNavigationBarItem(</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>      icon<span class="op">:</span> Icon(Icons<span class="op">.</span>school)<span class="op">,</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>      label<span class="op">:</span> <span class="st">&#39;School&#39;</span><span class="op">,</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<p><strong>Geçiş sonrası kod:</strong></p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>NavigationBar(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  destinations<span class="op">:</span> <span class="at">const</span> <span class="op">&lt;</span>Widget<span class="op">&gt;</span>[</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    NavigationDestination(</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>      icon<span class="op">:</span> Icon(Icons<span class="op">.</span>home)<span class="op">,</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>      label<span class="op">:</span> <span class="st">&#39;Home&#39;</span><span class="op">,</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    NavigationDestination(</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>      icon<span class="op">:</span> Icon(Icons<span class="op">.</span>business)<span class="op">,</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>      label<span class="op">:</span> <span class="st">&#39;Business&#39;</span><span class="op">,</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    NavigationDestination(</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>      icon<span class="op">:</span> Icon(Icons<span class="op">.</span>school)<span class="op">,</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>      label<span class="op">:</span> <span class="st">&#39;School&#39;</span><span class="op">,</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<p><a
+href="https://www.google.com/search?q=https://flutter.github.io/samples/web/material_3_navigation_bar/">BottomNavigationBar’dan
+NavigationBar’a geçiş</a> hakkındaki tam örneğe göz atın.</p>
+<p><code>Drawer</code> widget’ını, hap şeklinde gezinme göstergeleri,
+yuvarlatılmış köşeler ve yeni renk eşlemeleri sağlayan
+<code>NavigationDrawer</code> ile değiştirin.</p>
+<p><strong>Geçiş öncesi kod:</strong></p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>Drawer(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  child<span class="op">:</span> ListView(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    children<span class="op">:</span> <span class="op">&lt;</span>Widget<span class="op">&gt;</span>[</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>      DrawerHeader(</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> Text(</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>          <span class="st">&#39;Drawer Header&#39;</span><span class="op">,</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>          style<span class="op">:</span> Theme<span class="op">.</span>of(context)<span class="op">.</span>textTheme<span class="op">.</span>titleLarge<span class="op">,</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>      ListTile(</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>        leading<span class="op">:</span> <span class="at">const</span> Icon(Icons<span class="op">.</span>message)<span class="op">,</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>        title<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Messages&#39;</span>)<span class="op">,</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>        onTap<span class="op">:</span> () <span class="op">{</span> <span class="op">},</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>      ListTile(</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>        leading<span class="op">:</span> <span class="at">const</span> Icon(Icons<span class="op">.</span>account_circle)<span class="op">,</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>        title<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Profile&#39;</span>)<span class="op">,</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>        onTap<span class="op">:</span> () <span class="op">{},</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>      ListTile(</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>        leading<span class="op">:</span> <span class="at">const</span> Icon(Icons<span class="op">.</span>settings)<span class="op">,</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>        title<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Settings&#39;</span>)<span class="op">,</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>        onTap<span class="op">:</span> () <span class="op">{</span> <span class="op">},</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<p><strong>Geçiş sonrası kod:</strong></p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>NavigationDrawer(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  children<span class="op">:</span> <span class="op">&lt;</span>Widget<span class="op">&gt;</span>[</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    DrawerHeader(</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Text(</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">&#39;Drawer Header&#39;</span><span class="op">,</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        style<span class="op">:</span> Theme<span class="op">.</span>of(context)<span class="op">.</span>textTheme<span class="op">.</span>titleLarge<span class="op">,</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">const</span> NavigationDrawerDestination(</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>      icon<span class="op">:</span> Icon(Icons<span class="op">.</span>message)<span class="op">,</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>      label<span class="op">:</span> Text(<span class="st">&#39;Messages&#39;</span>)<span class="op">,</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">const</span> NavigationDrawerDestination(</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>      icon<span class="op">:</span> Icon(Icons<span class="op">.</span>account_circle)<span class="op">,</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>      label<span class="op">:</span> Text(<span class="st">&#39;Profile&#39;</span>)<span class="op">,</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">const</span> NavigationDrawerDestination(</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>      icon<span class="op">:</span> Icon(Icons<span class="op">.</span>settings)<span class="op">,</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>      label<span class="op">:</span> Text(<span class="st">&#39;Settings&#39;</span>)<span class="op">,</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<p><a
+href="https://www.google.com/search?q=https://flutter.github.io/samples/web/material_3_navigation_drawer/">Drawer’dan
+NavigationDrawer’a geçiş</a> hakkındaki tam örneğe göz atın.</p>
+<p>Material 3, kaydırmadan önce daha büyük bir başlık görüntüleyen orta
+ve büyük uygulama çubuklarını (app bars) tanıtır. Kaydırma sırasında
+içerikten ayrım oluşturmak için gölge yerine
+<code>ColorScheme.surfaceTint</code> rengi kullanılır.</p>
+<p>Aşağıdaki kod, orta boy uygulama çubuğunun nasıl uygulanacağını
+gösterir:</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>CustomScrollView(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  slivers<span class="op">:</span> <span class="op">&lt;</span>Widget<span class="op">&gt;</span>[</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">const</span> SliverAppBar<span class="op">.</span>medium(</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>      title<span class="op">:</span> Text(<span class="st">&#39;Title&#39;</span>)<span class="op">,</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    SliverToBoxAdapter(</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Card(</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> SizedBox(</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>          height<span class="op">:</span> <span class="dv">1200</span><span class="op">,</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> Padding(</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>            padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>fromLTRB(<span class="dv">8</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">8</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">,</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>            child<span class="op">:</span> Text(</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>              <span class="st">&#39;Here be scrolling content...&#39;</span><span class="op">,</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>              style<span class="op">:</span> Theme<span class="op">.</span>of(context)<span class="op">.</span>textTheme<span class="op">.</span>headlineSmall<span class="op">,</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>            )<span class="op">,</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<p>Artık iki tür <code>TabBar</code> widget’ı vardır: birincil ve
+ikincil. İkincil sekmeler, ilgili içeriği daha fazla ayırmak ve
+hiyerarşi kurmak için bir içerik alanı içinde kullanılır. <a
+href="https://api.flutter.dev/flutter/material/TabBar/TabBar.secondary.html">TabBar.secondary</a>
+örneğine göz atın.</p>
+<p>Yeni <code>TabBar.tabAlignment</code> özelliği, sekmelerin yatay
+hizalamasını belirtir.</p>
+<p>Aşağıdaki örnek, kaydırılabilir bir <code>TabBar</code> içinde sekme
+hizalamasının nasıl değiştirileceğini gösterir:</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>AppBar(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  title<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Title&#39;</span>)<span class="op">,</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  bottom<span class="op">:</span> <span class="at">const</span> TabBar(</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    tabAlignment<span class="op">:</span> TabAlignment<span class="op">.</span>start<span class="op">,</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    isScrollable<span class="op">:</span> <span class="cn">true</span><span class="op">,</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    tabs<span class="op">:</span> <span class="op">&lt;</span>Widget<span class="op">&gt;</span>[</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>      Tab(</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>        icon<span class="op">:</span> Icon(Icons<span class="op">.</span>cloud_outlined)<span class="op">,</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>      Tab(</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>        icon<span class="op">:</span> Icon(Icons<span class="op">.</span>beach_access_sharp)<span class="op">,</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>      Tab(</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>        icon<span class="op">:</span> Icon(Icons<span class="op">.</span>brightness_5_sharp)<span class="op">,</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<p><code>ToggleButtons</code>’ın güncellenmiş bir sürümü olan
+<code>SegmentedButton</code>, tamamen yuvarlatılmış köşeler kullanır,
+düzen yüksekliği ve boyutu bakımından farklılık gösterir ve seçili
+öğeleri belirlemek için bir Dart <code>Set</code> (küme) kullanır.</p>
+<p><strong>Geçiş öncesi kod:</strong></p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">enum</span> Weather <span class="op">{</span> cloudy<span class="op">,</span> rainy<span class="op">,</span> sunny <span class="op">}</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>ToggleButtons(</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  isSelected<span class="op">:</span> <span class="at">const</span> [<span class="cn">false</span><span class="op">,</span> <span class="cn">true</span><span class="op">,</span> <span class="cn">false</span>]<span class="op">,</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  onPressed<span class="op">:</span> (<span class="dt">int</span> newSelection) <span class="op">{</span> <span class="op">},</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  children<span class="op">:</span> <span class="at">const</span> <span class="op">&lt;</span>Widget<span class="op">&gt;</span>[</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    Icon(Icons<span class="op">.</span>cloud_outlined)<span class="op">,</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    Icon(Icons<span class="op">.</span>beach_access_sharp)<span class="op">,</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    Icon(Icons<span class="op">.</span>brightness_5_sharp)<span class="op">,</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<p><strong>Geçiş sonrası kod:</strong></p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">enum</span> Weather <span class="op">{</span> cloudy<span class="op">,</span> rainy<span class="op">,</span> sunny <span class="op">}</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>SegmentedButton<span class="op">&lt;</span>Weather<span class="op">&gt;</span>(</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  selected<span class="op">:</span> <span class="at">const</span> <span class="op">&lt;</span>Weather<span class="op">&gt;{</span>Weather<span class="op">.</span>rainy<span class="op">},</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  onSelectionChanged<span class="op">:</span> (<span class="dt">Set</span><span class="op">&lt;</span>Weather<span class="op">&gt;</span> newSelection) <span class="op">{</span> <span class="op">},</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  segments<span class="op">:</span> <span class="at">const</span> <span class="op">&lt;</span>ButtonSegment<span class="op">&lt;</span>Weather<span class="op">&gt;&gt;</span>[</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    ButtonSegment(</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>      icon<span class="op">:</span> Icon(Icons<span class="op">.</span>cloud_outlined)<span class="op">,</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>      value<span class="op">:</span> Weather<span class="op">.</span>cloudy<span class="op">,</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    ButtonSegment(</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>      icon<span class="op">:</span> Icon(Icons<span class="op">.</span>beach_access_sharp)<span class="op">,</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>      value<span class="op">:</span> Weather<span class="op">.</span>rainy<span class="op">,</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    ButtonSegment(</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>      icon<span class="op">:</span> Icon(Icons<span class="op">.</span>brightness_5_sharp)<span class="op">,</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>      value<span class="op">:</span> Weather<span class="op">.</span>sunny<span class="op">,</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<p><a
+href="https://api.flutter.dev/flutter/material/SegmentedButton-class.html">ToggleButtons’tan
+SegmentedButton’a geçiş</a> hakkındaki tam örneğe göz atın.</p>
+<h2 data-number="3.3" id="yeni-bileşenler"><span
+class="header-section-number">3.3</span> Yeni Bileşenler</h2>
+<ul>
+<li><strong>“Menü çubukları ve basamaklı menüler”</strong>, fare veya
+klavye ile tamamen gezilebilen masaüstü tarzı bir menü sistemi sağlar.
+Menüler bir <code>MenuBar</code> veya <code>MenuAnchor</code> ile
+sabitlenir. Yeni menü sistemi, mevcut uygulamaların geçiş yapması
+gereken bir şey değildir, ancak web veya masaüstü platformlarında
+dağıtılan uygulamalar <code>PopupMenuButton</code> (ve ilgili) sınıfları
+yerine bunu kullanmayı düşünmelidir.</li>
+<li><strong>DropdownMenu</strong>, bazen “combo box” olarak adlandırılan
+bir yapı oluşturmak için bir metin alanı ve bir menüyü birleştirir.
+Kullanıcılar, eşleşen bir dize girerek veya dokunma, fare ya da klavye
+ile menüyle etkileşime girerek potansiyel olarak büyük bir listeden bir
+menü öğesi seçebilirler. Bu, zorunlu olmasa da
+<code>DropdownButton</code> widget’ı için iyi bir alternatif
+olabilir.</li>
+<li><strong>SearchBar</strong> ve <strong>SearchAnchor</strong>,
+kullanıcının bir arama sorgusu girdiği, uygulamanın eşleşen yanıtların
+bir listesini hesapladığı ve ardından kullanıcının birini seçtiği veya
+sorguyu ayarladığı etkileşimler içindir.</li>
+<li><strong>Badge</strong>, çocuğunu (child widget) ‘+1’ gibi birkaç
+karakterlik küçük bir etiketle süsler. Rozetler tipik olarak bir
+<code>NavigationDestination</code>,
+<code>NavigationRailDestination</code>,
+<code>NavigationDrawerDestination</code> içindeki simgeyi veya
+<code>TextButton.icon</code>’da olduğu gibi bir düğmenin simgesini
+süslemek için kullanılır.</li>
+<li><strong>FilledButton</strong> ve
+<strong>FilledButton.tonal</strong>, yükseklik değişiklikleri ve gölge
+olmadan <code>ElevatedButton</code>’a çok benzer.</li>
+<li><strong>FilterChip.elevated</strong>,
+<strong>ChoiceChip.elevated</strong> ve
+<strong>ActionChip.elevated</strong>, aynı çiplerin gölge ve dolgu
+rengine sahip yükseltilmiş varyantlarıdır.</li>
+<li><strong>Dialog.fullscreen</strong>, tüm ekranı kaplar ve tipik
+olarak üstte bir başlık, bir eylem düğmesi ve bir kapat düğmesi
+içerir.</li>
+</ul>
+<h2 data-number="3.4" id="zaman-çizelgesi"><span
+class="header-section-number">3.4</span> Zaman Çizelgesi</h2>
+<p>Kararlı sürümde: <strong>3.16</strong></p>
+<h2 data-number="3.5" id="referanslar"><span
+class="header-section-number">3.5</span> Referanslar</h2>
+<p><strong>Dokümantasyon:</strong></p>
+<ul>
+<li><a href="https://docs.flutter.dev/ui/design/material">Flutter için
+Material Design</a></li>
+</ul>
+<p><strong>API Dokümantasyonu:</strong></p>
+<ul>
+<li><a
+href="https://api.flutter.dev/flutter/material/ThemeData/useMaterial3.html">ThemeData.useMaterial3</a></li>
+</ul>
+<p><strong>İlgili Sorunlar:</strong></p>
+<ul>
+<li><a href="https://github.com/flutter/flutter/issues/91605">Material 3
+çatı sorunu</a></li>
+</ul>
+<p><strong>İlgili PR’lar:</strong></p>
+<ul>
+<li><a
+href="https://www.google.com/search?q=https://github.com/flutter/flutter/pull/130773"><code>ThemeData.useMaterial3</code>
+varsayılan değerini true olarak değiştir</a></li>
+<li><a
+href="https://www.google.com/search?q=https://github.com/flutter/flutter/pull/136060">Güncellenmiş
+<code>ThemeData.useMaterial3</code> API dökümanı, varsayılan değer
+true</a></li>
+</ul>
+<h1 data-number="4"
+id="flutter-ders-notları-yazı-tipleri-ve-tipografi-fonts-typography"><span
+class="header-section-number">4</span> Flutter Ders Notları: Yazı
+Tipleri ve Tipografi (Fonts &amp; Typography)</h1>
+<p>Flutter, uygulamanızdaki metinlerin stilini ve görünümünü yönetmek
+için güçlü tipografi özellikleri sunar. Tipografi; yazı tipinin
+ağırlığını (kalınlık), eğimini, harfler arasındaki boşluğu ve metnin
+diğer görsel yönlerini kapsar.</p>
+<hr />
+<h2 data-number="4.1" id="yazı-tipi-türleri"><span
+class="header-section-number">4.1</span> 1. Yazı Tipi Türleri</h2>
+<p>Her yazı tipi (font) aynı şekilde oluşturulmaz. Temelde iki ana
+kategori vardır:</p>
+<h3 data-number="4.1.1" id="a.-statik-yazı-tipleri-static-fonts"><span
+class="header-section-number">4.1.1</span> A. Statik Yazı Tipleri
+(Static Fonts)</h3>
+<p>Geleneksel yazı tipleridir. Bir yazı tipi stili en az şunlarla
+tanımlanır:</p>
+<ul>
+<li><strong>Yazı Tipi Ailesi (Typeface):</strong> <code>Roboto</code>
+veya <code>Noto</code> gibi ortak karakter kurallarını taşıyan set.</li>
+<li><strong>Ağırlık (Weight):</strong> Regular, Bold veya sayısal bir
+değer (örn: 400, 700).</li>
+<li><strong>Stil (Style):</strong> Regular, Italic vb.</li>
+</ul>
+<p>Bu özelliklerin tümü bir araya gelerek “statik” bir yazı tipi
+dosyasını oluşturur.</p>
+<h3 data-number="4.1.2"
+id="b.-değişken-yazı-tipleri-variable-fonts"><span
+class="header-section-number">4.1.2</span> B. Değişken Yazı Tipleri
+(Variable Fonts)</h3>
+<p>Değişken yazı tipleri, normalde birden fazla statik dosya
+gerektirecek stilleri <strong>tek bir dosyada</strong> saklar ve çalışma
+zamanında (runtime) değiştirilmesine olanak tanır.</p>
+<ul>
+<li><strong>Eksenler (Axes):</strong> Genişlik, ağırlık veya eğim gibi
+önceden tanımlanmış eksenler üzerinde kontrol sağlar.</li>
+<li><strong>Esneklik:</strong> Kullanıcı veya geliştirici, sürekli bir
+eksen boyunca <strong>herhangi bir değeri</strong> seçebilir (Örneğin
+sadece 400 veya 700 değil, 550 kalınlığını seçmek gibi).</li>
+</ul>
+<hr />
+<h2 data-number="4.2" id="tipografik-ölçek-typographic-scale"><span
+class="header-section-number">4.2</span> 2. Tipografik Ölçek
+(Typographic Scale)</h2>
+<p>Tipografik ölçek, uygulamanızda denge, bütünlük ve görsel çeşitlilik
+sağlamak için oluşturulmuş ilişkili metin stilleri setidir.</p>
+<p>Flutter’da <code>TextTheme</code> tarafından sağlanan yaygın ölçek
+<strong>5 kategori</strong> içerir:</p>
+<ol type="1">
+<li><strong>Display:</strong> Büyük, dikkat çekici metinler.</li>
+<li><strong>Headline:</strong> Manşetler.</li>
+<li><strong>Title:</strong> Başlıklar.</li>
+<li><strong>Label:</strong> Etiketler (Buton yazıları vb.).</li>
+<li><strong>Body:</strong> Gövde metinleri (Paragraflar).</li>
+</ol>
+<p>Her kategorinin <strong>3 boyut varyasyonu</strong> vardır:</p>
+<ul>
+<li>Small (Küçük)</li>
+<li>Medium (Orta)</li>
+<li>Large (Büyük)</li>
+</ul>
+<p>Bu kombinasyonlar toplamda **15 farklı <code>TextStyle**</code>
+oluşturur (Örn: <code>bodyLarge</code>, <code>displaySmall</code>).</p>
+<p><img src="images/90_typographical-scale.png" width=150></p>
+<blockquote>
+<p><strong>Not:</strong> Flutter, platforma özgü ölçekleri
+<code>Typography</code> sınıfında tutar. Ancak genellikle
+<code>TextTheme</code> sınıfı hedef platforma göre yerelleştirildiği
+için <code>Typography</code> sınıfını doğrudan çağırmanız gerekmez.</p>
+</blockquote>
+<hr />
+<h2 data-number="4.3" id="google-fonts-paketi-kullanımı"><span
+class="header-section-number">4.3</span> 3. Google Fonts Paketi
+Kullanımı</h2>
+<p>Yazı tiplerini manuel olarak indirip projenize eklemek yerine,
+<code>pub.dev</code> üzerindeki <code>google_fonts</code> paketini
+kullanarak doğrudan kod içinden erişebilirsiniz.</p>
+<p><img src="images/90_google-fonts-type-tester.png" width=450></p>
+<h3 data-number="4.3.1" id="kurulum"><span
+class="header-section-number">4.3.1</span> Kurulum</h3>
+<p><code>pubspec.yaml</code> dosyanıza paketi ekledikten sonra şu
+şekilde kullanabilirsiniz:</p>
+<h3 data-number="4.3.2" id="basit-kullanım"><span
+class="header-section-number">4.3.2</span> Basit Kullanım</h3>
+<p>Sadece yazı tipi adını referans alarak kullanım:</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>Text(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;Bu bir Google Fontu&#39;</span><span class="op">,</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  style<span class="op">:</span> GoogleFonts<span class="op">.</span>lato()<span class="op">,</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<h3 data-number="4.3.3" id="özelleştirilmiş-kullanım"><span
+class="header-section-number">4.3.3</span> Özelleştirilmiş Kullanım</h3>
+<p>Mevcut bir <code>TextStyle</code> üzerine özellik ekleyerek veya
+ezerek kullanım:</p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>Text(</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;Bu özelleştirilmiş bir Google Fontu&#39;</span><span class="op">,</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  style<span class="op">:</span> GoogleFonts<span class="op">.</span>lato(</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    textStyle<span class="op">:</span> Theme<span class="op">.</span>of(context)<span class="op">.</span>textTheme<span class="op">.</span>displayLarge<span class="op">,</span> <span class="co">// Mevcut temayı baz al</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    fontSize<span class="op">:</span> <span class="dv">48</span><span class="op">,</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    fontWeight<span class="op">:</span> FontWeight<span class="op">.</span>w700<span class="op">,</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    fontStyle<span class="op">:</span> FontStyle<span class="op">.</span>italic<span class="op">,</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<hr />
+<h2 data-number="4.4"
+id="yazı-tiplerini-programatik-olarak-değiştirme"><span
+class="header-section-number">4.4</span> 4. Yazı Tiplerini Programatik
+Olarak Değiştirme</h2>
+<p>Bir yazı tipini (destekliyorsa) kod ile değiştirmek için aşağıdaki
+API’ler kullanılır:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Sınıf / Özellik</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>FontFeature</code></strong></td>
+<td>Belirli glifleri (karakter şekillerini) seçmek için kullanılır
+(OpenType özellik etiketlerine karşılık gelir).</td>
+</tr>
+<tr>
+<td><strong><code>FontWeight</code></strong></td>
+<td>Yazının ağırlığını (kalınlığını) değiştirmek için kullanılır.</td>
+</tr>
+<tr>
+<td><strong><code>FontStyle</code></strong></td>
+<td>Yazıyı italik yapmak için kullanılır.</td>
+</tr>
+<tr>
+<td><strong><code>FontVariation</code></strong></td>
+<td>Değişken yazı tiplerinde (Variable Fonts), belirli bir özellik için
+değer aralığı belirtir. OpenType değişken spesifikasyonuna uyar.</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="4.4.1" id="ipucu-google-fonts-type-tester"><span
+class="header-section-number">4.4.1</span> İpucu: Google Fonts Type
+Tester</h3>
+<p>Google Fonts web sitesindeki “Type Tester” aracı, değişken yazı
+tiplerinin (Variable Fonts) yeteneklerini görmek için harikadır.
+Sitedeki kaydırıcıları (sliders) hareket ettirerek, kod tarafında
+<code>FontVariation</code> sınıfı ile hangi eksenleri
+değiştirebileceğinizi görebilirsiniz.</p>
+<h2 data-number="4.5" id="lisans-bilgisi"><span
+class="header-section-number">4.5</span> 📄 Lisans Bilgisi</h2>
+<p>Bu doküman, <strong>Flutter resmi dokümantasyonundan</strong>
+türetilmiş Türkçe ders notudur.</p>
+<p><strong>Orijinal kaynak:</strong><br />
+https://docs.flutter.dev/cookbook/design/themes</p>
+<p><strong>Türkçe çeviri ve düzenleme:</strong><br />
+<a href="mailto:htemiz@artvin.edu.tr">Doç. Dr. Hakan Temiz</a></p>
+<hr />
+<h3 data-number="4.5.1" id="lisans-kapsamı"><span
+class="header-section-number">4.5.1</span> Lisans Kapsamı</h3>
+<p>Bu dokümandaki içerikler aşağıdaki açık lisanslar kapsamında
+sunulmaktadır:</p>
+<p><strong>Metin içerikleri (anlatım ve açıklamalar):</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> Creative Commons Attribution 4.0 International
+(CC BY 4.0)<br />
+https://creativecommons.org/licenses/by/4.0/</p>
+<p>Bu lisans kapsamında: - İçerik kopyalanabilir, dağıtılabilir ve
+uyarlanabilir<br />
+- Ticari kullanım serbesttir<br />
+- Kaynak belirtilmesi zorunludur</p>
+<p><strong>Kod örnekleri:</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> BSD 3-Clause License<br />
+https://opensource.org/licenses/BSD-3-Clause</p>
+<p>Bu lisans kapsamında: - Kodlar kopyalanabilir, değiştirilebilir ve
+dağıtılabilir<br />
+- Ticari kullanım serbesttir<br />
+- Lisans bildiriminin korunması gerekir</p>
+</body>
+</html>

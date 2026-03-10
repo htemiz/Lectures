@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>2.02.3 Design Systems - Material</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a
+href="#material-bileşenleri-widgetları-material-components-widgets"
+id="toc-material-bileşenleri-widgetları-material-components-widgets"><span
+class="toc-section-number">1</span> Material Bileşenleri Widget’ları
+(Material Components Widgets)</a>
+<ul>
+<li><a href="#uygulama-yapısı-ve-gezinme-app-structure-and-navigation"
+id="toc-uygulama-yapısı-ve-gezinme-app-structure-and-navigation"><span
+class="toc-section-number">1.1</span> Uygulama yapısı ve gezinme (App
+structure and navigation)</a></li>
+<li><a href="#düğmeler-buttons" id="toc-düğmeler-buttons"><span
+class="toc-section-number">1.2</span> Düğmeler (Buttons)</a></li>
+<li><a href="#giriş-ve-seçimler-input-and-selections"
+id="toc-giriş-ve-seçimler-input-and-selections"><span
+class="toc-section-number">1.3</span> Giriş ve seçimler (Input and
+selections)</a></li>
+<li><a
+href="#iletişim-kutuları-uyarılar-ve-paneller-dialogs-alerts-and-panels"
+id="toc-iletişim-kutuları-uyarılar-ve-paneller-dialogs-alerts-and-panels"><span
+class="toc-section-number">1.4</span> İletişim kutuları, uyarılar ve
+paneller (Dialogs, alerts, and panels)</a></li>
+<li><a href="#bilgi-ekranları-information-displays"
+id="toc-bilgi-ekranları-information-displays"><span
+class="toc-section-number">1.5</span> Bilgi ekranları (Information
+displays)</a></li>
+<li><a href="#düzen-layout" id="toc-düzen-layout"><span
+class="toc-section-number">1.6</span> Düzen (Layout)</a></li>
+<li><a href="#lisans-bilgisi" id="toc-lisans-bilgisi"><span
+class="toc-section-number">1.7</span> 📄 Lisans Bilgisi</a>
+<ul>
+<li><a href="#lisans-kapsamı" id="toc-lisans-kapsamı"><span
+class="toc-section-number">1.7.1</span> Lisans Kapsamı</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1"
+id="material-bileşenleri-widgetları-material-components-widgets"><span
+class="header-section-number">1</span> Material Bileşenleri Widget’ları
+(Material Components Widgets)</h1>
+<p>Material Design, dijital deneyimler oluşturmak için esnek bir kılavuz
+sistemidir. Flutter, Material Design’ı uygulayan zengin bir widget seti
+sunar. Bu widget’lar, uygulamanızda Material Design görünümünü ve
+hissini (look and feel) kolayca elde etmenizi sağlar.</p>
+<p>Aşağıda, işlevlerine göre kategorize edilmiş temel Material
+widget’ları bulunmaktadır.</p>
+<h2 data-number="1.1"
+id="uygulama-yapısı-ve-gezinme-app-structure-and-navigation"><span
+class="header-section-number">1.1</span> Uygulama yapısı ve gezinme (App
+structure and navigation)</h2>
+<p>Bu widget’lar uygulamanızın temel yapısını oluşturur ve ekranlar
+arası gezinmeyi sağlar.</p>
+<ul>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/AppBar-class.html">App
+bar</a>:</strong> Ekranın üst kısmında bulunan, araç çubuğu ve diğer
+etkileşimli öğeleri içeren bir çubuktur. Başlık, eylemler ve gezinme
+kontrollerini barındırır.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/BottomAppBar-class.html">Bottom
+app bar</a>:</strong> Ekranın altında gezinme ve eylemler sunan bir
+çubuktur. Genellikle bir <code>FloatingActionButton</code> ile birlikte
+kullanılır.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/BottomNavigationBar-class.html">Bottom
+navigation bar</a>:</strong> Uygulamanın birincil hedefleri arasında
+geçiş yapmayı sağlayan alt gezinme çubuğudur.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/Drawer-class.html">Drawer</a>:</strong>
+Ekranın kenarından (genellikle soldan) kayarak açılan bir Material
+tasarım panelidir. Uygulamanın gezinme bağlantılarını içerir.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/MaterialApp-class.html">MaterialApp</a>:</strong>
+Material Design kullanan uygulamalar için gerekli olan tema, gezinme ve
+yerelleştirme gibi birçok özelliği yapılandıran kök widget’tır.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/NavigationBar-class.html">Navigation
+bar</a>:</strong> Material 3 tasarımına uygun, uygulamanın ana bölümleri
+arasında geçiş yapmayı sağlayan modern alt gezinme çubuğudur.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/NavigationDrawer-class.html">Navigation
+drawer</a>:</strong> Material 3 tasarımına uygun, ekranın yanından
+açılan gezinme paneli.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/NavigationRail-class.html">Navigation
+rail</a>:</strong> Geniş ekranlı cihazlarda (tablet, masaüstü) ekranın
+sol veya sağ kenarında dikey olarak görüntülenen gezinme çubuğudur.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/Scaffold-class.html">Scaffold</a>:</strong>
+Temel Material Design görsel düzen yapısını uygular. App bar, drawer,
+snack bar ve bottom sheet gibi yaygın öğeler için API sağlar.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/TabBar-class.html">TabBar</a>:</strong>
+Yatay bir sekme düzeni görüntüler.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/TabBarView-class.html">TabBarView</a>:</strong>
+Şu anda seçili olan sekmeye karşılık gelen widget’ı görüntüler.</li>
+</ul>
+<h2 data-number="1.2" id="düğmeler-buttons"><span
+class="header-section-number">1.2</span> Düğmeler (Buttons)</h2>
+<p>Kullanıcıların eylem gerçekleştirmesini sağlayan çeşitli düğme
+türleri.</p>
+<ul>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/ElevatedButton-class.html">ElevatedButton</a>:</strong>
+Yükseltilmiş (gölgeli) bir düğme. Önemli eylemleri vurgulamak için
+kullanılır.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/FilledButton-class.html">FilledButton</a>:</strong>
+Dolgulu ve gölgesiz düğme. Önemli eylemler için kullanılır.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/FloatingActionButton-class.html">FloatingActionButton</a>:</strong>
+Ekranın içeriğinin üzerinde “yüzen” dairesel bir simge düğmesidir.
+Uygulamadaki birincil eylemi temsil eder.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/IconButton-class.html">IconButton</a>:</strong>
+Bir simgenin içine basıldığında mürekkep (ink) tepkisi veren bir
+düğmedir.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/OutlinedButton-class.html">OutlinedButton</a>:</strong>
+Kenarlıklı ancak dolgusuz bir düğme. İkincil eylemler için
+kullanılır.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/SegmentedButton-class.html">SegmentedButton</a>:</strong>
+Seçenekleri, görünümleri değiştirmek veya öğeleri sıralamak için
+kullanılan bölümlere ayrılmış düğme grubu.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/TextButton-class.html">TextButton</a>:</strong>
+Görünür bir kenarlığı veya arka planı olmayan, sadece metin (veya simge)
+içeren düğme. Diyaloglarda veya kartlarda yaygın olarak kullanılır.</li>
+</ul>
+<h2 data-number="1.3" id="giriş-ve-seçimler-input-and-selections"><span
+class="header-section-number">1.3</span> Giriş ve seçimler (Input and
+selections)</h2>
+<p>Kullanıcıdan veri almak veya seçim yapmasını sağlamak için kullanılan
+widget’lar.</p>
+<ul>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/Checkbox-class.html">Checkbox</a>:</strong>
+Kullanıcının bir listeden birden fazla öğe seçmesine izin veren onay
+kutusu.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/showDatePicker.html">Date
+&amp; Time Pickers</a>:</strong> Kullanıcının tarih veya saat seçmesini
+sağlayan diyaloglar (<code>showDatePicker</code>,
+<code>showTimePicker</code>).</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/Radio-class.html">Radio</a>:</strong>
+Kullanıcının bir grup seçenek arasından yalnızca birini seçmesine izin
+veren radyo düğmesi.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/Slider-class.html">Slider</a>:</strong>
+Kullanıcının bir değer aralığından (örneğin ses seviyesi, parlaklık) bir
+değer seçmesini sağlayan kaydırıcı.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/Switch-class.html">Switch</a>:</strong>
+Açık/kapalı durumunu değiştiren bir anahtar.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/TextField-class.html">TextField</a>:</strong>
+Kullanıcının metin girmesini sağlayan bir alan.</li>
+</ul>
+<h2 data-number="1.4"
+id="iletişim-kutuları-uyarılar-ve-paneller-dialogs-alerts-and-panels"><span
+class="header-section-number">1.4</span> İletişim kutuları, uyarılar ve
+paneller (Dialogs, alerts, and panels)</h2>
+<p>Kullanıcıya bilgi vermek veya onay almak için kullanılan
+bileşenler.</p>
+<ul>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/AlertDialog-class.html">AlertDialog</a>:</strong>
+Kullanıcıyı bir durumu kabul etmesi veya bir bilgi hakkında
+bilgilendirmesi gereken durumlarda ortaya çıkan bir iletişim
+kutusu.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/BottomSheet-class.html">BottomSheet</a>:</strong>
+Ekranın altından kayarak gelen ek bir içerik panelidir. Kalıcı
+(Persistent) veya kalıcı olmayan (Modal) olabilir.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/ExpansionPanel-class.html">ExpansionPanel</a>:</strong>
+Başlığına dokunulduğunda ayrıntıları göstermek için genişleyen veya
+daralan bir panel.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/SimpleDialog-class.html">SimpleDialog</a>:</strong>
+Kullanıcıya birden fazla seçenek sunan basit bir iletişim kutusu.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/SnackBar-class.html">SnackBar</a>:</strong>
+Ekranın alt kısmında kısa süreliğine görünen ve bir işlem hakkında geri
+bildirim sağlayan hafif bir mesaj çubuğu.</li>
+</ul>
+<h2 data-number="1.5" id="bilgi-ekranları-information-displays"><span
+class="header-section-number">1.5</span> Bilgi ekranları (Information
+displays)</h2>
+<p>Bilgileri düzenli ve görsel olarak çekici bir şekilde sunan
+widget’lar.</p>
+<ul>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/Badge-class.html">Badge</a>:</strong>
+Sayı veya durum gibi dinamik bilgileri iletmek için simgelerin üzerinde
+kullanılan küçük işaretçiler.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/Card-class.html">Card</a>:</strong>
+İlgili bilgileri (albüm, coğrafi konum, yemek, iletişim bilgileri vb.)
+yuvarlatılmış köşelere ve gölgeye sahip bir kutuda gruplayan bir
+paneldir.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/Chip-class.html">Chip</a>:</strong>
+Karmaşık bir varlığı (örneğin bir kişi, yer veya eylem) temsil eden
+kompakt bir öğedir. Giriş, seçim veya eylem için kullanılabilir.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/CircularProgressIndicator-class.html">CircularProgressIndicator</a>:</strong>
+Bir işlemin devam ettiğini gösteren dairesel, dönen bir gösterge.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/DataTable-class.html">DataTable</a>:</strong>
+Verileri satırlar ve sütunlar halinde gösteren bir tablo.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/widgets/GridView-class.html">GridView</a>:</strong>
+Öğeleri iki boyutlu bir ızgara düzeninde görüntüler.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/widgets/Icon-class.html">Icon</a>:</strong>
+Material Design simgelerini (veya diğer simge setlerini)
+görüntüler.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/widgets/Image-class.html">Image</a>:</strong>
+Bir resim görüntüler.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/LinearProgressIndicator-class.html">LinearProgressIndicator</a>:</strong>
+Bir işlemin ilerleyişini gösteren yatay çubuk.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/ListTile-class.html">ListTile</a>:</strong>
+Genellikle bir simge, başlık ve alt başlıktan oluşan tek bir sabit
+yükseklikteki satır. Listelerde yaygın olarak kullanılır.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/Tooltip-class.html">Tooltip</a>:</strong>
+Bir widget’ın üzerine gelindiğinde veya uzun basıldığında açıklayıcı bir
+metin etiketi gösterir.</li>
+</ul>
+<h2 data-number="1.6" id="düzen-layout"><span
+class="header-section-number">1.6</span> Düzen (Layout)</h2>
+<p>İçeriği düzenlemek ve ayırmak için kullanılan yardımcı
+widget’lar.</p>
+<ul>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/Divider-class.html">Divider</a>:</strong>
+İçerikleri listelerde veya sayfa düzenlerinde ayırmak için kullanılan
+ince bir çizgi.</li>
+<li><strong><a
+href="https://api.flutter.dev/flutter/material/Stepper-class.html">Stepper</a>:</strong>
+İlerlemeyi bir dizi adım aracılığıyla görüntüleyen bir Material
+widget’ı.</li>
+</ul>
+<h2 data-number="1.7" id="lisans-bilgisi"><span
+class="header-section-number">1.7</span> 📄 Lisans Bilgisi</h2>
+<p>Bu doküman, <strong>Flutter resmi dokümantasyonundan</strong>
+türetilmiş Türkçe ders notudur.</p>
+<p><strong>Orijinal kaynak:</strong><br />
+https://docs.flutter.dev/ui/widgets/material</p>
+<p><strong>Türkçe çeviri ve düzenleme:</strong><br />
+<a href="mailto:htemiz@artvin.edu.tr">Doç. Dr. Hakan Temiz</a></p>
+<hr />
+<h3 data-number="1.7.1" id="lisans-kapsamı"><span
+class="header-section-number">1.7.1</span> Lisans Kapsamı</h3>
+<p>Bu dokümandaki içerikler aşağıdaki açık lisanslar kapsamında
+sunulmaktadır:</p>
+<p><strong>Metin içerikleri (anlatım ve açıklamalar):</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> Creative Commons Attribution 4.0 International
+(CC BY 4.0)<br />
+https://creativecommons.org/licenses/by/4.0/</p>
+<p>Bu lisans kapsamında: - İçerik kopyalanabilir, dağıtılabilir ve
+uyarlanabilir<br />
+- Ticari kullanım serbesttir<br />
+- Kaynak belirtilmesi zorunludur</p>
+<p><strong>Kod örnekleri:</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> BSD 3-Clause License<br />
+https://opensource.org/licenses/BSD-3-Clause</p>
+<p>Bu lisans kapsamında: - Kodlar kopyalanabilir, değiştirilebilir ve
+dağıtılabilir<br />
+- Ticari kullanım serbesttir<br />
+- Lisans bildiriminin korunması gerekir</p>
+</body>
+</html>

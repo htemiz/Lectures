@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>2.07 Etkileşim (Interactivity)</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#flutter-uygulamanıza-etkileşim-ekleyin"
+id="toc-flutter-uygulamanıza-etkileşim-ekleyin"><span
+class="toc-section-number">1</span> Flutter uygulamanıza etkileşim
+ekleyin</a>
+<ul>
+<li><a href="#stateful-ve-stateless-widgetlar"
+id="toc-stateful-ve-stateless-widgetlar"><span
+class="toc-section-number">1.1</span> Stateful ve stateless
+widget’lar</a></li>
+<li><a href="#durumlu-bir-widget-oluşturma"
+id="toc-durumlu-bir-widget-oluşturma"><span
+class="toc-section-number">1.2</span> Durumlu bir widget oluşturma</a>
+<ul>
+<li><a href="#adım-0-hazırlık" id="toc-adım-0-hazırlık"><span
+class="toc-section-number">1.2.1</span> Adım 0: Hazırlık</a></li>
+<li><a
+href="#adım-1-widgetın-durumunu-hangi-nesnenin-yöneteceğine-karar-verin"
+id="toc-adım-1-widgetın-durumunu-hangi-nesnenin-yöneteceğine-karar-verin"><span
+class="toc-section-number">1.2.2</span> Adım 1: Widget’ın durumunu hangi
+nesnenin yöneteceğine karar verin</a></li>
+<li><a href="#adım-2-statefulwidgetın-alt-sınıfını-oluşturun"
+id="toc-adım-2-statefulwidgetın-alt-sınıfını-oluşturun"><span
+class="toc-section-number">1.2.3</span> Adım 2: StatefulWidget’ın alt
+sınıfını oluşturun</a></li>
+<li><a href="#adım-3-statein-alt-sınıfını-oluşturun"
+id="toc-adım-3-statein-alt-sınıfını-oluşturun"><span
+class="toc-section-number">1.2.4</span> Adım 3: State’in alt sınıfını
+oluşturun</a></li>
+<li><a href="#adım-4-durumlu-widgetı-widget-ağacına-yerleştirin"
+id="toc-adım-4-durumlu-widgetı-widget-ağacına-yerleştirin"><span
+class="toc-section-number">1.2.5</span> Adım 4: Durumlu widget’ı widget
+ağacına yerleştirin</a></li>
+</ul></li>
+<li><a href="#durumu-yönetmek-managing-state"
+id="toc-durumu-yönetmek-managing-state"><span
+class="toc-section-number">1.3</span> Durumu yönetmek (Managing
+state)</a>
+<ul>
+<li><a href="#widget-kendi-durumunu-yönetir"
+id="toc-widget-kendi-durumunu-yönetir"><span
+class="toc-section-number">1.3.1</span> Widget kendi durumunu
+yönetir</a></li>
+<li><a href="#üst-widget-widgetın-durumunu-yönetir"
+id="toc-üst-widget-widgetın-durumunu-yönetir"><span
+class="toc-section-number">1.3.2</span> Üst widget, widget’ın durumunu
+yönetir</a></li>
+<li><a href="#karışık-yaklaşım-mix-and-match"
+id="toc-karışık-yaklaşım-mix-and-match"><span
+class="toc-section-number">1.3.3</span> Karışık yaklaşım
+(Mix-and-match)</a></li>
+</ul></li>
+<li><a href="#lisans-bilgisi" id="toc-lisans-bilgisi"><span
+class="toc-section-number">1.4</span> 📄 Lisans Bilgisi</a>
+<ul>
+<li><a href="#lisans-kapsamı" id="toc-lisans-kapsamı"><span
+class="toc-section-number">1.4.1</span> Lisans Kapsamı</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1" id="flutter-uygulamanıza-etkileşim-ekleyin"><span
+class="header-section-number">1</span> Flutter uygulamanıza etkileşim
+ekleyin</h1>
+<p>Dokunmalara yanıt veren durumlu (stateful) bir widget nasıl
+uygulanır.</p>
+<p><strong>Neler öğreneceksiniz:</strong> * Dokunmalara (taps) nasıl
+yanıt verilir. * Özel bir widget nasıl oluşturulur. * Durumsuz
+(stateless) ve durumlu (stateful) widget’lar arasındaki fark.</p>
+<p>Uygulamanızı kullanıcı girdilerine tepki verecek şekilde nasıl
+değiştirirsiniz? Bu eğitimde, yalnızca etkileşimli olmayan widget’lar
+içeren bir uygulamaya etkileşim ekleyeceksiniz. Özellikle, iki durumsuz
+widget’ı yöneten özel bir durumlu widget oluşturarak bir simgeyi
+dokunulabilir hale getireceksiniz.</p>
+<p>Düzen oluşturma (building layouts) eğitimi, aşağıdaki ekran görüntüsü
+için düzenin nasıl oluşturulacağını göstermişti.</p>
+<p><img src="images/100_lakes.jpg" width=250></p>
+<p><strong>Düzen eğitimi uygulaması</strong></p>
+<p>Uygulama ilk açıldığında, yıldız koyu kırmızıdır; bu, bu gölün daha
+önce favorilere eklendiğini gösterir. Yıldızın yanındaki sayı, 41
+kişinin bu gölü favorilere eklediğini belirtir. Bu eğitimi tamamladıktan
+sonra, yıldıza dokunmak favori durumunu kaldıracak, dolu yıldızı bir dış
+çizgiyle değiştirecek ve sayıyı azaltacaktır. Tekrar dokunmak gölü
+favorilere ekleyecek, dolu bir yıldız çizecek ve sayıyı
+artıracaktır.</p>
+<p><img src="images/100_favorited-not-favorited.png" width=200></p>
+<p>Bunu başarmak için, kendileri de birer widget olan hem yıldızı hem de
+sayıyı içeren tek bir özel widget oluşturacaksınız. Yıldıza dokunmak her
+iki widget’ın da durumunu değiştirir, bu nedenle aynı widget her ikisini
+de yönetmelidir.</p>
+<p>Doğrudan koda geçmek isterseniz <strong>Adım 2: StatefulWidget’ın alt
+sınıfını oluşturma</strong> bölümüne gidebilirsiniz. Durumu yönetmenin
+farklı yollarını denemek isterseniz, <strong>Durumu yönetmek (Managing
+state)</strong> bölümüne atlayın.</p>
+<h2 data-number="1.1" id="stateful-ve-stateless-widgetlar"><span
+class="header-section-number">1.1</span> Stateful ve stateless
+widget’lar</h2>
+<p>Bir widget ya durumlu (stateful) ya da durumsuzdur (stateless). Eğer
+bir widget değişebiliyorsa—örneğin bir kullanıcı onunla etkileşime
+girdiğinde—o widget durumludur.</p>
+<ul>
+<li><strong>Stateless (Durumsuz)</strong> bir widget asla değişmez.
+<code>Icon</code>, <code>IconButton</code> ve <code>Text</code> durumsuz
+widget örnekleridir. Stateless widget’lar <code>StatelessWidget</code>
+sınıfının alt sınıfıdır.</li>
+<li><strong>Stateful (Durumlu)</strong> bir widget dinamiktir: örneğin,
+kullanıcı etkileşimleri tarafından tetiklenen olaylara yanıt olarak veya
+veri aldığında görünümünü değiştirebilir. <code>Checkbox</code>,
+<code>Radio</code>, <code>Slider</code>, <code>InkWell</code>,
+<code>Form</code> ve <code>TextField</code> durumlu widget örnekleridir.
+Stateful widget’lar <code>StatefulWidget</code> sınıfının alt
+sınıfıdır.</li>
+</ul>
+<p>Bir widget’ın durumu, widget’ın durumunu görünümünden ayıran bir
+<code>State</code> nesnesinde saklanır. Durum, bir kaydırıcının (slider)
+mevcut değeri veya bir onay kutusunun işaretli olup olmadığı gibi
+değişebilen değerlerden oluşur. Widget’ın durumu değiştiğinde, durum
+nesnesi <code>setState()</code> öğesini çağırarak çerçeveye (framework)
+widget’ı yeniden çizmesini söyler.</p>
+<h2 data-number="1.2" id="durumlu-bir-widget-oluşturma"><span
+class="header-section-number">1.2</span> Durumlu bir widget
+oluşturma</h2>
+<p><strong>Bunun amacı ne?</strong> * Durumlu bir widget iki sınıf
+tarafından uygulanır: <code>StatefulWidget</code>’ın bir alt sınıfı ve
+<code>State</code>’in bir alt sınıfı. * Durum (state) sınıfı, widget’ın
+değiştirilebilir durumunu ve widget’ın <code>build()</code> yöntemini
+içerir. * Widget’ın durumu değiştiğinde, durum nesnesi
+<code>setState()</code> öğesini çağırarak çerçeveye widget’ı yeniden
+çizmesini söyler.</p>
+<p>Bu bölümde, özel bir durumlu widget oluşturacaksınız. İki durumsuz
+widget’ı—koyu kırmızı yıldız ve yanındaki sayısal sayım—bir satırı
+(<code>Row</code>) ve iki çocuk widget’ı (<code>IconButton</code> ve
+<code>Text</code>) yöneten tek bir özel durumlu widget ile
+değiştireceksiniz.</p>
+<p>Özel bir durumlu widget uygulamak iki sınıf oluşturmayı gerektirir:
+1. Widget’ı tanımlayan <code>StatefulWidget</code>’ın bir alt sınıfı. 2.
+O widget için durumu içeren ve widget’ın <code>build()</code> yöntemini
+tanımlayan <code>State</code>’in bir alt sınıfı.</p>
+<p>Bu bölüm, göller uygulaması için <code>FavoriteWidget</code> adlı
+durumlu bir widget’ın nasıl oluşturulacağını gösterir. Kurulumdan sonra
+ilk adımınız, <code>FavoriteWidget</code> için durumun nasıl
+yönetileceğini seçmektir.</p>
+<h3 data-number="1.2.1" id="adım-0-hazırlık"><span
+class="header-section-number">1.2.1</span> Adım 0: Hazırlık</h3>
+<p>Uygulamayı düzen oluşturma eğitiminde zaten oluşturduysanız, bir
+sonraki bölüme geçin. 1. Ortamınızı kurduğunuzdan emin olun. 2. Yeni bir
+Flutter uygulaması oluşturun. 3. <code>lib/main.dart</code> dosyasını
+<code>main.dart</code> ile değiştirin. 4. <code>pubspec.yaml</code>
+dosyasını <code>pubspec.yaml</code> ile değiştirin. 5. Projenizde bir
+<code>images</code> dizini oluşturun ve <code>lake.jpg</code> dosyasını
+ekleyin.</p>
+<p>Bağlı ve etkin bir cihazınız olduğunda veya iOS simülatörünü (Flutter
+kurulumunun parçası) ya da Android emülatörünü (Android Studio
+kurulumunun parçası) başlattığınızda hazırsınız demektir!</p>
+<h3 data-number="1.2.2"
+id="adım-1-widgetın-durumunu-hangi-nesnenin-yöneteceğine-karar-verin"><span
+class="header-section-number">1.2.2</span> Adım 1: Widget’ın durumunu
+hangi nesnenin yöneteceğine karar verin</h3>
+<p>Bir widget’ın durumu çeşitli şekillerde yönetilebilir, ancak
+örneğimizde widget’ın kendisi, <code>FavoriteWidget</code>, kendi
+durumunu yönetecektir. Bu örnekte, yıldızı değiştirmek, üst widget’ı
+veya kullanıcı arayüzünün geri kalanını etkilemeyen izole bir eylemdir,
+bu nedenle widget durumunu dahili olarak ele alabilir.</p>
+<p>Widget ve durumun ayrılması ve durumun nasıl yönetilebileceği
+hakkında daha fazla bilgiyi <strong>Durumu yönetmek</strong> bölümünde
+bulabilirsiniz.</p>
+<h3 data-number="1.2.3"
+id="adım-2-statefulwidgetın-alt-sınıfını-oluşturun"><span
+class="header-section-number">1.2.3</span> Adım 2: StatefulWidget’ın alt
+sınıfını oluşturun</h3>
+<p><code>FavoriteWidget</code> sınıfı kendi durumunu yönetir, bu nedenle
+bir <code>State</code> nesnesi oluşturmak için
+<code>createState()</code> yöntemini geçersiz kılar (override). Çerçeve,
+widget’ı oluşturmak istediğinde <code>createState()</code> yöntemini
+çağırır. Bu örnekte, <code>createState()</code>, bir sonraki adımda
+uygulayacağınız <code>_FavoriteWidgetState</code>’in bir örneğini
+döndürür.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> FavoriteWidget <span class="kw">extends</span> StatefulWidget <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> FavoriteWidget(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  State<span class="op">&lt;</span>FavoriteWidget<span class="op">&gt;</span> createState() <span class="op">=&gt;</span> _FavoriteWidgetState();</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Not:</strong> Alt çizgi (_) ile başlayan üyeler veya sınıflar
+özeldir (private). Daha fazla bilgi için Dart dili belgelerindeki
+<em>Kütüphaneler ve importlar</em> bölümüne bakın.</p>
+<h3 data-number="1.2.4" id="adım-3-statein-alt-sınıfını-oluşturun"><span
+class="header-section-number">1.2.4</span> Adım 3: State’in alt sınıfını
+oluşturun</h3>
+<p><code>_FavoriteWidgetState</code> sınıfı, widget’ın ömrü boyunca
+değişebilen verileri saklar. Uygulama ilk açıldığında, kullanıcı arayüzü
+gölün “favori” durumuna sahip olduğunu gösteren koyu kırmızı bir yıldız
+ve 41 beğeni görüntüler. Bu değerler <code>_isFavorited</code> ve
+<code>_favoriteCount</code> alanlarında saklanır:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> _FavoriteWidgetState <span class="kw">extends</span> State<span class="op">&lt;</span>FavoriteWidget<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bool</span> _isFavorited <span class="op">=</span> <span class="cn">true</span>;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> _favoriteCount <span class="op">=</span> <span class="dv">41</span>;</span></code></pre></div>
+<p>Sınıf ayrıca, kırmızı bir <code>IconButton</code> ve
+<code>Text</code> içeren bir satır oluşturan <code>build()</code>
+yöntemini de tanımlar. <code>IconButton</code> kullanırsınız (Icon
+yerine) çünkü bir dokunmayı işlemek için geri çağırma işlevini
+(<code>_toggleFavorite</code>) tanımlayan bir <code>onPressed</code>
+özelliği vardır. Geri çağırma işlevini bir sonraki adımda
+tanımlayacaksınız.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> _FavoriteWidgetState <span class="kw">extends</span> State<span class="op">&lt;</span>FavoriteWidget<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ···</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Row(</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      mainAxisSize<span class="op">:</span> MainAxisSize<span class="op">.</span>min<span class="op">,</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      children<span class="op">:</span> [</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        Container(</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>          padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>all(<span class="dv">0</span>)<span class="op">,</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> IconButton(</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>            padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>all(<span class="dv">0</span>)<span class="op">,</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>            alignment<span class="op">:</span> Alignment<span class="op">.</span>center<span class="op">,</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>            icon<span class="op">:</span> (_isFavorited</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>                <span class="op">?</span> <span class="at">const</span> Icon(Icons<span class="op">.</span>star)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>                <span class="op">:</span> <span class="at">const</span> Icon(Icons<span class="op">.</span>star_border))<span class="op">,</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>            color<span class="op">:</span> Colors<span class="op">.</span>red[<span class="dv">500</span>]<span class="op">,</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>            onPressed<span class="op">:</span> _toggleFavorite<span class="op">,</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        SizedBox(width<span class="op">:</span> <span class="dv">18</span><span class="op">,</span> child<span class="op">:</span> SizedBox(child<span class="op">:</span> Text(<span class="st">&#39;$_favoriteCount&#39;</span>)))<span class="op">,</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>      ]<span class="op">,</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ···</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>İpucu:</strong> <code>Text</code>’i bir <code>SizedBox</code>
+içine yerleştirmek ve genişliğini ayarlamak, metin 40 ve 41 değerleri
+arasında değiştiğinde fark edilebilir bir “zıplamayı” önler — aksi
+takdirde bu değerlerin farklı genişlikleri olduğu için bir zıplama
+meydana gelirdi.</p>
+<p><code>IconButton</code>’a basıldığında çağrılan
+<code>_toggleFavorite()</code> yöntemi, <code>setState()</code>’i
+çağırır. <code>setState()</code>’i çağırmak kritiktir, çünkü bu
+çerçeveye widget’ın durumunun değiştiğini ve widget’ın yeniden çizilmesi
+gerektiğini söyler. <code>setState()</code>’e verilen işlev argümanı,
+kullanıcı arayüzünü şu iki durum arasında değiştirir:</p>
+<ul>
+<li>Bir <code>star</code> simgesi ve 41 sayısı</li>
+<li>Bir <code>star_border</code> simgesi ve 40 sayısı</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> _toggleFavorite() <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  setState(() <span class="op">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (_isFavorited) <span class="op">{</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>      _favoriteCount <span class="op">-=</span> <span class="dv">1</span>;</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>      _isFavorited <span class="op">=</span> <span class="cn">false</span>;</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>      _favoriteCount <span class="op">+=</span> <span class="dv">1</span>;</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>      _isFavorited <span class="op">=</span> <span class="cn">true</span>;</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span>);</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="1.2.5"
+id="adım-4-durumlu-widgetı-widget-ağacına-yerleştirin"><span
+class="header-section-number">1.2.5</span> Adım 4: Durumlu widget’ı
+widget ağacına yerleştirin</h3>
+<p>Uygulamanın <code>build()</code> yönteminde özel durumlu widget’ınızı
+widget ağacına ekleyin. İlk olarak, <code>Icon</code> ve
+<code>Text</code>’i oluşturan kodu bulun ve silin. Aynı konumda, durumlu
+widget’ı oluşturun:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>child<span class="op">:</span> Row(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  children<span class="op">:</span> [</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ...</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    Icon(</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>      Icons<span class="op">.</span>star<span class="op">,</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>      color<span class="op">:</span> Colors<span class="op">.</span>red[<span class="dv">500</span>]<span class="op">,</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">const</span> Text(<span class="st">&#39;41&#39;</span>)<span class="op">,</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">const</span> FavoriteWidget()<span class="op">,</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<p>İşte bu kadar! Uygulamayı “hot reload” yaptığınızda, yıldız simgesi
+artık dokunmalara yanıt vermelidir.</p>
+<hr />
+<h2 data-number="1.3" id="durumu-yönetmek-managing-state"><span
+class="header-section-number">1.3</span> Durumu yönetmek (Managing
+state)</h2>
+<p><strong>Bunun amacı ne?</strong></p>
+<ul>
+<li>Durumu yönetmek için farklı yaklaşımlar vardır.</li>
+<li>Siz, widget tasarımcısı olarak, hangi yaklaşımın kullanılacağını
+seçersiniz.</li>
+<li>Şüpheniz varsa, durumu üst widget’ta (parent widget) yöneterek
+başlayın.</li>
+</ul>
+<p>Durumlu widget’ın durumunu kim yönetir? Widget’ın kendisi mi? Üst
+widget mı? Her ikisi mi? Başka bir nesne mi? Cevap… duruma göre değişir.
+Widget’ınızı etkileşimli hale getirmenin birkaç geçerli yolu vardır.
+Siz, widget tasarımcısı olarak, widget’ınızın nasıl kullanılmasını
+beklediğinize bağlı olarak kararı verirsiniz. İşte durumu yönetmenin en
+yaygın yolları:</p>
+<ol type="1">
+<li>Widget kendi durumunu yönetir</li>
+<li>Üst widget (Parent) widget’ın durumunu yönetir</li>
+<li>Karışık (mix-and-match) yaklaşım</li>
+</ol>
+<p>Hangi yaklaşımı kullanacağınıza nasıl karar verirsiniz? Aşağıdaki
+ilkeler karar vermenize yardımcı olmalıdır:</p>
+<ul>
+<li>Söz konusu durum kullanıcı verisi ise, örneğin bir onay kutusunun
+işaretli veya işaretsiz modu ya da bir kaydırıcının konumu gibi, o zaman
+durum en iyi <strong>üst widget</strong> tarafından yönetilir.</li>
+<li>Söz konusu durum estetik ise, örneğin bir animasyon, o zaman durum
+en iyi <strong>widget’ın kendisi</strong> tarafından yönetilir.</li>
+<li><strong>Şüpheniz varsa, durumu üst widget’ta yöneterek
+başlayın.</strong></li>
+</ul>
+<p>Üç basit örnek oluşturarak durumu yönetmenin farklı yollarını
+göstereceğiz: TapboxA, TapboxB ve TapboxC. Örneklerin hepsi benzer
+şekilde çalışır—her biri dokunulduğunda yeşil veya gri kutu arasında
+geçiş yapan bir kapsayıcı (container) oluşturur. <code>_active</code>
+boolean değeri rengi belirler: aktif için yeşil veya pasif için gri.</p>
+<p><img src="images/100_tapbox-active-state.png" width=90>
+<img src="images/100_tapbox-inactive-state.png" width=90></p>
+<p>Bu örnekler, <code>Container</code> üzerindeki etkinlikleri yakalamak
+için <code>GestureDetector</code> kullanır.</p>
+<h3 data-number="1.3.1" id="widget-kendi-durumunu-yönetir"><span
+class="header-section-number">1.3.1</span> Widget kendi durumunu
+yönetir</h3>
+<p>Bazen widget’ın durumunu dahili olarak yönetmesi en mantıklısıdır.
+Örneğin, <code>ListView</code> içeriği render kutusunu aştığında
+otomatik olarak kayar. <code>ListView</code> kullanan çoğu geliştirici
+<code>ListView</code>’ın kaydırma davranışını yönetmek istemez, bu
+nedenle <code>ListView</code> kendi kaydırma ofsetini (scroll offset)
+kendisi yönetir.</p>
+<p><code>_TapboxAState</code> sınıfı:</p>
+<ul>
+<li><code>TapboxA</code> için durumu yönetir.</li>
+<li>Kutunun mevcut rengini belirleyen <code>_active</code> boolean
+değerini tanımlar.</li>
+<li>Kutuya dokunulduğunda <code>_active</code> değerini güncelleyen ve
+UI’ı güncellemek için <code>setState()</code> işlevini çağıran
+<code>_handleTap()</code> işlevini tanımlar.</li>
+<li>Widget için tüm etkileşimli davranışları uygular.</li>
+</ul>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter/material.dart&#39;</span>;</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">// TapboxA kendi durumunu yönetir.</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">//------------------------- TapboxA ----------------------------------</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TapboxA <span class="kw">extends</span> StatefulWidget <span class="op">{</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> TapboxA(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  State<span class="op">&lt;</span>TapboxA<span class="op">&gt;</span> createState() <span class="op">=&gt;</span> _TapboxAState();</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> _TapboxAState <span class="kw">extends</span> State<span class="op">&lt;</span>TapboxA<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bool</span> _active <span class="op">=</span> <span class="cn">false</span>;</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> _handleTap() <span class="op">{</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    setState(() <span class="op">{</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>      _active <span class="op">=</span> <span class="op">!</span>_active;</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>);</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> GestureDetector(</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>      onTap<span class="op">:</span> _handleTap<span class="op">,</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Container(</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>        width<span class="op">:</span> <span class="dv">200</span><span class="op">,</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>        height<span class="op">:</span> <span class="dv">200</span><span class="op">,</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>        decoration<span class="op">:</span> BoxDecoration(</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>          color<span class="op">:</span> _active <span class="op">?</span> Colors<span class="op">.</span>lightGreen[<span class="dv">700</span>] <span class="op">:</span> Colors<span class="op">.</span>grey[<span class="dv">600</span>]<span class="op">,</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> Center(</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> Text(</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>            _active <span class="op">?</span> <span class="st">&#39;Active&#39;</span> <span class="op">:</span> <span class="st">&#39;Inactive&#39;</span><span class="op">,</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>            style<span class="op">:</span> <span class="at">const</span> TextStyle(fontSize<span class="op">:</span> <span class="dv">32</span><span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>white)<span class="op">,</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a><span class="co">// ... (MyApp kodu kısalık için atlanmıştır)</span></span></code></pre></div>
+<h3 data-number="1.3.2" id="üst-widget-widgetın-durumunu-yönetir"><span
+class="header-section-number">1.3.2</span> Üst widget, widget’ın
+durumunu yönetir</h3>
+<p>Genellikle üst widget’ın durumu yönetmesi ve alt widget’ına ne zaman
+güncelleneceğini söylemesi en mantıklısıdır. Örneğin,
+<code>IconButton</code> bir simgeye dokunulabilir bir düğme muamelesi
+yapmanıza olanak tanır. <code>IconButton</code> durumsuz bir widget’tır
+çünkü üst widget’ın düğmenin dokunulup dokunulmadığını bilmesi
+gerektiğine karar verdik, böylece uygun eylemi gerçekleştirebilir.</p>
+<p>Aşağıdaki örnekte, TapboxB durumunu bir geri çağırma (callback)
+aracılığıyla üstüne dışa aktarır. TapboxB herhangi bir durum yönetmediği
+için StatelessWidget alt sınıfıdır.</p>
+<p><code>ParentWidgetState</code> sınıfı:</p>
+<ul>
+<li>TapboxB için <code>_active</code> durumunu yönetir.</li>
+<li>Kutuya dokunulduğunda çağrılan yöntem olan
+<code>_handleTapboxChanged()</code>’i uygular.</li>
+<li>Durum değiştiğinde, UI’ı güncellemek için <code>setState()</code>’i
+çağırır.</li>
+</ul>
+<p><code>TapboxB</code> sınıfı:</p>
+<ul>
+<li>Tüm durum üstü tarafından ele alındığı için
+<code>StatelessWidget</code>’ı genişletir (extends).</li>
+<li>Bir dokunma algılandığında, üstünü bilgilendirir.</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter/material.dart&#39;</span>;</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">// ParentWidget, TapboxB için durumu yönetir.</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">//------------------------ ParentWidget --------------------------------</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ParentWidget <span class="kw">extends</span> StatefulWidget <span class="op">{</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> ParentWidget(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  State<span class="op">&lt;</span>ParentWidget<span class="op">&gt;</span> createState() <span class="op">=&gt;</span> _ParentWidgetState();</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> _ParentWidgetState <span class="kw">extends</span> State<span class="op">&lt;</span>ParentWidget<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bool</span> _active <span class="op">=</span> <span class="cn">false</span>;</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> _handleTapboxChanged(<span class="dt">bool</span> newValue) <span class="op">{</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    setState(() <span class="op">{</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>      _active <span class="op">=</span> newValue;</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>);</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> SizedBox(</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> TapboxB(active<span class="op">:</span> _active<span class="op">,</span> onChanged<span class="op">:</span> _handleTapboxChanged)<span class="op">,</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="co">//------------------------- TapboxB ----------------------------------</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TapboxB <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> TapboxB(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">,</span> <span class="kw">this</span><span class="op">.</span>active <span class="op">=</span> <span class="cn">false</span><span class="op">,</span> required <span class="kw">this</span><span class="op">.</span>onChanged<span class="op">}</span>);</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">bool</span> active;</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> ValueChanged<span class="op">&lt;</span><span class="dt">bool</span><span class="op">&gt;</span> onChanged;</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> _handleTap() <span class="op">{</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    onChanged(<span class="op">!</span>active);</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> GestureDetector(</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>      onTap<span class="op">:</span> _handleTap<span class="op">,</span></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Container(</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>        width<span class="op">:</span> <span class="dv">200</span><span class="op">,</span></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>        height<span class="op">:</span> <span class="dv">200</span><span class="op">,</span></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>        decoration<span class="op">:</span> BoxDecoration(</span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>          color<span class="op">:</span> active <span class="op">?</span> Colors<span class="op">.</span>lightGreen[<span class="dv">700</span>] <span class="op">:</span> Colors<span class="op">.</span>grey[<span class="dv">600</span>]<span class="op">,</span></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> Center(</span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> Text(</span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>            active <span class="op">?</span> <span class="st">&#39;Active&#39;</span> <span class="op">:</span> <span class="st">&#39;Inactive&#39;</span><span class="op">,</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>            style<span class="op">:</span> <span class="at">const</span> TextStyle(fontSize<span class="op">:</span> <span class="dv">32</span><span class="op">,</span> color<span class="op">:</span> Colors<span class="op">.</span>white)<span class="op">,</span></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="1.3.3" id="karışık-yaklaşım-mix-and-match"><span
+class="header-section-number">1.3.3</span> Karışık yaklaşım
+(Mix-and-match)</h3>
+<p>Bazı widget’lar için karışık bir yaklaşım en mantıklısıdır. Bu
+senaryoda, durumlu widget durumun bir kısmını yönetir ve üst widget
+durumun diğer yönlerini yönetir.</p>
+<p><code>TapboxC</code> örneğinde, dokunulduğunda (tap down), kutunun
+etrafında koyu yeşil bir sınır belirir. Dokunma bırakıldığında (tap up),
+sınır kaybolur ve kutunun rengi değişir. <code>TapboxC</code>,
+<code>_active</code> durumunu üstüne dışa aktarır ancak
+<code>_highlight</code> durumunu dahili olarak yönetir. Bu örnekte iki
+<code>State</code> nesnesi vardır: <code>_ParentWidgetState</code> ve
+<code>_TapboxCState</code>.</p>
+<p><code>_ParentWidgetState</code> nesnesi:</p>
+<ul>
+<li><code>_active</code> durumunu yönetir.</li>
+<li>Kutuya dokunulduğunda çağrılan yöntem olan
+<code>_handleTapboxChanged()</code>’i uygular.</li>
+<li>Bir dokunma gerçekleştiğinde ve <code>_active</code> durumu
+değiştiğinde UI’ı güncellemek için <code>setState()</code>’i
+çağırır.</li>
+</ul>
+<p><code>_TapboxCState</code> nesnesi:</p>
+<ul>
+<li><code>_highlight</code> durumunu yönetir.</li>
+<li><code>GestureDetector</code> tüm dokunma olaylarını dinler.
+Kullanıcı aşağı bastığında (taps down), vurgulamayı ekler (koyu yeşil
+bir sınır olarak uygulanır). Kullanıcı dokunmayı bıraktığında,
+vurgulamayı kaldırır.</li>
+<li>Tap down, tap up veya tap cancel durumlarında ve
+<code>_highlight</code> durumu değiştiğinde UI’ı güncellemek için
+<code>setState()</code>’i çağırır.</li>
+<li>Bir dokunma olayında, <code>widget</code> özelliğini kullanarak
+uygun eylemi gerçekleştirmek için bu durum değişikliğini üst widget’a
+iletir.</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">// (Kodun tam yapısı yukarıdaki mantığı takip eder, kısalık için burada özetlenmiştir)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">// TapboxC hem kendi iç vurgu durumunu (_highlight) yönetir</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">// hem de aktiflik durumunu (_active) üst widget&#39;a bildirir.</span></span></code></pre></div>
+<p>Alternatif bir uygulama, vurgu durumunu üst widget’a dışa aktarırken
+aktif durumu dahili olarak tutabilirdi, ancak birinden o dokunma
+kutusunu kullanmasını isteseydiniz, muhtemelen bunun pek mantıklı
+olmadığından şikayet ederdi. Geliştirici, kutunun aktif olup olmadığını
+önemser. Geliştirici muhtemelen vurgulamanın nasıl yönetildiğini
+önemsemez ve dokunma kutusunun bu ayrıntıları halletmesini tercih
+eder.</p>
+<h2 data-number="1.4" id="lisans-bilgisi"><span
+class="header-section-number">1.4</span> 📄 Lisans Bilgisi</h2>
+<p>Bu doküman, <strong>Flutter resmi dokümantasyonundan</strong>
+türetilmiş Türkçe ders notudur.</p>
+<p><strong>Orijinal kaynak:</strong><br />
+https://docs.flutter.dev/ui/interactivity</p>
+<p><strong>Türkçe çeviri ve düzenleme:</strong><br />
+<a href="mailto:htemiz@artvin.edu.tr">Doç. Dr. Hakan Temiz</a></p>
+<hr />
+<h3 data-number="1.4.1" id="lisans-kapsamı"><span
+class="header-section-number">1.4.1</span> Lisans Kapsamı</h3>
+<p>Bu dokümandaki içerikler aşağıdaki açık lisanslar kapsamında
+sunulmaktadır:</p>
+<p><strong>Metin içerikleri (anlatım ve açıklamalar):</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> Creative Commons Attribution 4.0 International
+(CC BY 4.0)<br />
+https://creativecommons.org/licenses/by/4.0/</p>
+<p>Bu lisans kapsamında: - İçerik kopyalanabilir, dağıtılabilir ve
+uyarlanabilir<br />
+- Ticari kullanım serbesttir<br />
+- Kaynak belirtilmesi zorunludur</p>
+<p><strong>Kod örnekleri:</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> BSD 3-Clause License<br />
+https://opensource.org/licenses/BSD-3-Clause</p>
+<p>Bu lisans kapsamında: - Kodlar kopyalanabilir, değiştirilebilir ve
+dağıtılabilir<br />
+- Ticari kullanım serbesttir<br />
+- Lisans bildiriminin korunması gerekir</p>
+</body>
+</html>

@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>2.11 Erişilebilirlik (Accessibility)</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#erişilebilirlik-accessibility"
+id="toc-erişilebilirlik-accessibility"><span
+class="toc-section-number">1</span> Erişilebilirlik (Accessibility)</a>
+<ul>
+<li><a href="#arka-plan" id="toc-arka-plan"><span
+class="toc-section-number">1.1</span> Arka Plan</a></li>
+<li><a href="#erişilebilirlik-düzenlemeleri"
+id="toc-erişilebilirlik-düzenlemeleri"><span
+class="toc-section-number">1.2</span> Erişilebilirlik
+Düzenlemeleri</a></li>
+<li><a href="#erişilebilirliği-göz-önünde-bulundurarak-inşa-etmek"
+id="toc-erişilebilirliği-göz-önünde-bulundurarak-inşa-etmek"><span
+class="toc-section-number">1.3</span> Erişilebilirliği Göz Önünde
+Bulundurarak İnşa Etmek</a></li>
+<li><a href="#erişilebilirlik-sürüm-kontrol-listesi"
+id="toc-erişilebilirlik-sürüm-kontrol-listesi"><span
+class="toc-section-number">1.4</span> Erişilebilirlik Sürüm Kontrol
+Listesi</a></li>
+<li><a href="#daha-fazla-bilgi-edinin"
+id="toc-daha-fazla-bilgi-edinin"><span
+class="toc-section-number">1.5</span> Daha Fazla Bilgi Edinin</a></li>
+</ul></li>
+<li><a href="#ui-kullanıcı-arayüzü-tasarımı-ve-stillendirme"
+id="toc-ui-kullanıcı-arayüzü-tasarımı-ve-stillendirme"><span
+class="toc-section-number">2</span> UI (Kullanıcı Arayüzü) Tasarımı ve
+Stillendirme</a>
+<ul>
+<li><a href="#büyük-yazı-tipleri" id="toc-büyük-yazı-tipleri"><span
+class="toc-section-number">2.1</span> Büyük Yazı Tipleri</a>
+<ul>
+<li><a href="#örnek" id="toc-örnek"><span
+class="toc-section-number">2.1.1</span> Örnek</a></li>
+</ul></li>
+<li><a href="#yeterli-kontrast" id="toc-yeterli-kontrast"><span
+class="toc-section-number">2.2</span> Yeterli Kontrast</a></li>
+<li><a href="#dokunma-hedefi-boyutu-tap-target-size"
+id="toc-dokunma-hedefi-boyutu-tap-target-size"><span
+class="toc-section-number">2.3</span> Dokunma Hedefi Boyutu (Tap Target
+Size)</a></li>
+<li><a href="#diğer-erişilebilirlik-özellikleri"
+id="toc-diğer-erişilebilirlik-özellikleri"><span
+class="toc-section-number">2.4</span> Diğer Erişilebilirlik
+Özellikleri</a></li>
+</ul></li>
+<li><a href="#erişilebilirlik-teknolojileri"
+id="toc-erişilebilirlik-teknolojileri"><span
+class="toc-section-number">3</span> Erişilebilirlik Teknolojileri</a>
+<ul>
+<li><a href="#özet" id="toc-özet"><span
+class="toc-section-number">3.1</span> Özet</a></li>
+<li><a href="#ekran-okuyucular-screen-readers"
+id="toc-ekran-okuyucular-screen-readers"><span
+class="toc-section-number">3.2</span> Ekran Okuyucular (Screen
+Readers)</a></li>
+<li><a href="#hareketlilik-desteği-mobility-support"
+id="toc-hareketlilik-desteği-mobility-support"><span
+class="toc-section-number">3.3</span> Hareketlilik Desteği (Mobility
+Support)</a></li>
+</ul></li>
+<li><a href="#erişilebilirlik-testi"
+id="toc-erişilebilirlik-testi"><span class="toc-section-number">4</span>
+Erişilebilirlik Testi</a>
+<ul>
+<li><a href="#erişilebilirlik-düzenlemeleri-1"
+id="toc-erişilebilirlik-düzenlemeleri-1"><span
+class="toc-section-number">4.1</span> Erişilebilirlik
+Düzenlemeleri</a></li>
+<li><a href="#erişilebilirlik-desteğini-inceleme-denetleme"
+id="toc-erişilebilirlik-desteğini-inceleme-denetleme"><span
+class="toc-section-number">4.2</span> Erişilebilirlik Desteğini İnceleme
+(Denetleme)</a>
+<ul>
+<li><a href="#android-için" id="toc-android-için"><span
+class="toc-section-number">4.2.1</span> Android için:</a></li>
+<li><a href="#ios-için" id="toc-ios-için"><span
+class="toc-section-number">4.2.2</span> iOS için:</a></li>
+<li><a href="#web-için" id="toc-web-için"><span
+class="toc-section-number">4.2.3</span> Web için:</a></li>
+</ul></li>
+<li><a href="#mobilde-erişilebilirlik-testi"
+id="toc-mobilde-erişilebilirlik-testi"><span
+class="toc-section-number">4.3</span> Mobilde Erişilebilirlik
+Testi</a></li>
+<li><a href="#webde-erişilebilirlik-testi"
+id="toc-webde-erişilebilirlik-testi"><span
+class="toc-section-number">4.4</span> Web’de Erişilebilirlik
+Testi</a></li>
+</ul></li>
+<li><a href="#web-erişilebilirliği-web-accessibility"
+id="toc-web-erişilebilirliği-web-accessibility"><span
+class="toc-section-number">5</span> Web Erişilebilirliği (Web
+Accessibility)</a>
+<ul>
+<li><a href="#arka-plan-1" id="toc-arka-plan-1"><span
+class="toc-section-number">5.1</span> Arka Plan</a></li>
+<li><a href="#isteğe-bağlı-opt-in-web-erişilebilirliği"
+id="toc-isteğe-bağlı-opt-in-web-erişilebilirliği"><span
+class="toc-section-number">5.2</span> İsteğe Bağlı (Opt-in) Web
+Erişilebilirliği</a>
+<ul>
+<li><a href="#görünmez-düğme" id="toc-görünmez-düğme"><span
+class="toc-section-number">5.2.1</span> Görünmez Düğme</a></li>
+<li><a href="#erişilebilirlik-modunu-kodda-açma"
+id="toc-erişilebilirlik-modunu-kodda-açma"><span
+class="toc-section-number">5.2.2</span> Erişilebilirlik Modunu Kodda
+Açma</a></li>
+</ul></li>
+<li><a href="#erişilebilirliği-semantik-roller-ile-geliştirme"
+id="toc-erişilebilirliği-semantik-roller-ile-geliştirme"><span
+class="toc-section-number">5.3</span> Erişilebilirliği Semantik Roller
+ile Geliştirme</a>
+<ul>
+<li><a href="#semantik-roller-semantic-roles-nedir"
+id="toc-semantik-roller-semantic-roles-nedir"><span
+class="toc-section-number">5.3.1</span> Semantik Roller (Semantic Roles)
+Nedir?</a></li>
+<li><a href="#flutter-web-için-semanticsrole-kullanımı"
+id="toc-flutter-web-için-semanticsrole-kullanımı"><span
+class="toc-section-number">5.3.2</span> Flutter Web için
+<code>SemanticsRole</code> Kullanımı</a></li>
+</ul></li>
+<li><a href="#lisans-bilgisi" id="toc-lisans-bilgisi"><span
+class="toc-section-number">5.4</span> 📄 Lisans Bilgisi</a>
+<ul>
+<li><a href="#lisans-kapsamı" id="toc-lisans-kapsamı"><span
+class="toc-section-number">5.4.1</span> Lisans Kapsamı</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1" id="erişilebilirlik-accessibility"><span
+class="header-section-number">1</span> Erişilebilirlik
+(Accessibility)</h1>
+<h2 data-number="1.1" id="arka-plan"><span
+class="header-section-number">1.1</span> Arka Plan</h2>
+<p>Uygulamaların geniş bir kullanıcı kitlesi tarafından erişilebilir
+olmasını sağlamak, yüksek kaliteli bir uygulama oluşturmanın önemli bir
+parçasıdır. Kötü tasarlanmış uygulamalar her yaştan insan için engeller
+oluşturur. <a
+href="https://www.un.org/development/desa/disabilities/convention-on-the-rights-of-persons-with-disabilities.html">BM
+Engelli Hakları Sözleşmesi</a>, bilgi sistemlerine evrensel erişimi
+sağlamanın ahlaki ve yasal zorunluluğunu belirtir; dünya çapındaki
+ülkeler erişilebilirliği bir gereklilik olarak uygular ve şirketler
+hizmetlerine erişimi en üst düzeye çıkarmanın ticari avantajlarını kabul
+eder.</p>
+<p>Uygulamanızı yayınlamadan önce bir erişilebilirlik kontrol listesini
+temel bir kriter olarak dahil etmenizi şiddetle tavsiye ederiz. Flutter,
+geliştiricileri uygulamalarını daha erişilebilir hale getirmeleri
+konusunda desteklemeye kararlıdır ve temel işletim sistemi tarafından
+sağlananlara ek olarak erişilebilirlik için birinci sınıf çerçeve
+(framework) desteği içerir:</p>
+<ul>
+<li><strong>UI Tasarımı ve stillendirme</strong></li>
+<li><strong>Yardımcı Teknolojiler (Ekran Okuyucu) desteği</strong></li>
+</ul>
+<h2 data-number="1.2" id="erişilebilirlik-düzenlemeleri"><span
+class="header-section-number">1.2</span> Erişilebilirlik
+Düzenlemeleri</h2>
+<p>Erişilebilirlik standartları ve düzenlemeleri, ürünlerin engelli
+kişiler için erişilebilir olmasını sağlamaya yardımcı olur. Bunların
+çoğu yasa ve politika haline getirilmiş, ürün ve hizmetler için
+gereklilikler olmuştur.</p>
+<ul>
+<li><strong>WCAG 2:</strong> <a href="https://www.w3.org/TR/WCAG21/">Web
+İçeriği Erişilebilirlik Yönergeleri (WCAG) 2</a>, web içeriğini engelli
+kişiler için daha erişilebilir hale getirmek amacıyla uluslararası kabul
+görmüş bir standarttır. World Wide Web Consortium (W3C) tarafından
+geliştirilen kararlı, teknik bir standarttır.</li>
+<li><strong>EN 301 549:</strong> <a
+href="https://adod.idrc.ocadu.ca/standards/en301549">EN 301 549</a>,
+Bilgi ve İletişim Teknolojisi (ICT) ürünleri ve hizmetleri için
+erişilebilirlik gerekliliklerine yönelik Avrupa uyumlaştırılmış
+standardıdır.</li>
+<li><strong>VPAT:</strong> <a
+href="https://www.itic.org/policy/accessibility/vpat">Gönüllü Ürün
+Erişilebilirlik Şablonu (VPAT)</a>, erişilebilirlik gerekliliklerini ve
+standartlarını ürünler ve hizmetler için eyleme geçirilebilir test
+kriterlerine dönüştüren ücretsiz bir şablondur.</li>
+</ul>
+<p>Dünyanın dört bir yanındaki yasalar, dijital içerik ve hizmetlerin
+engelli kişiler için erişilebilir olmasını gerektirir. ABD’de,
+<strong>Amerikalılar Engelliler Yasası (ADA)</strong> kamuya açık
+konaklama yerlerinde ayrımcılığı yasaklar. <strong>Rehabilitasyon
+Yasası’nın 508. Bölümü</strong>, federal kurumların ve yüklenicilerinin
+tüm ICT (Bilgi ve İletişim Teknolojileri) için WCAG standartlarını
+karşılamasını gerektirir.</p>
+<p>AB’de, <strong>Avrupa Erişilebilirlik Yasası (EAA)</strong>, teknik
+temeli olarak öncelikle <strong>EN 301 549</strong>’u kullanarak çok
+çeşitli kamu ve özel sektör hizmetlerinin erişilebilir olmasını
+gerektirir.</p>
+<h2 data-number="1.3"
+id="erişilebilirliği-göz-önünde-bulundurarak-inşa-etmek"><span
+class="header-section-number">1.3</span> Erişilebilirliği Göz Önünde
+Bulundurarak İnşa Etmek</h2>
+<p>Uygulamanızın herkes tarafından kullanılabilmesini sağlamak,
+erişilebilirliği en baştan itibaren uygulamanın içine inşa etmek
+anlamına gelir. Bazı uygulamalar için bunu söylemek yapmaktan daha
+kolaydır. Aşağıdaki videoda (orijinal metindeki video kastediliyor),
+mühendislerimizden ikisi bir mobil uygulamayı kötü bir erişilebilirlik
+durumundan alıp, Flutter’ın yerleşik widget’larından yararlanarak çok
+daha erişilebilir bir deneyim sunan bir hale getiriyor.</p>
+<p><a href="https://www.youtube.com/watch?v=bWbBgbmAdQs">video</a></p>
+<h2 data-number="1.4" id="erişilebilirlik-sürüm-kontrol-listesi"><span
+class="header-section-number">1.4</span> Erişilebilirlik Sürüm Kontrol
+Listesi</h2>
+<p>Uygulamanızı yayına hazırlarken göz önünde bulundurmanız gereken,
+kapsamlı olmayan bir liste şöyledir:</p>
+<ul>
+<li><p><strong>Aktif etkileşimler:</strong> Tüm aktif etkileşimlerin bir
+şeyler yaptığından emin olun. Basılabilen herhangi bir düğme
+basıldığında bir şeyler yapmalıdır. Örneğin, bir <code>onPressed</code>
+olayı için işlevsiz (no-op) bir geri çağırmanız varsa, bunu ekranda
+hangi kontrole bastığınızı açıklayan bir <code>SnackBar</code>
+gösterecek şekilde değiştirin.</p></li>
+<li><p><strong>Ekran okuyucu testi:</strong> Ekran okuyucu,
+dokunduğunuzda sayfadaki tüm kontrolleri tanımlayabilmeli ve açıklamalar
+anlaşılır olmalıdır. Uygulamanızı <strong>TalkBack</strong> (Android) ve
+<strong>VoiceOver</strong> (iOS) ile test edin.</p></li>
+<li><p><strong>Kontrast oranları:</strong> Devre dışı bırakılmış
+bileşenler hariç, kontroller veya metin ile arka plan arasında en az
+4.5:1 kontrast oranına sahip olmanızı öneririz. Görüntüler de yeterli
+kontrast açısından incelenmelidir.</p></li>
+<li><p><strong>Bağlam değiştirme:</strong> Bilgi girilirken hiçbir şey
+kullanıcının bağlamını otomatik olarak değiştirmemelidir. Genellikle,
+widget’lar bir tür onay eylemi olmadan kullanıcının bağlamını
+değiştirmekten kaçınmalıdır.</p></li>
+<li><p><strong>Dokunulabilir hedefler:</strong> Tüm dokunulabilir
+hedefler en az 48x48 piksel olmalıdır.</p></li>
+<li><p><strong>Hatalar:</strong> Önemli eylemler geri alınabilmelidir.
+Hata gösteren alanlarda, mümkünse bir düzeltme önerin.</p></li>
+<li><p><strong>Renk görme eksikliği testi:</strong> Kontroller, renk
+körü ve gri tonlamalı modlarda kullanılabilir ve okunaklı
+olmalıdır.</p></li>
+<li><p><strong>Ölçek faktörleri:</strong> Kullanıcı arayüzü (UI), metin
+boyutu ve ekran ölçeklendirmesi için çok büyük ölçek faktörlerinde bile
+okunaklı ve kullanılabilir kalmalıdır.</p></li>
+</ul>
+<h2 data-number="1.5" id="daha-fazla-bilgi-edinin"><span
+class="header-section-number">1.5</span> Daha Fazla Bilgi Edinin</h2>
+<p>Flutter ve erişilebilirlik hakkında daha fazla bilgi edinmek için
+topluluk üyeleri tarafından yazılan aşağıdaki makalelere göz atın:</p>
+<ul>
+<li><a
+href="https://medium.com/flutter-community/a-deep-dive-into-flutters-accessibility-widgets-eb0ef9455bc">A
+deep dive into Flutter’s accessibility widgets (Flutter’ın
+erişilebilirlik widget’larına derinlemesine bir bakış)</a></li>
+<li><a
+href="https://blog.gskinner.com/archives/2022/09/flutter-crafting-a-great-experience-for-screen-readers.html">Flutter:
+Crafting a great experience for screen readers (Flutter: Ekran
+okuyucular için harika bir deneyim oluşturmak)</a></li>
+</ul>
+<h1 data-number="2"
+id="ui-kullanıcı-arayüzü-tasarımı-ve-stillendirme"><span
+class="header-section-number">2</span> UI (Kullanıcı Arayüzü) Tasarımı
+ve Stillendirme</h1>
+<p>Flutter’ın erişilebilirlik desteği hakkında bilgiler.</p>
+<p>Erişilebilir bir uygulama oluşturmak için, kullanıcı arayüzünüzü (UI)
+erişilebilirliği göz önünde bulundurarak tasarlayın. Bu sayfa,
+erişilebilir UI tasarımı ve stillendirmenin temel yönlerini kapsar.</p>
+<h2 data-number="2.1" id="büyük-yazı-tipleri"><span
+class="header-section-number">2.1</span> Büyük Yazı Tipleri</h2>
+<p>Hem Android hem de iOS, uygulamalar tarafından kullanılan istenen
+yazı tipi boyutlarını yapılandırmak için sistem ayarları içerir. Flutter
+metin widget’ları, yazı tipi boyutlarını belirlerken bu işletim sistemi
+ayarına uyar.</p>
+<p>Yazı tipi boyutları, işletim sistemi ayarına göre Flutter tarafından
+otomatik olarak hesaplanır. Ancak, bir geliştirici olarak, yazı tipi
+boyutları artırıldığında düzeninizin (layout) tüm içeriğini oluşturmak
+için yeterli alana sahip olduğundan emin olmalısınız. Örneğin,
+uygulamanızın tüm bölümlerini, en büyük yazı tipi ayarını kullanacak
+şekilde yapılandırılmış küçük ekranlı bir cihazda test
+edebilirsiniz.</p>
+<p>Yazı tipi boyutlarını ayarlamak için: * <strong>iOS’te:</strong>
+Ayarlar &gt; Erişilebilirlik &gt; Ekran ve Metin Boyutu’na gidin. *
+<strong>Android’de:</strong> Ayarlar &gt; Yazı tipi boyutu’na gidin.</p>
+<h3 data-number="2.1.1" id="örnek"><span
+class="header-section-number">2.1.1</span> Örnek</h3>
+<p>Aşağıdaki iki ekran görüntüsü, varsayılan iOS yazı tipi ayarıyla ve
+iOS erişilebilirlik ayarlarında seçilen en büyük yazı tipi ayarıyla
+oluşturulan standart Flutter uygulama şablonunu göstermektedir.</p>
+<p><img src="images/130_app-regular-fonts.png" width=150>           
+<img src="images/130_app-large-fonts.png" width=150></p>
+<p>[Varsayılan yazı tipi ayarı]      [En büyük erişilebilirlik yazı tipi
+ayarı]</p>
+<h2 data-number="2.2" id="yeterli-kontrast"><span
+class="header-section-number">2.2</span> Yeterli Kontrast</h2>
+<p>Yeterli renk kontrastı, metin ve resimlerin okunmasını kolaylaştırır.
+Çeşitli görme bozuklukları olan kullanıcılara fayda sağlamanın yanı
+sıra, yeterli renk kontrastı, doğrudan güneş ışığına maruz kalma veya
+düşük parlaklığa sahip bir ekran gibi aşırı aydınlatma koşullarında bir
+arayüzü görüntülerken tüm kullanıcılara yardımcı olur.</p>
+<p>W3C şunları önerir: * Küçük metinler için en az
+<strong>4.5:1</strong> (18 punto normal veya 14 punto kalından küçük). *
+Büyük metinler için en az <strong>3.0:1</strong> (18 punto ve üzeri
+normal veya 14 punto ve üzeri kalın).</p>
+<p>Kontrastı Flutter’ın <strong>Erişilebilirlik Yönergesi
+API</strong>’sini (Accessibility Guideline API) kullanarak test
+edebilirsiniz. Test etme hakkında daha fazla ayrıntı için
+erişilebilirlik testi sayfasına göz atın.</p>
+<h2 data-number="2.3" id="dokunma-hedefi-boyutu-tap-target-size"><span
+class="header-section-number">2.3</span> Dokunma Hedefi Boyutu (Tap
+Target Size)</h2>
+<p>Çok küçük olan kontroller, birçok kişinin etkileşimde bulunması ve
+seçmesi açısından zordur. Etkileşimli öğelerin, kullanıcılar tarafından
+kolayca basılabilecek kadar büyük bir dokunma hedefine sahip olduğundan
+emin olun.</p>
+<ul>
+<li><strong>Android</strong>, minimum <strong>48x48 dp</strong> dokunma
+hedefi boyutu önerir.</li>
+<li><strong>iOS</strong>, minimum <strong>44x44 pts</strong> dokunma
+hedefi boyutu önerir.</li>
+<li><strong>W3C</strong>, minimum <strong>44’e 44 CSS pikseli</strong>
+hedef boyutu önerir.</li>
+</ul>
+<p>Dokunma hedefi boyutunu Flutter’ın <strong>Erişilebilirlik Yönergesi
+API</strong>’sini kullanarak test edebilirsiniz. Test etme hakkında daha
+fazla ayrıntı için erişilebilirlik testi sayfasına göz atın.</p>
+<h2 data-number="2.4" id="diğer-erişilebilirlik-özellikleri"><span
+class="header-section-number">2.4</span> Diğer Erişilebilirlik
+Özellikleri</h2>
+<p>Kalın metin, yüksek kontrast ve ters renkler gibi platform tarafından
+etkinleştirilebilecek ek erişilebilirlik özellikleri için
+<code>AccessibilityFeatures</code> sınıfını kontrol edebilirsiniz.</p>
+<h1 data-number="3" id="erişilebilirlik-teknolojileri"><span
+class="header-section-number">3</span> Erişilebilirlik
+Teknolojileri</h1>
+<h2 data-number="3.1" id="özet"><span
+class="header-section-number">3.1</span> Özet</h2>
+<p>Yardımcı teknolojiler, dijital içeriği engelli bireyler için
+erişilebilir kılmak adına hayati öneme sahiptir. Bu belge, Flutter
+geliştirmeyle ilgili iki temel yardımcı teknoloji kategorisine genel bir
+bakış sunar: görme bozukluğu olan kullanıcılar için <strong>ekran
+okuyucular</strong> ve motor (hareket) kısıtlamaları olanlar için
+<strong>hareketlilik destek araçları</strong>. Bu teknolojileri
+anlayarak ve bunlarla testler yaparak, Flutter uygulamanızın herkes için
+daha kapsayıcı ve kullanıcı dostu bir deneyim sunduğundan emin
+olabilirsiniz.</p>
+<h2 data-number="3.2" id="ekran-okuyucular-screen-readers"><span
+class="header-section-number">3.2</span> Ekran Okuyucular (Screen
+Readers)</h2>
+<p>Mobil cihazlar için ekran okuyucular (<strong>TalkBack</strong>,
+<strong>VoiceOver</strong>), görme engelli kullanıcıların ekranın
+içeriği hakkında sesli geri bildirim almasını ve mobilde jestleri,
+masaüstünde ise klavye kısayollarını kullanarak kullanıcı arayüzüyle
+(UI) etkileşime girmesini sağlar. Mobil cihazınızda VoiceOver veya
+TalkBack’i açın ve uygulamanızda gezinin.</p>
+<p><a href="https://www.youtube.com/watch?v=FQyj_XTl01w">video</a></p>
+<p>Cihazınızda ekran okuyucuyu açmak için aşağıdaki adımları
+tamamlayın:</p>
+<ol type="1">
+<li>Cihazınızda <strong>Ayarlar</strong>’ı (Settings) açın.</li>
+<li><strong>Erişilebilirlik</strong>’i (Accessibility) ve ardından
+<strong>TalkBack</strong>’i seçin.</li>
+<li>‘TalkBack’i kullan’ seçeneğini açın veya kapatın.</li>
+<li><strong>Tamam</strong>’ı seçin.</li>
+</ol>
+<p>Android’in erişilebilirlik özelliklerini nasıl bulacağınızı ve
+özelleştireceğinizi öğrenmek için ilgili videoları izleyebilirsiniz.</p>
+<p>Artık arşivlenmiş olan Flutter Gallery web uygulamasıyla VoiceOver’ın
+nasıl kullanılacağını görmek için video demolarına göz
+atabilirsiniz.</p>
+<p>Flutter’ın standart widget’ları otomatik olarak bir erişilebilirlik
+ağacı oluşturur. Ancak, uygulamanızın farklı bir şeye ihtiyacı varsa,
+<code>Semantics</code> widget’ı kullanılarak özelleştirilebilir.</p>
+<p>Uygulamanızda belirli bir sesle seslendirilmesi gereken bir metin
+olduğunda, <code>TextSpan.locale</code> öğesini çağırarak ekran
+okuyucuya hangi sesi kullanacağını bildirin.
+<code>MaterialApp.locale</code> ve <code>Localizations.override</code>,
+Flutter 3.38 sürümünden itibaren ekran okuyucu seslerini etkileyecektir.
+Genellikle ekran okuyucu, <code>TextSpan.locale</code> ile açıkça
+ayarlamadığınız sürece sistem sesini kullanır.</p>
+<h2 data-number="3.3" id="hareketlilik-desteği-mobility-support"><span
+class="header-section-number">3.3</span> Hareketlilik Desteği (Mobility
+Support)</h2>
+<p>Sınırlı el becerisi veya el gücü olan kullanıcılar için hareketlilik
+destek özellikleri yardımcı olabilir. Hem Android hem de iOS, gezinmeyi
+ve kontrolü kolaylaştırmak için tasarlanmış bir dizi araç sunar. Bu
+özellikler, kullanıcıların cihazlarını harici anahtarlar, sesli komutlar
+veya basitleştirilmiş ekran menüleri aracılığıyla çalıştırmasına olanak
+tanır.</p>
+<p>Android; Anahtar Erişimi (Switch Access), Sesle Erişim (Voice Access)
+ve Erişilebilirlik Menüsü (Accessibility Menu) sağlarken; iOS, Anahtarla
+Denetim (Switch Control), Sesle Denetim (Voice Control) ve
+AssistiveTouch sunar. Bu araçları anlamak, çeşitli fiziksel yeteneklere
+sahip kişiler tarafından kullanılabilen uygulamalar oluşturmaya yardımcı
+olur.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">İşletim Sistemi</th>
+<th style="text-align: left;">Özellikler</th>
+<th style="text-align: left;">İşlevler</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Android</strong></td>
+<td style="text-align: left;">Switch Access (Anahtar Erişimi)</td>
+<td style="text-align: left;">Alternatif bir giriş yöntemi olarak,
+Anahtar Erişimi ve Kamera Anahtarlarını kullanabilirsiniz.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Android</strong></td>
+<td style="text-align: left;">Voice Access (Sesle Erişim)</td>
+<td style="text-align: left;">Cihazınızı sesinizle kontrol edin.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Android</strong></td>
+<td style="text-align: left;">Accessibility Menu (Erişilebilirlik
+Menüsü)</td>
+<td style="text-align: left;">Temel telefon işlevlerini kontrol etmek
+için basitleştirilmiş düğmeler sağlayan, ekranda yüzen bir menü.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>iOS</strong></td>
+<td style="text-align: left;">Switch Control (Anahtarla Denetim)</td>
+<td style="text-align: left;">Anahtarları alternatif bir giriş yöntemi
+olarak kullanın.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>iOS</strong></td>
+<td style="text-align: left;">Voice Control (Sesle Denetim)</td>
+<td style="text-align: left;">Cihazınızı sesinizle kontrol edin.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>iOS</strong></td>
+<td style="text-align: left;">AssistiveTouch</td>
+<td style="text-align: left;">Çok parmaklı hareketleri veya donanım
+düğmesi eylemlerini değiştirmek için AssistiveTouch’ı kullanın.</td>
+</tr>
+</tbody>
+</table>
+<h1 data-number="4" id="erişilebilirlik-testi"><span
+class="header-section-number">4</span> Erişilebilirlik Testi</h1>
+<h2 data-number="4.1" id="erişilebilirlik-düzenlemeleri-1"><span
+class="header-section-number">4.1</span> Erişilebilirlik
+Düzenlemeleri</h2>
+<p>Uygulamanızın erişilebilir olduğundan emin olmak için, onu
+<strong>Web İçeriği Erişilebilirlik Yönergeleri (WCAG) 2</strong> ve
+<strong>EN 301 549</strong> gibi genel standartlara göre kontrol edin ve
+ürününüzü kendi kendinize değerlendirmek için <strong>Gönüllü Ürün
+Erişilebilirlik Şablonu (VPAT)</strong> gibi kaynakları kullanın. Bu
+düzenlemeler hakkında daha fazla ayrıntı için ana erişilebilirlik
+sayfasına göz atın.</p>
+<h2 data-number="4.2"
+id="erişilebilirlik-desteğini-inceleme-denetleme"><span
+class="header-section-number">4.2</span> Erişilebilirlik Desteğini
+İnceleme (Denetleme)</h2>
+<p>Aşağıdakileri test etmek için otomatik erişilebilirlik tarayıcılarını
+kullanmanızı öneririz:</p>
+<h3 data-number="4.2.1" id="android-için"><span
+class="header-section-number">4.2.1</span> Android için:</h3>
+<ol type="1">
+<li>Android için <strong>Accessibility Scanner</strong> (Erişilebilirlik
+Tarayıcısı) uygulamasını yükleyin.</li>
+<li><strong>Android Ayarlar &gt; Erişilebilirlik &gt; Erişilebilirlik
+Tarayıcısı &gt; Açık</strong> yolunu izleyerek Erişilebilirlik
+Tarayıcısını etkinleştirin.</li>
+<li>Bir tarama başlatmak için Erişilebilirlik Tarayıcısı ‘onay kutusu’
+simge düğmesine gidin.</li>
+</ol>
+<h3 data-number="4.2.2" id="ios-için"><span
+class="header-section-number">4.2.2</span> iOS için:</h3>
+<ol type="1">
+<li>Xcode’da Flutter uygulamanızın <code>iOS</code> klasörünü açın.</li>
+<li>Hedef olarak bir Simülatör seçin ve <strong>Çalıştır</strong> (Run)
+düğmesine tıklayın.</li>
+<li>Xcode’da <strong>Xcode &gt; Open Developer Tools &gt; Accessibility
+Inspector</strong> (Geliştirici Araçlarını Aç &gt; Erişilebilirlik
+Denetçisi) seçeneğini seçin.</li>
+<li>Erişilebilirlik Denetçisi’nde, <strong>Inspection &gt; Enable Point
+to Inspect</strong> (İnceleme &gt; İncelemek İçin İşaretlemeyi
+Etkinleştir) seçeneğini seçin ve ardından erişilebilirlik
+özniteliklerini incelemek için çalışan Flutter uygulamanızdaki çeşitli
+kullanıcı arayüzü öğelerini seçin.</li>
+<li>Erişilebilirlik Denetçisi’nde, araç çubuğundaki
+<strong>Audit</strong> (Denetim) öğesini seçin ve ardından olası
+sorunların bir raporunu almak için <strong>Run Audit</strong> (Denetimi
+Çalıştır) öğesini seçin.</li>
+</ol>
+<h3 data-number="4.2.3" id="web-için"><span
+class="header-section-number">4.2.3</span> Web için:</h3>
+<ol type="1">
+<li>Chrome DevTools’u (veya diğer tarayıcılardaki benzer araçları)
+açın.</li>
+<li>Flutter tarafından oluşturulan ARIA niteliklerini içeren semantik
+(anlamsal) ana bilgisayar altındaki HTML ağacını inceleyin.</li>
+<li>Chrome’da, “Elements” (Öğeler) sekmesi, semantik ağaca dışa
+aktarılan verileri incelemek için kullanılabilecek bir “Accessibility”
+(Erişilebilirlik) alt sekmesine sahiptir.</li>
+</ol>
+<h2 data-number="4.3" id="mobilde-erişilebilirlik-testi"><span
+class="header-section-number">4.3</span> Mobilde Erişilebilirlik
+Testi</h2>
+<p>Uygulamanızı Flutter’ın <strong>Erişilebilirlik Yönergesi
+API</strong>’sini (Accessibility Guideline API) kullanarak test edin. Bu
+API, uygulamanızın kullanıcı arayüzünün Flutter’ın erişilebilirlik
+önerilerini karşılayıp karşılamadığını kontrol eder. Bunlar metin
+kontrastı, hedef boyutu ve hedef etiketleri için önerileri kapsar.</p>
+<p>Aşağıdaki kod parçası, <code>AccessibleApp</code> adlı örnek bir
+widget üzerinde Guideline API’nin nasıl kullanılacağını gösterir:</p>
+<p><code>test/a11y_test.dart</code></p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter_test/flutter_test.dart&#39;</span>;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:your_accessible_app/main.dart&#39;</span>;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main() <span class="op">{</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  testWidgets(<span class="st">&#39;Erişilebilirlik yönergelerini takip eder&#39;</span><span class="op">,</span> (tester) <span class="at">async</span> <span class="op">{</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> SemanticsHandle handle <span class="op">=</span> tester<span class="op">.</span>ensureSemantics();</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">await</span> tester<span class="op">.</span>pumpWidget(<span class="at">const</span> AccessibleApp());</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Android için dokunulabilir düğümlerin (nodes) minimum</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 48&#39;e 48 piksel boyutunda olup olmadığını kontrol eder.</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">await</span> expectLater(tester<span class="op">,</span> meetsGuideline(androidTapTargetGuideline));</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">// iOS için dokunulabilir düğümlerin (nodes) minimum</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 44&#39;e 44 piksel boyutunda olup olmadığını kontrol eder.</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">await</span> expectLater(tester<span class="op">,</span> meetsGuideline(iOSTapTargetGuideline));</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Dokunma veya uzun basma eylemi olan dokunma hedeflerinin</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">// etiketlenip etiketlenmediğini kontrol eder.</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">await</span> expectLater(tester<span class="op">,</span> meetsGuideline(labeledTapTargetGuideline));</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Semantik düğümlerin minimum metin kontrastı seviyelerini</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">// karşılayıp karşılamadığını kontrol eder.</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Önerilen metin kontrastı, daha büyük metinler için 3:1&#39;dir</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">// (18 punto ve üzeri normal).</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">await</span> expectLater(tester<span class="op">,</span> meetsGuideline(textContrastGuideline));</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    handle<span class="op">.</span>dispose();</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span>);</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Bu testleri denemek için, <em>İlk Flutter uygulamanızı yazın</em> kod
+laboratuvarında (codelab) oluşturduğunuz uygulama üzerinde çalıştırın. O
+uygulamanın ana ekranındaki her düğme, 18 puntoluk bir yazı tipiyle
+oluşturulmuş metne sahip dokunulabilir bir hedef görevi görür.</p>
+<p>Guideline API testlerini diğer widget testleriyle birlikte veya bu
+örnekteki <code>test/a11y_test.dart</code> gibi ayrı bir dosyaya
+ekleyebilirsiniz.</p>
+<h2 data-number="4.4" id="webde-erişilebilirlik-testi"><span
+class="header-section-number">4.4</span> Web’de Erişilebilirlik
+Testi</h2>
+<p>Profil ve sürüm (release) modlarında aşağıdaki komut satırı bayrağını
+kullanarak web uygulamanız için oluşturulan anlamsal düğümleri
+görselleştirerek erişilebilirliği ayıklayabilirsiniz (debug):</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">flutter</span> run <span class="at">-d</span> chrome <span class="at">--profile</span> <span class="at">--dart-define</span><span class="op">=</span>FLUTTER_WEB_DEBUG_SHOW_SEMANTICS=true</span></code></pre></div>
+<p>Bayrak etkinleştirildiğinde, anlamsal düğümler widget’ların üzerinde
+görünür; anlamsal öğelerin olması gereken yere yerleştirildiğini
+doğrulayabilirsiniz. Anlamsal düğümler yanlış yerleştirilmişse, lütfen
+bir hata raporu gönderin.</p>
+<h1 data-number="5" id="web-erişilebilirliği-web-accessibility"><span
+class="header-section-number">5</span> Web Erişilebilirliği (Web
+Accessibility)</h1>
+<h2 data-number="5.1" id="arka-plan-1"><span
+class="header-section-number">5.1</span> Arka Plan</h2>
+<p>Flutter, dahili Semantics (anlambilim) ağacını ekran okuyucuların
+anlayabileceği erişilebilir bir HTML DOM yapısına çevirerek web
+erişilebilirliğini destekler. Flutter, kullanıcı arayüzünü (UI) tek bir
+tuval (canvas) üzerinde oluşturduğundan, UI’ın anlamını ve yapısını web
+tarayıcılarına göstermek için özel bir katmana ihtiyaç duyar.</p>
+<h2 data-number="5.2"
+id="isteğe-bağlı-opt-in-web-erişilebilirliği"><span
+class="header-section-number">5.2</span> İsteğe Bağlı (Opt-in) Web
+Erişilebilirliği</h2>
+<h3 data-number="5.2.1" id="görünmez-düğme"><span
+class="header-section-number">5.2.1</span> Görünmez Düğme</h3>
+<p>Performans nedenleriyle, Flutter’ın web erişilebilirliği varsayılan
+olarak açık değildir. Erişilebilirliği açmak için kullanıcının
+<code>aria-label="Enable accessibility"</code> etiketine sahip görünmez
+bir düğmeye basması gerekir. Düğmeye bastıktan sonra, DOM ağacı
+widget’lar için tüm erişilebilirlik bilgilerini yansıtacaktır.</p>
+<h3 data-number="5.2.2" id="erişilebilirlik-modunu-kodda-açma"><span
+class="header-section-number">5.2.2</span> Erişilebilirlik Modunu Kodda
+Açma</h3>
+<p>Alternatif bir yaklaşım, bir uygulamayı çalıştırırken aşağıdaki kodu
+ekleyerek erişilebilirlik modunu açmaktır.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter/semantics.dart&#39;</span>;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main() <span class="op">{</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  runApp(<span class="at">const</span> MyApp());</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (kIsWeb) <span class="op">{</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    SemanticsBinding<span class="op">.</span>instance<span class="op">.</span>ensureSemantics();</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 data-number="5.3"
+id="erişilebilirliği-semantik-roller-ile-geliştirme"><span
+class="header-section-number">5.3</span> Erişilebilirliği Semantik
+Roller ile Geliştirme</h2>
+<h3 data-number="5.3.1" id="semantik-roller-semantic-roles-nedir"><span
+class="header-section-number">5.3.1</span> Semantik Roller (Semantic
+Roles) Nedir?</h3>
+<p>Semantik roller, bir UI öğesinin amacını tanımlar ve ekran
+okuyucuların ve diğer yardımcı araçların uygulamanızı kullanıcılara
+etkili bir şekilde yorumlamasına ve sunmasına yardımcı olur. Örneğin,
+bir rol, bir widget’ın bir düğme, bir bağlantı, bir başlık, bir
+kaydırıcı veya bir tablonun parçası olup olmadığını belirtebilir.</p>
+<p>Flutter’ın standart widget’ları genellikle bu semantiği otomatik
+olarak sağlarken, açıkça tanımlanmış bir rolü olmayan özel bir bileşen,
+bir ekran okuyucu kullanıcısı için anlaşılmaz olabilir.</p>
+<p>Uygun rolleri atayarak şunları sağlarsınız:</p>
+<ul>
+<li>Ekran okuyucular, öğelerin türünü ve amacını doğru bir şekilde
+duyurabilir.</li>
+<li>Kullanıcılar, yardımcı teknolojileri kullanarak uygulamanızda daha
+etkili bir şekilde gezinebilir.</li>
+<li>Uygulamanız web erişilebilirlik standartlarına uyar ve
+kullanılabilirliği artırır.</li>
+</ul>
+<h3 data-number="5.3.2"
+id="flutter-web-için-semanticsrole-kullanımı"><span
+class="header-section-number">5.3.2</span> Flutter Web için
+<code>SemanticsRole</code> Kullanımı</h3>
+<p>Flutter, geliştiricilerin widget’larına belirli roller atamasına izin
+vermek için <code>SemanticsRole</code> enum’u ile <code>Semantics</code>
+widget’ını sağlar. Flutter web uygulamanız oluşturulduğunda, bu
+Flutter’a özgü roller, web sayfasının HTML yapısındaki karşılık gelen
+ARIA rollerine çevrilir.</p>
+<h4 data-number="5.3.2.1"
+id="standart-widgetlardan-otomatik-semantikler"><span
+class="header-section-number">5.3.2.1</span> 1. Standart Widget’lardan
+Otomatik Semantikler</h4>
+<p><code>TabBar</code>, <code>MenuAnchor</code> ve <code>Table</code>
+gibi birçok standart Flutter widget’ı, rollerinin yanı sıra anlamsal
+bilgileri de otomatik olarak içerir. Mümkün olduğunda, birçok
+erişilebilirlik yönünü kullanıma hazır (out-of-the-box) olarak ele
+aldıkları için bu standart widget’ları kullanmayı tercih edin.</p>
+<h4 data-number="5.3.2.2"
+id="rolleri-açıkça-ekleme-veya-geçersiz-kılma"><span
+class="header-section-number">5.3.2.2</span> 2. Rolleri Açıkça Ekleme
+veya Geçersiz Kılma</h4>
+<p>Özel bileşenler için veya varsayılan semantiklerin yeterli olmadığı
+durumlarda, rolü tanımlamak için <code>Semantics</code> widget’ını
+kullanın:</p>
+<p>İşte bir listeyi ve öğelerini açıkça nasıl tanımlayabileceğinize dair
+bir örnek:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter/material.dart&#39;</span>;</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter/semantics.dart&#39;</span>;</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyCustomListWidget <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> MyCustomListWidget(<span class="op">{</span>Key<span class="op">?</span> key<span class="op">}</span>) <span class="op">:</span> <span class="kw">super</span>(key<span class="op">:</span> key);</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Bu örnek, özel bir liste yapısı oluştururken liste ve </span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">// liste öğesi rollerinin açıkça nasıl atanacağını gösterir.</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Semantics(</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>      role<span class="op">:</span> SemanticsRole<span class="op">.</span>list<span class="op">,</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>      explicitChildNodes<span class="op">:</span> <span class="cn">true</span><span class="op">,</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Column(</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        children<span class="op">:</span> <span class="op">&lt;</span>Widget<span class="op">&gt;</span>[</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>          Semantics(</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>            role<span class="op">:</span> SemanticsRole<span class="op">.</span>listItem<span class="op">,</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>            child<span class="op">:</span> <span class="at">const</span> Padding(</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>              padding<span class="op">:</span> EdgeInsets<span class="op">.</span>all(<span class="fl">8.0</span>)<span class="op">,</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>              child<span class="op">:</span> Text(<span class="st">&#39;Content of the first custom list item.&#39;</span>)<span class="op">,</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>            )<span class="op">,</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>          Semantics(</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>            role<span class="op">:</span> SemanticsRole<span class="op">.</span>listItem<span class="op">,</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>            child<span class="op">:</span> <span class="at">const</span> Padding(</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>              padding<span class="op">:</span> EdgeInsets<span class="op">.</span>all(<span class="fl">8.0</span>)<span class="op">,</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>              child<span class="op">:</span> Text(<span class="st">&#39;Content of the second custom list item.&#39;</span>)<span class="op">,</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>            )<span class="op">,</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>        ]<span class="op">,</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 data-number="5.4" id="lisans-bilgisi"><span
+class="header-section-number">5.4</span> 📄 Lisans Bilgisi</h2>
+<p>Bu doküman, <strong>Flutter resmi dokümantasyonundan</strong>
+türetilmiş Türkçe ders notudur.</p>
+<p><strong>Orijinal kaynak:</strong><br />
+https://docs.flutter.dev/ui/accessibility</p>
+<p><strong>Türkçe çeviri ve düzenleme:</strong><br />
+<a href="mailto:htemiz@artvin.edu.tr">Doç. Dr. Hakan Temiz</a></p>
+<hr />
+<h3 data-number="5.4.1" id="lisans-kapsamı"><span
+class="header-section-number">5.4.1</span> Lisans Kapsamı</h3>
+<p>Bu dokümandaki içerikler aşağıdaki açık lisanslar kapsamında
+sunulmaktadır:</p>
+<p><strong>Metin içerikleri (anlatım ve açıklamalar):</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> Creative Commons Attribution 4.0 International
+(CC BY 4.0)<br />
+https://creativecommons.org/licenses/by/4.0/</p>
+<p>Bu lisans kapsamında: - İçerik kopyalanabilir, dağıtılabilir ve
+uyarlanabilir<br />
+- Ticari kullanım serbesttir<br />
+- Kaynak belirtilmesi zorunludur</p>
+<p><strong>Kod örnekleri:</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> BSD 3-Clause License<br />
+https://opensource.org/licenses/BSD-3-Clause</p>
+<p>Bu lisans kapsamında: - Kodlar kopyalanabilir, değiştirilebilir ve
+dağıtılabilir<br />
+- Ticari kullanım serbesttir<br />
+- Lisans bildiriminin korunması gerekir</p>
+</body>
+</html>
