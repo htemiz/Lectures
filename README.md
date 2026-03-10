@@ -7,9 +7,9 @@
 
 ___
 
-Dr. Hakan Temiz
+Doç. Dr. Hakan Temiz
 
 htemiz@artvin.edu.tr
 
-&copy; 2024
+&copy; 2026
 
