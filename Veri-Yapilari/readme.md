@@ -1,10 +1,10 @@
 # Veri Yapıları 
 
-Dr. Hakan Temiz
+Doç. Dr. Hakan Temiz
 
 htemiz@artvin.edu.tr
 
-&copy; 2024
+&copy; 2026
 
 
 Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kitabı](https://github.com/htemiz/Lectures/blob/main/Python-ile-Programlamaya-Giris/Python-ile-Programlamaya-Giris.ipynb)
