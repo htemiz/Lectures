@@ -23,6 +23,35 @@ htemiz@artvin.edu.tr
 
 
 
+
+[Orta Erişim Kontrol Alt Katmanı (Medium Access Control (MAC) Sublayer)](https://docs.google.com/presentation/d/e/2PACX-1vQ1bXC7iRcGx3SoaqfvjicnsQ6Urz0BG3opuLq5vKiuBdNNvutsIG4dGJdy1po3FlE7ENEAb4QO8p7c/pub?start=false&loop=false&delayms=3000)  &nbsp;&nbsp;&nbsp;   
+[📥 pdf indir](https://docs.google.com/presentation/d/18l6HAO8SiFaorm45jXoFAEHz9rg_oqKHNWTn0zUo7pU/export/pdf)
+
+
+
+[Ağ Katmanı (Network Layer)](https://docs.google.com/presentation/d/e/2PACX-1vQKYX0j-X7EmgZRSzNl6bdZ8CO0YEkG4cCyso2iA-XwPde0p9GTDuVIkJJwjbp8WQ6YGoobY5noP7Cg/pub?start=false&loop=false&delayms=3000) &nbsp;&nbsp;&nbsp; [📥 pdf indir](https://docs.google.com/presentation/d/1Y_WlEyGk4dyOQ1q-LaSacNm_f-vDaasFXyInK2CHsUY/export/pdf)
+
+
+
+[İletim Katmanı (Transport Layer)](https://docs.google.com/presentation/d/e/2PACX-1vSNcTNqadoRZTnFpv_cw0gHwwaKxmuHhElC6sY3ptZvLfYiGYiJJjUnESuBy4tn02OX9SDu1kMK3thZ/pub?start=false&loop=false&delayms=3000) &nbsp;&nbsp;&nbsp; [📥 pdf indir](https://docs.google.com/presentation/d/1EZhQLNUDnJBcg7bhrJxvs0twlucGqVQjXJO1R1LlZSA/export/pdf)
+
+
+
+[Uygulama Katmanı (Application Layer)](https://docs.google.com/presentation/d/e/2PACX-1vRzOaf3eiXquIpnR7RjPps2_RdwETt55OI5gm4sdYYXb36luWPyRuQlshk5ABLIFT7_HIseez0JVAhy/pub?start=false&loop=false&delayms=3000) &nbsp;&nbsp;&nbsp; [📥 pdf indir](https://docs.google.com/presentation/d/1IvA12U2BwyxgVzNdZaXNx-jidCSvNMQ_NZOJrWTKyQI/export/pdf)
+
+
+
+[Giriş]() &nbsp;&nbsp;&nbsp; [📥 pdf indir]()
+
+
+
+[Giriş]() &nbsp;&nbsp;&nbsp; [📥 pdf indir]()
+
+
+
+
+
+
 <table>
 
 <tr>
@@ -45,11 +74,6 @@ htemiz@artvin.edu.tr
  &nbsp;&nbsp;&nbsp; 
 
 
-[Orta Erişim Kontrol Alt Katmanı (Medium Access Control (MAC) Sublayer
-)](https://docs.google.com/presentation/d/e/2PACX-1vQ1bXC7iRcGx3SoaqfvjicnsQ6Urz0BG3opuLq5vKiuBdNNvutsIG4dGJdy1po3FlE7ENEAb4QO8p7c/pub?start=false&loop=false&delayms=3000)  &nbsp;&nbsp;&nbsp;   
-[📥 pdf indir](https://docs.google.com/presentation/d/18l6HAO8SiFaorm45jXoFAEHz9rg_oqKHNWTn0zUo7pU/export/pdf)
-
-
 <table>
 
 <tr>
@@ -60,21 +84,3 @@ htemiz@artvin.edu.tr
 </tr>
 
 </table>
-
-[Ağ Katmanı (Network Layer)](https://docs.google.com/presentation/d/e/2PACX-1vQKYX0j-X7EmgZRSzNl6bdZ8CO0YEkG4cCyso2iA-XwPde0p9GTDuVIkJJwjbp8WQ6YGoobY5noP7Cg/pub?start=false&loop=false&delayms=3000) &nbsp;&nbsp;&nbsp; [📥 pdf indir](https://docs.google.com/presentation/d/1Y_WlEyGk4dyOQ1q-LaSacNm_f-vDaasFXyInK2CHsUY/export/pdf)
-
-
-
-[İletim Katmanı (Transport Layer)](https://docs.google.com/presentation/d/e/2PACX-1vSNcTNqadoRZTnFpv_cw0gHwwaKxmuHhElC6sY3ptZvLfYiGYiJJjUnESuBy4tn02OX9SDu1kMK3thZ/pub?start=false&loop=false&delayms=3000) &nbsp;&nbsp;&nbsp; [📥 pdf indir](https://docs.google.com/presentation/d/1EZhQLNUDnJBcg7bhrJxvs0twlucGqVQjXJO1R1LlZSA/export/pdf)
-
-
-
-[Uygulama Katmanı (Application Layer)](https://docs.google.com/presentation/d/e/2PACX-1vRzOaf3eiXquIpnR7RjPps2_RdwETt55OI5gm4sdYYXb36luWPyRuQlshk5ABLIFT7_HIseez0JVAhy/pub?start=false&loop=false&delayms=3000) &nbsp;&nbsp;&nbsp; [📥 pdf indir](https://docs.google.com/presentation/d/1IvA12U2BwyxgVzNdZaXNx-jidCSvNMQ_NZOJrWTKyQI/export/pdf)
-
-
-
-[Giriş]() &nbsp;&nbsp;&nbsp; [📥 pdf indir]()
-
-
-
-[Giriş]() &nbsp;&nbsp;&nbsp; [📥 pdf indir]()
