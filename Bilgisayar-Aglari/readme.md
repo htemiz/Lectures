@@ -24,8 +24,7 @@ htemiz@artvin.edu.tr
 
 
 
-[Orta Erişim Kontrol Alt Katmanı (Medium Access Control (MAC) Sublayer)](https://docs.google.com/presentation/d/e/2PACX-1vQ1bXC7iRcGx3SoaqfvjicnsQ6Urz0BG3opuLq5vKiuBdNNvutsIG4dGJdy1po3FlE7ENEAb4QO8p7c/pub?start=false&loop=false&delayms=3000)  &nbsp;&nbsp;&nbsp;   
-[📥 pdf indir](https://docs.google.com/presentation/d/18l6HAO8SiFaorm45jXoFAEHz9rg_oqKHNWTn0zUo7pU/export/pdf)
+[Orta Erişim Kontrol Alt Katmanı (Medium Access Control (MAC) Sublayer)](https://docs.google.com/presentation/d/e/2PACX-1vQ1bXC7iRcGx3SoaqfvjicnsQ6Urz0BG3opuLq5vKiuBdNNvutsIG4dGJdy1po3FlE7ENEAb4QO8p7c/pub?start=false&loop=false&delayms=3000)  &nbsp;&nbsp;&nbsp; [📥 pdf indir](https://docs.google.com/presentation/d/18l6HAO8SiFaorm45jXoFAEHz9rg_oqKHNWTn0zUo7pU/export/pdf)
 
 
 
