@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>1.1 Flutter Mimarisi</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#flutter-mimarisine-genel-bakış"
+id="toc-flutter-mimarisine-genel-bakış"><span
+class="toc-section-number">1</span> Flutter mimarisine genel bakış</a>
+<ul>
+<li><a href="#mimari-katmanlar" id="toc-mimari-katmanlar"><span
+class="toc-section-number">1.1</span> Mimari katmanlar</a></li>
+</ul></li>
+<li><a href="#bir-uygulamanın-anatomisi-anatomy-of-an-app"
+id="toc-bir-uygulamanın-anatomisi-anatomy-of-an-app"><span
+class="toc-section-number">2</span> Bir uygulamanın anatomisi (Anatomy
+of an app)</a>
+<ul>
+<li><a href="#reaktif-kullanıcı-arayüzleri-reactive-user-interfaces"
+id="toc-reaktif-kullanıcı-arayüzleri-reactive-user-interfaces"><span
+class="toc-section-number">2.1</span> Reaktif kullanıcı arayüzleri
+(Reactive user interfaces)</a></li>
+</ul></li>
+<li><a href="#widgetlar" id="toc-widgetlar"><span
+class="toc-section-number">3</span> Widget’lar</a>
+<ul>
+<li><a href="#kompozisyon" id="toc-kompozisyon"><span
+class="toc-section-number">3.1</span> Kompozisyon</a></li>
+<li><a href="#widget-oluşturma-building-widgets"
+id="toc-widget-oluşturma-building-widgets"><span
+class="toc-section-number">3.2</span> Widget oluşturma (Building
+widgets)</a></li>
+<li><a href="#widget-durumu-widget-state"
+id="toc-widget-durumu-widget-state"><span
+class="toc-section-number">3.3</span> Widget durumu (Widget
+state)</a></li>
+</ul></li>
+<li><a href="#durum-yönetimi-state-management"
+id="toc-durum-yönetimi-state-management"><span
+class="toc-section-number">4</span> Durum yönetimi (State
+management)</a>
+<ul>
+<li><a href="#oluşturma-ve-düzen-rendering-and-layout"
+id="toc-oluşturma-ve-düzen-rendering-and-layout"><span
+class="toc-section-number">4.1</span> Oluşturma ve düzen (Rendering and
+layout)</a>
+<ul>
+<li><a href="#flutterın-oluşturma-modeli"
+id="toc-flutterın-oluşturma-modeli"><span
+class="toc-section-number">4.1.1</span> Flutter’ın oluşturma
+modeli</a></li>
+<li><a href="#kullanıcı-girişinden-gpuya"
+id="toc-kullanıcı-girişinden-gpuya"><span
+class="toc-section-number">4.1.2</span> Kullanıcı girişinden
+GPU’ya</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#oluşturma-build-widgettan-elemente"
+id="toc-oluşturma-build-widgettan-elemente"><span
+class="toc-section-number">5</span> Oluşturma (Build): Widget’tan
+Element’e</a></li>
+<li><a href="#düzen-ve-oluşturma-layout-and-rendering"
+id="toc-düzen-ve-oluşturma-layout-and-rendering"><span
+class="toc-section-number">6</span> Düzen ve oluşturma (Layout and
+rendering)</a></li>
+<li><a href="#platform-gömme-platform-embedding"
+id="toc-platform-gömme-platform-embedding"><span
+class="toc-section-number">7</span> Platform gömme (Platform
+embedding)</a>
+<ul>
+<li><a href="#diğer-kodlarla-entegrasyon-integrating-with-other-code"
+id="toc-diğer-kodlarla-entegrasyon-integrating-with-other-code"><span
+class="toc-section-number">7.1</span> Diğer kodlarla entegrasyon
+(Integrating with other code)</a>
+<ul>
+<li><a href="#platform-kanalları-platform-channels"
+id="toc-platform-kanalları-platform-channels"><span
+class="toc-section-number">7.1.1</span> Platform kanalları (Platform
+channels)</a></li>
+<li><a
+href="#yabancı-fonksiyon-arayüzü-foreign-function-interface---ffi"
+id="toc-yabancı-fonksiyon-arayüzü-foreign-function-interface---ffi"><span
+class="toc-section-number">7.1.2</span> Yabancı Fonksiyon Arayüzü
+(Foreign Function Interface - FFI)</a></li>
+</ul></li>
+</ul></li>
+<li><a
+href="#yerel-kontrolleri-bir-flutter-uygulamasında-oluşturma-rendering-native-controls-in-a-flutter-app"
+id="toc-yerel-kontrolleri-bir-flutter-uygulamasında-oluşturma-rendering-native-controls-in-a-flutter-app"><span
+class="toc-section-number">8</span> Yerel kontrolleri bir Flutter
+uygulamasında oluşturma (Rendering native controls in a Flutter app)</a>
+<ul>
+<li><a
+href="#flutter-içeriğini-bir-ana-uygulamada-barındırma-hosting-flutter-content-in-a-parent-app"
+id="toc-flutter-içeriğini-bir-ana-uygulamada-barındırma-hosting-flutter-content-in-a-parent-app"><span
+class="toc-section-number">8.1</span> Flutter içeriğini bir ana
+uygulamada barındırma (Hosting Flutter content in a parent app)</a></li>
+</ul></li>
+<li><a href="#flutter-web-desteği" id="toc-flutter-web-desteği"><span
+class="toc-section-number">9</span> Flutter web desteği</a>
+<ul>
+<li><a href="#lisans-bilgisi" id="toc-lisans-bilgisi"><span
+class="toc-section-number">9.1</span> 📄 Lisans Bilgisi</a>
+<ul>
+<li><a href="#lisans-kapsamı" id="toc-lisans-kapsamı"><span
+class="toc-section-number">9.1.1</span> Lisans Kapsamı</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1" id="flutter-mimarisine-genel-bakış"><span
+class="header-section-number">1</span> Flutter mimarisine genel
+bakış</h1>
+<p>Bu makale, tasarımını oluşturan temel prensipler ve kavramlar dahil
+olmak üzere Flutter mimarisine üst düzey bir bakış sağlamayı
+amaçlamaktadır. Flutter uygulamasının nasıl mimarilendirileceğiyle
+ilgileniyorsanız, <em>Architecting Flutter apps</em> (Flutter
+uygulamalarını mimarilendirme) bölümüne göz atın.</p>
+<p>Flutter, iOS, Android, web ve masaüstü gibi işletim sistemlerinde
+kodun yeniden kullanılmasına izin vermek ve aynı zamanda uygulamaların
+alttaki platform hizmetleriyle doğrudan arayüz oluşturmasına olanak
+tanımak için tasarlanmış, platformlar arası bir UI araç setidir. Hedef,
+geliştiricilerin farklı platformlarda doğal hissettiren, farklılıkları
+olduğu yerde kucaklayan ve mümkün olduğunca çok kodu paylaşan yüksek
+performanslı uygulamalar sunmasını sağlamaktır.</p>
+<p>Geliştirme sırasında Flutter uygulamaları, tam bir yeniden derlemeye
+ihtiyaç duymadan değişikliklerin durum bilgisi korunan “hot reload”
+(sıcak yeniden yükleme) özelliğini sunan bir sanal makinede (VM)
+çalışır. Sürüm (release) için Flutter uygulamaları, ister Intel x64
+ister ARM komutları olsun doğrudan makine koduna veya web hedefleniyorsa
+JavaScript’e derlenir. Framework açık kaynaklıdır, izin verici bir BSD
+lisansına sahiptir ve çekirdek kütüphane işlevselliğini tamamlayan
+üçüncü taraf paketlerden oluşan gelişen bir ekosisteme sahiptir.</p>
+<p>Bu genel bakış bir dizi bölüme ayrılmıştır:</p>
+<ul>
+<li><strong>Katman modeli (The layer model):</strong> Flutter’ın
+oluşturulduğu parçalar.</li>
+<li><strong>Reaktif kullanıcı arayüzleri (Reactive user
+interfaces):</strong> Flutter kullanıcı arayüzü geliştirme için temel
+bir kavram.</li>
+<li><strong>Widget’lara giriş (An introduction to widgets):</strong>
+Flutter kullanıcı arayüzlerinin temel yapı taşları.</li>
+<li><strong>Render işlemi (The rendering process):</strong> Flutter’ın
+UI kodunu piksellere dönüştürme şekli.</li>
+<li><strong>Platform gömücülerine genel bakış (An overview of the
+platform embedders):</strong> Mobil ve masaüstü işletim sistemlerinin
+Flutter uygulamalarını yürütmesini sağlayan kod.</li>
+<li><strong>Flutter’ı diğer kodlarla entegre etme (Integrating Flutter
+with other code):</strong> Flutter uygulamaları için mevcut olan farklı
+teknikler hakkında bilgi.</li>
+<li><strong>Web desteği (Support for the web):</strong> Bir tarayıcı
+ortamında Flutter’ın özellikleri hakkında sonuç niteliğinde
+açıklamalar.</li>
+</ul>
+<h2 data-number="1.1" id="mimari-katmanlar"><span
+class="header-section-number">1.1</span> Mimari katmanlar</h2>
+<p>Flutter, genişletilebilir ve katmanlı bir sistem olarak
+tasarlanmıştır. Her biri alttaki katmana bağımlı olan bir dizi bağımsız
+kütüphane şeklinde var olur. Hiçbir katman, altındaki katmana
+ayrıcalıklı erişime sahip değildir ve framework seviyesindeki her parça
+isteğe bağlı ve değiştirilebilir olacak şekilde tasarlanmıştır.</p>
+<p><img src="images/40_archdiagram.png" width=550></p>
+<p>Alttaki işletim sistemine göre, Flutter uygulamaları diğer yerel
+(native) uygulamalarla aynı şekilde paketlenir. Platforma özgü bir
+gömücü (embedder) bir giriş noktası sağlar; render yüzeyleri,
+erişilebilirlik ve giriş gibi hizmetlere erişim için alttaki işletim
+sistemiyle koordine olur; ve mesaj olay döngüsünü yönetir. Gömücü,
+platforma uygun bir dilde yazılmıştır: şu anda Android için Java ve C++,
+iOS ve macOS için Swift ve Objective-C/Objective-C++, Windows ve Linux
+için C++. Gömücü kullanılarak, Flutter kodu mevcut bir uygulamanın içine
+bir modül olarak veya kodun tamamı uygulamanın kendisi olacak şekilde
+entegre edilebilir. Flutter, yaygın hedef platformlar için bir dizi
+gömücü içerir, ancak başka gömücüler de mevcuttur.</p>
+<p>Flutter’ın çekirdeğinde, çoğunlukla C++ ile yazılmış olan ve tüm
+Flutter uygulamalarını desteklemek için gerekli ilkel yapıları
+destekleyen <strong>Flutter motoru (engine)</strong> bulunur. Motor,
+yeni bir karenin boyanması gerektiğinde birleştirilmiş sahneleri
+rasterleştirmekten sorumludur. Grafikler, metin düzeni, dosya ve ağ G/Ç
+(I/O), bir Dart çalışma zamanı (runtime) ve derleme araç zinciri dahil
+olmak üzere Flutter’ın çekirdek API’sinin düşük seviyeli uygulamasını
+sağlar.</p>
+<p><strong>Not</strong> Hangi cihazların Impeller’ı desteklediğiyle
+ilgili bir sorunuz varsa, ayrıntılı bilgi için <em>Impeller
+availability</em> (Impeller kullanılabilirliği) bölümüne göz atın.</p>
+<p>Motor, alttaki C++ kodunu Dart sınıflarına saran <code>dart:ui</code>
+aracılığıyla Flutter framework’üne sunulur. Bu kütüphane, giriş,
+grafikler ve metin oluşturma alt sistemlerini yönlendirmek için
+kullanılan sınıflar gibi en düşük seviyeli ilkelleri sunar.</p>
+<p>Tipik olarak geliştiriciler, Dart dilinde yazılmış modern, reaktif
+bir framework sağlayan <strong>Flutter framework</strong> aracılığıyla
+Flutter ile etkileşime girer. Bir dizi katmandan oluşan zengin bir
+platform, düzen ve temel kütüphaneler seti içerir. Alttan üste doğru
+çalışarak şunlara sahibiz:</p>
+<ul>
+<li>Temel <strong>foundational</strong> sınıflar ve alttaki temel
+üzerinde yaygın olarak kullanılan soyutlamalar sunan
+<strong>animation</strong> (animasyon), <strong>painting</strong>
+(boyama) ve <strong>gestures</strong> (hareketler) gibi yapı taşı
+hizmetleri.</li>
+<li><strong>Rendering layer</strong> (oluşturma katmanı), düzen (layout)
+ile ilgilenmek için bir soyutlama sağlar. Bu katmanla, render edilebilir
+nesnelerden oluşan bir ağaç inşa edebilirsiniz. Bu nesneleri dinamik
+olarak değiştirebilirsiniz; ağaç, değişikliklerinizi yansıtmak için
+düzeni otomatik olarak günceller.</li>
+<li><strong>Widgets layer</strong> (widget’lar katmanı) bir kompozisyon
+soyutlamasıdır. Rendering katmanındaki her render nesnesinin, widgets
+katmanında karşılık gelen bir sınıfı vardır. Ayrıca widgets katmanı,
+yeniden kullanabileceğiniz sınıf kombinasyonları tanımlamanıza olanak
+tanır. Reaktif programlama modelinin tanıtıldığı katman burasıdır.</li>
+<li><strong>Material</strong> ve <strong>Cupertino</strong>
+kütüphaneleri, Material veya iOS tasarım dillerini uygulamak için widget
+katmanının kompozisyon ilkellerini kullanan kapsamlı kontrol setleri
+sunar.</li>
+</ul>
+<p>Flutter framework’ü nispeten küçüktür; geliştiricilerin
+kullanabileceği birçok üst düzey özellik, <strong>camera</strong> ve
+<strong>webview</strong> gibi platform eklentilerinin yanı sıra çekirdek
+Dart ve Flutter kütüphaneleri üzerine inşa edilen
+<strong>characters</strong>, <strong>http</strong> ve
+<strong>animations</strong> gibi platformdan bağımsız özellikler de
+dahil olmak üzere paketler olarak uygulanır. Bu paketlerin bazıları,
+<strong>uygulama içi ödemeler</strong> (in-app payments), <strong>Apple
+kimlik doğrulaması</strong> (Apple authentication) ve
+<strong>animasyonlar</strong> gibi hizmetleri kapsayan daha geniş
+ekosistemden gelir.</p>
+<p>Bu genel bakışın geri kalanı, UI geliştirmenin reaktif
+paradigmasından başlayarak katmanlar arasında geniş bir şekilde
+gezinmektedir. Ardından, widget’ların nasıl bir araya getirildiğini ve
+bir uygulamanın parçası olarak render edilebilecek nesnelere nasıl
+dönüştürüldüğünü açıklıyoruz. Flutter’ın web desteğinin diğer
+hedeflerden nasıl farklı olduğuna dair kısa bir özet vermeden önce,
+Flutter’ın platform düzeyinde diğer kodlarla nasıl birlikte çalıştığını
+açıklıyoruz.</p>
+<h1 data-number="2"
+id="bir-uygulamanın-anatomisi-anatomy-of-an-app"><span
+class="header-section-number">2</span> Bir uygulamanın anatomisi
+(Anatomy of an app)</h1>
+<p>Aşağıdaki diyagram, <code>flutter create</code> tarafından
+oluşturulan standart bir Flutter uygulamasını oluşturan parçalara genel
+bir bakış sunar. Bu yığında Flutter Motorunun (Engine) nerede oturduğunu
+gösterir, API sınırlarını vurgular ve bireysel parçaların yaşadığı
+depoları (repositories) tanımlar. Aşağıdaki lejant, bir Flutter
+uygulamasının parçalarını tanımlamak için yaygın olarak kullanılan bazı
+terminolojileri açıklar.</p>
+<p><img src="images/40_app-anatomy.svg" width=300></p>
+<p><strong>Dart Uygulaması (Dart App)</strong> * Widget’ları istenen
+kullanıcı arayüzü (UI) halinde birleştirir. * İş mantığını (business
+logic) uygular. * Uygulama geliştiricisine aittir.</p>
+<p><strong>Framework (Kaynak kodu)</strong> * Yüksek kaliteli
+uygulamalar oluşturmak için üst düzey API sağlar (örneğin, widget’lar,
+isabet testi, hareket algılama, erişilebilirlik, metin girişi). *
+Uygulamanın widget ağacını bir sahne (scene) halinde birleştirir
+(composites).</p>
+<p><strong>Motor (Engine) (Kaynak kodu)</strong> * Birleştirilmiş
+sahneleri rasterleştirmekten (görüntüye dönüştürmekten) sorumludur. *
+Flutter’ın çekirdek API’lerinin (örneğin, grafikler, metin düzeni, Dart
+çalışma zamanı) düşük seviyeli uygulamasını sağlar. * İşlevselliğini
+<code>dart:ui</code> API’sini kullanarak framework’e sunar. * Motorun
+<code>Embedder API</code>’sini kullanarak belirli bir platformla entegre
+olur.</p>
+<p><strong>Gömücü (Embedder) (Kaynak kodu)</strong> * Render yüzeyleri,
+erişilebilirlik ve giriş gibi hizmetlere erişim için alttaki işletim
+sistemiyle koordine olur. * Olay döngüsünü (event loop) yönetir. *
+Gömücüyü (Embedder) uygulamalara entegre etmek için platforma özgü
+API’yi sunar.</p>
+<p><strong>Çalıştırıcı (Runner)</strong> * Gömücünün platforma özgü
+API’si tarafından sunulan parçaları, hedef platformda çalıştırılabilir
+bir uygulama paketi halinde birleştirir. * <code>flutter create</code>
+tarafından oluşturulan uygulama şablonunun bir parçasıdır ve uygulama
+geliştiricisine aittir.</p>
+<h2 data-number="2.1"
+id="reaktif-kullanıcı-arayüzleri-reactive-user-interfaces"><span
+class="header-section-number">2.1</span> Reaktif kullanıcı arayüzleri
+(Reactive user interfaces)</h2>
+<p>Yüzeyde, Flutter reaktif ve bildirimsel (declarative) bir UI
+framework’üdür. Geliştirici, uygulama durumundan (application state)
+arayüz durumuna (interface state) bir eşleme sağlar ve framework,
+uygulama durumu değiştiğinde çalışma zamanında arayüzü güncelleme
+görevini üstlenir. Bu model, Facebook’un kendi React framework’ü için
+geliştirdiği ve birçok geleneksel tasarım ilkesinin yeniden
+düşünülmesini içeren çalışmalardan esinlenmiştir.</p>
+<p>Çoğu geleneksel UI framework’ünde, kullanıcı arayüzünün başlangıç
+durumu bir kez tanımlanır ve ardından çalışma zamanında olaylara yanıt
+olarak kullanıcı kodu tarafından ayrı ayrı güncellenir. Bu yaklaşımın
+zorluklarından biri, uygulama karmaşıklık açısından büyüdükçe,
+geliştiricinin durum değişikliklerinin tüm UI boyunca nasıl yayıldığının
+farkında olması gerekmesidir. Örneğin, aşağıdaki UI’ı düşünün:</p>
+<p><img src="images/40_color-picker.png" width=350></p>
+<p>Durumun değiştirilebileceği birçok yer vardır: renk kutusu, ton
+kaydırıcısı (hue slider), radyo düğmeleri. Kullanıcı UI ile etkileşime
+girdikçe, değişikliklerin diğer her yere yansıması gerekir. Daha da
+kötüsü, dikkat edilmezse, kullanıcı arayüzünün bir parçasındaki küçük
+bir değişiklik, kodun görünüşte alakasız parçalarında dalgalanma
+etkilerine neden olabilir.</p>
+<p>Buna bir çözüm, veri değişikliklerini kontrolcü (controller)
+aracılığıyla modele (model) ittiğiniz ve ardından modelin yeni durumu
+kontrolcü aracılığıyla görünüme (view) ittiği MVC gibi bir yaklaşımdır.
+Ancak bu da sorunludur, çünkü UI öğelerini oluşturmak ve güncellemek,
+kolayca senkronizasyondan çıkabilen iki ayrı adımdır.</p>
+<p>Flutter, diğer reaktif framework’lerle birlikte, kullanıcı arayüzünü
+alttaki durumundan açıkça ayırarak bu soruna alternatif bir yaklaşım
+getirir. React tarzı API’lerle, yalnızca UI açıklamasını oluşturursunuz
+ve framework, bu tek yapılandırmayı kullanarak kullanıcı arayüzünü uygun
+şekilde hem oluşturma hem de güncelleme işini üstlenir.</p>
+<p>Flutter’da widget’lar (React’teki bileşenlere benzer), bir nesne
+ağacını yapılandırmak için kullanılan değişmez (immutable) sınıflarla
+temsil edilir. Bu widget’lar, düzen (layout) için ayrı bir nesne ağacını
+yönetmek üzere kullanılır ve bu ağaç da daha sonra birleştirme
+(compositing) için ayrı bir nesne ağacını yönetmek üzere kullanılır.
+Flutter, özünde, ağaçların değiştirilmiş kısımlarını verimli bir şekilde
+gezmek, nesne ağaçlarını daha düşük seviyeli nesne ağaçlarına
+dönüştürmek ve değişiklikleri bu ağaçlar arasında yaymak için bir dizi
+mekanizmadır.</p>
+<p>Bir widget, durumu UI’a dönüştüren bir fonksiyon olan
+<code>build()</code> yöntemini geçersiz kılarak (override) kullanıcı
+arayüzünü beyan eder:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>UI <span class="op">=</span> f(state)</span></code></pre></div>
+<p><code>build()</code> yöntemi tasarım gereği hızlı yürütülür ve yan
+etkilerden arındırılmış olmalıdır, bu da framework tarafından her
+ihtiyaç duyulduğunda (potansiyel olarak her render edilen karede bir
+kez) çağrılmasına olanak tanır.</p>
+<p>Bu yaklaşım, bir dil çalışma zamanının belirli özelliklerine
+(özellikle hızlı nesne başlatma ve silme) dayanır. Neyse ki Dart, bu
+görev için özellikle çok uygundur.</p>
+<h1 data-number="3" id="widgetlar"><span
+class="header-section-number">3</span> Widget’lar</h1>
+<p>Daha önce bahsedildiği gibi, Flutter bir kompozisyon (bileşim) birimi
+olarak widget’ları vurgular. Widget’lar bir Flutter uygulamasının
+kullanıcı arayüzünün yapı taşlarıdır ve her widget, kullanıcı arayüzünün
+bir parçasının değişmez (immutable) bir beyanıdır.</p>
+<p>Widget’lar kompozisyona dayalı bir hiyerarşi oluşturur. Her widget
+ebeveyninin (parent) içine yerleşir ve ebeveyninden bağlam (context)
+alabilir. Bu yapı, aşağıdaki basit örneğin gösterdiği gibi, kök widget’a
+(Flutter uygulamasını barındıran kapsayıcı, genellikle
+<code>MaterialApp</code> veya <code>CupertinoApp</code>) kadar
+uzanır:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter/material.dart&#39;</span>;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter/services.dart&#39;</span>;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main() <span class="op">=&gt;</span> runApp(<span class="at">const</span> MyApp());</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyApp <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> MyApp(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> MaterialApp(</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>      home<span class="op">:</span> Scaffold(</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        appBar<span class="op">:</span> AppBar(title<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;My Home Page&#39;</span>))<span class="op">,</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        body<span class="op">:</span> Center(</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> Builder(</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>            builder<span class="op">:</span> (context) <span class="op">{</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>              <span class="kw">return</span> Column(</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>                children<span class="op">:</span> [</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>                  <span class="at">const</span> Text(<span class="st">&#39;Hello World&#39;</span>)<span class="op">,</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>                  <span class="at">const</span> SizedBox(height<span class="op">:</span> <span class="dv">20</span>)<span class="op">,</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>                  ElevatedButton(</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>                    onPressed<span class="op">:</span> () <span class="op">{</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>                      print(<span class="st">&#39;Click!&#39;</span>);</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>                    <span class="op">},</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>                    child<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;A button&#39;</span>)<span class="op">,</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>                  )<span class="op">,</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>                ]<span class="op">,</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>              );</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>            <span class="op">},</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Önceki kodda, başlatılan tüm sınıflar birer widget’tır.</p>
+<p>Uygulamalar, hiyerarşideki bir widget’ı başka bir widget ile
+değiştirmesini framework’e söyleyerek olaylara (bir kullanıcı etkileşimi
+gibi) yanıt olarak kullanıcı arayüzlerini günceller. Framework daha
+sonra yeni ve eski widget’ları karşılaştırır ve kullanıcı arayüzünü
+verimli bir şekilde günceller.</p>
+<p>Flutter, sistem tarafından sağlananlara güvenmek (deferring) yerine
+her UI kontrolünün kendi uygulamalarına sahiptir: örneğin, hem iOS Geçiş
+(Toggle) kontrolünün hem de Android eşdeğerinin saf Dart uygulaması
+vardır.</p>
+<p>Bu yaklaşım çeşitli avantajlar sağlar:</p>
+<ul>
+<li><strong>Sınırsız genişletilebilirlik sağlar.</strong> Switch
+kontrolünün bir varyantını isteyen bir geliştirici, bunu herhangi bir
+keyfi yolla oluşturabilir ve işletim sistemi tarafından sağlanan uzantı
+noktalarıyla sınırlı değildir.</li>
+<li>Flutter’ın tüm sahneyi, Flutter kodu ile platform kodu arasında
+ileri geri geçiş yapmadan bir kerede birleştirmesine (composite) izin
+vererek <strong>önemli bir performans darboğazını önler</strong>.</li>
+<li><strong>Uygulama davranışını tüm işletim sistemi bağımlılıklarından
+ayırır.</strong> İşletim sistemi kendi kontrollerinin uygulamalarını
+değiştirse bile, uygulama işletim sisteminin tüm sürümlerinde aynı
+görünür ve hissedilir.</li>
+</ul>
+<h2 data-number="3.1" id="kompozisyon"><span
+class="header-section-number">3.1</span> Kompozisyon</h2>
+<p>Widget’lar tipik olarak güçlü etkiler üretmek için birleşen birçok
+diğer küçük, tek amaçlı widget’tan oluşur.</p>
+<p>Mümkün olan yerlerde, toplam kelime dağarcığının geniş olmasına izin
+verilirken tasarım kavramlarının sayısı minimumda tutulur. Örneğin,
+widget katmanında Flutter, ekrana çizim, düzen (konumlandırma ve
+boyutlandırma), kullanıcı etkileşimi, durum yönetimi, temalandırma,
+animasyonlar ve gezinmeyi temsil etmek için aynı temel kavramı (bir
+<code>Widget</code>) kullanır. Animasyon katmanında, bir çift kavram,
+<code>Animations</code> ve <code>Tweens</code>, tasarım alanının çoğunu
+kapsar. Rendering katmanında, <code>RenderObjects</code> düzen, boyama,
+isabet testi (hit testing) ve erişilebilirliği tanımlamak için
+kullanılır. Bu durumların her birinde, karşılık gelen kelime dağarcığı
+geniş olur: yüzlerce widget ve render nesnesi ve düzinelerce animasyon
+ve tween türü vardır.</p>
+<p>Sınıf hiyerarşisi, her biri bir şeyi iyi yapan küçük,
+birleştirilebilir widget’lara odaklanarak olası kombinasyon sayısını en
+üst düzeye çıkarmak için kasıtlı olarak sığ ve geniştir. Çekirdek
+özellikler soyuttur; dolgu (padding) ve hizalama (alignment) gibi temel
+özellikler bile çekirdeğe yerleşik olmak yerine ayrı bileşenler olarak
+uygulanır. (Bu ayrıca, dolgu gibi özelliklerin her düzen bileşeninin
+ortak çekirdeğine yerleşik olduğu daha geleneksel API’lerle tezat
+oluşturur.) Bu nedenle, örneğin bir widget’ı ortalamak için kavramsal
+bir <code>Align</code> özelliğini ayarlamak yerine, onu bir
+<code>Center</code> widget’ına sararsınız.</p>
+<p>Dolgu, hizalama, satırlar, sütunlar ve ızgaralar için widget’lar
+vardır. Bu düzen widget’larının kendilerine ait görsel bir temsili
+yoktur. Bunun yerine, tek amaçları başka bir widget’ın düzeninin bir
+yönünü kontrol etmektir. Flutter ayrıca bu kompozisyonel yaklaşımdan
+yararlanan yardımcı (utility) widget’lar da içerir.</p>
+<p>Örneğin, yaygın olarak kullanılan bir widget olan
+<code>Container</code>, düzen, boyama, konumlandırma ve boyutlandırmadan
+sorumlu birkaç widget’tan oluşur. Özellikle, kaynak kodunu okuyarak
+görebileceğiniz gibi <code>Container</code>; <code>LimitedBox</code>,
+<code>ConstrainedBox</code>, <code>Align</code>, <code>Padding</code>,
+<code>DecoratedBox</code> ve <code>Transform</code> widget’larından
+oluşur. Flutter’ın tanımlayıcı bir özelliği, herhangi bir widget’ın
+kaynağına inebilmeniz ve onu inceleyebilmenizdir. Bu nedenle,
+özelleştirilmiş bir efekt üretmek için <code>Container</code>’ı alt
+sınıflara ayırmak (subclassing) yerine, onu ve diğer widget’ları yeni
+yollarla oluşturabilir veya sadece ilham olarak <code>Container</code>’ı
+kullanarak yeni bir widget oluşturabilirsiniz.</p>
+<h2 data-number="3.2" id="widget-oluşturma-building-widgets"><span
+class="header-section-number">3.2</span> Widget oluşturma (Building
+widgets)</h2>
+<p>Daha önce belirtildiği gibi, yeni bir öğe ağacı döndürmek için
+<code>build()</code> fonksiyonunu geçersiz kılarak (override) bir
+widget’ın görsel temsilini belirlersiniz. Bu ağaç, widget’ın kullanıcı
+arayüzündeki parçasını daha somut terimlerle temsil eder. Örneğin, bir
+araç çubuğu widget’ı, bazı metinlerin ve çeşitli düğmelerin yatay
+düzenini döndüren bir oluşturma (build) fonksiyonuna sahip olabilir.
+Gerektiğinde, framework, ağaç tamamen somut render edilebilir nesnelerle
+tanımlanana kadar her widget’tan yinelemeli olarak oluşturmasını (build)
+ister. Framework daha sonra render edilebilir nesneleri bir render
+edilebilir nesne ağacına diker (birleştirir).</p>
+<p>Bir widget’ın build fonksiyonu yan etkilerden (side effects)
+arındırılmış olmalıdır. Fonksiyondan her oluşturma istendiğinde, widget
+daha önce ne döndürdüğüne bakılmaksızın yeni bir widget ağacı
+döndürmelidir. Framework, render nesne ağacına (daha sonra daha
+ayrıntılı olarak açıklanacaktır) dayalı olarak hangi build yöntemlerinin
+çağrılması gerektiğini belirlemek için ağır işi yapar. Bu süreç hakkında
+daha fazla bilgi <em>Inside Flutter</em> konusunda bulunabilir.</p>
+<p>Her render edilen karede, Flutter o widget’ın <code>build()</code>
+yöntemini çağırarak UI’ın sadece durumun değiştiği kısımlarını yeniden
+oluşturabilir. Bu nedenle, build yöntemlerinin hızlı bir şekilde dönmesi
+önemlidir ve ağır hesaplama işleri asenkron bir şekilde yapılmalı ve
+ardından bir build yöntemi tarafından kullanılmak üzere durumun (state)
+bir parçası olarak saklanmalıdır.</p>
+<p>Yaklaşım olarak nispeten basit olsa da, bu otomatik karşılaştırma
+oldukça etkilidir ve yüksek performanslı, etkileşimli uygulamalara
+olanak tanır. Ve build fonksiyonunun tasarımı, kullanıcı arayüzünü bir
+durumdan diğerine güncellemenin karmaşıklığı yerine bir widget’ın
+nelerden yapıldığını beyan etmeye odaklanarak kodunuzu
+basitleştirir.</p>
+<h2 data-number="3.3" id="widget-durumu-widget-state"><span
+class="header-section-number">3.3</span> Widget durumu (Widget
+state)</h2>
+<p>Framework iki ana widget sınıfı sunar: durumsal
+(<strong>stateful</strong>) ve durumsuz (<strong>stateless</strong>)
+widget’lar.</p>
+<p>Birçok widget’ın değiştirilebilir durumu yoktur: zamanla değişen
+herhangi bir özelliğe (örneğin bir simge veya etiket) sahip değildirler.
+Bu widget’lar <code>StatelessWidget</code>’ın alt sınıfıdır.</p>
+<p>Ancak, bir widget’ın benzersiz özelliklerinin kullanıcı etkileşimi
+veya diğer faktörlere bağlı olarak değişmesi gerekiyorsa, o widget
+<strong>stateful</strong> (durumsal) dır. Örneğin, bir widget’ın
+kullanıcı bir düğmeye her dokunduğunda artan bir sayacı varsa, sayacın
+değeri o widget için durumdur (state). Bu değer değiştiğinde, widget’ın
+UI’daki parçasını güncellemek için yeniden oluşturulması gerekir. Bu
+widget’lar <code>StatefulWidget</code>’ın alt sınıfıdır ve (widget’ın
+kendisi değişmez olduğu için) değiştirilebilir durumu
+<code>State</code>’in alt sınıfı olan ayrı bir sınıfta saklarlar.
+<code>StatefulWidget</code>’ların bir build yöntemi yoktur; bunun yerine
+kullanıcı arayüzleri <code>State</code> nesneleri aracılığıyla
+oluşturulur.</p>
+<p>Bir <code>State</code> nesnesini her değiştirdiğinizde (örneğin
+sayacı artırarak), framework’e <code>State</code>’in build yöntemini
+tekrar çağırarak kullanıcı arayüzünü güncellemesini işaret etmek için
+<code>setState()</code> çağırmalısınız.</p>
+<p>Ayrı durum ve widget nesnelerine sahip olmak, diğer widget’ların hem
+stateless hem de stateful widget’lara, durumu kaybetme endişesi duymadan
+tam olarak aynı şekilde davranmasını sağlar. Ebeveyn, durumunu korumak
+için bir çocuğu tutmak zorunda kalmak yerine, çocuğun kalıcı durumunu
+kaybetmeden istediği zaman çocuğun yeni bir örneğini oluşturabilir.
+Framework, uygun olduğunda mevcut durum nesnelerini bulma ve yeniden
+kullanma işinin tamamını yapar.</p>
+<h1 data-number="4" id="durum-yönetimi-state-management"><span
+class="header-section-number">4</span> Durum yönetimi (State
+management)</h1>
+<p>Peki, birçok widget durum (state) içerebiliyorsa, durum nasıl
+yönetilir ve sistemde nasıl dolaştırılır?</p>
+<p>Diğer herhangi bir sınıfta olduğu gibi, verilerini başlatmak için bir
+widget’ta bir kurucu (constructor) kullanabilirsiniz, böylece bir
+<code>build()</code> yöntemi, herhangi bir alt widget’ın ihtiyaç duyduğu
+verilerle örneklendirildiğinden emin olabilir:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>   <span class="kw">return</span> ContentWidget(importantState);</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Burada <code>importantState</code>, <code>Widget</code> için önemli
+olan durumu içeren sınıf için bir yer tutucudur.</p>
+<p>Ancak widget ağaçları derinleştikçe, durum bilgisini ağaç
+hiyerarşisinde yukarı ve aşağı iletmek külfetli hale gelir. Bu nedenle,
+üçüncü bir widget türü olan <code>InheritedWidget</code>, paylaşılan bir
+atadan veri almak için kolay bir yol sağlar. Bu örnekte gösterildiği
+gibi, widget ağacındaki ortak bir atayı saran bir durum widget’ı
+oluşturmak için <code>InheritedWidget</code> kullanabilirsiniz:</p>
+<p><code>ExamWidget</code> veya <code>GradeWidget</code> nesnelerinden
+biri <code>StudentState</code>’ten veriye ihtiyaç duyduğunda, artık şu
+komutla erişebilir:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="at">final</span> studentState <span class="op">=</span> StudentState<span class="op">.</span>of(context);</span></code></pre></div>
+<p><code>of(context)</code> çağrısı, oluşturma bağlamını (build context)
+(geçerli widget konumuna bir tutamaç) alır ve ağaçta
+<code>StudentState</code> türüyle eşleşen <em>en yakın atayı</em>
+döndürür. <code>InheritedWidget</code>’lar ayrıca, bir durum
+değişikliğinin onu kullanan alt widget’ların yeniden oluşturulmasını
+tetikleyip tetiklemeyeceğini belirlemek için Flutter’ın çağırdığı bir
+<code>updateShouldNotify()</code> yöntemi de sunar.</p>
+<p>Flutter’ın kendisi, bir uygulama genelinde yaygın olan renk ve yazı
+tipi stilleri gibi özellikleri içeren uygulamanın <em>görsel teması</em>
+gibi paylaşılan durumlar için framework’ün bir parçası olarak
+<code>InheritedWidget</code>’ı kapsamlı bir şekilde kullanır.
+<code>MaterialApp</code> <code>build()</code> yöntemi, oluşturulduğunda
+ağaca bir tema ekler ve daha sonra hiyerarşide daha derindeki bir
+widget, ilgili tema verilerini aramak için <code>.of()</code> yöntemini
+kullanabilir.</p>
+<p>Örneğin:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Container(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  color<span class="op">:</span> Theme<span class="op">.</span>of(context)<span class="op">.</span>secondaryHeaderColor<span class="op">,</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  child<span class="op">:</span> Text(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;Text with a background color&#39;</span><span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    style<span class="op">:</span> Theme<span class="op">.</span>of(context)<span class="op">.</span>textTheme<span class="op">.</span>titleLarge<span class="op">,</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p>Uygulamalar büyüdükçe, durumlu (stateful) widget’lar oluşturma ve
+kullanma seremonisini (zahmetini) azaltan daha gelişmiş durum yönetimi
+yaklaşımları daha çekici hale gelir. Birçok Flutter uygulaması,
+<code>InheritedWidget</code> etrafında bir sarıcı sağlayan
+<code>provider</code> gibi yardımcı paketler kullanır. Flutter’ın
+katmanlı mimarisi, durumun kullanıcı arayüzüne dönüştürülmesini
+uygulamak için <code>flutter_hooks</code> paketi gibi alternatif
+yaklaşımlara da olanak tanır.</p>
+<h2 data-number="4.1" id="oluşturma-ve-düzen-rendering-and-layout"><span
+class="header-section-number">4.1</span> Oluşturma ve düzen (Rendering
+and layout)</h2>
+<p>Bu bölüm, Flutter’ın bir widget hiyerarşisini ekrana boyanan gerçek
+piksellere dönüştürmek için attığı adımlar dizisi olan oluşturma boru
+hattını (rendering pipeline) açıklar.</p>
+<h3 data-number="4.1.1" id="flutterın-oluşturma-modeli"><span
+class="header-section-number">4.1.1</span> Flutter’ın oluşturma
+modeli</h3>
+<p>Merak ediyor olabilirsiniz: Eğer Flutter platformlar arası bir
+framework ise, nasıl tek platformlu framework’lerle karşılaştırılabilir
+performans sunabilir?</p>
+<p>Geleneksel Android uygulamalarının nasıl çalıştığını düşünerek
+başlamak yararlıdır. Çizim yaparken, önce Android framework’ünün Java
+kodunu çağırırsınız. Android sistem kütüphaneleri, kendilerini bir
+<code>Canvas</code> nesnesine çizmekten sorumlu bileşenleri sağlar;
+Android daha sonra bunu, cihazdaki çizimi tamamlamak için CPU veya
+GPU’yu çağıran C/C++ ile yazılmış bir grafik motoru olan
+<code>Skia</code> ile oluşturabilir (render edebilir).</p>
+<p>Platformlar arası framework’ler <em>tipik olarak</em>, her platform
+temsilinin tutarsızlıklarını gidermeye çalışarak, alttaki yerel Android
+ve iOS UI kütüphaneleri üzerinde bir soyutlama katmanı oluşturarak
+çalışır. Uygulama kodu genellikle JavaScript gibi yorumlanan bir dilde
+yazılır ve bu dilin kullanıcı arayüzünü görüntülemek için Java tabanlı
+Android veya Objective-C tabanlı iOS sistem kütüphaneleriyle etkileşime
+girmesi gerekir. Tüm bunlar, özellikle UI ile uygulama mantığı arasında
+çok fazla etkileşim olduğunda önemli olabilecek bir ek yük ekler.</p>
+<p>Buna karşılık Flutter, kendi widget setini tercih ederek sistem UI
+widget kütüphanelerini atlar (bypass eder) ve bu soyutlamaları en aza
+indirir. Flutter’ın görsellerini boyayan Dart kodu, oluşturma
+(rendering) için Impeller’ı kullanan yerel koda derlenir. Impeller
+uygulama ile birlikte gönderilir, bu da geliştiricinin, telefon yeni bir
+Android sürümüyle güncellenmemiş olsa bile en son performans
+iyileştirmeleriyle güncel kalmak için uygulamasını yükseltmesine olanak
+tanır. Aynısı Windows veya macOS gibi diğer yerel platformlardaki
+Flutter için de geçerlidir.</p>
+<p><strong>Not</strong> Impeller’ın hangi cihazları desteklediğini
+bilmek istiyorsanız, ayrıntılı bilgi için <em>Impeller availability</em>
+(Impeller kullanılabilirliği) bölümüne göz atın. Daha fazla bilgi için
+<em>Impeller rendering engine</em> sayfasını ziyaret edin.</p>
+<h3 data-number="4.1.2" id="kullanıcı-girişinden-gpuya"><span
+class="header-section-number">4.1.2</span> Kullanıcı girişinden
+GPU’ya</h3>
+<p>Flutter’ın oluşturma boru hattına uyguladığı en önemli ilke,
+<em>basit olanın hızlı olduğudur</em>. Flutter, aşağıdaki sıralama
+diyagramında gösterildiği gibi verilerin sisteme nasıl aktığına dair
+basit bir boru hattına sahiptir:</p>
+<p><img src="images/40_render-pipeline.png" width=500></p>
+<p>Şimdi bu aşamaların bazılarına daha ayrıntılı bir göz atalım.</p>
+<h1 data-number="5" id="oluşturma-build-widgettan-elemente"><span
+class="header-section-number">5</span> Oluşturma (Build): Widget’tan
+Element’e</h1>
+<p>Bir widget hiyerarşisini gösteren şu kod parçasını düşünün:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Container(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  color<span class="op">:</span> Colors<span class="op">.</span>blue<span class="op">,</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  child<span class="op">:</span> Row(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    children<span class="op">:</span> [</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      Image<span class="op">.</span>network(<span class="st">&#39;https://www.example.com/1.png&#39;</span>)<span class="op">,</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">const</span> Text(<span class="st">&#39;A&#39;</span>)<span class="op">,</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p>Flutter’ın bu parçayı render etmesi gerektiğinde, mevcut uygulama
+durumuna dayalı olarak UI’ı render eden bir widget alt ağacı döndüren
+<code>build()</code> yöntemini çağırır. Bu süreç sırasında,
+<code>build()</code> yöntemi, durumuna bağlı olarak gerektiğinde yeni
+widget’lar ekleyebilir. Örnek olarak, önceki kod parçasında
+<code>Container</code>’ın <code>color</code> ve <code>child</code>
+özellikleri vardır. <code>Container</code> kaynak koduna bakıldığında,
+rengin null olmaması durumunda, rengi temsil eden bir
+<code>ColoredBox</code> eklediğini görebilirsiniz:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (color <span class="op">!=</span> <span class="cn">null</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  current <span class="op">=</span> ColoredBox(color<span class="op">:</span> color<span class="op">!,</span> child<span class="op">:</span> current);</span></code></pre></div>
+<p>Buna karşılık, <code>Image</code> ve <code>Text</code> widget’ları,
+oluşturma süreci sırasında <code>RawImage</code> ve
+<code>RichText</code> gibi alt widget’lar ekleyebilir. Sonuçta ortaya
+çıkan widget hiyerarşisi, bu durumda olduğu gibi, kodun temsil
+ettiğinden daha derin olabilir:</p>
+<p><img src="images/40_widgets.png" width=250></p>
+<p>Bu, ağacı Flutter/Dart DevTools’un bir parçası olan
+<code>Flutter inspector</code> gibi bir hata ayıklama aracıyla
+incelediğinizde, neden orijinal kodunuzda olandan çok daha derin bir
+yapı görebileceğinizi açıklar.</p>
+<p>Oluşturma (build) aşamasında Flutter, kodda ifade edilen widget’ları,
+her widget için bir element olacak şekilde karşılık gelen bir
+<code>element tree</code>’ye (element ağacı) dönüştürür. Her element,
+ağaç hiyerarşisinin belirli bir konumundaki bir widget’ın belirli bir
+örneğini temsil eder. İki temel element türü vardır:</p>
+<ul>
+<li><strong>ComponentElement:</strong> Diğer elementler için bir ev
+sahibi.</li>
+<li><strong>RenderObjectElement:</strong> Düzen (layout) veya boyama
+(paint) aşamalarına katılan bir element.</li>
+</ul>
+<p><img src="images/40_widget-element.png" width=550></p>
+<p><code>RenderObjectElement</code>’ler, widget benzerleri ile daha
+sonra değineceğimiz alttaki <code>RenderObject</code> arasında bir
+aracıdır.</p>
+<p>Herhangi bir widget’ın elementi, ağaçtaki bir widget’ın konumuna bir
+tutamaç (handle) olan <code>BuildContext</code> aracılığıyla
+referanslanabilir. Bu, <code>Theme.of(context)</code> gibi bir fonksiyon
+çağrısındaki <code>context</code>tir ve <code>build()</code> yöntemine
+bir parametre olarak sağlanır.</p>
+<p>Düğümler arasındaki ebeveyn/çocuk ilişkisi de dahil olmak üzere
+widget’lar değişmez (immutable) olduğundan, widget ağacındaki herhangi
+bir değişiklik (önceki örnekte <code>Text('A')</code>’nın
+<code>Text('B')</code> olarak değiştirilmesi gibi) yeni bir widget
+nesneleri kümesinin döndürülmesine neden olur. Ancak bu, alttaki
+temsilin yeniden oluşturulması gerektiği anlamına gelmez. Element ağacı
+kareden kareye kalıcıdır ve bu nedenle kritik bir performans rolü oynar;
+Flutter’ın alttaki temsili önbelleğe alırken widget hiyerarşisi tamamen
+atılabilirmiş gibi davranmasına izin verir. Flutter, yalnızca değişen
+widget’lar arasında gezinerek, element ağacının yalnızca yeniden
+yapılandırma gerektiren kısımlarını yeniden oluşturabilir.</p>
+<h1 data-number="6" id="düzen-ve-oluşturma-layout-and-rendering"><span
+class="header-section-number">6</span> Düzen ve oluşturma (Layout and
+rendering)</h1>
+<p>Yalnızca tek bir widget çizen bir uygulama nadir olurdu. Bu nedenle,
+herhangi bir UI framework’ünün önemli bir parçası, bir widget
+hiyerarşisini verimli bir şekilde düzenleme (lay out), ekranda
+oluşturulmadan (render) önce her öğenin boyutunu ve konumunu belirleme
+yeteneğidir.</p>
+<p>Render ağacındaki her düğüm için temel sınıf, düzen ve boyama
+(painting) için soyut bir model tanımlayan <code>RenderObject</code>tir.
+Bu son derece geneldir: sabit sayıda boyuta veya hatta bir Kartezyen
+koordinat sistemine (bir kutupsal koordinat sistemi örneği ile
+gösterildiği gibi) bağlı kalmaz. Her <code>RenderObject</code>
+ebeveynini bilir, ancak çocukları hakkında onları nasıl <em>ziyaret
+edeceği</em> (visit) ve kısıtlamaları dışında çok az şey bilir. Bu,
+<code>RenderObject</code>e çeşitli kullanım durumlarını ele alabilmesi
+için yeterli soyutlama sağlar.</p>
+<p>Oluşturma (build) aşamasında Flutter, element ağacındaki her
+<code>RenderObjectElement</code> için <code>RenderObject</code>ten miras
+alan bir nesne oluşturur veya günceller. <code>RenderObject</code>ler
+ilkel yapılardır (primitives): <code>RenderParagraph</code> metni render
+eder, <code>RenderImage</code> bir görüntüyü render eder ve
+<code>RenderTransform</code> çocuğunu boyamadan önce bir dönüşüm
+uygular.</p>
+<p><img src="images/40_trees.png" width=600></p>
+<p>Çoğu Flutter widget’ı, 2B Kartezyen uzayda sabit boyutlu bir
+<code>RenderObject</code>i temsil eden <code>RenderBox</code> alt
+sınıfından miras alan bir nesne tarafından render edilir.
+<code>RenderBox</code>, render edilecek her widget için minimum ve
+maksimum genişlik ve yükseklik belirleyen bir <em>kutu kısıtlama
+modeli</em> (box constraint model) temelini sağlar.</p>
+<p>Düzeni gerçekleştirmek için Flutter, render ağacını derinlik
+öncelikli (depth-first) bir geçişle gezer ve <em>boyut
+kısıtlamalarını</em> ebeveynden çocuğa <em>aşağı iletir</em>. Boyutunu
+belirlerken, çocuk ebeveyni tarafından kendisine verilen kısıtlamalara
+<em>uymalıdır</em>. Çocuklar, ebeveynin belirlediği kısıtlamalar
+dahilinde ebeveyn nesnelerine <em>bir boyut ileterek</em> yanıt
+verirler.</p>
+<p><img src="images/40_constraints-sizes.png" width=300></p>
+<p>Ağaçtaki bu tek yürüyüşün sonunda, her nesne ebeveyninin
+kısıtlamaları dahilinde tanımlanmış bir boyuta sahiptir ve
+<code>paint()</code> yöntemi çağrılarak boyanmaya hazırdır.</p>
+<p>Kutu kısıtlama modeli, nesneleri <em>O(n)</em> sürede düzenlemek için
+çok güçlü bir yoldur:</p>
+<ul>
+<li>Ebeveynler, maksimum ve minimum kısıtlamaları aynı değere
+ayarlayarak bir alt nesnenin boyutunu dikte edebilir. Örneğin, bir
+telefon uygulamasındaki en üstteki render nesnesi, çocuğunu ekran
+boyutunda olacak şekilde kısıtlar. (Çocuklar bu alanı nasıl
+kullanacaklarını seçebilirler. Örneğin, dikte edilen kısıtlamalar içinde
+render etmek istedikleri şeyi ortalayabilirler.)</li>
+<li>Bir ebeveyn, çocuğun genişliğini dikte edebilir ancak çocuğa
+yükseklik konusunda esneklik verebilir (veya yüksekliği dikte edip
+genişlik konusunda esneklik sunabilir). Gerçek dünyadan bir örnek, yatay
+bir kısıtlamaya uyması gereken ancak metin miktarına bağlı olarak dikey
+olarak değişebilen akış metnidir (flow text).</li>
+</ul>
+<p>Bu model, bir alt nesne içeriğini nasıl render edeceğine karar vermek
+için ne kadar alana sahip olduğunu bilmesi gerektiğinde bile çalışır.
+Bir <code>LayoutBuilder</code> widget’ı kullanarak, alt nesne aşağı
+iletilen kısıtlamaları inceleyebilir ve bunları nasıl kullanacağını
+belirlemek için kullanabilir, örneğin:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> LayoutBuilder(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    builder<span class="op">:</span> (context<span class="op">,</span> constraints) <span class="op">{</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (constraints<span class="op">.</span>maxWidth <span class="op">&lt;</span> <span class="dv">600</span>) <span class="op">{</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">return</span> <span class="at">const</span> OneColumnLayout();</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">return</span> <span class="at">const</span> TwoColumnLayout();</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">},</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Çalışan örneklerle birlikte kısıtlama ve düzen sistemi hakkında daha
+fazla bilgi <em>Understanding constraints</em> (Kısıtlamaları anlama)
+konusunda bulunabilir.</p>
+<p>Tüm <code>RenderObject</code>lerin kökü, render ağacının toplam
+çıktısını temsil eden <code>RenderView</code>dır. Platform yeni bir
+karenin render edilmesini talep ettiğinde (örneğin, bir
+<code>vsync</code> nedeniyle veya bir doku sıkıştırma açma/yükleme
+işlemi tamamlandığında), render ağacının kökündeki
+<code>RenderView</code> nesnesinin bir parçası olan
+<code>compositeFrame()</code> yöntemine bir çağrı yapılır. Bu, sahnenin
+güncellenmesini tetiklemek için bir <code>SceneBuilder</code> oluşturur.
+Sahne tamamlandığında, <code>RenderView</code> nesnesi birleştirilmiş
+sahneyi <code>dart:ui</code> içindeki <code>Window.render()</code>
+yöntemine iletir, o da render etmesi için kontrolü GPU’ya geçirir.</p>
+<p>Boru hattının birleştirme (composition) ve rasterleştirme
+(rasterization) aşamalarının daha fazla ayrıntısı bu üst düzey makalenin
+kapsamı dışındadır, ancak Flutter render boru hattı hakkındaki bu
+konuşmada daha fazla bilgi bulunabilir.</p>
+<h1 data-number="7" id="platform-gömme-platform-embedding"><span
+class="header-section-number">7</span> Platform gömme (Platform
+embedding)</h1>
+<p>Gördüğümüz gibi, eşdeğer işletim sistemi widget’larına çevrilmek
+yerine, Flutter kullanıcı arayüzleri Flutter’ın kendisi tarafından
+oluşturulur (built), düzenlenir (laid out), birleştirilir (composited)
+ve boyanır (painted). Dokuyu elde etme ve alttaki işletim sisteminin
+uygulama yaşam döngüsüne katılma mekanizması, o platformun benzersiz
+endişelerine bağlı olarak kaçınılmaz olarak değişir. Motor, platformdan
+bağımsızdır ve bir <strong>platform gömücüsüne</strong> (platform
+embedder) Flutter’ı kurmak ve kullanmak için bir yol sağlayan kararlı
+bir ABI (Uygulama İkili Arayüzü) sunar.</p>
+<p>Platform gömücüsü, tüm Flutter içeriğini barındıran ve ana işletim
+sistemi ile Flutter arasında bağlayıcı (glue) görevi gören yerel işletim
+sistemi uygulamasıdır. Bir Flutter uygulamasını başlattığınızda, gömücü
+giriş noktasını sağlar, Flutter motorunu başlatır, UI ve rasterleştirme
+(rastering) için iş parçacıklarını (threads) alır ve Flutter’ın
+yazabileceği bir doku oluşturur. Gömücü ayrıca giriş hareketleri (fare,
+klavye, dokunma gibi), pencere boyutlandırma, iş parçacığı yönetimi ve
+platform mesajları dahil olmak üzere uygulama yaşam döngüsünden de
+sorumludur. Flutter; Android, iOS, Windows, macOS ve Linux için platform
+gömücüleri içerir; ayrıca Flutter oturumlarını VNC tarzı bir çerçeve
+arabelleği (framebuffer) aracılığıyla uzaktan kumandayı destekleyen
+<em>bu çalışılmış örnekte</em> veya Raspberry Pi için <em>bu çalışılmış
+örnekte</em> olduğu gibi özel bir platform gömücüsü de
+oluşturabilirsiniz.</p>
+<p>Her platformun kendi API setleri ve kısıtlamaları vardır. Bazı kısa
+platforma özgü notlar:</p>
+<ul>
+<li>Flutter 3.29 itibarıyla, iOS ve Android’de UI ve platform iş
+parçacıkları birleştirilmiştir. Özellikle, UI iş parçacığı
+kaldırılmıştır ve Dart kodu yerel platform iş parçacığında çalışır. Daha
+fazla bilgi için <em>The great thread merge</em> videosuna bakın.</li>
+<li>iOS ve macOS’ta Flutter, gömücüye sırasıyla bir
+<code>UIViewController</code> veya <code>NSViewController</code> olarak
+yüklenir. Platform gömücüsü, Dart VM’ye ve Flutter çalışma zamanınıza ev
+sahipliği yapan bir <code>FlutterEngine</code> ve UIKit veya Cocoa giriş
+olaylarını Flutter’a iletmek ve Metal veya OpenGL kullanarak
+<code>FlutterEngine</code> tarafından oluşturulan kareleri görüntülemek
+için <code>FlutterEngine</code>’e bağlanan bir
+<code>FlutterViewController</code> oluşturur.</li>
+<li>Android’de, Flutter varsayılan olarak gömücüye bir
+<code>Activity</code> olarak yüklenir. Görünüm, Flutter içeriğini
+kompozisyon ve z-sıralama gereksinimlerine bağlı olarak bir görünüm
+(view) veya bir doku (texture) olarak oluşturan bir
+<code>FlutterView</code> tarafından kontrol edilir.</li>
+<li>Windows’ta Flutter, geleneksel bir Win32 uygulamasında barındırılır
+ve içerik, OpenGL API çağrılarını DirectX 11 eşdeğerlerine çeviren bir
+kütüphane olan <code>ANGLE</code> kullanılarak oluşturulur.</li>
+</ul>
+<h2 data-number="7.1"
+id="diğer-kodlarla-entegrasyon-integrating-with-other-code"><span
+class="header-section-number">7.1</span> Diğer kodlarla entegrasyon
+(Integrating with other code)</h2>
+<p>Flutter, ister Kotlin veya Swift gibi bir dilde yazılmış koda veya
+API’lere erişiyor olun, ister yerel C tabanlı bir API’yi çağırıyor olun,
+ister yerel kontrolleri bir Flutter uygulamasına gömüyor olun veya
+Flutter’ı mevcut bir uygulamaya gömüyor olun, çeşitli birlikte
+çalışabilirlik mekanizmaları sağlar.</p>
+<h3 data-number="7.1.1" id="platform-kanalları-platform-channels"><span
+class="header-section-number">7.1.1</span> Platform kanalları (Platform
+channels)</h3>
+<p>Mobil ve masaüstü uygulamaları için Flutter, Dart kodunuz ile ana
+uygulamanızın platforma özgü kodu arasında iletişim kurmak için bir
+mekanizma olan <strong>platform kanalı</strong> (platform channel)
+aracılığıyla özel kodu çağırmanızı sağlar. Ortak bir kanal (bir ad ve
+bir codec bileşenini kapsayan) oluşturarak, Dart ile Kotlin veya Swift
+gibi bir dilde yazılmış bir platform bileşeni arasında mesaj gönderip
+alabilirsiniz. Veriler, <code>Map</code> gibi bir Dart türünden standart
+bir formata serileştirilir (serialized) ve ardından Kotlin
+(<code>HashMap</code> gibi) veya Swift (<code>Dictionary</code> gibi)
+içindeki eşdeğer bir temsile serileştirilmesi çözülür
+(deserialized).</p>
+<p><img src="images/40_platform-channels.png" width=350></p>
+<p>Aşağıda, Kotlin (Android) veya Swift (iOS) içindeki bir alıcı olay
+işleyicisine (event handler) yapılan bir Dart çağrısının kısa bir
+platform kanalı örneği verilmiştir:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Dart side</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> channel <span class="op">=</span> MethodChannel(<span class="st">&#39;foo&#39;</span>);</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="at">final</span> greeting <span class="op">=</span> <span class="at">await</span> channel<span class="op">.</span>invokeMethod(<span class="st">&#39;bar&#39;</span><span class="op">,</span> <span class="st">&#39;world&#39;</span>) <span class="kw">as</span> <span class="dt">String</span>;</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>print(greeting);</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">// Android (Kotlin)</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>val channel <span class="op">=</span> MethodChannel(flutterView<span class="op">,</span> <span class="st">&quot;foo&quot;</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>setMethodCallHandler <span class="op">{</span> call<span class="op">,</span> result <span class="op">-&gt;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">when</span> (call<span class="op">.</span>method) <span class="op">{</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;bar&quot;</span> <span class="op">-&gt;</span> result<span class="op">.</span>success(<span class="st">&quot;Hello, ${call.arguments}&quot;</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> <span class="op">-&gt;</span> result<span class="op">.</span>notImplemented()</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">// iOS (Swift)</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>let channel <span class="op">=</span> FlutterMethodChannel(name<span class="op">:</span> <span class="st">&quot;foo&quot;</span><span class="op">,</span> binaryMessenger<span class="op">:</span> flutterView)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>setMethodCallHandler <span class="op">{</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  (call<span class="op">:</span> FlutterMethodCall<span class="op">,</span> result<span class="op">:</span> FlutterResult) <span class="op">-&gt;</span> Void <span class="kw">in</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">switch</span> (call<span class="op">.</span>method) <span class="op">{</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="st">&quot;bar&quot;</span><span class="op">:</span> result(<span class="st">&quot;Hello, \(call.arguments as! String)&quot;</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">default</span><span class="op">:</span> result(FlutterMethodNotImplemented)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Masaüstü platformları için örnekler de dahil olmak üzere platform
+kanallarının kullanımına ilişkin diğer örnekler
+<code>flutter/packages</code> deposunda bulunabilir. Ayrıca Flutter için
+Firebase’den reklamlara, kamera ve Bluetooth gibi cihaz donanımlarına
+kadar birçok yaygın senaryoyu kapsayan <em>binlerce eklenti halihazırda
+mevcuttur</em>.</p>
+<h3 data-number="7.1.2"
+id="yabancı-fonksiyon-arayüzü-foreign-function-interface---ffi"><span
+class="header-section-number">7.1.2</span> Yabancı Fonksiyon Arayüzü
+(Foreign Function Interface - FFI)</h3>
+<p>Rust veya Go gibi modern dillerde yazılmış kodlar için
+oluşturulabilenler de dahil olmak üzere C tabanlı API’ler için Dart,
+<code>dart:ffi</code> kütüphanesini kullanarak yerel koda bağlanmak için
+doğrudan bir mekanizma sağlar. Yabancı fonksiyon arayüzü (FFI) modeli,
+veri iletmek için serileştirme gerekmediğinden platform kanallarından
+önemli ölçüde daha hızlı olabilir. Bunun yerine, Dart çalışma zamanı,
+bir Dart nesnesi tarafından desteklenen yığın (heap) üzerinde bellek
+ayırma ve statik veya dinamik olarak bağlanmış kütüphanelere çağrılar
+yapma yeteneği sağlar. FFI, <code>JS interop libraries</code> ve
+<code>package:web</code>in benzer bir amaca hizmet ettiği web dışındaki
+tüm platformlar için mevcuttur.</p>
+<p>FFI kullanmak için, Dart ve yönetilmeyen (unmanaged) yöntem
+imzalarının her biri için bir <code>typedef</code> oluşturursunuz ve
+Dart VM’ye bunlar arasında eşleme yapmasını söylersiniz. Örnek olarak,
+geleneksel Win32 <code>MessageBox()</code> API’sini çağırmak için bir
+kod parçası şöyledir:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;dart:ffi&#39;</span>;</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:ffi/ffi.dart&#39;</span>; <span class="co">// contains .toNativeUtf16() extension method</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> MessageBoxNative <span class="op">=</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    Int32 <span class="kw">Function</span>(</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>      IntPtr hWnd<span class="op">,</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>      Pointer<span class="op">&lt;</span>Utf16<span class="op">&gt;</span> lpText<span class="op">,</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>      Pointer<span class="op">&lt;</span>Utf16<span class="op">&gt;</span> lpCaption<span class="op">,</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>      Int32 uType<span class="op">,</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> MessageBoxDart <span class="op">=</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="kw">Function</span>(</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>      <span class="dt">int</span> hWnd<span class="op">,</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>      Pointer<span class="op">&lt;</span>Utf16<span class="op">&gt;</span> lpText<span class="op">,</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>      Pointer<span class="op">&lt;</span>Utf16<span class="op">&gt;</span> lpCaption<span class="op">,</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>      <span class="dt">int</span> uType<span class="op">,</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> exampleFfi() <span class="op">{</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> user32 <span class="op">=</span> DynamicLibrary<span class="op">.</span>open(<span class="st">&#39;user32.dll&#39;</span>);</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> messageBox <span class="op">=</span> user32<span class="op">.</span>lookupFunction<span class="op">&lt;</span>MessageBoxNative<span class="op">,</span> MessageBoxDart<span class="op">&gt;</span>(</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;MessageBoxW&#39;</span><span class="op">,</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> result <span class="op">=</span> messageBox(</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span><span class="op">,</span> <span class="co">// No owner window</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;Test message&#39;</span><span class="op">.</span>toNativeUtf16()<span class="op">,</span> <span class="co">// Message</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;Window caption&#39;</span><span class="op">.</span>toNativeUtf16()<span class="op">,</span> <span class="co">// Window title</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span><span class="op">,</span> <span class="co">// OK button only</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h1 data-number="8"
+id="yerel-kontrolleri-bir-flutter-uygulamasında-oluşturma-rendering-native-controls-in-a-flutter-app"><span
+class="header-section-number">8</span> Yerel kontrolleri bir Flutter
+uygulamasında oluşturma (Rendering native controls in a Flutter
+app)</h1>
+<p>Flutter içeriği bir dokuya (texture) çizildiğinden ve widget ağacı
+tamamen dahili olduğundan, Flutter’ın dahili modelinde bir Android
+görünümü (view) gibi bir şeyin var olması veya Flutter widget’larının
+arasına serpiştirilmiş şekilde render edilmesi için bir yer yoktur. Bu,
+bir tarayıcı kontrolü gibi mevcut platform bileşenlerini Flutter
+uygulamalarına dahil etmek isteyen geliştiriciler için bir sorundur.</p>
+<p>Flutter bunu, her platformda bu tür içerikleri gömmenize olanak
+tanıyan platform görünümü widget’ları (<code>AndroidView</code> ve
+<code>UiKitView</code>) sunarak çözer. Platform görünümleri diğer
+Flutter içerikleriyle entegre edilebilir. Bu widget’ların her biri,
+alttaki işletim sistemi için bir aracı görevi görür. Örneğin, Android’de
+<code>AndroidView</code> üç temel işleve hizmet eder:</p>
+<ul>
+<li>Yerel görünüm tarafından oluşturulan grafik dokusunun bir kopyasını
+oluşturmak ve kare her boyandığında bunu Flutter tarafından oluşturulan
+bir yüzeyin parçası olarak birleştirilmek (composition) üzere Flutter’a
+sunmak.</li>
+<li>İsabet testine (hit testing) ve giriş hareketlerine yanıt vermek ve
+bunları eşdeğer yerel girişe çevirmek.</li>
+<li>Erişilebilirlik ağacının bir benzerini oluşturmak ve komutları ve
+yanıtları yerel ve Flutter katmanları arasında iletmek.</li>
+</ul>
+<p>Kaçınılmaz olarak, bu senkronizasyonla ilişkili belirli miktarda bir
+ek yük vardır. Bu nedenle genel olarak bu yaklaşım, Flutter’da yeniden
+uygulamanın pratik olmadığı Google Haritalar gibi karmaşık kontroller
+için en uygundur.</p>
+<p>Tipik olarak, bir Flutter uygulaması bu widget’ları bir platform
+testine dayalı olarak bir <code>build()</code> yönteminde örneklendirir.
+Örnek olarak, <code>Maps_flutter</code> eklentisinden:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (defaultTargetPlatform <span class="op">==</span> TargetPlatform<span class="op">.</span>android) <span class="op">{</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> AndroidView(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    viewType<span class="op">:</span> <span class="st">&#39;plugins.flutter.io/google_maps&#39;</span><span class="op">,</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    onPlatformViewCreated<span class="op">:</span> onPlatformViewCreated<span class="op">,</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    gestureRecognizers<span class="op">:</span> gestureRecognizers<span class="op">,</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    creationParams<span class="op">:</span> creationParams<span class="op">,</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    creationParamsCodec<span class="op">:</span> <span class="at">const</span> StandardMessageCodec()<span class="op">,</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> (defaultTargetPlatform <span class="op">==</span> TargetPlatform<span class="op">.</span>iOS) <span class="op">{</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> UiKitView(</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    viewType<span class="op">:</span> <span class="st">&#39;plugins.flutter.io/google_maps&#39;</span><span class="op">,</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    onPlatformViewCreated<span class="op">:</span> onPlatformViewCreated<span class="op">,</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    gestureRecognizers<span class="op">:</span> gestureRecognizers<span class="op">,</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    creationParams<span class="op">:</span> creationParams<span class="op">,</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    creationParamsCodec<span class="op">:</span> <span class="at">const</span> StandardMessageCodec()<span class="op">,</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="kw">return</span> Text(</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;$defaultTargetPlatform is not yet supported by the maps plugin&#39;</span><span class="op">,</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p><code>AndroidView</code> veya <code>UiKitView</code>’in altındaki
+yerel kodla iletişim, tipik olarak daha önce açıklandığı gibi platform
+kanalları mekanizması kullanılarak gerçekleşir.</p>
+<p>Şu anda, platform görünümleri masaüstü platformları için mevcut
+değildir, ancak bu mimari bir sınırlama değildir; destek gelecekte
+eklenebilir.</p>
+<h2 data-number="8.1"
+id="flutter-içeriğini-bir-ana-uygulamada-barındırma-hosting-flutter-content-in-a-parent-app"><span
+class="header-section-number">8.1</span> Flutter içeriğini bir ana
+uygulamada barındırma (Hosting Flutter content in a parent app)</h2>
+<p>Önceki senaryonun tersi, bir Flutter widget’ını mevcut bir Android
+veya iOS uygulamasına gömmektir. Daha önceki bir bölümde açıklandığı
+gibi, mobil bir cihazda çalışan yeni oluşturulmuş bir Flutter
+uygulaması, bir Android activity’sinde veya iOS
+<code>UIViewController</code>’ında barındırılır. Flutter içeriği, aynı
+gömme API’sini kullanarak mevcut bir Android veya iOS uygulamasına
+gömülebilir.</p>
+<p>Flutter modül şablonu kolay gömme için tasarlanmıştır; bunu mevcut
+bir Gradle veya Xcode derleme tanımına kaynak bağımlılığı olarak
+gömebilir veya her geliştiricinin Flutter yüklü olmasını gerektirmeden
+kullanmak üzere bir Android Arşivi veya iOS Framework ikili dosyası
+(binary) olarak derleyebilirsiniz.</p>
+<p>Flutter motorunun başlatılması kısa bir süre alır çünkü Flutter
+paylaşılan kütüphanelerini yüklemesi, Dart çalışma zamanını başlatması,
+bir Dart izolesi (isolate) oluşturup çalıştırması ve bir oluşturma
+yüzeyini UI’a eklemesi gerekir. Flutter içeriğini sunarken herhangi bir
+UI gecikmesini en aza indirmek için, Flutter motorunu genel uygulama
+başlatma sırası sırasında veya en azından ilk Flutter ekranından önce
+başlatmak en iyisidir; böylece kullanıcılar ilk Flutter kodu yüklenirken
+ani bir duraklama yaşamazlar. Ek olarak, Flutter motorunu ayırmak,
+birden fazla Flutter ekranında yeniden kullanılmasına ve gerekli
+kütüphanelerin yüklenmesiyle ilgili bellek ek yükünü paylaşmasına olanak
+tanır.</p>
+<p>Flutter’ın mevcut bir Android veya iOS uygulamasına nasıl yüklendiği
+hakkında daha fazla bilgi <em>Load sequence, performance and memory</em>
+konusunda bulunabilir.</p>
+<h1 data-number="9" id="flutter-web-desteği"><span
+class="header-section-number">9</span> Flutter web desteği</h1>
+<p>Genel mimari kavramlar Flutter’ın desteklediği tüm platformlar için
+geçerli olsa da, Flutter’ın web desteğinin yorumlanmaya değer bazı
+benzersiz özellikleri vardır.</p>
+<p>Dart, dil var olduğundan beri hem geliştirme hem de üretim amaçları
+için optimize edilmiş bir araç zinciriyle JavaScript’e derlenmektedir.
+Google Ads için reklamveren araçları da dahil olmak üzere birçok önemli
+uygulama bugün Dart’tan JavaScript’e derlenmekte ve üretimde
+çalışmaktadır. Flutter framework’ü Dart ile yazıldığı için, onu
+JavaScript’e derlemek nispeten basitti.</p>
+<p>Ancak, C++ ile yazılan Flutter motoru, bir web tarayıcısı yerine
+alttaki işletim sistemi ile arayüz oluşturmak üzere tasarlanmıştır. Bu
+nedenle farklı bir yaklaşım gereklidir.</p>
+<p>Web üzerinde Flutter iki oluşturucu (renderer) sunar:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Oluşturucu (Renderer)</th>
+<th style="text-align: left;">Derleme hedefi (Compilation target)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">CanvasKit</td>
+<td style="text-align: left;">JavaScript</td>
+</tr>
+<tr>
+<td style="text-align: left;">Skwasm</td>
+<td style="text-align: left;">WebAssembly</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Derleme modları</strong> (Build modes), uygulamayı
+çalıştırdığınızda hangi oluşturucuların kullanılabilir olduğunu
+belirleyen komut satırı seçenekleridir.</p>
+<p>Flutter iki derleme modu sunar:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Derleme modu (Build mode)</th>
+<th style="text-align: left;">Mevcut oluşturucu(lar)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">varsayılan (default)</td>
+<td style="text-align: left;">CanvasKit</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>--wasm</code></td>
+<td style="text-align: left;">Skwasm (tercih edilen), CanvasKit
+(yedek/fallback)</td>
+</tr>
+</tbody>
+</table>
+<p>Varsayılan mod, yalnızca CanvasKit oluşturucusunu kullanılabilir hale
+getirir. <code>--wasm</code> seçeneği, her iki oluşturucuyu da
+kullanılabilir hale getirir ve tarayıcı yeteneklerine göre motoru seçer:
+tarayıcı çalıştırabiliyorsa Skwasm’ı tercih eder, aksi takdirde
+CanvasKit’e geri döner.</p>
+<p><img src="images/40_web-framework-diagram.png" width=500></p>
+<p>Flutter’ın çalıştığı diğer platformlara kıyasla belki de en dikkat
+çekici fark, Flutter’ın bir Dart çalışma zamanı (runtime) sağlamasına
+gerek olmamasıdır. Bunun yerine, Flutter framework’ü (yazdığınız kodla
+birlikte) JavaScript’e derlenir. Ayrıca, Dart’ın tüm modlarında (JIT’e
+karşı AOT, yerel derlemeye karşı web derlemesi) çok az dil anlamsal
+farkı olduğunu ve çoğu geliştiricinin böyle bir farkla karşılaşacak tek
+bir satır kod bile yazmayacağını belirtmekte fayda var.</p>
+<p>Geliştirme süresi boyunca Flutter web, artımlı derlemeyi destekleyen
+ve bu nedenle “hot restart” (sıcak yeniden başlatma) ve [bir bayrak
+arkasında hot reload][] (sıcak yeniden yükleme) imkanı sağlayan bir
+derleyici olan <code>dartdevc</code>’yi kullanır. Tersine, web için bir
+üretim uygulaması oluşturmaya hazır olduğunuzda, Flutter çekirdeğini ve
+framework’ünü uygulamanızla birlikte herhangi bir web sunucusuna
+dağıtılabilen küçültülmüş (minified) bir kaynak dosyasında paketleyen,
+Dart’ın yüksek oranda optimize edilmiş üretim JavaScript derleyicisi
+<code>dart2js</code> kullanılır. Kod tek bir dosyada sunulabilir veya
+<code>deferred imports</code> (ertelenmiş içe aktarmalar) yoluyla birden
+fazla dosyaya bölünebilir.</p>
+<p>Flutter web hakkında daha fazla bilgi için <em>Web support for
+Flutter</em> ve <em>Web renderers</em> bölümlerine göz atın.</p>
+<p>Flutter’ın iç yapısı hakkında daha fazla bilgi edinmek isteyenler
+için, <em>Inside Flutter</em> teknik incelemesi (whitepaper),
+framework’ün tasarım felsefesine dair yararlı bir rehber sağlar.</p>
+<h2 data-number="9.1" id="lisans-bilgisi"><span
+class="header-section-number">9.1</span> 📄 Lisans Bilgisi</h2>
+<p>Bu doküman, <strong>Flutter resmi dokümantasyonundan</strong>
+türetilmiş Türkçe ders notudur.</p>
+<p><strong>Orijinal kaynak:</strong><br />
+https://docs.flutter.dev/resources/architectural-overview</p>
+<p><strong>Türkçe çeviri ve düzenleme:</strong><br />
+<a href="mailto:htemiz@artvin.edu.tr">Doç. Dr. Hakan Temiz</a></p>
+<hr />
+<h3 data-number="9.1.1" id="lisans-kapsamı"><span
+class="header-section-number">9.1.1</span> Lisans Kapsamı</h3>
+<p>Bu dokümandaki içerikler aşağıdaki açık lisanslar kapsamında
+sunulmaktadır:</p>
+<p><strong>Metin içerikleri (anlatım ve açıklamalar):</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> Creative Commons Attribution 4.0 International
+(CC BY 4.0)<br />
+https://creativecommons.org/licenses/by/4.0/</p>
+<p>Bu lisans kapsamında: - İçerik kopyalanabilir, dağıtılabilir ve
+uyarlanabilir<br />
+- Ticari kullanım serbesttir<br />
+- Kaynak belirtilmesi zorunludur</p>
+<p><strong>Kod örnekleri:</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> BSD 3-Clause License<br />
+https://opensource.org/licenses/BSD-3-Clause</p>
+<p>Bu lisans kapsamında: - Kodlar kopyalanabilir, değiştirilebilir ve
+dağıtılabilir<br />
+- Ticari kullanım serbesttir<br />
+- Lisans bildiriminin korunması gerekir</p>
+</body>
+</html>

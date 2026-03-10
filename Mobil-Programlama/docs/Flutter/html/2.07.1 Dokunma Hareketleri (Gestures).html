@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>2.07.1 Dokunma Hareketleri (Gestures)</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#dokunmalar-sürüklemeler-ve-diğer-jestler"
+id="toc-dokunmalar-sürüklemeler-ve-diğer-jestler"><span
+class="toc-section-number">1</span> Dokunmalar, sürüklemeler ve diğer
+jestler</a>
+<ul>
+<li><a href="#işaretçiler-pointers" id="toc-işaretçiler-pointers"><span
+class="toc-section-number">1.1</span> İşaretçiler (Pointers)</a></li>
+<li><a href="#jestler-gestures" id="toc-jestler-gestures"><span
+class="toc-section-number">1.2</span> Jestler (Gestures)</a>
+<ul>
+<li><a href="#dokunma-tap" id="toc-dokunma-tap"><span
+class="toc-section-number">1.2.1</span> Dokunma (Tap)</a></li>
+<li><a href="#çift-dokunma-double-tap"
+id="toc-çift-dokunma-double-tap"><span
+class="toc-section-number">1.2.2</span> Çift Dokunma (Double
+tap)</a></li>
+<li><a href="#uzun-basma-long-press"
+id="toc-uzun-basma-long-press"><span
+class="toc-section-number">1.2.3</span> Uzun Basma (Long press)</a></li>
+<li><a href="#dikey-sürükleme-vertical-drag"
+id="toc-dikey-sürükleme-vertical-drag"><span
+class="toc-section-number">1.2.4</span> Dikey Sürükleme (Vertical
+drag)</a></li>
+<li><a href="#yatay-sürükleme-horizontal-drag"
+id="toc-yatay-sürükleme-horizontal-drag"><span
+class="toc-section-number">1.2.5</span> Yatay Sürükleme (Horizontal
+drag)</a></li>
+<li><a href="#kaydırma-pan" id="toc-kaydırma-pan"><span
+class="toc-section-number">1.2.6</span> Kaydırma (Pan)</a></li>
+</ul></li>
+<li><a href="#widgetlara-jest-algılama-ekleme"
+id="toc-widgetlara-jest-algılama-ekleme"><span
+class="toc-section-number">1.3</span> Widget’lara jest algılama
+ekleme</a></li>
+<li><a href="#jest-belirsizliğinin-giderilmesi-gesture-disambiguation"
+id="toc-jest-belirsizliğinin-giderilmesi-gesture-disambiguation"><span
+class="toc-section-number">1.4</span> Jest belirsizliğinin giderilmesi
+(Gesture disambiguation)</a></li>
+</ul></li>
+<li><a href="#dokunmaları-işleme-handle-taps"
+id="toc-dokunmaları-işleme-handle-taps"><span
+class="toc-section-number">2</span> Dokunmaları işleme (Handle taps)</a>
+<ul>
+<li><a href="#notlar" id="toc-notlar"><span
+class="toc-section-number">2.1</span> Notlar</a></li>
+</ul></li>
+<li><a href="#sürükle-ve-bırak-drag-and-drop"
+id="toc-sürükle-ve-bırak-drag-and-drop"><span
+class="toc-section-number">3</span> Sürükle ve Bırak (Drag and Drop)</a>
+<ul>
+<li><a href="#yaklaşım-belirleme" id="toc-yaklaşım-belirleme"><span
+class="toc-section-number">3.1</span> Yaklaşım Belirleme</a></li>
+<li><a href="#uygulama-içi-sürüklenebilir-widgetlar-oluşturma"
+id="toc-uygulama-içi-sürüklenebilir-widgetlar-oluşturma"><span
+class="toc-section-number">3.2</span> 1. Uygulama İçi Sürüklenebilir
+Widget’lar Oluşturma</a></li>
+<li><a href="#uygulamalar-arası-sürükle-ve-bırak-cross-app"
+id="toc-uygulamalar-arası-sürükle-ve-bırak-cross-app"><span
+class="toc-section-number">3.3</span> 2. Uygulamalar Arası Sürükle ve
+Bırak (Cross-App)</a>
+<ul>
+<li><a href="#neden-bu-paketi-seçmelisiniz"
+id="toc-neden-bu-paketi-seçmelisiniz"><span
+class="toc-section-number">3.3.1</span> Neden Bu Paketi
+Seçmelisiniz?</a></li>
+</ul></li>
+<li><a href="#özet-karşılaştırma" id="toc-özet-karşılaştırma"><span
+class="toc-section-number">3.4</span> Özet Karşılaştırma</a></li>
+</ul></li>
+<li><a href="#bir-ui-öğesini-sürükleyin"
+id="toc-bir-ui-öğesini-sürükleyin"><span
+class="toc-section-number">4</span> Bir UI öğesini sürükleyin</a>
+<ul>
+<li><a href="#bas-ve-sürükle-press-and-drag"
+id="toc-bas-ve-sürükle-press-and-drag"><span
+class="toc-section-number">4.1</span> Bas ve sürükle (Press and
+drag)</a></li>
+<li><a href="#sürüklenebilir-öğeyi-bırak-drop-the-draggable"
+id="toc-sürüklenebilir-öğeyi-bırak-drop-the-draggable"><span
+class="toc-section-number">4.2</span> Sürüklenebilir öğeyi bırak (Drop
+the draggable)</a></li>
+<li><a href="#sepete-bir-menü-öğesi-ekle"
+id="toc-sepete-bir-menü-öğesi-ekle"><span
+class="toc-section-number">4.3</span> Sepete bir menü öğesi ekle</a>
+<ul>
+<li><a href="#etkileşimli-örnek" id="toc-etkileşimli-örnek"><span
+class="toc-section-number">4.3.1</span> Etkileşimli örnek</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#flutter-ders-notları-material-ripple-efekti"
+id="toc-flutter-ders-notları-material-ripple-efekti"><span
+class="toc-section-number">5</span> Flutter Ders Notları: Material
+Ripple Efekti</a>
+<ul>
+<li><a href="#nasıl-uygulanır" id="toc-nasıl-uygulanır"><span
+class="toc-section-number">5.1</span> Nasıl Uygulanır?</a></li>
+<li><a href="#örnek-kod" id="toc-örnek-kod"><span
+class="toc-section-number">5.2</span> Örnek Kod</a>
+<ul>
+<li><a href="#önemli-not" id="toc-önemli-not"><span
+class="toc-section-number">5.2.1</span> Önemli Not</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#flutter-ders-notları-kaydırarak-silme-swipe-to-dismiss"
+id="toc-flutter-ders-notları-kaydırarak-silme-swipe-to-dismiss"><span
+class="toc-section-number">6</span> Flutter Ders Notları: Kaydırarak
+Silme (Swipe to Dismiss)</a>
+<ul>
+<li><a href="#öğe-listesi-oluşturma"
+id="toc-öğe-listesi-oluşturma"><span
+class="toc-section-number">6.1</span> 1. Öğe Listesi Oluşturma</a>
+<ul>
+<li><a href="#veri-kaynağı" id="toc-veri-kaynağı"><span
+class="toc-section-number">6.1.1</span> Veri Kaynağı</a></li>
+<li><a href="#listeyi-görüntüleme" id="toc-listeyi-görüntüleme"><span
+class="toc-section-number">6.1.2</span> Listeyi Görüntüleme</a></li>
+</ul></li>
+<li><a href="#öğeyi-dismissible-widget-ile-sarmalama"
+id="toc-öğeyi-dismissible-widget-ile-sarmalama"><span
+class="toc-section-number">6.2</span> 2. Öğeyi Dismissible Widget ile
+Sarmalama</a></li>
+<li><a href="#arka-plan-indikatörü-ekleme-leave-behind"
+id="toc-arka-plan-indikatörü-ekleme-leave-behind"><span
+class="toc-section-number">6.3</span> 3. Arka Plan İndikatörü Ekleme
+(Leave Behind)</a></li>
+<li><a href="#örnek" id="toc-örnek"><span
+class="toc-section-number">6.4</span> Örnek</a></li>
+<li><a href="#lisans-bilgisi" id="toc-lisans-bilgisi"><span
+class="toc-section-number">6.5</span> 📄 Lisans Bilgisi</a>
+<ul>
+<li><a href="#lisans-kapsamı" id="toc-lisans-kapsamı"><span
+class="toc-section-number">6.5.1</span> Lisans Kapsamı</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1" id="dokunmalar-sürüklemeler-ve-diğer-jestler"><span
+class="header-section-number">1</span> Dokunmalar, sürüklemeler ve diğer
+jestler</h1>
+<p>Flutter’da dokunma (tap) ve sürükleme (drag) gibi jestlerin
+(gestures) nasıl çalıştığını öğrenin.</p>
+<p>Bu belge, Flutter’da <strong>jestlerin</strong> nasıl dinleneceğini
+ve bunlara nasıl yanıt verileceğini açıklar. Jest örnekleri arasında
+dokunmalar, sürüklemeler ve ölçeklendirmeler (scaling) yer alır.</p>
+<p>Flutter’daki jest sistemi iki ayrı katmana sahiptir. İlk katman,
+işaretçilerin (örneğin dokunuşlar, fareler ve kalemler) ekran üzerindeki
+konumunu ve hareketini tanımlayan <strong>ham işaretçi olaylarına (raw
+pointer events)</strong> sahiptir. İkinci katman ise, bir veya daha
+fazla işaretçi hareketinden oluşan anlamsal eylemleri tanımlayan
+<strong>jestlere</strong> sahiptir.</p>
+<h2 data-number="1.1" id="işaretçiler-pointers"><span
+class="header-section-number">1.1</span> İşaretçiler (Pointers)</h2>
+<p>İşaretçiler, kullanıcının cihaz ekranıyla etkileşimi hakkındaki ham
+verileri temsil eder. Dört tür işaretçi olayı vardır:</p>
+<ul>
+<li><code>PointerDownEvent</code>: İşaretçi belirli bir konumda ekrana
+temas etti.</li>
+<li><code>PointerMoveEvent</code>: İşaretçi ekran üzerinde bir konumdan
+diğerine hareket etti.</li>
+<li><code>PointerUpEvent</code>: İşaretçi ekranla temasını kesti.</li>
+<li><code>PointerCancelEvent</code>: Bu işaretçiden gelen girdi artık bu
+uygulamaya yönlendirilmiyor.</li>
+</ul>
+<p>İşaretçi aşağı indiğinde (pointer down), çerçeve (framework),
+işaretçinin ekrana temas ettiği konumda hangi widget’ın bulunduğunu
+belirlemek için uygulamanızda bir <strong>hit testi</strong> (isabet
+testi) yapar. İşaretçi aşağı olayı (ve o işaretçi için sonraki olaylar)
+daha sonra hit testi tarafından bulunan <strong>en içteki</strong>
+widget’a dağıtılır. Oradan olaylar ağaçta yukarı doğru çıkar (bubble up)
+ve en içteki widget’tan ağacın köküne kadar olan yoldaki tüm widget’lara
+dağıtılır. İşaretçi olaylarının daha fazla dağıtılmasını iptal etmek
+veya durdurmak için bir mekanizma yoktur.</p>
+<p>İşaretçi olaylarını doğrudan widget katmanından dinlemek için bir
+<code>Listener</code> widget’ı kullanın. Ancak, genellikle bunun yerine
+(aşağıda tartışıldığı gibi) jestleri kullanmayı düşünün.</p>
+<h2 data-number="1.2" id="jestler-gestures"><span
+class="header-section-number">1.2</span> Jestler (Gestures)</h2>
+<p>Jestler; birden fazla bireysel işaretçi olayından, hatta potansiyel
+olarak birden fazla bireysel işaretçiden tanınan anlamsal eylemleri
+(örneğin dokunma, sürükleme ve ölçeklendirme) temsil eder. Jestler,
+jestin yaşam döngüsüne karşılık gelen birden fazla olay dağıtabilir
+(örneğin sürükleme başlangıcı, sürükleme güncellemesi ve sürükleme
+bitişi):</p>
+<h3 data-number="1.2.1" id="dokunma-tap"><span
+class="header-section-number">1.2.1</span> Dokunma (Tap)</h3>
+<ul>
+<li><code>onTapDown</code>: Dokunmaya neden olabilecek bir işaretçi
+belirli bir konumda ekrana temas etti.</li>
+<li><code>onTapUp</code>: Dokunmayı tetikleyen bir işaretçi belirli bir
+konumda ekranla temasını kesti.</li>
+<li><code>onTap</code>: Daha önce <code>onTapDown</code>’ı tetikleyen
+işaretçi, <code>onTapUp</code>’ı da tetikledi ve sonuçta bir dokunmaya
+neden oldu.</li>
+<li><code>onTapCancel</code>: Daha önce <code>onTapDown</code>’ı
+tetikleyen işaretçi, sonuçta bir dokunmaya neden olmayacak.</li>
+</ul>
+<h3 data-number="1.2.2" id="çift-dokunma-double-tap"><span
+class="header-section-number">1.2.2</span> Çift Dokunma (Double
+tap)</h3>
+<ul>
+<li><code>onDoubleTap</code>: Kullanıcı ekranda aynı konuma hızlı bir
+şekilde art arda iki kez dokundu.</li>
+</ul>
+<h3 data-number="1.2.3" id="uzun-basma-long-press"><span
+class="header-section-number">1.2.3</span> Uzun Basma (Long press)</h3>
+<ul>
+<li><code>onLongPress</code>: Bir işaretçi uzun bir süre boyunca ekranda
+aynı konumda temas halinde kaldı.</li>
+</ul>
+<h3 data-number="1.2.4" id="dikey-sürükleme-vertical-drag"><span
+class="header-section-number">1.2.4</span> Dikey Sürükleme (Vertical
+drag)</h3>
+<ul>
+<li><code>onVerticalDragStart</code>: Bir işaretçi ekrana temas etti ve
+dikey olarak hareket etmeye başlayabilir.</li>
+<li><code>onVerticalDragUpdate</code>: Ekranla temas halinde olan ve
+dikey olarak hareket eden bir işaretçi dikey yönde hareket etti.</li>
+<li><code>onVerticalDragEnd</code>: Daha önce ekranla temas halinde olan
+ve dikey olarak hareket eden bir işaretçi artık ekranla temas halinde
+değil ve teması kestiğinde belirli bir hızda hareket ediyordu.</li>
+</ul>
+<h3 data-number="1.2.5" id="yatay-sürükleme-horizontal-drag"><span
+class="header-section-number">1.2.5</span> Yatay Sürükleme (Horizontal
+drag)</h3>
+<ul>
+<li><code>onHorizontalDragStart</code>: Bir işaretçi ekrana temas etti
+ve yatay olarak hareket etmeye başlayabilir.</li>
+<li><code>onHorizontalDragUpdate</code>: Ekranla temas halinde olan ve
+yatay olarak hareket eden bir işaretçi yatay yönde hareket etti.</li>
+<li><code>onHorizontalDragEnd</code>: Daha önce ekranla temas halinde
+olan ve yatay olarak hareket eden bir işaretçi artık ekranla temas
+halinde değil ve teması kestiğinde belirli bir hızda hareket
+ediyordu.</li>
+</ul>
+<h3 data-number="1.2.6" id="kaydırma-pan"><span
+class="header-section-number">1.2.6</span> Kaydırma (Pan)</h3>
+<ul>
+<li><code>onPanStart</code>: Bir işaretçi ekrana temas etti ve yatay
+veya dikey olarak hareket etmeye başlayabilir.
+<code>onHorizontalDragStart</code> veya <code>onVerticalDragStart</code>
+ayarlanmışsa bu geri çağırma (callback) çökmeye neden olur.</li>
+<li><code>onPanUpdate</code>: Ekranla temas halinde olan bir işaretçi
+dikey veya yatay yönde hareket ediyor.
+<code>onHorizontalDragUpdate</code> veya
+<code>onVerticalDragUpdate</code> ayarlanmışsa bu geri çağırma çökmeye
+neden olur.</li>
+<li><code>onPanEnd</code>: Daha önce ekranla temas halinde olan bir
+işaretçi artık ekranla temas halinde değil ve teması kestiğinde belirli
+bir hızda hareket ediyordu. <code>onHorizontalDragEnd</code> veya
+<code>onVerticalDragEnd</code> ayarlanmışsa bu geri çağırma çökmeye
+neden olur.</li>
+</ul>
+<h2 data-number="1.3" id="widgetlara-jest-algılama-ekleme"><span
+class="header-section-number">1.3</span> Widget’lara jest algılama
+ekleme</h2>
+<p>Widget katmanından gelen jestleri dinlemek için bir
+<code>GestureDetector</code> kullanın.</p>
+<blockquote>
+<p><strong>Not:</strong> Daha fazla bilgi edinmek için
+<code>GestureDetector</code> widget’ı hakkındaki bu kısa “Haftanın
+Widget’ı” videosunu izleyin.</p>
+</blockquote>
+<p>Eğer Material Bileşenlerini (Material Components) kullanıyorsanız, bu
+widget’ların çoğu zaten dokunmalara veya jestlere yanıt verir. Örneğin,
+<code>IconButton</code> ve <code>TextButton</code> basışlara
+(dokunmalara) yanıt verir ve <code>ListView</code> kaydırmayı tetiklemek
+için kaydırma hareketlerine (swipes) yanıt verir. Eğer bu widget’ları
+kullanmıyorsanız ancak bir dokunma işleminde “mürekkep sıçraması” (ink
+splash) efekti istiyorsanız, <code>InkWell</code> kullanabilirsiniz.</p>
+<h2 data-number="1.4"
+id="jest-belirsizliğinin-giderilmesi-gesture-disambiguation"><span
+class="header-section-number">1.4</span> Jest belirsizliğinin
+giderilmesi (Gesture disambiguation)</h2>
+<p>Ekrandaki belirli bir konumda birden fazla jest algılayıcı (gesture
+detector) olabilir. Örneğin:</p>
+<ol type="1">
+<li>Bir <code>ListTile</code>, tüm <code>ListTile</code>’a yanıt veren
+bir dokunma tanıyıcısına (tap recognizer) ve sondaki simge düğmesinin
+(trailing icon button) etrafında iç içe geçmiş bir tanıyıcıya sahiptir.
+Sondaki simgenin ekran karesi (rect) artık, eğer eylem bir dokunma
+olursa jesti kimin işleyeceğini müzakere etmesi gereken iki jest
+tanıyıcı tarafından kapsanmaktadır.</li>
+<li>Tek bir <code>GestureDetector</code>, uzun basma ve dokunma gibi
+birden fazla jesti işlemek üzere yapılandırılmış bir ekran alanını
+kapsar. Kullanıcı ekranın o kısmına dokunduğunda, <code>tap</code>
+(dokunma) tanıyıcısı artık <code>long press</code> (uzun basma)
+tanıyıcısı ile müzakere etmelidir. O işaretçiyle bir sonraki aşamada ne
+olacağına bağlı olarak, iki tanıyıcıdan biri jesti alır veya kullanıcı
+ne dokunma ne de uzun basma olan bir şey yaparsa hiçbiri jesti
+almaz.</li>
+</ol>
+<p>Bu jest algılayıcıların tümü, işaretçi olayları akışını dinler ve
+belirli jestleri tanımaya çalışır. <code>GestureDetector</code>
+widget’ı, hangi geri aramalarının (callbacks) null olmadığına (dolu
+olduğuna) bağlı olarak hangi jestleri tanımaya çalışacağına karar
+verir.</p>
+<p>Ekranda belirli bir işaretçi için birden fazla jest tanıyıcı
+olduğunda, çerçeve (framework), her tanıyıcının <strong>jest arenasına
+(gesture arena)</strong> katılmasını sağlayarak kullanıcının hangi jesti
+kastettiğini ayırt eder. Jest arenası, aşağıdaki kuralları kullanarak
+hangi jestin kazanacağını belirler:</p>
+<ul>
+<li>Herhangi bir zamanda, bir tanıyıcı kendini eleyebilir ve arenadan
+ayrılabilir. Arenada sadece bir tanıyıcı kalırsa, o tanıyıcı
+kazanır.</li>
+<li>Herhangi bir zamanda, bir tanıyıcı kendini kazanan ilan edebilir ve
+kalan tüm tanıyıcıların kaybetmesine neden olabilir.</li>
+</ul>
+<p>Örneğin, yatay ve dikey sürüklemeyi ayırt ederken, her iki tanıyıcı
+da işaretçi aşağı (pointer down) olayını aldıklarında arenaya girerler.
+Tanıyıcılar işaretçi hareket olaylarını gözlemler. Kullanıcı işaretçiyi
+yatay olarak belirli bir mantıksal piksel sayısından fazla hareket
+ettirirse, yatay tanıyıcı zaferini ilan eder ve jest yatay bir sürükleme
+olarak yorumlanır. Benzer şekilde, kullanıcı dikey olarak belirli bir
+mantıksal piksel sayısından fazla hareket ederse, dikey tanıyıcı kendini
+kazanan ilan eder.</p>
+<p>Jest arenası, yalnızca yatay (veya dikey) bir sürükleme tanıyıcısı
+olduğunda faydalıdır. Bu durumda, arenada yalnızca bir tanıyıcı vardır
+ve yatay sürükleme hemen tanınır; bu da yatay hareketin ilk pikselinin
+bir sürükleme olarak ele alınabileceği ve kullanıcının daha fazla jest
+ayrımı beklemesine gerek kalmayacağı anlamına gelir.</p>
+<h1 data-number="2" id="dokunmaları-işleme-handle-taps"><span
+class="header-section-number">2</span> Dokunmaları işleme (Handle
+taps)</h1>
+<p>Dokunma ve sürüklemenin nasıl işleneceği.</p>
+<p>Kullanıcılara yalnızca bilgi görüntülemek istemezsiniz,
+kullanıcıların uygulamanızla etkileşime girmesini de istersiniz. Dokunma
+ve sürükleme gibi temel eylemlere yanıt vermek için
+<code>GestureDetector</code> widget’ını kullanın.</p>
+<p><a
+href="https://www.youtube.com/watch?v=WhVXkCFPmK4&amp;t=1s">video</a></p>
+<blockquote>
+<p><strong>Not:</strong> Daha fazla bilgi edinmek için
+<code>GestureDetector</code> widget’ı hakkındaki bu kısa “Haftanın
+Widget’ı” videosunu izleyin.</p>
+</blockquote>
+<p>Bu tarif, aşağıdaki adımlarla dokunulduğunda bir
+<code>snackbar</code> gösteren özel bir düğmenin nasıl yapılacağını
+gösterir:</p>
+<ol type="1">
+<li>Düğmeyi oluşturun.</li>
+<li>Onu bir <code>GestureDetector</code> ile sarın ve bir
+<code>onTap()</code> geri çağırma işlevi (callback) sağlayın.</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// GestureDetector düğmeyi sarar.</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>GestureDetector(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Çocuğa (child) dokunulduğunda bir snackbar göster.</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  onTap<span class="op">:</span> () <span class="op">{</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">const</span> snackBar <span class="op">=</span> SnackBar(content<span class="op">:</span> Text(<span class="st">&#39;Tap&#39;</span>));</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    ScaffoldMessenger<span class="op">.</span>of(context)<span class="op">.</span>showSnackBar(snackBar);</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">},</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Özel düğme</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  child<span class="op">:</span> Container(</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>all(<span class="dv">12</span>)<span class="op">,</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    decoration<span class="op">:</span> BoxDecoration(</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      color<span class="op">:</span> Colors<span class="op">.</span>lightBlue<span class="op">,</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>      borderRadius<span class="op">:</span> BorderRadius<span class="op">.</span>circular(<span class="dv">8</span>)<span class="op">,</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    child<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;My Button&#39;</span>)<span class="op">,</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<h2 data-number="2.1" id="notlar"><span
+class="header-section-number">2.1</span> Notlar</h2>
+<ul>
+<li>Düğmenize Material dalgalanma efekti (ripple effect) ekleme hakkında
+bilgi için, <strong>Material dokunma dalgalanmaları ekle</strong>
+tarifine bakın.</li>
+<li>Bu örnek özel bir düğme oluştursa da, Flutter bir dizi düğme
+uygulaması içerir; örneğin: <code>ElevatedButton</code>,
+<code>TextButton</code> ve <code>CupertinoButton</code>.</li>
+</ul>
+<p><strong>Etkileşimli örnek</strong></p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter/material.dart&#39;</span>;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main() <span class="op">=&gt;</span> runApp(<span class="at">const</span> MyApp());</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyApp <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> MyApp(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">const</span> title <span class="op">=</span> <span class="st">&#39;Gesture Demo&#39;</span>;</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> <span class="at">const</span> MaterialApp(</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>      title<span class="op">:</span> title<span class="op">,</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>      home<span class="op">:</span> MyHomePage(title<span class="op">:</span> title)<span class="op">,</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyHomePage <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> title;</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> MyHomePage(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">,</span> required <span class="kw">this</span><span class="op">.</span>title<span class="op">}</span>);</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Scaffold(</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>      appBar<span class="op">:</span> AppBar(title<span class="op">:</span> Text(title))<span class="op">,</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>      body<span class="op">:</span> <span class="at">const</span> Center(child<span class="op">:</span> MyButton())<span class="op">,</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyButton <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> MyButton(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    <span class="co">// The GestureDetector wraps the button.</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> GestureDetector(</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>      <span class="co">// When the child is tapped, show a snackbar.</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>      onTap<span class="op">:</span> () <span class="op">{</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>        <span class="at">const</span> snackBar <span class="op">=</span> SnackBar(content<span class="op">:</span> Text(<span class="st">&#39;Tap&#39;</span>));</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>        ScaffoldMessenger<span class="op">.</span>of(context)<span class="op">.</span>showSnackBar(snackBar);</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>      <span class="op">},</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>      <span class="co">// The custom button</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Container(</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>        padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>all(<span class="dv">12</span>)<span class="op">,</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>        decoration<span class="op">:</span> BoxDecoration(</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>          color<span class="op">:</span> Colors<span class="op">.</span>lightBlue<span class="op">,</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>          borderRadius<span class="op">:</span> BorderRadius<span class="op">.</span>circular(<span class="dv">8</span>)<span class="op">,</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;My Button&#39;</span>)<span class="op">,</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h1 data-number="3" id="sürükle-ve-bırak-drag-and-drop"><span
+class="header-section-number">3</span> Sürükle ve Bırak (Drag and
+Drop)</h1>
+<p>Bu doküman, Flutter uygulamanızda sürükle-bırak (drag and drop)
+işlevselliğinin nasıl uygulanacağını, özellikle de uygulama içi ve
+uygulamalar arası (işletim sistemi ile etkileşimli) yöntemleri ele
+almaktadır.</p>
+<hr />
+<h2 data-number="3.1" id="yaklaşım-belirleme"><span
+class="header-section-number">3.1</span> Yaklaşım Belirleme</h2>
+<p>Sürükle ve bırak işlemlerini uygulamanızda gerçekleştirmek için
+temelde iki farklı yol izleyebilirsiniz:</p>
+<ol type="1">
+<li><strong>Doğrudan Flutter Widget’larını Kullanmak:</strong> Sadece
+uygulama içi işlemler için.</li>
+<li><strong>Harici Paket Kullanmak:</strong> Hem uygulama içi hem de
+uygulamalar arası işlemler için (<code>super_drag_and_drop</code>
+paketi).</li>
+</ol>
+<hr />
+<h2 data-number="3.2"
+id="uygulama-içi-sürüklenebilir-widgetlar-oluşturma"><span
+class="header-section-number">3.2</span> 1. Uygulama İçi Sürüklenebilir
+Widget’lar Oluşturma</h2>
+<p>Eğer amacınız sadece kendi uygulamanızın sınırları içinde bir öğeyi
+bir yerden başka bir yere taşımaksa, Flutter’ın yerleşik widget’larını
+kullanabilirsiniz.</p>
+<ul>
+<li><strong>Kullanılan Widget:</strong> <code>Draggable</code></li>
+<li><strong>Nasıl Çalışır:</strong> <code>Draggable</code> widget’ı,
+kullanıcının ekrandaki bir öğeyi sürüklemesine olanak tanır.</li>
+<li><strong>Avantajı:</strong> <code>Draggable</code> ve
+<code>DragTarget</code> kullanmanın en büyük avantajı, bir bırakma
+işleminin kabul edilip edilmeyeceğine karar vermek için <strong>Dart
+kodu</strong> kullanabilmenizdir. Tam kontrol sizdedir.</li>
+</ul>
+<hr />
+<h2 data-number="3.3"
+id="uygulamalar-arası-sürükle-ve-bırak-cross-app"><span
+class="header-section-number">3.3</span> 2. Uygulamalar Arası Sürükle ve
+Bırak (Cross-App)</h2>
+<p>Eğer uygulamanızdan başka bir uygulamaya (örneğin bir dosyayı işletim
+sisteminin masaüstüne veya Flutter ile yazılmamış başka bir uygulamaya)
+veri sürüklemek istiyorsanız yerleşik widget’lar yeterli
+olmayacaktır.</p>
+<ul>
+<li><strong>Kullanılan Araç:</strong> <code>super_drag_and_drop</code>
+paketi (pub.dev üzerinden erişilebilir).</li>
+<li><strong>Platform Desteği:</strong> Masaüstü, Mobil ve Web.</li>
+</ul>
+<h3 data-number="3.3.1" id="neden-bu-paketi-seçmelisiniz"><span
+class="header-section-number">3.3.1</span> Neden Bu Paketi
+Seçmelisiniz?</h3>
+<ol type="1">
+<li><strong>Tek Bir Yapı:</strong> Hem uygulama dışına hem de uygulama
+içine sürükleme işlemleri için iki ayrı kod yapısı kurmanıza gerek
+kalmaz. Pakete <strong>yerel veriler (local data)</strong> sağlayarak
+uygulama içi sürüklemeleri de bu paketle yönetebilirsiniz.</li>
+<li><strong>Platform Uyumluluğu:</strong> Yerel platform API’leri
+(Android, iOS, Windows vb.) genellikle senkron (eşzamanlı) bir yanıt
+bekler. Flutter framework’ü doğası gereği asenkron çalışır. Bu paket,
+uygulamanızın hangi verileri kabul edeceğini sisteme <strong>önceden (up
+front)</strong> bildirerek bu senkronizasyon sorununu çözer. Bu,
+standart <code>Draggable</code> kullanımından temel bir farktır.</li>
+</ol>
+<hr />
+<h2 data-number="3.4" id="özet-karşılaştırma"><span
+class="header-section-number">3.4</span> Özet Karşılaştırma</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Özellik</th>
+<th><code>Draggable</code> Widget</th>
+<th><code>super_drag_and_drop</code> Paketi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Kullanım Alanı</strong></td>
+<td>Sadece Uygulama İçi</td>
+<td>Uygulama İçi ve Uygulamalar Arası</td>
+</tr>
+<tr>
+<td><strong>Kontrol Mekanizması</strong></td>
+<td>Dart kodu ile anlık karar</td>
+<td>Önceden tanımlanmış veri tipleri</td>
+</tr>
+<tr>
+<td><strong>Platform İletişimi</strong></td>
+<td>Yok</td>
+<td>Var (İşletim sistemi ile konuşur)</td>
+</tr>
+<tr>
+<td><strong>Yapı</strong></td>
+<td>Yerleşik (Native)</td>
+<td>Harici Paket (External)</td>
+</tr>
+</tbody>
+</table>
+<h1 data-number="4" id="bir-ui-öğesini-sürükleyin"><span
+class="header-section-number">4</span> Bir UI öğesini sürükleyin</h1>
+<p>Sürükle ve bırak (Drag and drop), yaygın bir mobil uygulama
+etkileşimidir. Kullanıcı bir widget’a uzun bastığında (bazen “dokun ve
+basılı tut” olarak adlandırılır), kullanıcının parmağının altında başka
+bir widget belirir ve kullanıcı widget’ı son bir konuma sürükleyip
+bırakır. Bu tarifte, kullanıcının bir yiyecek seçeneğine uzun bastığı ve
+ardından o yiyeceği ödemeyi yapan müşterinin resmine sürüklediği bir
+sürükle-bırak etkileşimi oluşturacaksınız.</p>
+<p><img src="images/100_DragAUIElement.webp" width=200></p>
+<p>Bu tarif, önceden oluşturulmuş bir menü öğeleri listesi ve bir
+müşteri satırı ile başlar. İlk adım, uzun basmayı tanımak ve bir menü
+öğesinin sürüklenebilir bir fotoğrafını görüntülemektir.</p>
+<h2 data-number="4.1" id="bas-ve-sürükle-press-and-drag"><span
+class="header-section-number">4.1</span> Bas ve sürükle (Press and
+drag)</h2>
+<p>Flutter, bir sürükle-bırak etkileşimini başlatmak için tam olarak
+ihtiyacınız olan davranışı sağlayan
+<strong><code>LongPressDraggable</code></strong> adlı bir widget sunar.
+<code>LongPressDraggable</code> widget’ı, uzun bir basışın ne zaman
+gerçekleştiğini tanır ve ardından kullanıcının parmağının yakınında yeni
+bir widget görüntüler. Kullanıcı sürükledikçe, widget kullanıcının
+parmağını takip eder. <code>LongPressDraggable</code>, kullanıcının
+sürüklediği widget üzerinde size tam kontrol sağlar.</p>
+<p>Her menü listesi öğesi özel bir <code>MenuListItem</code> widget’ı
+ile görüntülenir.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>MenuListItem(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  name<span class="op">:</span> item<span class="op">.</span>name<span class="op">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  price<span class="op">:</span> item<span class="op">.</span>formattedTotalItemPrice<span class="op">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  photoProvider<span class="op">:</span> item<span class="op">.</span>imageProvider<span class="op">,</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><code>MenuListItem</code> widget’ını bir
+<code>LongPressDraggable</code> widget’ı ile sarın.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>LongPressDraggable<span class="op">&lt;</span>Item<span class="op">&gt;</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  data<span class="op">:</span> item<span class="op">,</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  dragAnchorStrategy<span class="op">:</span> pointerDragAnchorStrategy<span class="op">,</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  feedback<span class="op">:</span> DraggingListItem(</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    dragKey<span class="op">:</span> _draggableKey<span class="op">,</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    photoProvider<span class="op">:</span> item<span class="op">.</span>imageProvider<span class="op">,</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  child<span class="op">:</span> MenuListItem(</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> item<span class="op">.</span>name<span class="op">,</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    price<span class="op">:</span> item<span class="op">.</span>formattedTotalItemPrice<span class="op">,</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    photoProvider<span class="op">:</span> item<span class="op">.</span>imageProvider<span class="op">,</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p>Bu durumda, kullanıcı <code>MenuListItem</code> widget’ına uzun
+bastığında, <code>LongPressDraggable</code> widget’ı bir
+<code>DraggingListItem</code> görüntüler. Bu
+<code>DraggingListItem</code>, seçilen yiyecek öğesinin bir fotoğrafını
+kullanıcının parmağının altında ortalanmış olarak gösterir.</p>
+<p><code>dragAnchorStrategy</code> özelliği
+<code>pointerDragAnchorStrategy</code> olarak ayarlanmıştır. Bu özellik
+değeri, <code>LongPressDraggable</code>’a
+<code>DraggableListItem</code>’ın konumunu kullanıcının parmağına
+dayandırmasını söyler. Kullanıcı parmağını hareket ettirdikçe,
+<code>DraggableListItem</code> da onunla birlikte hareket eder.</p>
+<p>Öğe bırakıldığında hiçbir bilgi iletilmezse sürükleyip bırakmanın pek
+bir yararı yoktur. Bu nedenle, <code>LongPressDraggable</code> bir
+<strong><code>data</code></strong> parametresi alır. Bu durumda,
+<code>data</code>’nın türü, kullanıcının bastığı yiyecek menüsü öğesi
+hakkında bilgi tutan <code>Item</code>’dır.</p>
+<p>Bir <code>LongPressDraggable</code> ile ilişkili <code>data</code>,
+kullanıcı sürükleme hareketini bıraktığında
+<strong><code>DragTarget</code></strong> adlı özel bir widget’a
+gönderilir. Bırakma davranışını bir sonraki adımda uygulayacaksınız.</p>
+<h2 data-number="4.2"
+id="sürüklenebilir-öğeyi-bırak-drop-the-draggable"><span
+class="header-section-number">4.2</span> Sürüklenebilir öğeyi bırak
+(Drop the draggable)</h2>
+<p>Kullanıcı <code>LongPressDraggable</code> öğesini istediği yere
+bırakabilir, ancak sürüklenebilir öğe bir <code>DragTarget</code>
+üzerine bırakılmadığı sürece hiçbir etkisi olmaz. Kullanıcı bir
+sürüklenebilir öğeyi bir <code>DragTarget</code> widget’ının üzerine
+bıraktığında, <code>DragTarget</code> widget’ı sürüklenebilir öğeden
+gelen verileri kabul edebilir veya reddedebilir.</p>
+<p>Bu tarifte, kullanıcı bir menü öğesini kullanıcının sepetine eklemek
+için bir <code>CustomerCart</code> widget’ına bırakmalıdır.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>CustomerCart(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  hasItems<span class="op">:</span> customer<span class="op">.</span>items<span class="op">.</span>isNotEmpty<span class="op">,</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  highlighted<span class="op">:</span> candidateItems<span class="op">.</span>isNotEmpty<span class="op">,</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  customer<span class="op">:</span> customer<span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p><code>CustomerCart</code> widget’ını bir <code>DragTarget</code>
+widget’ı ile sarın.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>DragTarget<span class="op">&lt;</span>Item<span class="op">&gt;</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  builder<span class="op">:</span> (context<span class="op">,</span> candidateItems<span class="op">,</span> rejectedItems) <span class="op">{</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> CustomerCart(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>      hasItems<span class="op">:</span> customer<span class="op">.</span>items<span class="op">.</span>isNotEmpty<span class="op">,</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      highlighted<span class="op">:</span> candidateItems<span class="op">.</span>isNotEmpty<span class="op">,</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>      customer<span class="op">:</span> customer<span class="op">,</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">},</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  onAcceptWithDetails<span class="op">:</span> (details) <span class="op">{</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    _itemDroppedOnCustomerCart(item<span class="op">:</span> details<span class="op">.</span>data<span class="op">,</span> customer<span class="op">:</span> customer);</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="op">},</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><code>DragTarget</code>, mevcut widget’ınızı görüntüler ve ayrıca
+kullanıcının bir sürüklenebilir öğeyi <code>DragTarget</code> üzerine ne
+zaman sürüklediğini tanımak için <code>LongPressDraggable</code> ile
+koordine olur. <code>DragTarget</code> ayrıca kullanıcının bir
+sürüklenebilir öğeyi <code>DragTarget</code> widget’ının üzerine ne
+zaman bıraktığını da tanır.</p>
+<p>Kullanıcı bir sürüklenebilir öğeyi <code>DragTarget</code> widget’ı
+üzerinde sürüklediğinde, <code>candidateItems</code> kullanıcının
+sürüklediği veri öğelerini içerir. Bu, kullanıcı üzerindeyken
+widget’ınızın nasıl görüneceğini değiştirmenize olanak tanır. Bu
+durumda, herhangi bir öğe <code>DragTarget</code> widget’ının üzerine
+sürüklendiğinde <code>Customer</code> widget’ı kırmızıya döner. Kırmızı
+görsel görünüm, <code>CustomerCart</code> widget’ındaki
+<code>highlighted</code> özelliği ile yapılandırılır.</p>
+<p>Kullanıcı bir sürüklenebilir öğeyi <code>DragTarget</code> widget’ına
+bıraktığında, <code>onAcceptWithDetails</code> geri çağrısı (callback)
+çağrılır. Bu, bırakılan verileri kabul edip etmeyeceğinize karar
+verdiğiniz andır. Bu durumda, öğe her zaman kabul edilir ve işlenir.
+Farklı bir karar vermek için gelen öğeyi incelemeyi seçebilirsiniz.</p>
+<p><code>DragTarget</code> üzerine bırakılan öğenin türünün,
+<code>LongPressDraggable</code>’dan sürüklenen öğenin türüyle eşleşmesi
+gerektiğini unutmayın. Türler uyumlu değilse,
+<code>onAcceptWithDetails</code> yöntemi çağrılmaz.</p>
+<p>İstediğiniz verileri kabul edecek şekilde yapılandırılmış bir
+<code>DragTarget</code> widget’ı ile artık verileri sürükleyip bırakarak
+kullanıcı arayüzünüzün bir bölümünden diğerine aktarabilirsiniz.</p>
+<p>Bir sonraki adımda, müşterinin sepetini bırakılan menü öğesiyle
+güncelleyeceksiniz.</p>
+<h2 data-number="4.3" id="sepete-bir-menü-öğesi-ekle"><span
+class="header-section-number">4.3</span> Sepete bir menü öğesi ekle</h2>
+<p>Her müşteri, bir ürün sepeti ve toplam fiyat tutan bir
+<code>Customer</code> nesnesi ile temsil edilir.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Customer <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  Customer(<span class="op">{</span>required <span class="kw">this</span><span class="op">.</span>name<span class="op">,</span> required <span class="kw">this</span><span class="op">.</span>imageProvider<span class="op">,</span> <span class="dt">List</span><span class="op">&lt;</span>Item<span class="op">&gt;?</span> items<span class="op">}</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">:</span> items <span class="op">=</span> items <span class="op">??</span> [];</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> name;</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> ImageProvider imageProvider;</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">List</span><span class="op">&lt;</span>Item<span class="op">&gt;</span> items;</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">String</span> <span class="kw">get</span> formattedTotalItemPrice <span class="op">{</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> totalPriceCents <span class="op">=</span> items<span class="op">.</span>fold<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span>(</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>      <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>      (prev<span class="op">,</span> item) <span class="op">=&gt;</span> prev <span class="op">+</span> item<span class="op">.</span>totalPriceCents<span class="op">,</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> <span class="st">&#39;\$${(totalPriceCents / 100.0).toStringAsFixed(2)}&#39;</span>;</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><code>CustomerCart</code> widget’ı, bir <code>Customer</code>
+örneğine dayalı olarak müşterinin fotoğrafını, adını, toplamını ve ürün
+sayısını görüntüler.</p>
+<p>Bir menü öğesi bırakıldığında bir müşterinin sepetini güncellemek
+için, bırakılan öğeyi ilgili <code>Customer</code> nesnesine
+ekleyin.</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> _itemDroppedOnCustomerCart(<span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  required Item item<span class="op">,</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  required Customer customer<span class="op">,</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>) <span class="op">{</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  setState(() <span class="op">{</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    customer<span class="op">.</span>items<span class="op">.</span>add(item);</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span>);</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><code>_itemDroppedOnCustomerCart</code> yöntemi, kullanıcı bir menü
+öğesini bir <code>CustomerCart</code> widget’ına bıraktığında
+<code>onAcceptWithDetails()</code> içinde çağrılır. Bırakılan öğeyi
+<code>customer</code> nesnesine ekleyerek ve bir düzen güncellemesine
+neden olmak için <code>setState()</code>’i çağırarak, kullanıcı arayüzü
+yeni müşterinin fiyat toplamı ve ürün sayısıyla yenilenir.</p>
+<p>Tebrikler! Müşterinin alışveriş sepetine yiyecek öğeleri ekleyen bir
+sürükle-bırak etkileşimine sahipsiniz.</p>
+<h3 data-number="4.3.1" id="etkileşimli-örnek"><span
+class="header-section-number">4.3.1</span> Etkileşimli örnek</h3>
+<p>Uygulamayı çalıştırın:</p>
+<ol type="1">
+<li>Yiyecek öğeleri arasında gezinin.</li>
+<li>Parmağınızla birine basılı tutun veya fare ile tıklayıp basılı
+tutun.</li>
+<li>Basılı tutarken, yiyecek öğesinin resmi listenin üzerinde
+belirecektir.</li>
+<li>Resmi sürükleyin ve ekranın altındaki kişilerden birinin üzerine
+bırakın. Resmin altındaki metin, o kişi için ücreti yansıtacak şekilde
+güncellenir. Yiyecek öğeleri eklemeye devam edebilir ve ücretlerin
+birikmesini izleyebilirsiniz.</li>
+</ol>
+<h1 data-number="5"
+id="flutter-ders-notları-material-ripple-efekti"><span
+class="header-section-number">5</span> Flutter Ders Notları: Material
+Ripple Efekti</h1>
+<p>Material Design yönergelerini takip eden widget’lar, kullanıcı
+üzerlerine dokunduğunda bir <strong>dalgalanma (ripple)</strong>
+animasyonu görüntüler. Bu, kullanıcıya etkileşimin algılandığına dair
+görsel bir geri bildirim sağlar.</p>
+<p>Flutter’da bu efekti uygulamak için
+<strong><code>InkWell</code></strong> widget’ı kullanılır.</p>
+<hr />
+<h2 data-number="5.1" id="nasıl-uygulanır"><span
+class="header-section-number">5.1</span> Nasıl Uygulanır?</h2>
+<p>Bir widget’a dalgalanma efekti eklemek için şu adımları izleyin:</p>
+<ol type="1">
+<li>Dokunulabilir olmasını istediğiniz widget’ı oluşturun.</li>
+<li>Bu widget’ı, dokunma geri çağrılarını (callbacks) ve dalgalanma
+animasyonlarını yönetecek olan bir <strong><code>InkWell</code></strong>
+widget’ı ile sarın.</li>
+</ol>
+<hr />
+<h2 data-number="5.2" id="örnek-kod"><span
+class="header-section-number">5.2</span> Örnek Kod</h2>
+<p>Aşağıdaki örnekte, basit bir metin widget’ı <code>InkWell</code> ile
+sarılarak tıklanabilir hale getirilmiş ve tıklandığında Material
+dalgalanma efekti vermesi sağlanmıştır.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">// InkWell, oluşturduğumuz özel butonu sarmalar</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>InkWell(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Kullanıcı butona dokunduğunda çalışacak fonksiyon</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  onTap<span class="op">:</span> () <span class="op">{</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    ScaffoldMessenger<span class="op">.</span>of(context)<span class="op">.</span>showSnackBar(</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">const</span> SnackBar(content<span class="op">:</span> Text(<span class="st">&#39;Dokunuldu (Tap)&#39;</span>))<span class="op">,</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">},</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Görünecek olan içerik (Buton tasarımı)</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  child<span class="op">:</span> <span class="at">const</span> Padding(</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    padding<span class="op">:</span> EdgeInsets<span class="op">.</span>all(<span class="dv">12</span>)<span class="op">,</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    child<span class="op">:</span> Text(<span class="st">&#39;Flat Button&#39;</span>)<span class="op">,</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<h3 data-number="5.2.1" id="önemli-not"><span
+class="header-section-number">5.2.1</span> Önemli Not</h3>
+<p><code>InkWell</code> widget’ının dalgalanma efektinin düzgün
+görünebilmesi için genellikle bir <code>Material</code> widget’ı
+üzerinde olması veya arka plan renginin <code>Ink</code> widget’ı ile
+verilmesi gerekir. Eğer <code>InkWell</code>’in çocuğu (child) opak bir
+renk içeren bir <code>Container</code> ise, dalgalanma efekti o rengin
+altında kalabilir ve görünmeyebilir.</p>
+<h1 data-number="6"
+id="flutter-ders-notları-kaydırarak-silme-swipe-to-dismiss"><span
+class="header-section-number">6</span> Flutter Ders Notları: Kaydırarak
+Silme (Swipe to Dismiss)</h1>
+<p>“Kaydırarak silme” (Swipe to dismiss) deseni, birçok mobil uygulamada
+yaygındır. Örneğin, bir e-posta uygulamasında kullanıcıların mesajları
+listeden silmek için yana kaydırmasına izin vermek isteyebilirsiniz.</p>
+<p>Flutter, bu görevi <strong><code>Dismissible</code></strong> widget’ı
+ile oldukça kolaylaştırır.</p>
+<p>Bu özelliği uygulamak için şu 3 temel adımı izleyeceğiz:</p>
+<ol type="1">
+<li>Bir öğe listesi oluşturmak.</li>
+<li>Her öğeyi bir <code>Dismissible</code> widget’ı ile sarmalamak.</li>
+<li>“Arkada kalan” (leave behind) görsel indikatörler eklemek.</li>
+</ol>
+<hr />
+<h2 data-number="6.1" id="öğe-listesi-oluşturma"><span
+class="header-section-number">6.1</span> 1. Öğe Listesi Oluşturma</h2>
+<p>Öncelikle üzerinde çalışacağımız bir veri kaynağına ihtiyacımız var.
+Basit olması için 20 adet String içeren bir liste oluşturalım.</p>
+<h3 data-number="6.1.1" id="veri-kaynağı"><span
+class="header-section-number">6.1.1</span> Veri Kaynağı</h3>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="at">final</span> items <span class="op">=</span> <span class="dt">List</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">&gt;.</span>generate(<span class="dv">20</span><span class="op">,</span> (i) <span class="op">=&gt;</span> <span class="st">&#39;Öğe ${i + 1}&#39;</span>);</span></code></pre></div>
+<h3 data-number="6.1.2" id="listeyi-görüntüleme"><span
+class="header-section-number">6.1.2</span> Listeyi Görüntüleme</h3>
+<p>Başlangıçta, bu öğeleri ekranda göstermek için
+<code>ListView.builder</code> kullanırız. Ancak şu aşamada kullanıcılar
+henüz kaydırma yapamazlar.</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ListView<span class="op">.</span>builder(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  itemCount<span class="op">:</span> items<span class="op">.</span>length<span class="op">,</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  itemBuilder<span class="op">:</span> (context<span class="op">,</span> index) <span class="op">{</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> ListTile(title<span class="op">:</span> Text(items[index]));</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">},</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<hr />
+<h2 data-number="6.2" id="öğeyi-dismissible-widget-ile-sarmalama"><span
+class="header-section-number">6.2</span> 2. Öğeyi Dismissible Widget ile
+Sarmalama</h2>
+<p>Kullanıcılara öğeyi kaydırarak listeden atma özelliği kazandırmak
+için <code>Dismissible</code> widget’ını kullanırız.</p>
+<p>Kullanıcı bir öğeyi kaydırıp attıktan sonra, bu öğeyi veri
+listesinden silmemiz ve kullanıcıya bir geri bildirim (örneğin bir
+Snackbar) göstermemiz gerekir. Gerçek bir uygulamada, bu aşamada
+veritabanından veya sunucudan silme işlemi de yapılabilir.</p>
+<p><code>itemBuilder</code> fonksiyonunu şu şekilde güncelleyin:</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>itemBuilder<span class="op">:</span> (context<span class="op">,</span> index) <span class="op">{</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> item <span class="op">=</span> items[index];</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> Dismissible(</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Her Dismissible bir Key içermelidir. Key&#39;ler Flutter&#39;ın</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// widget&#39;ları benzersiz şekilde tanımlamasını sağlar.</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    key<span class="op">:</span> Key(item)<span class="op">,</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Öğe kaydırıldıktan sonra ne yapılacağını söyleyen fonksiyon</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    onDismissed<span class="op">:</span> (direction) <span class="op">{</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>      <span class="co">// 1. Öğeyi veri kaynağından silin</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>      setState(() <span class="op">{</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>        items<span class="op">.</span>removeAt(index);</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span>);</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>      <span class="co">// 2. Kullanıcıya bilgi veren bir Snackbar gösterin</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>      ScaffoldMessenger<span class="op">.</span>of(context)<span class="op">.</span>showSnackBar(</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>        SnackBar(content<span class="op">:</span> Text(<span class="st">&#39;$item silindi&#39;</span>))<span class="op">,</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>      );</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">},</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Listede görünen asıl öğe</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    child<span class="op">:</span> ListTile(title<span class="op">:</span> Text(item))<span class="op">,</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="op">},</span></span></code></pre></div>
+<hr />
+<h2 data-number="6.3"
+id="arka-plan-indikatörü-ekleme-leave-behind"><span
+class="header-section-number">6.3</span> 3. Arka Plan İndikatörü Ekleme
+(Leave Behind)</h2>
+<p>Mevcut durumda öğeler kaydırılabiliyor ancak kaydırma esnasında
+arkada ne olduğu veya ne olacağıyla ilgili görsel bir ipucu yok.
+Kullanıcıya öğenin silindiğini hissettirmek için, öğe kaydırıldığında
+arkada görünen bir renk (genellikle kırmızı) eklemeliyiz.</p>
+<p>Bunun için <code>Dismissible</code> widget’ının
+<strong><code>background</code></strong> parametresini kullanırız.</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Dismissible(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  key<span class="op">:</span> Key(item)<span class="op">,</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  onDismissed<span class="op">:</span> (direction) <span class="op">{</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ... silme işlemleri ...</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">},</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Öğe kaydırıldığında arkada görünen kırmızı zemin</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  background<span class="op">:</span> Container(color<span class="op">:</span> Colors<span class="op">.</span>red)<span class="op">,</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  child<span class="op">:</span> ListTile(title<span class="op">:</span> Text(item))<span class="op">,</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<h2 data-number="6.4" id="örnek"><span
+class="header-section-number">6.4</span> Örnek</h2>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter/material.dart&#39;</span>;</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main() <span class="op">{</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  runApp(<span class="at">const</span> MyApp());</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">// MyApp is a StatefulWidget. This allows updating the state of the</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">// widget when an item is removed.</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyApp <span class="kw">extends</span> StatefulWidget <span class="op">{</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> MyApp(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  MyAppState createState() <span class="op">{</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> MyAppState();</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyAppState <span class="kw">extends</span> State<span class="op">&lt;</span>MyApp<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> items <span class="op">=</span> <span class="dt">List</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">&gt;.</span>generate(<span class="dv">20</span><span class="op">,</span> (i) <span class="op">=&gt;</span> <span class="st">&#39;Item ${i + 1}&#39;</span>);</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">const</span> title <span class="op">=</span> <span class="st">&#39;Dismissing Items&#39;</span>;</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> MaterialApp(</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>      title<span class="op">:</span> title<span class="op">,</span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>      theme<span class="op">:</span> ThemeData(</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>        colorScheme<span class="op">:</span> ColorScheme<span class="op">.</span>fromSeed(seedColor<span class="op">:</span> Colors<span class="op">.</span>deepPurple)<span class="op">,</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>      home<span class="op">:</span> Scaffold(</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>        appBar<span class="op">:</span> AppBar(title<span class="op">:</span> <span class="at">const</span> Text(title))<span class="op">,</span></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>        body<span class="op">:</span> ListView<span class="op">.</span>builder(</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>          itemCount<span class="op">:</span> items<span class="op">.</span>length<span class="op">,</span></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>          itemBuilder<span class="op">:</span> (context<span class="op">,</span> index) <span class="op">{</span></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>            <span class="at">final</span> item <span class="op">=</span> items[index];</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>            <span class="kw">return</span> Dismissible(</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>              <span class="co">// Each Dismissible must contain a Key. Keys allow Flutter to</span></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>              <span class="co">// uniquely identify widgets.</span></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>              key<span class="op">:</span> Key(item)<span class="op">,</span></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>              <span class="co">// Provide a function that tells the app</span></span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>              <span class="co">// what to do after an item has been swiped away.</span></span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>              onDismissed<span class="op">:</span> (direction) <span class="op">{</span></span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>                <span class="co">// Remove the item from the data source.</span></span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>                setState(() <span class="op">{</span></span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>                  items<span class="op">.</span>removeAt(index);</span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>                <span class="op">}</span>);</span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>                <span class="co">// Then show a snackbar.</span></span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a>                ScaffoldMessenger<span class="op">.</span>of(</span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>                  context<span class="op">,</span></span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a>                )<span class="op">.</span>showSnackBar(SnackBar(content<span class="op">:</span> Text(<span class="st">&#39;$item dismissed&#39;</span>)));</span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a>              <span class="op">},</span></span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a>              <span class="co">// Show a red background as the item is swiped away.</span></span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a>              background<span class="op">:</span> Container(color<span class="op">:</span> Colors<span class="op">.</span>red)<span class="op">,</span></span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a>              child<span class="op">:</span> ListTile(title<span class="op">:</span> Text(item))<span class="op">,</span></span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a>            );</span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a>          <span class="op">},</span></span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 data-number="6.5" id="lisans-bilgisi"><span
+class="header-section-number">6.5</span> 📄 Lisans Bilgisi</h2>
+<p>Bu doküman, <strong>Flutter resmi dokümantasyonundan</strong>
+türetilmiş Türkçe ders notudur.</p>
+<p><strong>Orijinal kaynak:</strong><br />
+https://docs.flutter.dev/ui/interactivity/gestures</p>
+<p><strong>Türkçe çeviri ve düzenleme:</strong><br />
+<a href="mailto:htemiz@artvin.edu.tr">Doç. Dr. Hakan Temiz</a></p>
+<hr />
+<h3 data-number="6.5.1" id="lisans-kapsamı"><span
+class="header-section-number">6.5.1</span> Lisans Kapsamı</h3>
+<p>Bu dokümandaki içerikler aşağıdaki açık lisanslar kapsamında
+sunulmaktadır:</p>
+<p><strong>Metin içerikleri (anlatım ve açıklamalar):</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> Creative Commons Attribution 4.0 International
+(CC BY 4.0)<br />
+https://creativecommons.org/licenses/by/4.0/</p>
+<p>Bu lisans kapsamında: - İçerik kopyalanabilir, dağıtılabilir ve
+uyarlanabilir<br />
+- Ticari kullanım serbesttir<br />
+- Kaynak belirtilmesi zorunludur</p>
+<p><strong>Kod örnekleri:</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> BSD 3-Clause License<br />
+https://opensource.org/licenses/BSD-3-Clause</p>
+<p>Bu lisans kapsamında: - Kodlar kopyalanabilir, değiştirilebilir ve
+dağıtılabilir<br />
+- Ticari kullanım serbesttir<br />
+- Lisans bildiriminin korunması gerekir</p>
+</body>
+</html>

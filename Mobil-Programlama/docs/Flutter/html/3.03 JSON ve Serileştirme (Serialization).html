@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>3.03 JSON ve Serileştirme (Serialization)</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#json-ve-serileştirme" id="toc-json-ve-serileştirme"><span
+class="toc-section-number">1</span> JSON ve Serileştirme</a>
+<ul>
+<li><a href="#terminoloji" id="toc-terminoloji"><span
+class="toc-section-number">1.1</span> Terminoloji</a></li>
+<li><a href="#hangi-json-serileştirme-yöntemi-benim-için-doğru"
+id="toc-hangi-json-serileştirme-yöntemi-benim-için-doğru"><span
+class="toc-section-number">1.2</span> Hangi JSON serileştirme yöntemi
+benim için doğru?</a>
+<ul>
+<li><a href="#daha-küçük-projeler-için-manuel-serileştirme-kullanın"
+id="toc-daha-küçük-projeler-için-manuel-serileştirme-kullanın"><span
+class="toc-section-number">1.2.1</span> Daha küçük projeler için manuel
+serileştirme kullanın</a></li>
+<li><a href="#orta-ve-büyük-ölçekli-projeler-için-kod-üretimi-kullanın"
+id="toc-orta-ve-büyük-ölçekli-projeler-için-kod-üretimi-kullanın"><span
+class="toc-section-number">1.2.2</span> Orta ve büyük ölçekli projeler
+için kod üretimi kullanın</a></li>
+</ul></li>
+<li><a href="#flutterda-gsonjacksonmoshi-eşdeğeri-var-mı"
+id="toc-flutterda-gsonjacksonmoshi-eşdeğeri-var-mı"><span
+class="toc-section-number">1.3</span> Flutter’da GSON/Jackson/Moshi
+eşdeğeri var mı?</a></li>
+<li><a href="#dartconvert-kullanarak-jsonı-manuel-olarak-serileştirme"
+id="toc-dartconvert-kullanarak-jsonı-manuel-olarak-serileştirme"><span
+class="toc-section-number">1.4</span> dart:convert kullanarak JSON’ı
+manuel olarak serileştirme</a>
+<ul>
+<li><a href="#jsonı-satır-içi-inline-serileştirme"
+id="toc-jsonı-satır-içi-inline-serileştirme"><span
+class="toc-section-number">1.4.1</span> JSON’ı satır içi (inline)
+serileştirme</a></li>
+<li><a href="#jsonı-model-sınıfları-içinde-serileştirme"
+id="toc-jsonı-model-sınıfları-içinde-serileştirme"><span
+class="toc-section-number">1.4.2</span> JSON’ı model sınıfları içinde
+serileştirme</a></li>
+</ul></li>
+<li><a href="#kod-üretimi-kütüphanelerini-kullanarak-json-serileştirme"
+id="toc-kod-üretimi-kütüphanelerini-kullanarak-json-serileştirme"><span
+class="toc-section-number">1.5</span> Kod üretimi kütüphanelerini
+kullanarak JSON serileştirme</a>
+<ul>
+<li><a href="#bir-kütüphane-seçimi" id="toc-bir-kütüphane-seçimi"><span
+class="toc-section-number">1.5.1</span> Bir kütüphane seçimi</a></li>
+<li><a href="#projede-json_serializable-kurulumu"
+id="toc-projede-json_serializable-kurulumu"><span
+class="toc-section-number">1.5.2</span> Projede json_serializable
+kurulumu</a></li>
+<li><a href="#model-sınıflarını-json_serializable-yöntemiyle-oluşturma"
+id="toc-model-sınıflarını-json_serializable-yöntemiyle-oluşturma"><span
+class="toc-section-number">1.5.3</span> Model sınıflarını
+json_serializable yöntemiyle oluşturma</a></li>
+<li><a href="#kod-üretimi-aracını-çalıştırma"
+id="toc-kod-üretimi-aracını-çalıştırma"><span
+class="toc-section-number">1.5.4</span> Kod üretimi aracını
+çalıştırma</a></li>
+<li><a href="#json_serializable-modellerini-tüketme"
+id="toc-json_serializable-modellerini-tüketme"><span
+class="toc-section-number">1.5.5</span> json_serializable modellerini
+tüketme</a></li>
+<li><a href="#iç-içe-sınıflar-için-kod-üretimi"
+id="toc-iç-içe-sınıflar-için-kod-üretimi"><span
+class="toc-section-number">1.5.6</span> İç içe sınıflar için kod
+üretimi</a></li>
+</ul></li>
+<li><a href="#diğer-referanslar" id="toc-diğer-referanslar"><span
+class="toc-section-number">1.6</span> Diğer referanslar</a></li>
+</ul></li>
+<li><a href="#arka-planda-json-ayrıştırma"
+id="toc-arka-planda-json-ayrıştırma"><span
+class="toc-section-number">2</span> Arka planda JSON ayrıştırma</a>
+<ul>
+<li><a href="#http-paketini-ekleyin"
+id="toc-http-paketini-ekleyin"><span
+class="toc-section-number">2.1</span> 1. <code>http</code> paketini
+ekleyin</a></li>
+<li><a href="#bir-ağ-isteği-yapın" id="toc-bir-ağ-isteği-yapın"><span
+class="toc-section-number">2.2</span> 2. Bir ağ isteği yapın</a></li>
+<li><a href="#jsonu-ayrıştırın-ve-bir-fotoğraf-listesine-dönüştürün"
+id="toc-jsonu-ayrıştırın-ve-bir-fotoğraf-listesine-dönüştürün"><span
+class="toc-section-number">2.3</span> 3. JSON’u ayrıştırın ve bir
+fotoğraf listesine dönüştürün</a>
+<ul>
+<li><a href="#bir-photo-sınıfı-oluşturun"
+id="toc-bir-photo-sınıfı-oluşturun"><span
+class="toc-section-number">2.3.1</span> Bir <code>Photo</code> sınıfı
+oluşturun</a></li>
+<li><a href="#yanıtı-bir-fotoğraf-listesine-dönüştürün"
+id="toc-yanıtı-bir-fotoğraf-listesine-dönüştürün"><span
+class="toc-section-number">2.3.2</span> Yanıtı bir fotoğraf listesine
+dönüştürün</a></li>
+</ul></li>
+<li><a href="#bu-işi-ayrı-bir-isolatee-taşıyın"
+id="toc-bu-işi-ayrı-bir-isolatee-taşıyın"><span
+class="toc-section-number">2.4</span> 4. Bu işi ayrı bir isolate’e
+taşıyın</a>
+<ul>
+<li><a href="#isolateler-ile-çalışma-üzerine-notlar"
+id="toc-isolateler-ile-çalışma-üzerine-notlar"><span
+class="toc-section-number">2.4.1</span> Isolate’ler ile çalışma üzerine
+notlar</a></li>
+</ul></li>
+<li><a href="#tam-örnek" id="toc-tam-örnek"><span
+class="toc-section-number">2.5</span> Tam Örnek</a></li>
+<li><a href="#lisans-bilgisi" id="toc-lisans-bilgisi"><span
+class="toc-section-number">2.6</span> 📄 Lisans Bilgisi</a>
+<ul>
+<li><a href="#lisans-kapsamı" id="toc-lisans-kapsamı"><span
+class="toc-section-number">2.6.1</span> Lisans Kapsamı</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1" id="json-ve-serileştirme"><span
+class="header-section-number">1</span> JSON ve Serileştirme</h1>
+<p>Bir web sunucusuyla iletişim kurmaya veya bir noktada yapılandırılmış
+verileri kolayca depolamaya ihtiyaç duymayan bir mobil uygulama düşünmek
+zordur. Ağ bağlantılı uygulamalar yaparken, er ya da geç eski dostumuz
+JSON’ı tüketmesi gerekecektir.</p>
+<p>Bu kılavuz, Flutter ile JSON kullanmanın yollarını inceler. Farklı
+senaryolarda hangi JSON çözümünün kullanılacağını ve nedenini
+kapsar.</p>
+<h2 data-number="1.1" id="terminoloji"><span
+class="header-section-number">1.1</span> Terminoloji</h2>
+<p><strong>Kodlama (Encoding)</strong> ve <strong>serileştirme
+(serialization)</strong> aynı şeydir; bir veri yapısını bir dizeye
+(string) dönüştürmek. <strong>Kod çözme (Decoding)</strong> ve
+<strong>seri durumdan çıkarma (deserialization)</strong> ise tam tersi
+süreçtir; bir dizeyi bir veri yapısına dönüştürmek. Bununla birlikte,
+<strong>serileştirme</strong> aynı zamanda veri yapılarının daha kolay
+okunabilir bir formata çevrilmesi ve bu formattan geri çevrilmesi
+sürecinin tamamını da ifade eder.</p>
+<p>Karışıklığı önlemek için, bu belge genel sürece atıfta bulunurken
+“serileştirme”, özellikle bu süreçlere atıfta bulunurken “kodlama” ve
+“kod çözme” terimlerini kullanır.</p>
+<h2 data-number="1.2"
+id="hangi-json-serileştirme-yöntemi-benim-için-doğru"><span
+class="header-section-number">1.2</span> Hangi JSON serileştirme yöntemi
+benim için doğru?</h2>
+<p>Bu makale, JSON ile çalışmak için iki genel stratejiyi kapsar:</p>
+<ol type="1">
+<li>Manuel serileştirme</li>
+<li>Kod üretimi (code generation) kullanarak otomatik serileştirme</li>
+</ol>
+<p>Farklı projeler farklı karmaşıklıklara ve kullanım durumlarına
+sahiptir. Daha küçük kavram kanıtlama (proof-of-concept) projeleri veya
+hızlı prototipler için kod oluşturucuları kullanmak aşırıya kaçmak
+olabilir. Daha fazla karmaşıklığa sahip birkaç JSON modeli olan
+uygulamalar için, elle kodlama yapmak hızla sıkıcı, tekrarlayıcı hale
+gelebilir ve birçok küçük hataya yol açabilir.</p>
+<h3 data-number="1.2.1"
+id="daha-küçük-projeler-için-manuel-serileştirme-kullanın"><span
+class="header-section-number">1.2.1</span> Daha küçük projeler için
+manuel serileştirme kullanın</h3>
+<p>Manuel JSON kod çözme, <code>dart:convert</code> içindeki yerleşik
+JSON kod çözücüyü kullanmayı ifade eder. Ham JSON dizesini
+<code>jsonDecode()</code> işlevine iletmeyi ve ardından ortaya çıkan
+<code>Map&lt;String, dynamic&gt;</code> içinde ihtiyacınız olan
+değerleri aramayı içerir. Harici bir bağımlılığı veya özel bir kurulum
+süreci yoktur ve hızlı bir kavram kanıtı için iyidir.</p>
+<p>Manuel kod çözme, projeniz büyüdüğünde iyi performans göstermez. Kod
+çözme mantığını elle yazmak, yönetilmesi zor ve hataya açık hale
+gelebilir. Var olmayan bir JSON alanına erişirken bir yazım hatası
+yaparsanız, kodunuz çalışma zamanında (runtime) bir hata fırlatır.</p>
+<p>Projenizde çok fazla JSON modeliniz yoksa ve bir kavramı hızlıca test
+etmek istiyorsanız, manuel serileştirme başlamak isteyeceğiniz yol
+olabilir. Manuel kodlama örneği için <strong>dart:convert kullanarak
+JSON’ı manuel olarak serileştirme</strong> bölümüne bakın.</p>
+<blockquote>
+<p><strong>İpucu:</strong> JSON’ı seri durumdan çıkarma konusunda
+uygulamalı pratik yapmak ve Dart 3’ün yeni özelliklerinden yararlanmak
+için <strong>Dart’ın desenlerine ve kayıtlarına (patterns and records)
+dalış</strong> codelab’ine göz atın.</p>
+</blockquote>
+<h3 data-number="1.2.2"
+id="orta-ve-büyük-ölçekli-projeler-için-kod-üretimi-kullanın"><span
+class="header-section-number">1.2.2</span> Orta ve büyük ölçekli
+projeler için kod üretimi kullanın</h3>
+<p>Kod üretimi ile JSON serileştirme, harici bir kütüphanenin sizin için
+kodlama şablonunu (boilerplate) oluşturması anlamına gelir. Bazı
+başlangıç ayarlarından sonra, model sınıflarınızdan kod üreten bir dosya
+izleyicisi (file watcher) çalıştırırsınız. Örneğin,
+<code>json_serializable</code> ve <code>built_value</code> bu tür
+kütüphanelerdir.</p>
+<p>Bu yaklaşım daha büyük bir proje için iyi ölçeklenir. Elle yazılmış
+şablon kodlara gerek yoktur ve JSON alanlarına erişirken yapılan yazım
+hataları derleme zamanında (compile-time) yakalanır. Kod üretiminin
+dezavantajı, bazı başlangıç ayarları gerektirmesidir. Ayrıca,
+oluşturulan kaynak dosyaları proje gezgininizde görsel karmaşa
+yaratabilir.</p>
+<p>Orta veya daha büyük bir projeniz olduğunda JSON serileştirme için
+oluşturulan kodu kullanmak isteyebilirsiniz. Kod üretimi tabanlı JSON
+kodlaması örneği için <strong>Kod üretimi kütüphanelerini kullanarak
+JSON serileştirme</strong> bölümüne bakın.</p>
+<h2 data-number="1.3"
+id="flutterda-gsonjacksonmoshi-eşdeğeri-var-mı"><span
+class="header-section-number">1.3</span> Flutter’da GSON/Jackson/Moshi
+eşdeğeri var mı?</h2>
+<p>Basit cevap <strong>hayır</strong>.</p>
+<p>Böyle bir kütüphane, Flutter’da devre dışı bırakılan çalışma zamanı
+<strong>yansımasını (reflection)</strong> kullanmayı gerektirir. Çalışma
+zamanı yansıması, Dart’ın uzun süredir desteklediği <strong>tree
+shaking</strong> (ölü kod temizleme) ile çakışır. Tree shaking ile,
+kullanılmayan kodları sürüm derlemelerinizden (release builds)
+“silkeleyip atabilirsiniz”. Bu, uygulamanın boyutunu önemli ölçüde
+optimize eder.</p>
+<p>Yansıma, varsayılan olarak tüm kodun dolaylı olarak kullanılmasına
+neden olduğundan, tree shaking işlemini zorlaştırır. Araçlar, çalışma
+zamanında hangi parçaların kullanılmadığını bilemez, bu nedenle gereksiz
+kodun çıkarılması zordur. Yansıma kullanıldığında uygulama boyutları
+kolayca optimize edilemez.</p>
+<p>Flutter ile çalışma zamanı yansımasını kullanamasanız da, bazı
+kütüphaneler size benzer şekilde kullanımı kolay API’ler sunar ancak
+bunun yerine kod üretimine dayanır. Bu yaklaşım, <strong>kod üretimi
+kütüphaneleri</strong> bölümünde daha ayrıntılı olarak ele
+alınmaktadır.</p>
+<h2 data-number="1.4"
+id="dartconvert-kullanarak-jsonı-manuel-olarak-serileştirme"><span
+class="header-section-number">1.4</span> dart:convert kullanarak JSON’ı
+manuel olarak serileştirme</h2>
+<p>Flutter’da temel JSON serileştirme çok basittir. Flutter, basit bir
+JSON kodlayıcı ve kod çözücü içeren yerleşik bir
+<code>dart:convert</code> kütüphanesine sahiptir.</p>
+<p>Aşağıdaki örnek JSON, basit bir kullanıcı modelini uygular.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;John Smith&quot;</span><span class="fu">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;email&quot;</span><span class="fu">:</span> <span class="st">&quot;john@example.com&quot;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><code>dart:convert</code> ile bu JSON modelini iki şekilde
+serileştirebilirsiniz.</p>
+<h3 data-number="1.4.1" id="jsonı-satır-içi-inline-serileştirme"><span
+class="header-section-number">1.4.1</span> JSON’ı satır içi (inline)
+serileştirme</h3>
+<p><code>dart:convert</code> belgelerine bakarak, JSON dizesini yöntem
+argümanı olarak vererek <code>jsonDecode()</code> işlevini çağırıp
+JSON’ın kodunu çözebileceğinizi göreceksiniz.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="at">final</span> user <span class="op">=</span> jsonDecode(jsonString) <span class="kw">as</span> <span class="dt">Map</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="at">dynamic</span><span class="op">&gt;</span>;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>print(<span class="st">&#39;Selam, ${user[&#39;</span>name<span class="st">&#39;]}!&#39;</span>);</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>print(<span class="st">&#39;Doğrulama bağlantısını şuraya gönderdik: ${user[&#39;</span>email<span class="st">&#39;]}.&#39;</span>);</span></code></pre></div>
+<p>Ne yazık ki, <code>jsonDecode()</code>, <code>dynamic</code>
+döndürür, yani çalışma zamanına kadar değerlerin türlerini bilemezsiniz.
+Bu yaklaşımla, statik olarak yazılan dil özelliklerinin çoğunu
+kaybedersiniz: tür güvenliği, otomatik tamamlama ve en önemlisi derleme
+zamanı istisnaları. Kodunuz anında hataya daha açık hale gelecektir.</p>
+<p>Örneğin, <code>name</code> veya <code>email</code> alanlarına her
+eriştiğinizde, hızlıca bir yazım hatası yapabilirsiniz. JSON bir harita
+(map) yapısında yaşadığı için derleyicinin bilmediği bir yazım
+hatası.</p>
+<h3 data-number="1.4.2"
+id="jsonı-model-sınıfları-içinde-serileştirme"><span
+class="header-section-number">1.4.2</span> JSON’ı model sınıfları içinde
+serileştirme</h3>
+<p>Bu örnekte <code>User</code> olarak adlandırılan düz bir model sınıfı
+tanıtarak daha önce bahsedilen sorunlarla savaşın. <code>User</code>
+sınıfının içinde şunları bulacaksınız:</p>
+<ul>
+<li>Bir harita yapısından yeni bir <code>User</code> örneği oluşturmak
+için bir <code>User.fromJson()</code> kurucusu.</li>
+<li>Bir <code>User</code> örneğini bir haritaya dönüştüren bir
+<code>toJson()</code> yöntemi.</li>
+</ul>
+<p>Bu yaklaşımla, <strong>çağıran kod</strong> tür güvenliğine,
+<code>name</code> ve <code>email</code> alanları için otomatik
+tamamlamaya ve derleme zamanı istisnalarına sahip olabilir. Yazım
+hataları yaparsanız veya alanları <code>String</code> yerine
+<code>int</code> olarak ele alırsanız, uygulama çalışma zamanında çökmek
+yerine derlenmeyecektir.</p>
+<p><strong>user.dart</strong></p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> User <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> name;</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> email;</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  User(<span class="kw">this</span><span class="op">.</span>name<span class="op">,</span> <span class="kw">this</span><span class="op">.</span>email);</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  User<span class="op">.</span>fromJson(<span class="dt">Map</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="at">dynamic</span><span class="op">&gt;</span> json)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">:</span> name <span class="op">=</span> json[<span class="st">&#39;name&#39;</span>] <span class="kw">as</span> <span class="dt">String</span><span class="op">,</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>      email <span class="op">=</span> json[<span class="st">&#39;email&#39;</span>] <span class="kw">as</span> <span class="dt">String</span>;</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">Map</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="at">dynamic</span><span class="op">&gt;</span> toJson() <span class="op">=&gt;</span> <span class="op">{</span><span class="st">&#39;name&#39;</span><span class="op">:</span> name<span class="op">,</span> <span class="st">&#39;email&#39;</span><span class="op">:</span> email<span class="op">}</span>;</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Kod çözme mantığının sorumluluğu artık modelin içine taşınmıştır. Bu
+yeni yaklaşımla, bir kullanıcının kodunu kolayca çözebilirsiniz.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="at">final</span> userMap <span class="op">=</span> jsonDecode(jsonString) <span class="kw">as</span> <span class="dt">Map</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="at">dynamic</span><span class="op">&gt;</span>;</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="at">final</span> user <span class="op">=</span> User<span class="op">.</span>fromJson(userMap);</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>print(<span class="st">&#39;Selam, ${user.name}!&#39;</span>);</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>print(<span class="st">&#39;Doğrulama bağlantısını şuraya gönderdik: ${user.email}.&#39;</span>);</span></code></pre></div>
+<p>Bir kullanıcıyı kodlamak (encode) için, <code>User</code> nesnesini
+<code>jsonEncode()</code> işlevine iletin. <code>toJson()</code>
+yöntemini çağırmanıza gerek yoktur, çünkü <code>jsonEncode()</code> bunu
+sizin için zaten yapar.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">String</span> json <span class="op">=</span> jsonEncode(user);</span></code></pre></div>
+<p>Bu yaklaşımla, çağıran kodun JSON serileştirme konusunda hiç
+endişelenmesine gerek kalmaz. Ancak, model sınıfının kesinlikle
+endişelenmesi gerekir. Bir üretim uygulamasında, serileştirmenin düzgün
+çalıştığından emin olmak istersiniz. Pratikte, doğru davranışı
+doğrulamak için <code>User.fromJson()</code> ve
+<code>User.toJson()</code> yöntemlerinin her ikisinin de birim
+testlerine (unit tests) sahip olması gerekir.</p>
+<blockquote>
+<p><strong>Not:</strong> Yemek kitabı (cookbook), JSON dosyasını bir
+arka plan iş parçacığında ayrıştırmak için bir izole (isolate)
+kullanarak JSON model sınıflarını kullanmaya dair <strong>daha kapsamlı
+bir örnek</strong> içerir. Uygulamanızın JSON dosyası kodu çözülürken
+yanıt vermeye devam etmesi gerekiyorsa bu yaklaşım idealdir.</p>
+</blockquote>
+<p>Ancak, gerçek dünya senaryoları her zaman bu kadar basit değildir.
+Bazen JSON API yanıtları daha karmaşıktır, örneğin kendi model sınıfları
+aracılığıyla ayrıştırılması gereken iç içe geçmiş JSON nesneleri
+içerdikleri için.</p>
+<p>JSON kodlama ve kod çözme işlemlerini sizin için halleden bir şey
+olsaydı güzel olurdu. Neyse ki, var!</p>
+<h2 data-number="1.5"
+id="kod-üretimi-kütüphanelerini-kullanarak-json-serileştirme"><span
+class="header-section-number">1.5</span> Kod üretimi kütüphanelerini
+kullanarak JSON serileştirme</h2>
+<p>Başka kütüphaneler mevcut olsa da, bu kılavuz sizin için JSON
+serileştirme şablonunu oluşturan otomatik bir kaynak kodu oluşturucu
+olan <code>json_serializable</code>’ı kullanır.</p>
+<h3 data-number="1.5.1" id="bir-kütüphane-seçimi"><span
+class="header-section-number">1.5.1</span> Bir kütüphane seçimi</h3>
+<p>pub.dev üzerinde JSON serileştirme kodu üreten iki <strong>Flutter
+Favorite</strong> paketi fark etmiş olabilirsiniz:
+<code>json_serializable</code> ve <code>built_value</code>. Bu paketler
+arasında nasıl seçim yaparsınız? <code>json_serializable</code> paketi,
+ek açıklamalar (annotations) kullanarak normal sınıfları
+serileştirilebilir hale getirmenize izin verirken,
+<code>built_value</code> paketi JSON’a da serileştirilebilen değişmez
+(immutable) değer sınıfları tanımlamak için daha üst düzey bir yol
+sağlar.</p>
+<p>Serileştirme kodu artık elle yazılmadığı veya manuel olarak
+sürdürülmediği için, çalışma zamanında JSON serileştirme istisnalarına
+sahip olma riskini en aza indirirsiniz.</p>
+<h3 data-number="1.5.2" id="projede-json_serializable-kurulumu"><span
+class="header-section-number">1.5.2</span> Projede json_serializable
+kurulumu</h3>
+<p>Projenize <code>json_serializable</code>’ı dahil etmek için bir
+normal bağımlılığa ve iki <strong>geliştirici bağımlılığına (dev
+dependencies)</strong> ihtiyacınız vardır. Kısacası, geliştirici
+bağımlılıkları uygulama kaynak kodumuza dahil edilmeyen bağımlılıklardır
+- yalnızca geliştirme ortamında kullanılırlar.</p>
+<p>Bağımlılıkları eklemek için <code>flutter pub add</code> komutunu
+çalıştırın:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">flutter</span> pub add json_annotation dev:build_runner dev:json_serializable</span></code></pre></div>
+<p>Bu yeni bağımlılıkları projenizde kullanılabilir hale getirmek için
+proje kök klasörünüzde <code>flutter pub get</code> çalıştırın (veya
+editörünüzde <strong>Packages get</strong>’e tıklayın).</p>
+<h3 data-number="1.5.3"
+id="model-sınıflarını-json_serializable-yöntemiyle-oluşturma"><span
+class="header-section-number">1.5.3</span> Model sınıflarını
+json_serializable yöntemiyle oluşturma</h3>
+<p>Aşağıdakiler, <code>User</code> sınıfının
+<code>json_serializable</code> sınıfına nasıl dönüştürüleceğini
+gösterir. Basitlik adına, bu kod önceki örneklerdeki basitleştirilmiş
+JSON modelini kullanır.</p>
+<p><strong>user.dart</strong></p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:json_annotation/json_annotation.dart&#39;</span>;</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">/// Bu, `User` sınıfının oluşturulan dosyadaki özel (private) üyelere erişmesini sağlar.</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">/// Bunun değeri *.g.dart&#39;tır, burada yıldız kaynak dosya adını belirtir.</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="kw">part</span> <span class="st">&#39;user.g.dart&#39;</span>;</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">/// Kod oluşturucunun, bu sınıfın JSON serileştirme mantığının oluşturulmasına</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">/// ihtiyacı olduğunu bilmesi için bir ek açıklama (annotation).</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>@JsonSerializable()</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> User <span class="op">{</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  User(<span class="kw">this</span><span class="op">.</span>name<span class="op">,</span> <span class="kw">this</span><span class="op">.</span>email);</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">String</span> name;</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">String</span> email;</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">/// Bir haritadan yeni bir User örneği oluşturmak için gerekli bir fabrika kurucusu.</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="co">/// Haritayı oluşturulan `_$UserFromJson()` kurucusuna iletin.</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">/// Kurucu, kaynak sınıfın adını alır, bu durumda User.</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">factory</span> User<span class="op">.</span>fromJson(<span class="dt">Map</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="at">dynamic</span><span class="op">&gt;</span> json) <span class="op">=&gt;</span> _$UserFromJson(json);</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="co">/// `toJson`, bir sınıfın JSON&#39;a serileştirme desteğini bildirmesi için bir kuraldır.</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  <span class="co">/// Uygulama sadece özel, oluşturulan yardımcı yöntem `_$UserToJson`&#39;ı çağırır.</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  <span class="dt">Map</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="at">dynamic</span><span class="op">&gt;</span> toJson() <span class="op">=&gt;</span> _$UserToJson(<span class="kw">this</span>);</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Bu kurulumla, kaynak kodu oluşturucu, <code>name</code> ve
+<code>email</code> alanlarını JSON’dan kodlamak ve kodunu çözmek için
+kod üretir.</p>
+<p>Gerekirse, adlandırma stratejisini özelleştirmek de kolaydır.
+Örneğin, API <code>snake_case</code> (yılan durumu) ile nesneler
+döndürüyorsa ve siz modellerinizde <code>lowerCamelCase</code> (küçük
+deve durumu) kullanmak istiyorsanız, bir isim parametresi ile
+<code>@JsonKey</code> ek açıklamasını kullanabilirsiniz:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">/// json_serializable&#39;a &quot;registration_date_millis&quot;in bu özelliğe</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">/// eşlenmesi gerektiğini söyleyin.</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>@JsonKey(name<span class="op">:</span> <span class="st">&#39;registration_date_millis&#39;</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="at">final</span> <span class="dt">int</span> registrationDateMillis;</span></code></pre></div>
+<p>Hem sunucunun hem de istemcinin aynı adlandırma stratejisini izlemesi
+en iyisidir. <code>@JsonSerializable()</code>, dart alanlarını tamamen
+JSON anahtarlarına dönüştürmek için <code>fieldRename</code> enum’ını
+sağlar.</p>
+<p><code>@JsonSerializable(fieldRename: FieldRename.snake)</code>
+şeklinde değiştirmek, her alana
+<code>@JsonKey(name: '&lt;snake_case&gt;')</code> eklemeye
+eşdeğerdir.</p>
+<p>Bazen sunucu verileri belirsizdir, bu nedenle verileri istemcide
+doğrulamak ve korumak gerekir. Diğer yaygın olarak kullanılan
+<code>@JsonKey</code> ek açıklamaları şunlardır:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">/// JSON bu anahtarı içermiyorsa veya değer `null` ise json_serializable&#39;a</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">/// &quot;defaultValue&quot; kullanmasını söyleyin.</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>@JsonKey(defaultValue<span class="op">:</span> <span class="cn">false</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="at">final</span> <span class="dt">bool</span> isAdult;</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">/// `true` olduğunda, json_serializable&#39;a JSON&#39;ın anahtarı içermesi gerektiğini söyleyin.</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">/// Anahtar mevcut değilse, bir istisna fırlatılır.</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>@JsonKey(required<span class="op">:</span> <span class="cn">true</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="at">final</span> <span class="dt">String</span> id;</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">/// `true` olduğunda, json_serializable&#39;a oluşturulan kodun bu alanı</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">/// tamamen görmezden gelmesi gerektiğini söyleyin.</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>@JsonKey(ignore<span class="op">:</span> <span class="cn">true</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="at">final</span> <span class="dt">String</span> verificationCode;</span></code></pre></div>
+<h3 data-number="1.5.4" id="kod-üretimi-aracını-çalıştırma"><span
+class="header-section-number">1.5.4</span> Kod üretimi aracını
+çalıştırma</h3>
+<p><code>json_serializable</code> sınıflarını ilk kez oluştururken,
+aşağıdakine benzer hatalar alırsınız:</p>
+<pre><code>Target of URI hasn&#39;t been generated: &#39;user.g.dart&#39;.</code></pre>
+<p>Bu hatalar tamamen normaldir ve sadece model sınıfı için oluşturulan
+kodun henüz mevcut olmamasından kaynaklanır. Bunu çözmek için,
+serileştirme şablonunu üreten kod oluşturucuyu çalıştırın.</p>
+<p>Kod oluşturucuyu çalıştırmanın iki yolu vardır.</p>
+<h4 data-number="1.5.4.1" id="tek-seferlik-kod-üretimi"><span
+class="header-section-number">1.5.4.1</span> Tek seferlik kod
+üretimi</h4>
+<p>Proje kökünde
+<code>dart run build_runner build --delete-conflicting-outputs</code>
+çalıştırarak, modelleriniz için ihtiyaç duyulduğunda JSON serileştirme
+kodu üretirsiniz. Bu, kaynak dosyaları gözden geçiren, ilgili olanları
+seçen ve onlar için gerekli serileştirme kodunu üreten tek seferlik bir
+derlemeyi tetikler.</p>
+<p>Bu uygun olsa da, model sınıflarınızda her değişiklik yaptığınızda
+derlemeyi manuel olarak çalıştırmak zorunda kalmasanız güzel olurdu.</p>
+<h4 data-number="1.5.4.2" id="kodu-sürekli-olarak-üretme"><span
+class="header-section-number">1.5.4.2</span> Kodu sürekli olarak
+üretme</h4>
+<p>Bir <strong>izleyici (watcher)</strong>, kaynak kodu üretim
+sürecimizi daha uygun hale getirir. Proje dosyalarımızdaki
+değişiklikleri izler ve gerektiğinde gerekli dosyaları otomatik olarak
+derler. İzleyiciyi proje kökünde
+<code>dart run build_runner watch --delete-conflicting-outputs</code>
+çalıştırarak başlatın.</p>
+<p>İzleyiciyi bir kez başlatıp arka planda çalışır durumda bırakmak
+güvenlidir.</p>
+<h3 data-number="1.5.5" id="json_serializable-modellerini-tüketme"><span
+class="header-section-number">1.5.5</span> json_serializable modellerini
+tüketme</h3>
+<p>Bir JSON dizesinin kodunu <code>json_serializable</code> yöntemiyle
+çözmek için, önceki kodumuzda aslında herhangi bir değişiklik yapmanız
+gerekmez.</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="at">final</span> userMap <span class="op">=</span> jsonDecode(jsonString) <span class="kw">as</span> <span class="dt">Map</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="at">dynamic</span><span class="op">&gt;</span>;</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="at">final</span> user <span class="op">=</span> User<span class="op">.</span>fromJson(userMap);</span></code></pre></div>
+<p>Aynısı kodlama (encoding) için de geçerlidir. Çağıran API eskisi
+gibidir.</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="dt">String</span> json <span class="op">=</span> jsonEncode(user);</span></code></pre></div>
+<p><code>json_serializable</code> ile, <code>User</code> sınıfındaki
+herhangi bir manuel JSON serileştirmesini unutabilirsiniz. Kaynak kodu
+oluşturucu, gerekli tüm serileştirme mantığına sahip
+<code>user.g.dart</code> adlı bir dosya oluşturur. Serileştirmenin
+çalıştığından emin olmak için artık otomatik testler yazmanız gerekmez -
+serileştirmenin uygun şekilde çalıştığından emin olmak artık
+<strong>kütüphanenin sorumluluğundadır</strong>.</p>
+<h3 data-number="1.5.6" id="iç-içe-sınıflar-için-kod-üretimi"><span
+class="header-section-number">1.5.6</span> İç içe sınıflar için kod
+üretimi</h3>
+<p>Bir sınıfın içinde iç içe geçmiş (nested) sınıflara sahip kodunuz
+olabilir. Durum buysa ve sınıfı JSON formatında bir servise (örneğin
+Firebase gibi) argüman olarak iletmeyi denediyseniz, bir
+<code>Invalid argument</code> (Geçersiz argüman) hatası yaşamış
+olabilirsiniz.</p>
+<p>Aşağıdaki <code>Address</code> sınıfını ele alalım:</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:json_annotation/json_annotation.dart&#39;</span>;</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">part</span> <span class="st">&#39;address.g.dart&#39;</span>;</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>@JsonSerializable()</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Address <span class="op">{</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">String</span> street;</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">String</span> city;</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  Address(<span class="kw">this</span><span class="op">.</span>street<span class="op">,</span> <span class="kw">this</span><span class="op">.</span>city);</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">factory</span> Address<span class="op">.</span>fromJson(<span class="dt">Map</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="at">dynamic</span><span class="op">&gt;</span> json) <span class="op">=&gt;</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>      _$AddressFromJson(json);</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">Map</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="at">dynamic</span><span class="op">&gt;</span> toJson() <span class="op">=&gt;</span> _$AddressToJson(<span class="kw">this</span>);</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><code>Address</code> sınıfı <code>User</code> sınıfının içinde iç içe
+geçmiştir:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:json_annotation/json_annotation.dart&#39;</span>;</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;address.dart&#39;</span>;</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="kw">part</span> <span class="st">&#39;user.g.dart&#39;</span>;</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>@JsonSerializable()</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> User <span class="op">{</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  User(<span class="kw">this</span><span class="op">.</span>name<span class="op">,</span> <span class="kw">this</span><span class="op">.</span>address);</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">String</span> name;</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  Address address;</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">factory</span> User<span class="op">.</span>fromJson(<span class="dt">Map</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="at">dynamic</span><span class="op">&gt;</span> json) <span class="op">=&gt;</span> _$UserFromJson(json);</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">Map</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="at">dynamic</span><span class="op">&gt;</span> toJson() <span class="op">=&gt;</span> _$UserToJson(<span class="kw">this</span>);</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Terminalde
+<code>dart run build_runner build --delete-conflicting-outputs</code>
+çalıştırmak <code>*.g.dart</code> dosyasını oluşturur, ancak özel
+<code>_$UserToJson()</code> işlevi şuna benzer görünür:</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="dt">Map</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="at">dynamic</span><span class="op">&gt;</span> _$UserToJson(User instance) <span class="op">=&gt;</span> <span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="at">dynamic</span><span class="op">&gt;{</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;name&#39;</span><span class="op">:</span> instance<span class="op">.</span>name<span class="op">,</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;address&#39;</span><span class="op">:</span> instance<span class="op">.</span>address<span class="op">,</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>;</span></code></pre></div>
+<p>Şimdi her şey iyi görünüyor, ancak kullanıcı nesnesi üzerinde bir
+<code>print()</code> yaparsanız:</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>Address address <span class="op">=</span> Address(<span class="st">&#39;My st.&#39;</span><span class="op">,</span> <span class="st">&#39;New York&#39;</span>);</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>User user <span class="op">=</span> User(<span class="st">&#39;John&#39;</span><span class="op">,</span> address);</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>print(user<span class="op">.</span>toJson());</span></code></pre></div>
+<p>Sonuç şudur:</p>
+<pre><code>{name: John, address: Instance of &#39;address&#39;}</code></pre>
+<p>Muhtemelen istediğiniz çıktı şuna benzer:</p>
+<pre><code>{name: John, address: {street: My st., city: New York}}</code></pre>
+<p>Bunun çalışması için, sınıf beyanı üzerindeki
+<code>@JsonSerializable()</code> ek açıklamasında
+<code>explicitToJson: true</code> iletin. <code>User</code> sınıfı artık
+şu şekilde görünür:</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:json_annotation/json_annotation.dart&#39;</span>;</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;address.dart&#39;</span>;</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="kw">part</span> <span class="st">&#39;user.g.dart&#39;</span>;</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>@JsonSerializable(explicitToJson<span class="op">:</span> <span class="cn">true</span>)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> User <span class="op">{</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  User(<span class="kw">this</span><span class="op">.</span>name<span class="op">,</span> <span class="kw">this</span><span class="op">.</span>address);</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">String</span> name;</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  Address address;</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">factory</span> User<span class="op">.</span>fromJson(<span class="dt">Map</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="at">dynamic</span><span class="op">&gt;</span> json) <span class="op">=&gt;</span> _$UserFromJson(json);</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">Map</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="at">dynamic</span><span class="op">&gt;</span> toJson() <span class="op">=&gt;</span> _$UserToJson(<span class="kw">this</span>);</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Daha fazla bilgi için, <code>json_annotation</code> paketi için
+<code>JsonSerializable</code> sınıfındaki <code>explicitToJson</code>’a
+bakın.</p>
+<h2 data-number="1.6" id="diğer-referanslar"><span
+class="header-section-number">1.6</span> Diğer referanslar</h2>
+<p>Daha fazla bilgi için aşağıdaki kaynaklara bakın:</p>
+<ul>
+<li><strong>dart:convert ve JsonCodec belgeleri</strong></li>
+<li>pub.dev üzerindeki <strong>json_serializable paketi</strong></li>
+<li>GitHub üzerindeki <strong>json_serializable örnekleri</strong></li>
+<li><strong>Dart’ın desenlerine ve kayıtlarına dalış</strong>
+codelab’i</li>
+<li>Dart/Flutter’da JSON’ın nasıl ayrıştırılacağı hakkında <strong>bu
+nihai rehber</strong></li>
+</ul>
+<h1 data-number="2" id="arka-planda-json-ayrıştırma"><span
+class="header-section-number">2</span> Arka planda JSON ayrıştırma</h1>
+<p>Varsayılan olarak, Dart uygulamaları tüm işlerini tek bir iş
+parçacığı (thread) üzerinde yapar. Çoğu durumda, bu model kodlamayı
+basitleştirir ve genellikle “jank” (takılma) olarak adlandırılan
+animasyon takılmalarına veya kötü uygulama performansına yol açmayacak
+kadar hızlıdır.</p>
+<p>Ancak, çok büyük bir JSON belgesini ayrıştırmak gibi maliyetli bir
+hesaplama yapmanız gerekebilir. Eğer bu iş 16 milisaniyeden uzun
+sürerse, kullanıcılarınız takılmalar (jank) yaşar.</p>
+<p>Takılmaları önlemek için, ayrı bir <code>Isolate</code> kullanarak bu
+tür maliyetli hesaplamaları arka planda gerçekleştirmeniz gerekir. Bu
+tarif şu adımları kullanır:</p>
+<ol type="1">
+<li><code>http</code> paketini ekleyin.</li>
+<li><code>http</code> paketini kullanarak bir ağ isteği yapın.</li>
+<li>Yanıtı bir fotoğraf listesine dönüştürün.</li>
+<li>Bu işi ayrı bir isolate’e taşıyın.</li>
+</ol>
+<h2 data-number="2.1" id="http-paketini-ekleyin"><span
+class="header-section-number">2.1</span> 1. <code>http</code> paketini
+ekleyin</h2>
+<p>Öncelikle, projenize <code>http</code> paketini ekleyin.
+<code>http</code> paketi, bir JSON uç noktasından veri çekmek gibi ağ
+isteklerini gerçekleştirmeyi kolaylaştırır.</p>
+<p><code>http</code> paketini bir bağımlılık olarak eklemek için
+<code>flutter pub add</code> komutunu çalıştırın:</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">flutter</span> pub add http</span></code></pre></div>
+<h2 data-number="2.2" id="bir-ağ-isteği-yapın"><span
+class="header-section-number">2.2</span> 2. Bir ağ isteği yapın</h2>
+<p>Bu örnek, <code>http.get()</code> metodunu kullanarak JSONPlaceholder
+REST API’sinden 5000 fotoğraf nesnesi içeren büyük bir JSON belgesinin
+nasıl çekileceğini kapsar.</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="dt">Future</span><span class="op">&lt;</span>http<span class="op">.</span>Response<span class="op">&gt;</span> fetchPhotos(http<span class="op">.</span>Client client) <span class="at">async</span> <span class="op">{</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> client<span class="op">.</span><span class="kw">get</span>(Uri<span class="op">.</span>parse(<span class="st">&#39;[https://jsonplaceholder.typicode.com/photos](https://jsonplaceholder.typicode.com/photos)&#39;</span>));</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<blockquote>
+<p><strong>Not</strong> Bu örnekte fonksiyona bir
+<code>http.Client</code> sağlıyorsunuz. Bu, fonksiyonun test edilmesini
+ve farklı ortamlarda kullanılmasını kolaylaştırır.</p>
+</blockquote>
+<h2 data-number="2.3"
+id="jsonu-ayrıştırın-ve-bir-fotoğraf-listesine-dönüştürün"><span
+class="header-section-number">2.3</span> 3. JSON’u ayrıştırın ve bir
+fotoğraf listesine dönüştürün</h2>
+<p>Ardından, “İnternetten veri çekme” tarifindeki rehberliği izleyerek,
+<code>http.Response</code>’u bir Dart nesneleri listesine dönüştürün.
+Bu, verilerle çalışmayı kolaylaştırır.</p>
+<h3 data-number="2.3.1" id="bir-photo-sınıfı-oluşturun"><span
+class="header-section-number">2.3.1</span> Bir <code>Photo</code> sınıfı
+oluşturun</h3>
+<p>İlk olarak, bir fotoğraf hakkında veriler içeren bir
+<code>Photo</code> sınıfı oluşturun. Bir JSON nesnesinden başlayarak bir
+<code>Photo</code> oluşturmayı kolaylaştırmak için bir
+<code>fromJson()</code> factory metodu ekleyin.</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Photo <span class="op">{</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">int</span> albumId;</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">int</span> id;</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> title;</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> url;</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> thumbnailUrl;</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> Photo(<span class="op">{</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>albumId<span class="op">,</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>id<span class="op">,</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>title<span class="op">,</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>url<span class="op">,</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>thumbnailUrl<span class="op">,</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span>);</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  <span class="kw">factory</span> Photo<span class="op">.</span>fromJson(<span class="dt">Map</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="at">dynamic</span><span class="op">&gt;</span> json) <span class="op">{</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Photo(</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>      albumId<span class="op">:</span> json[<span class="st">&#39;albumId&#39;</span>] <span class="kw">as</span> <span class="dt">int</span><span class="op">,</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>      id<span class="op">:</span> json[<span class="st">&#39;id&#39;</span>] <span class="kw">as</span> <span class="dt">int</span><span class="op">,</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>      title<span class="op">:</span> json[<span class="st">&#39;title&#39;</span>] <span class="kw">as</span> <span class="dt">String</span><span class="op">,</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>      url<span class="op">:</span> json[<span class="st">&#39;url&#39;</span>] <span class="kw">as</span> <span class="dt">String</span><span class="op">,</span></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>      thumbnailUrl<span class="op">:</span> json[<span class="st">&#39;thumbnailUrl&#39;</span>] <span class="kw">as</span> <span class="dt">String</span><span class="op">,</span></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="2.3.2"
+id="yanıtı-bir-fotoğraf-listesine-dönüştürün"><span
+class="header-section-number">2.3.2</span> Yanıtı bir fotoğraf listesine
+dönüştürün</h3>
+<p>Şimdi, <code>fetchPhotos()</code> fonksiyonunu bir
+<code>Future&lt;List&lt;Photo&gt;&gt;</code> döndürecek şekilde
+güncellemek için aşağıdaki talimatları kullanın:</p>
+<ol type="1">
+<li>Yanıt gövdesini <code>List&lt;Photo&gt;</code>ya dönüştüren bir
+<code>parsePhotos()</code> fonksiyonu oluşturun.</li>
+<li><code>parsePhotos()</code> fonksiyonunu <code>fetchPhotos()</code>
+fonksiyonu içinde kullanın.</li>
+</ol>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Yanıt gövdesini List&lt;Photo&gt;&#39;ya dönüştüren bir fonksiyon.</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="dt">List</span><span class="op">&lt;</span>Photo<span class="op">&gt;</span> parsePhotos(<span class="dt">String</span> responseBody) <span class="op">{</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> parsed <span class="op">=</span> (jsonDecode(responseBody) <span class="kw">as</span> <span class="dt">List</span><span class="op">&lt;</span><span class="dt">Object</span><span class="op">?&gt;</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span>cast<span class="op">&lt;</span><span class="dt">Map</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="dt">Object</span><span class="op">?&gt;&gt;</span>();</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> parsed<span class="op">.</span>map<span class="op">&lt;</span>Photo<span class="op">&gt;</span>(Photo<span class="op">.</span>fromJson)<span class="op">.</span>toList();</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="dt">Future</span><span class="op">&lt;</span><span class="dt">List</span><span class="op">&lt;</span>Photo<span class="op">&gt;&gt;</span> fetchPhotos(http<span class="op">.</span>Client client) <span class="at">async</span> <span class="op">{</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> response <span class="op">=</span> <span class="at">await</span> client<span class="op">.</span><span class="kw">get</span>(</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    Uri<span class="op">.</span>parse(<span class="st">&#39;[https://jsonplaceholder.typicode.com/photos](https://jsonplaceholder.typicode.com/photos)&#39;</span>)<span class="op">,</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">// parsePhotos&#39;u ana isolate&#39;de senkronize olarak çalıştır.</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> parsePhotos(response<span class="op">.</span>body);</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 data-number="2.4" id="bu-işi-ayrı-bir-isolatee-taşıyın"><span
+class="header-section-number">2.4</span> 4. Bu işi ayrı bir isolate’e
+taşıyın</h2>
+<p>Eğer <code>fetchPhotos()</code> fonksiyonunu daha yavaş bir cihazda
+çalıştırırsanız, uygulamanın JSON’u ayrıştırıp dönüştürürken kısa bir an
+donduğunu fark edebilirsiniz. Bu bir takılmadır (jank) ve bundan
+kurtulmak istersiniz.</p>
+<p>Flutter tarafından sağlanan <code>compute()</code> fonksiyonunu
+kullanarak ayrıştırma ve dönüştürme işlemini bir arka plan isolate’ine
+taşıyarak takılmayı giderebilirsiniz. <code>compute()</code> fonksiyonu,
+maliyetli fonksiyonları bir arka plan isolate’inde çalıştırır ve sonucu
+döndürür. Bu durumda, <code>parsePhotos()</code> fonksiyonunu arka
+planda çalıştırın.</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="dt">Future</span><span class="op">&lt;</span><span class="dt">List</span><span class="op">&lt;</span>Photo<span class="op">&gt;&gt;</span> fetchPhotos(http<span class="op">.</span>Client client) <span class="at">async</span> <span class="op">{</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> response <span class="op">=</span> <span class="at">await</span> client<span class="op">.</span><span class="kw">get</span>(</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    Uri<span class="op">.</span>parse(<span class="st">&#39;[https://jsonplaceholder.typicode.com/photos](https://jsonplaceholder.typicode.com/photos)&#39;</span>)<span class="op">,</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// parsePhotos&#39;u ayrı bir isolate&#39;de çalıştırmak için compute fonksiyonunu kullanın.</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> compute(parsePhotos<span class="op">,</span> response<span class="op">.</span>body);</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="2.4.1" id="isolateler-ile-çalışma-üzerine-notlar"><span
+class="header-section-number">2.4.1</span> Isolate’ler ile çalışma
+üzerine notlar</h3>
+<ul>
+<li>Isolate’ler birbirlerine mesajlar göndererek iletişim kurarlar. Bu
+mesajlar <code>null</code>, <code>num</code>, <code>bool</code>,
+<code>double</code> veya <code>String</code> gibi ilkel değerler ya da
+bu örnekteki <code>List&lt;Photo&gt;</code> gibi basit nesneler
+olabilir.</li>
+<li><code>Future</code> veya <code>http.Response</code> gibi daha
+karmaşık nesneleri isolate’ler arasında geçirmeye çalışırsanız hatalarla
+karşılaşabilirsiniz.</li>
+<li>Alternatif bir çözüm olarak, arka plan işlemleri için
+<code>worker_manager</code> veya <code>workmanager</code> paketlerine
+göz atın.</li>
+</ul>
+<h2 data-number="2.5" id="tam-örnek"><span
+class="header-section-number">2.5</span> Tam Örnek</h2>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;dart:async&#39;</span>;</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;dart:convert&#39;</span>;</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter/foundation.dart&#39;</span>;</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter/material.dart&#39;</span>;</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:http/http.dart&#39;</span> <span class="kw">as</span> http;</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="dt">Future</span><span class="op">&lt;</span><span class="dt">List</span><span class="op">&lt;</span>Photo<span class="op">&gt;&gt;</span> fetchPhotos(http<span class="op">.</span>Client client) <span class="at">async</span> <span class="op">{</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> response <span class="op">=</span> <span class="at">await</span> client<span class="op">.</span><span class="kw">get</span>(</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    Uri<span class="op">.</span>parse(<span class="st">&#39;[https://jsonplaceholder.typicode.com/photos](https://jsonplaceholder.typicode.com/photos)&#39;</span>)<span class="op">,</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  <span class="co">// parsePhotos&#39;u ayrı bir isolate&#39;de çalıştırmak için compute fonksiyonunu kullanın.</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> compute(parsePhotos<span class="op">,</span> response<span class="op">.</span>body);</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="co">// Yanıt gövdesini List&lt;Photo&gt;&#39;ya dönüştüren bir fonksiyon.</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="dt">List</span><span class="op">&lt;</span>Photo<span class="op">&gt;</span> parsePhotos(<span class="dt">String</span> responseBody) <span class="op">{</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> parsed <span class="op">=</span> (jsonDecode(responseBody) <span class="kw">as</span> <span class="dt">List</span><span class="op">&lt;</span><span class="dt">Object</span><span class="op">?&gt;</span>)</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span>cast<span class="op">&lt;</span><span class="dt">Map</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="dt">Object</span><span class="op">?&gt;&gt;</span>();</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> parsed<span class="op">.</span>map<span class="op">&lt;</span>Photo<span class="op">&gt;</span>(Photo<span class="op">.</span>fromJson)<span class="op">.</span>toList();</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Photo <span class="op">{</span></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">int</span> albumId;</span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">int</span> id;</span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> title;</span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> url;</span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> thumbnailUrl;</span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> Photo(<span class="op">{</span></span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>albumId<span class="op">,</span></span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>id<span class="op">,</span></span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>title<span class="op">,</span></span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>url<span class="op">,</span></span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>thumbnailUrl<span class="op">,</span></span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span>);</span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>  <span class="kw">factory</span> Photo<span class="op">.</span>fromJson(<span class="dt">Map</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="at">dynamic</span><span class="op">&gt;</span> json) <span class="op">{</span></span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Photo(</span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>      albumId<span class="op">:</span> json[<span class="st">&#39;albumId&#39;</span>] <span class="kw">as</span> <span class="dt">int</span><span class="op">,</span></span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a>      id<span class="op">:</span> json[<span class="st">&#39;id&#39;</span>] <span class="kw">as</span> <span class="dt">int</span><span class="op">,</span></span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a>      title<span class="op">:</span> json[<span class="st">&#39;title&#39;</span>] <span class="kw">as</span> <span class="dt">String</span><span class="op">,</span></span>
+<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a>      url<span class="op">:</span> json[<span class="st">&#39;url&#39;</span>] <span class="kw">as</span> <span class="dt">String</span><span class="op">,</span></span>
+<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a>      thumbnailUrl<span class="op">:</span> json[<span class="st">&#39;thumbnailUrl&#39;</span>] <span class="kw">as</span> <span class="dt">String</span><span class="op">,</span></span>
+<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-51"><a href="#cb25-51" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main() <span class="op">=&gt;</span> runApp(<span class="at">const</span> MyApp());</span>
+<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-53"><a href="#cb25-53" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyApp <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb25-54"><a href="#cb25-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> MyApp(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb25-55"><a href="#cb25-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb25-58"><a href="#cb25-58" aria-hidden="true" tabindex="-1"></a>    <span class="at">const</span> appTitle <span class="op">=</span> <span class="st">&#39;Isolate Demosu&#39;</span>;</span>
+<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-60"><a href="#cb25-60" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> <span class="at">const</span> MaterialApp(</span>
+<span id="cb25-61"><a href="#cb25-61" aria-hidden="true" tabindex="-1"></a>      title<span class="op">:</span> appTitle<span class="op">,</span></span>
+<span id="cb25-62"><a href="#cb25-62" aria-hidden="true" tabindex="-1"></a>      home<span class="op">:</span> MyHomePage(title<span class="op">:</span> appTitle)<span class="op">,</span></span>
+<span id="cb25-63"><a href="#cb25-63" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb25-64"><a href="#cb25-64" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb25-65"><a href="#cb25-65" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb25-66"><a href="#cb25-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-67"><a href="#cb25-67" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyHomePage <span class="kw">extends</span> StatefulWidget <span class="op">{</span></span>
+<span id="cb25-68"><a href="#cb25-68" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> MyHomePage(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">,</span> required <span class="kw">this</span><span class="op">.</span>title<span class="op">}</span>);</span>
+<span id="cb25-69"><a href="#cb25-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-70"><a href="#cb25-70" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> title;</span>
+<span id="cb25-71"><a href="#cb25-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-72"><a href="#cb25-72" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb25-73"><a href="#cb25-73" aria-hidden="true" tabindex="-1"></a>  State<span class="op">&lt;</span>MyHomePage<span class="op">&gt;</span> createState() <span class="op">=&gt;</span> _MyHomePageState();</span>
+<span id="cb25-74"><a href="#cb25-74" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb25-75"><a href="#cb25-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-76"><a href="#cb25-76" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> _MyHomePageState <span class="kw">extends</span> State<span class="op">&lt;</span>MyHomePage<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb25-77"><a href="#cb25-77" aria-hidden="true" tabindex="-1"></a>  <span class="at">late</span> <span class="dt">Future</span><span class="op">&lt;</span><span class="dt">List</span><span class="op">&lt;</span>Photo<span class="op">&gt;&gt;</span> futurePhotos;</span>
+<span id="cb25-78"><a href="#cb25-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-79"><a href="#cb25-79" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb25-80"><a href="#cb25-80" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> initState() <span class="op">{</span></span>
+<span id="cb25-81"><a href="#cb25-81" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span>initState();</span>
+<span id="cb25-82"><a href="#cb25-82" aria-hidden="true" tabindex="-1"></a>    futurePhotos <span class="op">=</span> fetchPhotos(http<span class="op">.</span>Client());</span>
+<span id="cb25-83"><a href="#cb25-83" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb25-84"><a href="#cb25-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-85"><a href="#cb25-85" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb25-86"><a href="#cb25-86" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb25-87"><a href="#cb25-87" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Scaffold(</span>
+<span id="cb25-88"><a href="#cb25-88" aria-hidden="true" tabindex="-1"></a>      appBar<span class="op">:</span> AppBar(title<span class="op">:</span> Text(widget<span class="op">.</span>title))<span class="op">,</span></span>
+<span id="cb25-89"><a href="#cb25-89" aria-hidden="true" tabindex="-1"></a>      body<span class="op">:</span> FutureBuilder<span class="op">&lt;</span><span class="dt">List</span><span class="op">&lt;</span>Photo<span class="op">&gt;&gt;</span>(</span>
+<span id="cb25-90"><a href="#cb25-90" aria-hidden="true" tabindex="-1"></a>        future<span class="op">:</span> futurePhotos<span class="op">,</span></span>
+<span id="cb25-91"><a href="#cb25-91" aria-hidden="true" tabindex="-1"></a>        builder<span class="op">:</span> (context<span class="op">,</span> snapshot) <span class="op">{</span></span>
+<span id="cb25-92"><a href="#cb25-92" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (snapshot<span class="op">.</span>hasError) <span class="op">{</span></span>
+<span id="cb25-93"><a href="#cb25-93" aria-hidden="true" tabindex="-1"></a>            <span class="kw">return</span> <span class="at">const</span> Center(child<span class="op">:</span> Text(<span class="st">&#39;Bir hata oluştu!&#39;</span>));</span>
+<span id="cb25-94"><a href="#cb25-94" aria-hidden="true" tabindex="-1"></a>          <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> (snapshot<span class="op">.</span>hasData) <span class="op">{</span></span>
+<span id="cb25-95"><a href="#cb25-95" aria-hidden="true" tabindex="-1"></a>            <span class="kw">return</span> PhotosList(photos<span class="op">:</span> snapshot<span class="op">.</span>data<span class="op">!</span>);</span>
+<span id="cb25-96"><a href="#cb25-96" aria-hidden="true" tabindex="-1"></a>          <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb25-97"><a href="#cb25-97" aria-hidden="true" tabindex="-1"></a>            <span class="kw">return</span> <span class="at">const</span> Center(child<span class="op">:</span> CircularProgressIndicator());</span>
+<span id="cb25-98"><a href="#cb25-98" aria-hidden="true" tabindex="-1"></a>          <span class="op">}</span></span>
+<span id="cb25-99"><a href="#cb25-99" aria-hidden="true" tabindex="-1"></a>        <span class="op">},</span></span>
+<span id="cb25-100"><a href="#cb25-100" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb25-101"><a href="#cb25-101" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb25-102"><a href="#cb25-102" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb25-103"><a href="#cb25-103" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb25-104"><a href="#cb25-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-105"><a href="#cb25-105" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PhotosList <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb25-106"><a href="#cb25-106" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> PhotosList(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">,</span> required <span class="kw">this</span><span class="op">.</span>photos<span class="op">}</span>);</span>
+<span id="cb25-107"><a href="#cb25-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-108"><a href="#cb25-108" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">List</span><span class="op">&lt;</span>Photo<span class="op">&gt;</span> photos;</span>
+<span id="cb25-109"><a href="#cb25-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-110"><a href="#cb25-110" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb25-111"><a href="#cb25-111" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb25-112"><a href="#cb25-112" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> GridView<span class="op">.</span>builder(</span>
+<span id="cb25-113"><a href="#cb25-113" aria-hidden="true" tabindex="-1"></a>      gridDelegate<span class="op">:</span> <span class="at">const</span> SliverGridDelegateWithFixedCrossAxisCount(</span>
+<span id="cb25-114"><a href="#cb25-114" aria-hidden="true" tabindex="-1"></a>        crossAxisCount<span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb25-115"><a href="#cb25-115" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb25-116"><a href="#cb25-116" aria-hidden="true" tabindex="-1"></a>      itemCount<span class="op">:</span> photos<span class="op">.</span>length<span class="op">,</span></span>
+<span id="cb25-117"><a href="#cb25-117" aria-hidden="true" tabindex="-1"></a>      itemBuilder<span class="op">:</span> (context<span class="op">,</span> index) <span class="op">{</span></span>
+<span id="cb25-118"><a href="#cb25-118" aria-hidden="true" tabindex="-1"></a>        <span class="kw">return</span> Image<span class="op">.</span>network(photos[index]<span class="op">.</span>thumbnailUrl);</span>
+<span id="cb25-119"><a href="#cb25-119" aria-hidden="true" tabindex="-1"></a>      <span class="op">},</span></span>
+<span id="cb25-120"><a href="#cb25-120" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb25-121"><a href="#cb25-121" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb25-122"><a href="#cb25-122" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><img src="images/130_isolate.webp" width=170></p>
+<h2 data-number="2.6" id="lisans-bilgisi"><span
+class="header-section-number">2.6</span> 📄 Lisans Bilgisi</h2>
+<p>Bu doküman, <strong>Flutter resmi dokümantasyonundan</strong>
+türetilmiş Türkçe ders notudur.</p>
+<p><strong>Orijinal kaynak:</strong><br />
+https://docs.flutter.dev/data-and-backend/serialization/json</p>
+<p><strong>Türkçe çeviri ve düzenleme:</strong><br />
+<a href="mailto:htemiz@artvin.edu.tr">Doç. Dr. Hakan Temiz</a></p>
+<hr />
+<h3 data-number="2.6.1" id="lisans-kapsamı"><span
+class="header-section-number">2.6.1</span> Lisans Kapsamı</h3>
+<p>Bu dokümandaki içerikler aşağıdaki açık lisanslar kapsamında
+sunulmaktadır:</p>
+<p><strong>Metin içerikleri (anlatım ve açıklamalar):</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> Creative Commons Attribution 4.0 International
+(CC BY 4.0)<br />
+https://creativecommons.org/licenses/by/4.0/</p>
+<p>Bu lisans kapsamında: - İçerik kopyalanabilir, dağıtılabilir ve
+uyarlanabilir<br />
+- Ticari kullanım serbesttir<br />
+- Kaynak belirtilmesi zorunludur</p>
+<p><strong>Kod örnekleri:</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> BSD 3-Clause License<br />
+https://opensource.org/licenses/BSD-3-Clause</p>
+<p>Bu lisans kapsamında: - Kodlar kopyalanabilir, değiştirilebilir ve
+dağıtılabilir<br />
+- Ticari kullanım serbesttir<br />
+- Lisans bildiriminin korunması gerekir</p>
+</body>
+</html>

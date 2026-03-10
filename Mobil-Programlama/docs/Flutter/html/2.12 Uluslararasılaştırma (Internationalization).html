@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>2.12 Uluslararasılaştırma (Internationalization)</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#flutter-uygulamalarını-uluslararasılaştırma"
+id="toc-flutter-uygulamalarını-uluslararasılaştırma"><span
+class="toc-section-number">1</span> Flutter Uygulamalarını
+Uluslararasılaştırma</a>
+<ul>
+<li><a href="#flutterda-yerelleştirmeye-giriş"
+id="toc-flutterda-yerelleştirmeye-giriş"><span
+class="toc-section-number">1.1</span> Flutter’da yerelleştirmeye
+giriş</a>
+<ul>
+<li><a
+href="#uluslararasılaştırılmış-bir-uygulama-kurma-flutter_localizations-paketi"
+id="toc-uluslararasılaştırılmış-bir-uygulama-kurma-flutter_localizations-paketi"><span
+class="toc-section-number">1.1.1</span> Uluslararasılaştırılmış bir
+uygulama kurma: Flutter_localizations paketi</a></li>
+<li><a href="#yerel-ayarı-locale-geçersiz-kılma"
+id="toc-yerel-ayarı-locale-geçersiz-kılma"><span
+class="toc-section-number">1.1.2</span> Yerel ayarı (Locale) geçersiz
+kılma</a></li>
+</ul></li>
+<li><a href="#kendi-yerelleştirilmiş-mesajlarınızı-ekleme"
+id="toc-kendi-yerelleştirilmiş-mesajlarınızı-ekleme"><span
+class="toc-section-number">1.2</span> Kendi yerelleştirilmiş
+mesajlarınızı ekleme</a>
+<ul>
+<li><a href="#yer-tutucular-çoğullar-ve-seçimler"
+id="toc-yer-tutucular-çoğullar-ve-seçimler"><span
+class="toc-section-number">1.2.1</span> Yer tutucular, çoğullar ve
+seçimler</a></li>
+<li><a href="#kaçış-escaping-sözdizimi"
+id="toc-kaçış-escaping-sözdizimi"><span
+class="toc-section-number">1.2.2</span> Kaçış (Escaping)
+sözdizimi</a></li>
+<li><a href="#sayılar-ve-para-birimleri-içeren-mesajlar"
+id="toc-sayılar-ve-para-birimleri-içeren-mesajlar"><span
+class="toc-section-number">1.2.3</span> Sayılar ve para birimleri içeren
+mesajlar</a></li>
+<li><a href="#tarih-içeren-mesajlar"
+id="toc-tarih-içeren-mesajlar"><span
+class="toc-section-number">1.2.4</span> Tarih içeren mesajlar</a></li>
+</ul></li>
+<li><a href="#ios-için-yerelleştirme-ios-uygulama-paketini-güncelleme"
+id="toc-ios-için-yerelleştirme-ios-uygulama-paketini-güncelleme"><span
+class="toc-section-number">1.3</span> iOS için Yerelleştirme: iOS
+uygulama paketini güncelleme</a></li>
+<li><a href="#daha-fazla-özelleştirme-için-ileri-düzey-konular"
+id="toc-daha-fazla-özelleştirme-için-ileri-düzey-konular"><span
+class="toc-section-number">1.4</span> Daha fazla özelleştirme için ileri
+düzey konular</a>
+<ul>
+<li><a href="#ileri-düzey-yerel-ayar-locale-tanımı"
+id="toc-ileri-düzey-yerel-ayar-locale-tanımı"><span
+class="toc-section-number">1.4.1</span> İleri düzey yerel ayar (Locale)
+tanımı</a></li>
+<li><a
+href="#yerel-ayarı-takip-etme-locale-sınıfı-ve-localizations-widgetı"
+id="toc-yerel-ayarı-takip-etme-locale-sınıfı-ve-localizations-widgetı"><span
+class="toc-section-number">1.4.2</span> Yerel ayarı takip etme: Locale
+sınıfı ve Localizations widget’ı</a></li>
+<li><a href="#uygulamanın-supportedlocales-parametresini-belirtme"
+id="toc-uygulamanın-supportedlocales-parametresini-belirtme"><span
+class="toc-section-number">1.4.3</span> Uygulamanın supportedLocales
+parametresini belirtme</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#l10n.yaml-dosyasını-yapılandırma"
+id="toc-l10n.yaml-dosyasını-yapılandırma"><span
+class="toc-section-number">2</span> l10n.yaml Dosyasını Yapılandırma</a>
+<ul>
+<li><a href="#flutterda-uluslararasılaştırma-nasıl-çalışır"
+id="toc-flutterda-uluslararasılaştırma-nasıl-çalışır"><span
+class="toc-section-number">2.1</span> Flutter’da uluslararasılaştırma
+nasıl çalışır?</a>
+<ul>
+<li><a href="#yerelleştirilmiş-değerleri-yükleme-ve-alma"
+id="toc-yerelleştirilmiş-değerleri-yükleme-ve-alma"><span
+class="toc-section-number">2.1.1</span> Yerelleştirilmiş değerleri
+yükleme ve alma</a></li>
+<li><a
+href="#uygulamanın-yerelleştirilmiş-kaynakları-için-bir-sınıf-tanımlama"
+id="toc-uygulamanın-yerelleştirilmiş-kaynakları-için-bir-sınıf-tanımlama"><span
+class="toc-section-number">2.1.2</span> Uygulamanın yerelleştirilmiş
+kaynakları için bir sınıf tanımlama</a></li>
+<li><a href="#yeni-bir-dil-desteği-ekleme"
+id="toc-yeni-bir-dil-desteği-ekleme"><span
+class="toc-section-number">2.1.3</span> Yeni bir dil desteği
+ekleme</a></li>
+</ul></li>
+<li><a href="#alternatif-uluslararasılaştırma-iş-akışları"
+id="toc-alternatif-uluslararasılaştırma-iş-akışları"><span
+class="toc-section-number">2.2</span> Alternatif uluslararasılaştırma iş
+akışları</a>
+<ul>
+<li><a
+href="#uygulamanın-yerelleştirilmiş-kaynakları-için-alternatif-bir-sınıf"
+id="toc-uygulamanın-yerelleştirilmiş-kaynakları-için-alternatif-bir-sınıf"><span
+class="toc-section-number">2.2.1</span> Uygulamanın yerelleştirilmiş
+kaynakları için alternatif bir sınıf</a></li>
+<li><a href="#dart-intl-araçlarını-kullanma"
+id="toc-dart-intl-araçlarını-kullanma"><span
+class="toc-section-number">2.2.2</span> Dart intl araçlarını
+kullanma</a></li>
+<li><a href="#daha-fazla-bilgi" id="toc-daha-fazla-bilgi"><span
+class="toc-section-number">2.2.3</span> Daha fazla bilgi</a></li>
+</ul></li>
+<li><a href="#lisans-bilgisi" id="toc-lisans-bilgisi"><span
+class="toc-section-number">2.3</span> 📄 Lisans Bilgisi</a>
+<ul>
+<li><a href="#lisans-kapsamı" id="toc-lisans-kapsamı"><span
+class="toc-section-number">2.3.1</span> Lisans Kapsamı</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1"
+id="flutter-uygulamalarını-uluslararasılaştırma"><span
+class="header-section-number">1</span> Flutter Uygulamalarını
+Uluslararasılaştırma</h1>
+<p><strong>Neler öğreneceksiniz?</strong> * Cihazın yerel ayarını
+(kullanıcının tercih ettiği dil) nasıl takip edersiniz. * Yerel ayara
+özgü Material veya Cupertino widget’larını nasıl etkinleştirirsiniz. *
+Yerel ayara özgü uygulama değerlerini nasıl yönetirsiniz. * Bir
+uygulamanın desteklediği yerel ayarları (locales) nasıl
+tanımlarsınız.</p>
+<p>Uygulamanız başka bir dili konuşan kullanıcılara sunulacaksa, onu
+uluslararası hale getirmeniz (internationalize) gerekir. Bu, uygulamayı,
+uygulamanın desteklediği her dil veya yerel ayar için metin ve düzen
+(layout) gibi değerleri yerelleştirmeyi (localize) mümkün kılacak
+şekilde yazmanız gerektiği anlamına gelir. Flutter,
+uluslararasılaştırmaya yardımcı olan widget’lar ve sınıflar sağlar ve
+Flutter kütüphanelerinin kendileri de uluslararasılaştırılmıştır.</p>
+<p>Bu sayfa, çoğu uygulama bu şekilde yazıldığı için
+<code>MaterialApp</code> ve <code>CupertinoApp</code> sınıflarını
+kullanarak bir Flutter uygulamasını yerelleştirmek için gerekli
+kavramları ve iş akışlarını kapsar. Ancak, daha düşük seviyeli
+<code>WidgetsApp</code> sınıfı kullanılarak yazılan uygulamalar da aynı
+sınıflar ve mantık kullanılarak uluslararasılaştırılabilir.</p>
+<h2 data-number="1.1" id="flutterda-yerelleştirmeye-giriş"><span
+class="header-section-number">1.1</span> Flutter’da yerelleştirmeye
+giriş</h2>
+<p>Bu bölüm, yeni bir Flutter uygulamasının nasıl oluşturulacağına ve
+uluslararasılaştırılacağına dair bir eğitimin yanı sıra hedef platformun
+gerektirebileceği ek kurulumları sağlar.</p>
+<p>Bu örneğin kaynak kodunu <a
+href="https://github.com/flutter/website/tree/main/examples/internationalization/gen_l10n_example">gen_l10n_example</a>
+içinde bulabilirsiniz.</p>
+<h3 data-number="1.1.1"
+id="uluslararasılaştırılmış-bir-uygulama-kurma-flutter_localizations-paketi"><span
+class="header-section-number">1.1.1</span> Uluslararasılaştırılmış bir
+uygulama kurma: Flutter_localizations paketi</h3>
+<p>Varsayılan olarak, Flutter yalnızca ABD İngilizcesi
+yerelleştirmelerini sağlar. Diğer diller için destek eklemek üzere, bir
+uygulamanın ek <code>MaterialApp</code> (veya <code>CupertinoApp</code>)
+özellikleri belirtmesi ve <code>flutter_localizations</code> adlı bir
+paketi dahil etmesi gerekir.</p>
+<p>Başlamak için, <code>flutter create</code> komutuyla seçtiğiniz bir
+dizinde yeni bir Flutter uygulaması oluşturun.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">flutter</span> create <span class="op">&lt;</span>flutter_uygulamasının_adı<span class="op">&gt;</span></span></code></pre></div>
+<p><code>flutter_localizations</code> kullanmak için, paketi ve ayrıca
+<code>intl</code> paketini <code>pubspec.yaml</code> dosyanıza
+bağımlılık olarak ekleyin:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">flutter</span> pub add flutter_localizations <span class="at">--sdk</span><span class="op">=</span>flutter</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">flutter</span> pub add intl:any</span></code></pre></div>
+<p>Bu, aşağıdaki girdilere sahip bir <code>pubspec.yaml</code> dosyası
+oluşturur:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dependencies</span><span class="kw">:</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">flutter</span><span class="kw">:</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">sdk</span><span class="kw">:</span><span class="at"> flutter</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">flutter_localizations</span><span class="kw">:</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">sdk</span><span class="kw">:</span><span class="at"> flutter</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">intl</span><span class="kw">:</span><span class="at"> any</span></span></code></pre></div>
+<p>Ardından <code>flutter_localizations</code> kütüphanesini içe aktarın
+ve <code>MaterialApp</code> veya <code>CupertinoApp</code> için
+<code>localizationsDelegates</code> ve <code>supportedLocales</code>
+özelliklerini belirtin:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter_localizations/flutter_localizations.dart&#39;</span>;</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">return</span> <span class="at">const</span> MaterialApp(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  title<span class="op">:</span> <span class="st">&#39;Localizations Sample App&#39;</span><span class="op">,</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  localizationsDelegates<span class="op">:</span> [</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    GlobalMaterialLocalizations<span class="op">.</span>delegate<span class="op">,</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    GlobalWidgetsLocalizations<span class="op">.</span>delegate<span class="op">,</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    GlobalCupertinoLocalizations<span class="op">.</span>delegate<span class="op">,</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  supportedLocales<span class="op">:</span> [</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    Locale(<span class="st">&#39;en&#39;</span>)<span class="op">,</span> <span class="co">// İngilizce</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    Locale(<span class="st">&#39;es&#39;</span>)<span class="op">,</span> <span class="co">// İspanyolca</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  home<span class="op">:</span> MyHomePage()<span class="op">,</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p><code>flutter_localizations</code> paketini tanıttıktan ve önceki
+kodu ekledikten sonra, <code>Material</code> ve <code>Cupertino</code>
+paketleri artık desteklenen yerel ayarlardan birinde doğru şekilde
+yerelleştirilmiş olmalıdır. Widget’lar, doğru soldan sağa veya sağdan
+sola düzen ile birlikte yerelleştirilmiş mesajlara uyarlanmalıdır.</p>
+<p>Hedef platformun yerel ayarını İspanyolca’ya (es) değiştirmeyi
+deneyin; mesajlar yerelleştirilmiş olmalıdır.</p>
+<p><code>WidgetsApp</code> tabanlı uygulamalar,
+<code>GlobalMaterialLocalizations.delegate</code> gerekli olmaması
+dışında benzerdir.</p>
+<p>Tam <code>Locale.fromSubtags</code> yapıcısı, <code>scriptCode</code>
+desteği sağladığı için tercih edilir, ancak <code>Locale</code>
+varsayılan yapıcısı da hala tamamen geçerlidir.</p>
+<p><code>localizationsDelegates</code> listesinin öğeleri,
+yerelleştirilmiş değer koleksiyonları üreten fabrikalardır.
+<code>GlobalMaterialLocalizations.delegate</code>, Material Components
+kütüphanesi için yerelleştirilmiş dizeler ve diğer değerleri sağlar.
+<code>GlobalWidgetsLocalizations.delegate</code>, widget kütüphanesi
+için varsayılan metin yönünü (soldan sağa veya sağdan sola)
+tanımlar.</p>
+<p>Bu uygulama özellikleri, bağlı oldukları türler ve
+uluslararasılaştırılmış Flutter uygulamalarının tipik olarak nasıl
+yapılandırıldığı hakkında daha fazla bilgi bu sayfada ele
+alınmaktadır.</p>
+<h3 data-number="1.1.2" id="yerel-ayarı-locale-geçersiz-kılma"><span
+class="header-section-number">1.1.2</span> Yerel ayarı (Locale) geçersiz
+kılma</h3>
+<p><code>Localizations.override</code>, uygulamanızın bir bölümünün
+cihazınız için yapılandırılan yerel ayardan farklı bir yerel ayara
+yerelleştirilmesi gerektiği (genellikle nadir) durumlar için izin veren
+<code>Localizations</code> widget’ı için bir fabrika yapıcısıdır.</p>
+<p>Bu davranışı gözlemlemek için <code>Localizations.override</code>
+çağrısı ve basit bir <code>CalendarDatePicker</code> ekleyin:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> Scaffold(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    appBar<span class="op">:</span> AppBar(title<span class="op">:</span> Text(widget<span class="op">.</span>title))<span class="op">,</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    body<span class="op">:</span> Center(</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Column(</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        mainAxisAlignment<span class="op">:</span> MainAxisAlignment<span class="op">.</span>center<span class="op">,</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        children<span class="op">:</span> <span class="op">&lt;</span>Widget<span class="op">&gt;</span>[</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>          <span class="co">// Aşağıdaki kodu ekleyin</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>          Localizations<span class="op">.</span>override(</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>            context<span class="op">:</span> context<span class="op">,</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>            locale<span class="op">:</span> <span class="at">const</span> Locale(<span class="st">&#39;es&#39;</span>)<span class="op">,</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Doğru BuildContext&#39;i almak için bir Builder kullanıyoruz.</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Alternatif olarak, yeni bir widget oluşturabilirsiniz ve</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Localizations.override güncellenmiş BuildContext&#39;i yeni widget&#39;a iletecektir.</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>            child<span class="op">:</span> Builder(</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>              builder<span class="op">:</span> (context) <span class="op">{</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>                <span class="co">// Uluslararasılaştırılmış bir Material widget&#39;ı için basit bir örnek.</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>                <span class="kw">return</span> CalendarDatePicker(</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>                  initialDate<span class="op">:</span> DateTime<span class="op">.</span>now()<span class="op">,</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>                  firstDate<span class="op">:</span> DateTime(<span class="dv">1900</span>)<span class="op">,</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>                  lastDate<span class="op">:</span> DateTime(<span class="dv">2100</span>)<span class="op">,</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>                  onDateChanged<span class="op">:</span> (value) <span class="op">{},</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>                );</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>              <span class="op">},</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>            )<span class="op">,</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>        ]<span class="op">,</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Uygulamayı “Hot reload” yapın; <code>CalendarDatePicker</code>
+widget’ı İspanyolca olarak yeniden oluşturulmalıdır.</p>
+<h2 data-number="1.2"
+id="kendi-yerelleştirilmiş-mesajlarınızı-ekleme"><span
+class="header-section-number">1.2</span> Kendi yerelleştirilmiş
+mesajlarınızı ekleme</h2>
+<p><code>flutter_localizations</code> paketini ekledikten sonra
+yerelleştirmeyi yapılandırabilirsiniz. Uygulamanıza yerelleştirilmiş
+metin eklemek için aşağıdaki talimatları tamamlayın:</p>
+<ol type="1">
+<li><code>flutter_localizations</code> tarafından sabitlenen sürümü
+çekerek <code>intl</code> paketini bir bağımlılık olarak ekleyin:</li>
+</ol>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">flutter</span> pub add intl:any</span></code></pre></div>
+<ol start="2" type="1">
+<li><code>pubspec.yaml</code> dosyasını açın ve <code>generate</code>
+bayrağını etkinleştirin. Bu bayrak, pubspec dosyasındaki
+<code>flutter</code> bölümünde bulunur.</li>
+</ol>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Aşağıdaki bölüm Flutter&#39;a özgüdür.</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">flutter</span><span class="kw">:</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">generate</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span><span class="co"> # Bu satırı ekleyin</span></span></code></pre></div>
+<ol start="3" type="1">
+<li>Flutter projesinin kök dizinine yeni bir yaml dosyası ekleyin. Bu
+dosyayı <code>l10n.yaml</code> olarak adlandırın ve aşağıdaki içeriği
+ekleyin:</li>
+</ol>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">arb-dir</span><span class="kw">:</span><span class="at"> lib/l10n</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">template-arb-file</span><span class="kw">:</span><span class="at"> app_en.arb</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">output-localization-file</span><span class="kw">:</span><span class="at"> app_localizations.dart</span></span></code></pre></div>
+<p>Bu dosya yerelleştirme aracını yapılandırır. Bu örnekte şunları
+yaptınız: * Uygulama Kaynak Paketi (<a
+href="https://github.com/google/app-resource-bundle">App Resource
+Bundle</a> - .arb) girdi dosyalarını
+<code>${FLUTTER_PROJECT}/lib/l10n</code> dizinine koydunuz.
+<code>.arb</code> dosyaları uygulamanız için yerelleştirme kaynakları
+sağlar. * İngilizce şablonunu <code>app_en.arb</code> olarak
+ayarladınız. * Flutter’a yerelleştirmeleri
+<code>app_localizations.dart</code> dosyasında oluşturmasını
+söylediniz.</p>
+<ol start="4" type="1">
+<li><code>${FLUTTER_PROJECT}/lib/l10n</code> içine
+<code>app_en.arb</code> şablon dosyasını ekleyin. Örneğin:</li>
+</ol>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;helloWorld&quot;</span><span class="fu">:</span> <span class="st">&quot;Hello World!&quot;</span><span class="fu">,</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;@helloWorld&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;description&quot;</span><span class="fu">:</span> <span class="st">&quot;The conventional newborn programmer greeting&quot;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<ol start="5" type="1">
+<li>Aynı dizine <code>app_es.arb</code> adlı başka bir paket dosyası
+ekleyin. Bu dosyaya, aynı mesajın İspanyolca çevirisini ekleyin.</li>
+</ol>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;helloWorld&quot;</span><span class="fu">:</span> <span class="st">&quot;¡Hola Mundo!&quot;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<ol start="6" type="1">
+<li>Şimdi, <code>flutter pub get</code> veya <code>flutter run</code>
+komutunu çalıştırın; kod oluşturma (codegen) işlemi otomatik olarak
+gerçekleşir. Oluşturulan dosyaları <code>arb-dir</code> veya
+<code>output-dir</code> seçenekleriyle belirttiğiniz yoldaki dizinde
+bulmalısınız. Alternatif olarak, uygulamayı çalıştırmadan aynı dosyaları
+oluşturmak için <code>flutter gen-l10n</code> komutunu da
+çalıştırabilirsiniz.</li>
+<li><code>MaterialApp</code> yapıcısı çağrınıza
+<code>app_localizations.dart</code> ve
+<code>AppLocalizations.delegate</code> için içe aktarma ifadesini
+ekleyin:</li>
+</ol>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;l10n/app_localizations.dart&#39;</span>;</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">return</span> <span class="at">const</span> MaterialApp(</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  title<span class="op">:</span> <span class="st">&#39;Localizations Sample App&#39;</span><span class="op">,</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  localizationsDelegates<span class="op">:</span> [</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    AppLocalizations<span class="op">.</span>delegate<span class="op">,</span> <span class="co">// Bu satırı ekleyin</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    GlobalMaterialLocalizations<span class="op">.</span>delegate<span class="op">,</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    GlobalWidgetsLocalizations<span class="op">.</span>delegate<span class="op">,</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    GlobalCupertinoLocalizations<span class="op">.</span>delegate<span class="op">,</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  supportedLocales<span class="op">:</span> [</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    Locale(<span class="st">&#39;en&#39;</span>)<span class="op">,</span> <span class="co">// İngilizce</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    Locale(<span class="st">&#39;es&#39;</span>)<span class="op">,</span> <span class="co">// İspanyolca</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  home<span class="op">:</span> MyHomePage()<span class="op">,</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p><code>AppLocalizations</code> sınıfı ayrıca otomatik olarak
+oluşturulan <code>localizationsDelegates</code> ve
+<code>supportedLocales</code> listelerini de sağlar. Bunları manuel
+olarak sağlamak yerine kullanabilirsiniz:</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> MaterialApp(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  title<span class="op">:</span> <span class="st">&#39;Localizations Sample App&#39;</span><span class="op">,</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  localizationsDelegates<span class="op">:</span> AppLocalizations<span class="op">.</span>localizationsDelegates<span class="op">,</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  supportedLocales<span class="op">:</span> AppLocalizations<span class="op">.</span>supportedLocales<span class="op">,</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<ol start="8" type="1">
+<li>Material uygulaması başladıktan sonra, <code>AppLocalizations</code>
+sınıfını uygulamanızın herhangi bir yerinde kullanabilirsiniz:</li>
+</ol>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>appBar<span class="op">:</span> AppBar(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// [AppBar] başlık metni, hedef platformun sistem yerel ayarlarına</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">// göre mesajını güncellemelidir.</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">// İngilizce ve İspanyolca yerel ayarlar arasında geçiş yapmak</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">// bu metnin güncellenmesine neden olmalıdır.</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  title<span class="op">:</span> Text(AppLocalizations<span class="op">.</span>of(context)<span class="op">!.</span>helloWorld)<span class="op">,</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<blockquote>
+<p><strong>Not:</strong> <code>AppLocalizations</code> sınıfını
+başlatmak için Material uygulamasının gerçekten başlatılmış olması
+gerekir. Uygulama henüz başlamadıysa,
+<code>AppLocalizations.of(context)!.helloWorld</code> bir null
+istisnasına (exception) neden olur.</p>
+</blockquote>
+<p>Bu kod, hedef cihazın yerel ayarı İngilizce olarak ayarlanmışsa
+“Hello World!”, İspanyolca olarak ayarlanmışsa “¡Hola Mundo!”
+görüntüleyen bir <code>Text</code> widget’ı oluşturur. <code>.arb</code>
+dosyalarında, her girişin anahtarı alıcının (getter) yöntem adı olarak
+kullanılırken, o girişin değeri yerelleştirilmiş mesajı içerir.</p>
+<p><code>gen_l10n_example</code> bu aracı kullanır.</p>
+<p>Cihaz uygulama açıklamanızı yerelleştirmek için, yerelleştirilmiş
+dizeyi <code>MaterialApp.onGenerateTitle</code>’a iletin:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">return</span> MaterialApp(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  onGenerateTitle<span class="op">:</span> (context) <span class="op">=&gt;</span> DemoLocalizations<span class="op">.</span>of(context)<span class="op">.</span>title<span class="op">,</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<h3 data-number="1.2.1" id="yer-tutucular-çoğullar-ve-seçimler"><span
+class="header-section-number">1.2.1</span> Yer tutucular, çoğullar ve
+seçimler</h3>
+<blockquote>
+<p><strong>İpucu:</strong> VS Code kullanırken <code>arb-editor</code>
+uzantısını ekleyin. Bu uzantı, <code>.arb</code> şablon dosyalarını
+düzenlemeye yardımcı olmak için sözdizimi vurgulama, snippet’ler,
+teşhisler ve hızlı düzeltmeler ekler.</p>
+</blockquote>
+<p>Ayrıca, bir alıcı (getter) yerine bir yöntem oluşturmak için bir
+<code>yer tutucu</code> (placeholder) kullanan özel bir sözdizimi ile
+uygulama değerlerini bir mesaja dahil edebilirsiniz. Geçerli bir Dart
+tanımlayıcı adı olması gereken bir yer tutucu,
+<code>AppLocalizations</code> kodundaki oluşturulan yöntemde konumsal
+bir parametre haline gelir. Bir yer tutucu adını aşağıdaki gibi süslü
+parantezler içine alarak tanımlayın:</p>
+<p><code>"{placeholderName}"</code></p>
+<p>Her yer tutucuyu uygulamanın <code>.arb</code> dosyasındaki
+<code>placeholders</code> nesnesinde tanımlayın. Örneğin, bir
+<code>userName</code> parametresine sahip bir selamlama mesajı
+tanımlamak için <code>lib/l10n/app_en.arb</code> dosyasına aşağıdakini
+ekleyin:</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;hello&quot;</span><span class="er">:</span> <span class="st">&quot;Hello {userName}&quot;</span><span class="er">,</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;@hello&quot;</span><span class="er">:</span> <span class="fu">{</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;description&quot;</span><span class="fu">:</span> <span class="st">&quot;A message with a single parameter&quot;</span><span class="fu">,</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;placeholders&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;userName&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;String&quot;</span><span class="fu">,</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;example&quot;</span><span class="fu">:</span> <span class="st">&quot;Bob&quot;</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>Bu kod parçacığı, <code>AppLocalizations.of(context)</code> nesnesine
+bir <code>hello</code> yöntemi çağrısı ekler ve yöntem
+<code>String</code> türünde bir parametre kabul eder; <code>hello</code>
+yöntemi bir dize döndürür. <code>AppLocalizations</code> dosyasını
+yeniden oluşturun.</p>
+<p><code>Builder</code> içine geçirilen kodu aşağıdakiyle
+değiştirin:</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Examples of internationalized strings.</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">return</span> Column(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  children<span class="op">:</span> <span class="op">&lt;</span>Widget<span class="op">&gt;</span>[</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Returns &#39;Hello John&#39;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    Text(AppLocalizations<span class="op">.</span>of(context)<span class="op">!.</span>hello(<span class="st">&#39;John&#39;</span>))<span class="op">,</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p>Birden çok değer belirtmek için sayısal yer tutucular da
+kullanabilirsiniz. Farklı dillerin kelimeleri çoğullaştırmak (pluralize)
+için farklı yolları vardır. Sözdizimi ayrıca bir kelimenin
+<em>nasıl</em> çoğullaştırılacağını belirtmeyi de destekler.
+<code>Çoğullaştırılmış</code> bir mesaj, kelimenin farklı durumlarda
+nasıl çoğullaştırılacağını gösteren bir <code>num</code> parametresi
+içermelidir. Örneğin İngilizce, “person” kelimesini “people” olarak
+çoğullaştırır, ancak bu yeterli değildir. <code>message0</code> çoğulu
+“no people” veya “zero people” olabilir. <code>messageFew</code> çoğulu
+“several people”, “some people” veya “a few people” olabilir.
+<code>messageMany</code> çoğulu “most people”, “many people” veya “a
+crowd” olabilir. Yalnızca daha genel olan <code>messageOther</code>
+alanı zorunludur. Aşağıdaki örnek hangi seçeneklerin mevcut olduğunu
+gösterir:</p>
+<p><code>"{countPlaceholder, plural, =0{message0} =1{message1} =2{message2} few{messageFew} many{messageMany} other{messageOther}}"</code></p>
+<p>Önceki ifade, <code>countPlaceholder</code> değerine karşılık gelen
+mesaj varyasyonu (message0, message1, …) ile değiştirilir. Yalnızca
+<code>messageOther</code> alanı zorunludur.</p>
+<p>Aşağıdaki örnek, “wombat” kelimesini çoğullaştıran bir mesaj
+tanımlar:</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;nWombats&quot;</span><span class="er">:</span> <span class="st">&quot;{count, plural, =0{no wombats} =1{1 wombat} other{{count} wombats}}&quot;</span><span class="er">,</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;@nWombats&quot;</span><span class="er">:</span> <span class="fu">{</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;description&quot;</span><span class="fu">:</span> <span class="st">&quot;A plural message&quot;</span><span class="fu">,</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;placeholders&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;count&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;num&quot;</span><span class="fu">,</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;format&quot;</span><span class="fu">:</span> <span class="st">&quot;compact&quot;</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><code>count</code> parametresini geçirerek bir çoğul yöntem
+kullanın:</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Examples of internationalized strings.</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">return</span> Column(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  children<span class="op">:</span> <span class="op">&lt;</span>Widget<span class="op">&gt;</span>[</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">...</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Returns &#39;no wombats&#39;</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    Text(AppLocalizations<span class="op">.</span>of(context)<span class="op">!.</span>nWombats(<span class="dv">0</span>))<span class="op">,</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Returns &#39;1 wombat&#39;</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    Text(AppLocalizations<span class="op">.</span>of(context)<span class="op">!.</span>nWombats(<span class="dv">1</span>))<span class="op">,</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Returns &#39;5 wombats&#39;</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    Text(AppLocalizations<span class="op">.</span>of(context)<span class="op">!.</span>nWombats(<span class="dv">5</span>))<span class="op">,</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p>Çoğullara benzer şekilde, bir <code>String</code> yer tutucuya dayalı
+olarak da bir değer seçebilirsiniz. Bu genellikle cinsiyetli dilleri
+desteklemek için kullanılır. Sözdizimi aşağıdaki gibidir:</p>
+<p><code>"{selectPlaceholder, select, case{message} ... other{messageOther}}"</code></p>
+<p>Sonraki örnek, cinsiyete göre bir zamir seçen bir mesaj tanımlar:</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;pronoun&quot;</span><span class="er">:</span> <span class="st">&quot;{gender, select, male{he} female{she} other{they}}&quot;</span><span class="er">,</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;@pronoun&quot;</span><span class="er">:</span> <span class="fu">{</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;description&quot;</span><span class="fu">:</span> <span class="st">&quot;A gendered message&quot;</span><span class="fu">,</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;placeholders&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;gender&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;String&quot;</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>Cinsiyet dizesini bir parametre olarak geçirerek bu özelliği
+kullanın:</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Examples of internationalized strings.</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">return</span> Column(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  children<span class="op">:</span> <span class="op">&lt;</span>Widget<span class="op">&gt;</span>[</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">...</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Returns &#39;he&#39;</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    Text(AppLocalizations<span class="op">.</span>of(context)<span class="op">!.</span>pronoun(<span class="st">&#39;male&#39;</span>))<span class="op">,</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Returns &#39;she&#39;</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    Text(AppLocalizations<span class="op">.</span>of(context)<span class="op">!.</span>pronoun(<span class="st">&#39;female&#39;</span>))<span class="op">,</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Returns &#39;they&#39;</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    Text(AppLocalizations<span class="op">.</span>of(context)<span class="op">!.</span>pronoun(<span class="st">&#39;other&#39;</span>))<span class="op">,</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p><code>select</code> ifadelerini kullanırken, parametre ile gerçek
+değer arasındaki karşılaştırmanın büyük/küçük harf duyarlı olduğunu
+unutmayın. Yani,
+<code>AppLocalizations.of(context)!.pronoun("Male")</code> varsayılan
+olarak “other” durumuna düşer ve “they” döndürür.</p>
+<h3 data-number="1.2.2" id="kaçış-escaping-sözdizimi"><span
+class="header-section-number">1.2.2</span> Kaçış (Escaping)
+sözdizimi</h3>
+<p>Bazen <code>{</code> ve <code>}</code> gibi belirteçleri normal
+karakterler olarak kullanmanız gerekebilir. Bu tür belirteçlerin
+ayrıştırılmasını (parsing) önlemek için, <code>l10n.yaml</code>
+dosyasına aşağıdakini ekleyerek <code>use-escaping</code> bayrağını
+etkinleştirin:</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use-escaping</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code></pre></div>
+<p>Ayrıştırıcı (parser), bir çift tek tırnak içine alınmış herhangi bir
+karakter dizisini görmezden gelir. Normal bir tek tırnak karakteri
+kullanmak için, bir çift ardışık tek tırnak kullanın. Örneğin, aşağıdaki
+metin bir Dart <code>String</code>’e dönüştürülür:</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;helloWorld&quot;</span><span class="fu">:</span> <span class="st">&quot;Hello! &#39;{Isn&#39;&#39;t}&#39; this a wonderful day?&quot;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>Ortaya çıkan dize şu şekildedir:</p>
+<p><code>"Hello! {Isn't} this a wonderful day?"</code></p>
+<h3 data-number="1.2.3"
+id="sayılar-ve-para-birimleri-içeren-mesajlar"><span
+class="header-section-number">1.2.3</span> Sayılar ve para birimleri
+içeren mesajlar</h3>
+<p>Para birimi değerlerini temsil edenler de dahil olmak üzere sayılar,
+farklı yerel ayarlarda çok farklı görüntülenir.
+<code>flutter_localizations</code> içindeki yerelleştirme oluşturma
+aracı, sayıları yerel ayara ve istenen biçime göre biçimlendirmek için
+<code>intl</code> paketindeki <code>NumberFormat</code> sınıfını
+kullanır.</p>
+<p><code>int</code>, <code>double</code> ve <code>num</code> türleri
+aşağıdaki <code>NumberFormat</code> yapıcılarından herhangi birini
+kullanabilir:</p>
+<table>
+<thead>
+<tr>
+<th>Mesaj “format” değeri</th>
+<th>1200000 için çıktı</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>compact</td>
+<td>“1.2M”</td>
+</tr>
+<tr>
+<td>compactCurrency*</td>
+<td>“$1.2M”</td>
+</tr>
+<tr>
+<td>compactSimpleCurrency*</td>
+<td>“$1.2M”</td>
+</tr>
+<tr>
+<td>compactLong</td>
+<td>“1.2 million”</td>
+</tr>
+<tr>
+<td>currency*</td>
+<td>“USD1,200,000.00”</td>
+</tr>
+<tr>
+<td>decimalPattern</td>
+<td>“1,200,000”</td>
+</tr>
+<tr>
+<td>decimalPatternDigits*</td>
+<td>“1,200,000”</td>
+</tr>
+<tr>
+<td>decimalPercentPattern*</td>
+<td>“120,000,000%”</td>
+</tr>
+<tr>
+<td>percentPattern</td>
+<td>“120,000,000%”</td>
+</tr>
+<tr>
+<td>scientificPattern</td>
+<td>“1E6”</td>
+</tr>
+<tr>
+<td>simpleCurrency*</td>
+<td>“$1,200,000”</td>
+</tr>
+</tbody>
+</table>
+<p>Tablodaki yıldızlı <code>NumberFormat</code> yapıcıları isteğe bağlı,
+adlandırılmış parametreler sunar. Bu parametreler, yer tutucunun
+<code>optionalParameters</code> nesnesinin değeri olarak belirtilebilir.
+Örneğin, <code>compactCurrency</code> için isteğe bağlı
+<code>decimalDigits</code> parametresini belirtmek üzere
+<code>lib/l10n/app_en.arb</code> dosyasında aşağıdaki değişiklikleri
+yapın:</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;numberOfDataPoints&quot;</span><span class="er">:</span> <span class="st">&quot;Number of data points: {value}&quot;</span><span class="er">,</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;@numberOfDataPoints&quot;</span><span class="er">:</span> <span class="fu">{</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;description&quot;</span><span class="fu">:</span> <span class="st">&quot;A message with a formatted int parameter&quot;</span><span class="fu">,</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;placeholders&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;value&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;int&quot;</span><span class="fu">,</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;format&quot;</span><span class="fu">:</span> <span class="st">&quot;compactCurrency&quot;</span><span class="fu">,</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;optionalParameters&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;decimalDigits&quot;</span><span class="fu">:</span> <span class="dv">2</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h3 data-number="1.2.4" id="tarih-içeren-mesajlar"><span
+class="header-section-number">1.2.4</span> Tarih içeren mesajlar</h3>
+<p>Tarih dizeleri, hem yerel ayara hem de uygulamanın ihtiyaçlarına
+bağlı olarak birçok farklı şekilde biçimlendirilir.</p>
+<p><code>DateTime</code> türündeki yer tutucu değerleri,
+<code>intl</code> paketindeki <code>DateFormat</code> ile
+biçimlendirilir.</p>
+<p><code>DateFormat</code> fabrika yapıcılarının adlarıyla tanımlanan 41
+format varyasyonu vardır. Aşağıdaki örnekte, <code>helloWorldOn</code>
+mesajında görünen <code>DateTime</code> değeri
+<code>DateFormat.yMd</code> ile biçimlendirilmiştir:</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;helloWorldOn&quot;</span><span class="er">:</span> <span class="st">&quot;Hello World on {date}&quot;</span><span class="er">,</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;@helloWorldOn&quot;</span><span class="er">:</span> <span class="fu">{</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;description&quot;</span><span class="fu">:</span> <span class="st">&quot;A message with a date parameter&quot;</span><span class="fu">,</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;placeholders&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;date&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;DateTime&quot;</span><span class="fu">,</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;format&quot;</span><span class="fu">:</span> <span class="st">&quot;yMd&quot;</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>Yerel ayarın ABD İngilizcesi olduğu bir uygulamada, aşağıdaki ifade
+“7/9/1959” sonucunu üretir. Rusça bir yerel ayarda ise “9.07.1959”
+sonucunu üretir.</p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>AppLocalizations<span class="op">.</span>of(context)<span class="op">.</span>helloWorldOn(DateTime<span class="op">.</span>utc(<span class="dv">1959</span><span class="op">,</span> <span class="dv">7</span><span class="op">,</span> <span class="dv">9</span>))</span></code></pre></div>
+<h2 data-number="1.3"
+id="ios-için-yerelleştirme-ios-uygulama-paketini-güncelleme"><span
+class="header-section-number">1.3</span> iOS için Yerelleştirme: iOS
+uygulama paketini güncelleme</h2>
+<p>Yerelleştirmeler Flutter tarafından yönetilse de, desteklenen dilleri
+Xcode projesine eklemeniz gerekir. Bu, App Store girişinizin desteklenen
+dilleri doğru şekilde görüntülemesini sağlar.</p>
+<p>Uygulamanızın desteklediği yerel ayarları yapılandırmak için
+aşağıdaki talimatları kullanın:</p>
+<ol type="1">
+<li>Projenizin <code>ios/Runner.xcodeproj</code> Xcode dosyasını
+açın.</li>
+<li><strong>Project Navigator</strong> (Proje Gezgini) içinde,
+<strong>Projects</strong> (Projeler) altındaki <code>Runner</code> proje
+dosyasını seçin.</li>
+<li>Proje düzenleyicisinde <strong>Info</strong> sekmesini seçin.</li>
+<li><strong>Localizations</strong> (Yerelleştirmeler) bölümünde,
+projenize desteklenen dilleri ve bölgeleri eklemek için
+<strong>Ekle</strong> düğmesine (+) tıklayın. Dosyaları ve referans
+dilini seçmeniz istendiğinde, sadece <strong>Finish</strong> (Bitir)
+seçeneğini seçin.</li>
+</ol>
+<p>Xcode otomatik olarak boş <code>.strings</code> dosyaları oluşturur
+ve <code>ios/Runner.xcodeproj/project.pbxproj</code> dosyasını
+günceller. Bu dosyalar, uygulamanızın hangi dilleri ve bölgeleri
+desteklediğini belirlemek için App Store tarafından kullanılır.</p>
+<h2 data-number="1.4"
+id="daha-fazla-özelleştirme-için-ileri-düzey-konular"><span
+class="header-section-number">1.4</span> Daha fazla özelleştirme için
+ileri düzey konular</h2>
+<p>Bu bölüm, yerelleştirilmiş bir Flutter uygulamasını özelleştirmenin
+ek yollarını kapsar.</p>
+<h3 data-number="1.4.1" id="ileri-düzey-yerel-ayar-locale-tanımı"><span
+class="header-section-number">1.4.1</span> İleri düzey yerel ayar
+(Locale) tanımı</h3>
+<p>Birden çok varyantı olan bazı diller, doğru şekilde ayırt etmek için
+sadece bir dil kodundan fazlasını gerektirir.</p>
+<p>Örneğin, Çincenin tüm varyantlarını tam olarak ayırt etmek; dil
+kodunu, yazı sistemi kodunu (script code) ve ülke kodunu belirtmeyi
+gerektirir. Bunun nedeni, basitleştirilmiş ve geleneksel yazı sisteminin
+varlığı ve aynı yazı sistemi türünde karakterlerin yazılış şeklindeki
+bölgesel farklılıklardır.</p>
+<p><code>CN</code>, <code>TW</code> ve <code>HK</code> ülke kodları için
+Çincenin her varyantını tam olarak ifade etmek amacıyla, desteklenen
+yerel ayarlar listesi şunları içermelidir:</p>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>supportedLocales<span class="op">:</span> [</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  Locale<span class="op">.</span>fromSubtags(languageCode<span class="op">:</span> <span class="st">&#39;zh&#39;</span>)<span class="op">,</span> <span class="co">// genel Çince &#39;zh&#39;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  Locale<span class="op">.</span>fromSubtags(</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    languageCode<span class="op">:</span> <span class="st">&#39;zh&#39;</span><span class="op">,</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    scriptCode<span class="op">:</span> <span class="st">&#39;Hans&#39;</span><span class="op">,</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span> <span class="co">// genel basitleştirilmiş Çince &#39;zh_Hans&#39;</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  Locale<span class="op">.</span>fromSubtags(</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    languageCode<span class="op">:</span> <span class="st">&#39;zh&#39;</span><span class="op">,</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    scriptCode<span class="op">:</span> <span class="st">&#39;Hant&#39;</span><span class="op">,</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span> <span class="co">// genel geleneksel Çince &#39;zh_Hant&#39;</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  Locale<span class="op">.</span>fromSubtags(</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    languageCode<span class="op">:</span> <span class="st">&#39;zh&#39;</span><span class="op">,</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    scriptCode<span class="op">:</span> <span class="st">&#39;Hans&#39;</span><span class="op">,</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    countryCode<span class="op">:</span> <span class="st">&#39;CN&#39;</span><span class="op">,</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span> <span class="co">// &#39;zh_Hans_CN&#39;</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>  Locale<span class="op">.</span>fromSubtags(</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    languageCode<span class="op">:</span> <span class="st">&#39;zh&#39;</span><span class="op">,</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>    scriptCode<span class="op">:</span> <span class="st">&#39;Hant&#39;</span><span class="op">,</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>    countryCode<span class="op">:</span> <span class="st">&#39;TW&#39;</span><span class="op">,</span></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span> <span class="co">// &#39;zh_Hant_TW&#39;</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>  Locale<span class="op">.</span>fromSubtags(</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>    languageCode<span class="op">:</span> <span class="st">&#39;zh&#39;</span><span class="op">,</span></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>    scriptCode<span class="op">:</span> <span class="st">&#39;Hant&#39;</span><span class="op">,</span></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>    countryCode<span class="op">:</span> <span class="st">&#39;HK&#39;</span><span class="op">,</span></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span> <span class="co">// &#39;zh_Hant_HK&#39;</span></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>]<span class="op">,</span></span></code></pre></div>
+<p>Bu açık ve tam tanım, uygulamanızın bu ülke kodlarının tüm
+kombinasyonlarına tam nüanslı yerelleştirilmiş içeriği ayırt
+edebilmesini ve sunabilmesini sağlar. Kullanıcının tercih ettiği yerel
+ayar belirtilmemişse, Flutter en yakın eşleşmeyi seçer; bu da muhtemelen
+kullanıcının beklediğinden farklılıklar içerir. Flutter yalnızca
+<code>supportedLocales</code> içinde tanımlanan yerel ayarlara çözümleme
+yapar ve yaygın olarak kullanılan diller için <code>scriptCode</code>
+ile ayırt edilen yerelleştirilmiş içerik sağlar. Desteklenen yerel
+ayarların ve tercih edilen yerel ayarların nasıl çözümlendiği hakkında
+bilgi için <code>Localizations</code> bölümüne bakın.</p>
+<p>Çince birincil bir örnek olsa da, Fransızca (<code>fr_FR</code>,
+<code>fr_CA</code>) gibi diğer diller de daha nüanslı yerelleştirme için
+tam olarak ayırt edilmelidir.</p>
+<h3 data-number="1.4.2"
+id="yerel-ayarı-takip-etme-locale-sınıfı-ve-localizations-widgetı"><span
+class="header-section-number">1.4.2</span> Yerel ayarı takip etme:
+Locale sınıfı ve Localizations widget’ı</h3>
+<p><code>Locale</code> sınıfı kullanıcının dilini tanımlar. Mobil
+cihazlar, genellikle bir sistem ayarları menüsü kullanarak tüm
+uygulamalar için yerel ayarı ayarlamayı destekler.
+Uluslararasılaştırılmış uygulamalar, yerel ayara özgü değerleri
+görüntüleyerek yanıt verir. Örneğin, kullanıcı cihazın yerel ayarını
+İngilizceden Fransızcaya değiştirirse, orijinal olarak “Hello World”
+görüntüleyen bir <code>Text</code> widget’ı “Bonjour le monde” ile
+yeniden oluşturulur.</p>
+<p><code>Localizations</code> widget’ı, alt öğesi (child) için yerel
+ayarı ve alt öğenin bağlı olduğu yerelleştirilmiş kaynakları tanımlar.
+<code>WidgetsApp</code> widget’ı bir <code>Localizations</code> widget’ı
+oluşturur ve sistemin yerel ayarı değişirse onu yeniden oluşturur.</p>
+<p>Uygulamanın mevcut yerel ayarını her zaman
+<code>Localizations.localeOf()</code> ile arayabilirsiniz:</p>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>Locale myLocale <span class="op">=</span> Localizations<span class="op">.</span>localeOf(context);</span></code></pre></div>
+<h3 data-number="1.4.3"
+id="uygulamanın-supportedlocales-parametresini-belirtme"><span
+class="header-section-number">1.4.3</span> Uygulamanın supportedLocales
+parametresini belirtme</h3>
+<p><code>flutter_localizations</code> kütüphanesi birçok dili ve dil
+varyantını desteklese de, varsayılan olarak yalnızca İngilizce dil
+çevirileri mevcuttur. Tam olarak hangi dillerin destekleneceğine karar
+vermek geliştiriciye bağlıdır.</p>
+<p><code>MaterialApp</code> <code>supportedLocales</code> parametresi
+yerel ayar değişikliklerini sınırlar. Kullanıcı cihazındaki yerel ayar
+ayarını değiştirdiğinde, uygulamanın <code>Localizations</code> widget’ı
+yalnızca yeni yerel ayar bu listenin bir üyesiyse buna uyar. Cihaz yerel
+ayarı için tam bir eşleşme bulunamazsa, eşleşen bir
+<code>languageCode</code>’a sahip ilk desteklenen yerel ayar kullanılır.
+Bu da başarısız olursa, <code>supportedLocales</code> listesinin ilk
+öğesi kullanılır.</p>
+<p>Farklı bir “yerel ayar çözümleme” yöntemi kullanmak isteyen bir
+uygulama, bir <code>localeResolutionCallback</code> sağlayabilir.
+Örneğin, uygulamanızın kullanıcının seçtiği yerel ayarı koşulsuz olarak
+kabul etmesini sağlamak için:</p>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>MaterialApp(</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  localeResolutionCallback<span class="op">:</span> (locale<span class="op">,</span> supportedLocales) <span class="op">{</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> locale;</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">},</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<h1 data-number="2" id="l10n.yaml-dosyasını-yapılandırma"><span
+class="header-section-number">2</span> l10n.yaml Dosyasını
+Yapılandırma</h1>
+<p><code>l10n.yaml</code> dosyası, <code>gen-l10n</code> aracını
+yapılandırarak şunları belirtmenize olanak tanır: * Tüm girdi
+dosyalarının nerede bulunduğu * Tüm çıktı dosyalarının nerede
+oluşturulması gerektiği * Yerelleştirme temsilcilerinize (delegates)
+hangi Dart sınıf adının verileceği</p>
+<p>Seçeneklerin tam listesi için komut satırında
+<code>flutter gen-l10n --help</code> komutunu çalıştırın veya aşağıdaki
+tabloya bakın:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Seçenek</th>
+<th style="text-align: left;">Açıklama</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>arb-dir</code></td>
+<td style="text-align: left;">Şablon ve çevrilmiş arb dosyalarının
+bulunduğu dizin. Varsayılan <code>lib/l10n</code> dizinidir.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>output-dir</code></td>
+<td style="text-align: left;">Oluşturulan yerelleştirme sınıflarının
+yazıldığı dizin. Bu seçenek yalnızca yerelleştirme kodunu Flutter
+projesinde başka bir yerde oluşturmak istiyorsanız geçerlidir. Ayrıca
+<code>synthetic-package</code> bayrağını <code>false</code> olarak
+ayarlamanız gerekir.<br><br>Uygulama,
+<code>output-localization-file</code> seçeneğinde belirtilen dosyayı bu
+dizinden içe aktarmalıdır (import). Belirtilmezse, bu varsayılan olarak
+<code>arb-dir</code> içinde belirtilen girdi diziniyle aynı dizine
+ayarlanır.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>template-arb-file</code></td>
+<td style="text-align: left;">Dart yerelleştirme ve mesaj dosyalarını
+oluşturmak için temel olarak kullanılan şablon arb dosyası. Varsayılan
+<code>app_en.arb</code> dosyasıdır.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>output-localization-file</code></td>
+<td style="text-align: left;">Çıktı yerelleştirme ve yerelleştirme
+temsilcisi (delegate) sınıfları için dosya adı. Varsayılan
+<code>app_localizations.dart</code> dosyasıdır.</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>untranslated-messages-file</code></td>
+<td style="text-align: left;">Henüz çevrilmemiş yerelleştirme
+mesajlarını tanımlayan bir dosyanın konumu. Bu seçeneği kullanmak, hedef
+konumda aşağıdaki formatta bir JSON dosyası
+oluşturur:<br><br><code>"locale": ["message_1", "message_2" ... "message_n"]</code><br><br>Bu
+seçenek belirtilmezse, çevrilmemiş mesajların bir özeti komut satırında
+yazdırılır.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>output-class</code></td>
+<td style="text-align: left;">Çıktı yerelleştirme ve yerelleştirme
+temsilcisi sınıfları için kullanılacak Dart sınıf adı. Varsayılan
+<code>AppLocalizations</code> sınıfıdır.</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>preferred-supported-locales</code></td>
+<td style="text-align: left;">Uygulama için tercih edilen desteklenen
+yerel ayarların listesi. Varsayılan olarak araç, desteklenen yerel
+ayarlar listesini alfabetik sıraya göre oluşturur. Farklı bir yerel
+ayarı varsayılan yapmak için bu bayrağı kullanın.<br><br>Örneğin, bir
+cihaz destekliyorsa Amerikan İngilizcesini varsayılan yapmak için
+<code>[ en_US ]</code> değerini geçirin.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>header</code></td>
+<td style="text-align: left;">Oluşturulan Dart yerelleştirme
+dosyalarının başına eklenecek başlık. Bu seçenek bir dize (string)
+alır.<br><br>Örneğin, oluşturulan Dart dosyasının başına bu dizeyi
+eklemek için <code>"/// All localized files."</code> ifadesini
+geçirin.<br><br>Alternatif olarak, daha uzun başlıklar için bir metin
+dosyası geçirmek üzere <code>header-file</code> seçeneğine göz
+atın.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>header-file</code></td>
+<td style="text-align: left;">Oluşturulan Dart yerelleştirme
+dosyalarının başına eklenecek başlık. Bu seçeneğin değeri, oluşturulan
+her Dart dosyasının en üstüne eklenecek başlık metnini içeren dosyanın
+adıdır.<br><br>Alternatif olarak, daha basit bir başlık için bir dize
+geçirmek üzere <code>header</code> seçeneğine göz atın.<br><br>Bu dosya
+<code>arb-dir</code> içinde belirtilen dizine yerleştirilmelidir.</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>[no-]use-deferred-loading</code></td>
+<td style="text-align: left;">Yerel ayarların ertelenmiş (deferred)
+olarak içe aktarıldığı Dart yerelleştirme dosyasının oluşturulup
+oluşturulmayacağını belirtir; bu, Flutter web’de her yerel ayarın tembel
+yüklenmesine (lazy loading) izin verir.<br><br>Bu, JavaScript paketinin
+boyutunu azaltarak bir web uygulamasının ilk başlangıç süresini
+kısaltabilir. Bu bayrak <code>true</code> olarak ayarlandığında, belirli
+bir yerel ayara ait mesajlar yalnızca Flutter uygulaması tarafından
+ihtiyaç duyulduğunda indirilir ve yüklenir. Çok sayıda farklı yerel
+ayara ve birçok yerelleştirme dizesine sahip projeler için yüklemeyi
+ertelemek performansı artırabilir. Az sayıda yerel ayara sahip projeler
+için fark ihmal edilebilir düzeydedir ve yerelleştirmeleri uygulamanın
+geri kalanıyla birlikte paketlemeye kıyasla başlangıcı
+yavaşlatabilir.<br><br>Bu bayrağın mobil veya masaüstü gibi diğer
+platformları etkilemediğini unutmayın.</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>gen-inputs-and-outputs-list</code></td>
+<td style="text-align: left;">Belirtildiğinde araç, aracın girdilerini
+ve çıktılarını içeren <code>gen_l10n_inputs_and_outputs.json</code>
+adında bir JSON dosyası oluşturur.<br><br>Bu, en son yerelleştirme seti
+oluşturulurken Flutter projesinin hangi dosyalarının kullanıldığını
+takip etmek için yararlı olabilir. Örneğin, Flutter aracının derleme
+sistemi, çalışırken yeniden yükleme (hot reload) sırasında
+<code>gen_l10n</code> aracının ne zaman çağrılacağını takip etmek için
+bu dosyayı kullanır.<br><br>Bu seçeneğin değeri, JSON dosyasının
+oluşturulduğu dizindir. Null olduğunda JSON dosyası oluşturulmaz.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>synthetic-package</code></td>
+<td style="text-align: left;">Oluşturulan çıktı dosyalarının sentetik
+bir paket olarak mı yoksa Flutter projesindeki belirtilen bir dizinde mi
+oluşturulacağını belirler. Bu bayrak varsayılan olarak <code>true</code>
+değerindedir. <code>synthetic-package</code> <code>false</code> olarak
+ayarlandığında, yerelleştirme dosyalarını varsayılan olarak
+<code>arb-dir</code> tarafından belirtilen dizinde oluşturur. Eğer
+<code>output-dir</code> belirtilirse, dosyalar orada oluşturulur.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>project-dir</code></td>
+<td style="text-align: left;">Belirtildiğinde araç, bu seçeneğe
+geçirilen yolu kök Flutter projesinin dizini olarak
+kullanır.<br><br>Null olduğunda, mevcut çalışma dizinine giden göreli
+yol kullanılır.</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>[no-]required-resource-attributes</code></td>
+<td style="text-align: left;">Tüm kaynak kimliklerinin (resource ids)
+karşılık gelen bir kaynak özniteliği (attribute) içermesini
+gerektirir.<br><br>Varsayılan olarak basit mesajlar meta veri
+gerektirmez, ancak mesajın anlamı hakkında okuyuculara bağlam sağladığı
+için bu şiddetle tavsiye edilir.<br><br>Çoğul (plural) mesajlar için
+kaynak öznitelikleri hala zorunludur.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>[no-]nullable-getter</code></td>
+<td style="text-align: left;">Yerelleştirme sınıfı alıcısının (getter)
+null olabilir (nullable) olup olmadığını belirtir.<br><br>Varsayılan
+olarak, geriye dönük uyumluluk için
+<code>Localizations.of(context)</code> null bir değer döndürecek şekilde
+bu değer <code>true</code>’dur. Bu değer <code>false</code> ise,
+<code>Localizations.of(context)</code> dönüş değerinde bir null kontrolü
+yapılır ve kullanıcı kodunda null kontrolü yapma ihtiyacı ortadan
+kalkar.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>[no-]format</code></td>
+<td style="text-align: left;">Belirtildiğinde, yerelleştirme dosyaları
+oluşturulduktan sonra <code>dart format</code> komutu çalıştırılır.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>use-escaping</code></td>
+<td style="text-align: left;">Kaçış sözdizimi olarak tek tırnak
+kullanımının etkinleştirilip etkinleştirilmeyeceğini belirtir.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>[no-]suppress-warnings</code></td>
+<td style="text-align: left;">Belirtildiğinde, tüm uyarılar
+bastırılır.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>[no-]relax-syntax</code></td>
+<td style="text-align: left;">Belirtildiğinde, sözdizimi gevşetilir;
+böylece özel karakter “{”, geçerli bir yer tutucu (placeholder)
+tarafından takip edilmiyorsa bir dize olarak ele alınır ve “}”, özel bir
+karakter olarak ele alınan önceki bir “{” karakterini kapatmıyorsa bir
+dize olarak ele alınır.</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>[no-]use-named-parameters</code></td>
+<td style="text-align: left;">Oluşturulan yerelleştirme yöntemleri için
+adlandırılmış parametrelerin kullanılıp kullanılmayacağı.</td>
+</tr>
+</tbody>
+</table>
+<h2 data-number="2.1"
+id="flutterda-uluslararasılaştırma-nasıl-çalışır"><span
+class="header-section-number">2.1</span> Flutter’da uluslararasılaştırma
+nasıl çalışır?</h2>
+<p>Bu bölüm, Flutter’da yerelleştirmelerin nasıl çalıştığına dair teknik
+ayrıntıları kapsar. Kendi yerelleştirilmiş mesaj setinizi desteklemeyi
+planlıyorsanız, aşağıdaki içerik yararlı olacaktır. Aksi takdirde, bu
+bölümü atlayabilirsiniz.</p>
+<h3 data-number="2.1.1"
+id="yerelleştirilmiş-değerleri-yükleme-ve-alma"><span
+class="header-section-number">2.1.1</span> Yerelleştirilmiş değerleri
+yükleme ve alma</h3>
+<p><code>Localizations</code> widget’ı, yerelleştirilmiş değerler
+koleksiyonlarını içeren nesneleri yüklemek ve aramak için kullanılır.
+Uygulamalar bu nesnelere <code>Localizations.of(context, type)</code>
+ile başvurur. Cihazın yerel ayarı değişirse, <code>Localizations</code>
+widget’ı yeni yerel ayar için değerleri otomatik olarak yükler ve
+ardından onu kullanan widget’ları yeniden oluşturur. Bu gerçekleşir
+çünkü <code>Localizations</code>, bir <code>InheritedWidget</code> gibi
+çalışır. Bir derleme (build) işlevi kalıtsal bir widget’a başvurduğunda,
+kalıtsal widget üzerinde örtük bir bağımlılık oluşturulur. Kalıtsal bir
+widget değiştiğinde (<code>Localizations</code> widget’ının yerel ayarı
+değiştiğinde), bağımlı bağlamları (contexts) yeniden oluşturulur.</p>
+<p>Yerelleştirilmiş değerler, <code>Localizations</code> widget’ının
+<code>LocalizationsDelegates</code> listesi tarafından yüklenir. Her
+temsilci (delegate), yerelleştirilmiş değerler koleksiyonunu kapsayan
+bir nesne üreten eşzamansız bir <code>load()</code> yöntemi
+tanımlamalıdır. Tipik olarak bu nesneler, yerelleştirilmiş değer başına
+bir yöntem tanımlar.</p>
+<p>Büyük bir uygulamada, farklı modüller veya paketler kendi
+yerelleştirmeleriyle paketlenebilir. Bu nedenle
+<code>Localizations</code> widget’ı, <code>LocalizationsDelegate</code>
+başına bir tane olmak üzere bir nesne tablosunu yönetir.
+<code>LocalizationsDelegate</code>’in <code>load</code> yöntemlerinden
+biri tarafından üretilen nesneyi almak için bir
+<code>BuildContext</code> ve nesnenin türünü belirtin.</p>
+<p>Örneğin, Materyal Bileşenleri (Material Components) widget’ları için
+yerelleştirilmiş dizeler <code>MaterialLocalizations</code> sınıfı
+tarafından tanımlanır. Bu sınıfın örnekleri, <code>MaterialApp</code>
+sınıfı tarafından sağlanan bir <code>LocalizationDelegate</code>
+tarafından oluşturulur. Bunlar <code>Localizations.of()</code> ile
+alınabilir:</p>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>Localizations<span class="op">.</span>of<span class="op">&lt;</span>MaterialLocalizations<span class="op">&gt;</span>(context<span class="op">,</span> MaterialLocalizations);</span></code></pre></div>
+<p>Bu özel <code>Localizations.of()</code> ifadesi sıkça kullanılır, bu
+nedenle <code>MaterialLocalizations</code> sınıfı uygun bir kısayol
+sağlar:</p>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="at">static</span> MaterialLocalizations of(BuildContext context) <span class="op">{</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> Localizations<span class="op">.</span>of<span class="op">&lt;</span>MaterialLocalizations<span class="op">&gt;</span>(context<span class="op">,</span> MaterialLocalizations);</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co">/// MaterialLocalizations tarafından tanımlanan yerelleştirilmiş değerlere referanslar</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="co">/// tipik olarak şu şekilde yazılır:</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>tooltip<span class="op">:</span> MaterialLocalizations<span class="op">.</span>of(context)<span class="op">.</span>backButtonTooltip<span class="op">,</span></span></code></pre></div>
+<h3 data-number="2.1.2"
+id="uygulamanın-yerelleştirilmiş-kaynakları-için-bir-sınıf-tanımlama"><span
+class="header-section-number">2.1.2</span> Uygulamanın yerelleştirilmiş
+kaynakları için bir sınıf tanımlama</h3>
+<p>Uluslararasılaştırılmış bir Flutter uygulamasını bir araya getirmek
+genellikle uygulamanın yerelleştirilmiş değerlerini kapsayan sınıfla
+başlar. Aşağıdaki örnek, bu tür sınıfların tipik bir örneğidir.</p>
+<p>Bu uygulama için <code>intl_example</code> tam kaynak kodu.</p>
+<p>Bu örnek, <code>intl</code> paketi tarafından sağlanan API’lere ve
+araçlara dayanmaktadır. “Uygulamanın yerelleştirilmiş kaynakları için
+alternatif bir sınıf” bölümü, <code>intl</code> paketine bağlı olmayan
+bir örneği açıklar.</p>
+<p><code>DemoLocalizations</code> sınıfı (aşağıdaki kod parçacığında
+tanımlanmıştır), uygulamanın desteklediği yerel ayarlara çevrilmiş
+uygulama dizelerini (örnek için sadece bir tane) içerir. Bunları aramak
+için Dart’ın <code>intl</code> paketi tarafından oluşturulan
+<code>initializeMessages()</code> işlevini, yani
+<code>Intl.message()</code>’ı kullanır.</p>
+<div class="sourceCode" id="cb31"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DemoLocalizations <span class="op">{</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  DemoLocalizations(<span class="kw">this</span><span class="op">.</span>localeName);</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">static</span> <span class="dt">Future</span><span class="op">&lt;</span>DemoLocalizations<span class="op">&gt;</span> load(Locale locale) <span class="op">{</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> <span class="dt">String</span> name <span class="op">=</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>        locale<span class="op">.</span>countryCode <span class="op">==</span> <span class="cn">null</span> <span class="op">||</span> locale<span class="op">.</span>countryCode<span class="op">!.</span>isEmpty</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>        <span class="op">?</span> locale<span class="op">.</span>languageCode</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>        <span class="op">:</span> locale<span class="op">.</span>toString();</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> <span class="dt">String</span> localeName <span class="op">=</span> Intl<span class="op">.</span>canonicalizedLocale(name);</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> initializeMessages(localeName)<span class="op">.</span>then((_) <span class="op">{</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>      <span class="kw">return</span> DemoLocalizations(localeName);</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>);</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">static</span> DemoLocalizations of(BuildContext context) <span class="op">{</span></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Localizations<span class="op">.</span>of<span class="op">&lt;</span>DemoLocalizations<span class="op">&gt;</span>(context<span class="op">,</span> DemoLocalizations)<span class="op">!</span>;</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> localeName;</span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>  <span class="dt">String</span> <span class="kw">get</span> title <span class="op">{</span></span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Intl<span class="op">.</span>message(</span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">&#39;Hello World&#39;</span><span class="op">,</span></span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>      name<span class="op">:</span> <span class="st">&#39;title&#39;</span><span class="op">,</span></span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>      desc<span class="op">:</span> <span class="st">&#39;Title for the Demo application&#39;</span><span class="op">,</span></span>
+<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>      locale<span class="op">:</span> localeName<span class="op">,</span></span>
+<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><code>intl</code> paketini temel alan bir sınıf,
+<code>initializeMessages()</code> işlevini ve
+<code>Intl.message()</code> için yerel ayar başına destek deposunu
+sağlayan oluşturulmuş bir mesaj kataloğunu içe aktarır. Mesaj kataloğu,
+<code>Intl.message()</code> çağrılarını içeren sınıflar için kaynak
+kodunu analiz eden bir <code>intl</code> aracı tarafından üretilir. Bu
+durumda bu sadece <code>DemoLocalizations</code> sınıfı olacaktır.</p>
+<h3 data-number="2.1.3" id="yeni-bir-dil-desteği-ekleme"><span
+class="header-section-number">2.1.3</span> Yeni bir dil desteği
+ekleme</h3>
+<p><code>GlobalMaterialLocalizations</code> içinde bulunmayan bir dili
+desteklemesi gereken bir uygulamanın fazladan iş yapması gerekir:
+kelimeler veya ifadeler için yaklaşık 70 çeviri (“yerelleştirme”) ve
+yerel ayar için tarih desenleri ve sembolleri sağlamalıdır.</p>
+<p>Norveççe Nynorsk dili için desteğin nasıl ekleneceğine dair bir örnek
+için aşağıya bakın.</p>
+<p>Yeni bir <code>GlobalMaterialLocalizations</code> alt sınıfı,
+Materyal kitaplığının bağlı olduğu yerelleştirmeleri tanımlar.
+<code>GlobalMaterialLocalizations</code> alt sınıfı için fabrika görevi
+gören yeni bir <code>LocalizationsDelegate</code> alt sınıfı da
+tanımlanmalıdır.</p>
+<p>İşte gerçek Nynorsk çevirileri hariç, tam <code>add_language</code>
+örneğinin kaynak kodu.</p>
+<p>Yerel ayara özgü <code>GlobalMaterialLocalizations</code> alt sınıfı
+<code>NnMaterialLocalizations</code> olarak adlandırılır ve
+<code>LocalizationsDelegate</code> alt sınıfı
+<code>_NnMaterialLocalizationsDelegate</code>’dir.
+<code>NnMaterialLocalizations.delegate</code> değeri, temsilcinin bir
+örneğidir ve bu yerelleştirmeleri kullanan bir uygulama için gereken tek
+şeydir.</p>
+<p>Temsilci sınıfı, temel tarih ve sayı formatı yerelleştirmelerini
+içerir. Diğer tüm yerelleştirmeler, <code>NnMaterialLocalizations</code>
+içinde <code>String</code> değerli özellik alıcıları (getters)
+tarafından aşağıdaki gibi tanımlanır:</p>
+<div class="sourceCode" id="cb32"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="dt">String</span> <span class="kw">get</span> moreButtonTooltip <span class="op">=&gt;</span> r<span class="st">&#39;More&#39;</span>;</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="dt">String</span> <span class="kw">get</span> aboutListTileTitleRaw <span class="op">=&gt;</span> r<span class="st">&#39;About $applicationName&#39;</span>;</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="dt">String</span> <span class="kw">get</span> alertDialogLabel <span class="op">=&gt;</span> r<span class="st">&#39;Alert&#39;</span>;</span></code></pre></div>
+<p>Bunlar elbette İngilizce çevirilerdir. İşi tamamlamak için her
+alıcının dönüş değerini uygun bir Nynorsk dizesiyle değiştirmeniz
+gerekir.</p>
+<p>Alıcılar, <code>r</code> öneki olan “ham” (raw) Dart dizeleri
+döndürür, örneğin <code>r'About $applicationName'</code>, çünkü bazen
+dizeler <code>$</code> öneki olan değişkenler içerir. Değişkenler
+parametreli yerelleştirme yöntemleri tarafından genişletilir:</p>
+<div class="sourceCode" id="cb33"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="dt">String</span> <span class="kw">get</span> pageRowsInfoTitleRaw <span class="op">=&gt;</span> r<span class="st">&#39;$firstRow–$lastRow of $rowCount&#39;</span>;</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="dt">String</span> <span class="kw">get</span> pageRowsInfoTitleApproximateRaw <span class="op">=&gt;</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    r<span class="st">&#39;$firstRow–$lastRow of about $rowCount&#39;</span>;</span></code></pre></div>
+<p>Yerel ayarın tarih desenleri ve sembollerinin de belirtilmesi
+gerekir, bunlar kaynak kodunda aşağıdaki gibi tanımlanır:</p>
+<div class="sourceCode" id="cb34"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> nnLocaleDatePatterns <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;d&#39;</span><span class="op">:</span> <span class="st">&#39;d.&#39;</span><span class="op">,</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;E&#39;</span><span class="op">:</span> <span class="st">&#39;ccc&#39;</span><span class="op">,</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;EEEE&#39;</span><span class="op">:</span> <span class="st">&#39;cccc&#39;</span><span class="op">,</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;LLL&#39;</span><span class="op">:</span> <span class="st">&#39;LLL&#39;</span><span class="op">,</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> nnDateSymbols <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;NAME&#39;</span><span class="op">:</span> <span class="st">&#39;nn&#39;</span><span class="op">,</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;ERAS&#39;</span><span class="op">:</span> <span class="op">&lt;</span><span class="at">dynamic</span><span class="op">&gt;</span>[<span class="st">&#39;f.Kr.&#39;</span><span class="op">,</span> <span class="st">&#39;e.Kr.&#39;</span>]<span class="op">,</span></span></code></pre></div>
+<p>Bu değerlerin, yerel ayarın doğru tarih biçimlendirmesini kullanması
+için değiştirilmesi gerekir. Ne yazık ki, <code>intl</code> kitaplığı
+sayı biçimlendirmesi için aynı esnekliği paylaşmadığından, mevcut bir
+yerel ayarın biçimlendirmesi
+<code>_NnMaterialLocalizationsDelegate</code> içinde yedek olarak
+kullanılmalıdır:</p>
+<div class="sourceCode" id="cb35"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> _NnMaterialLocalizationsDelegate</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">extends</span> LocalizationsDelegate<span class="op">&lt;</span>MaterialLocalizations<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> _NnMaterialLocalizationsDelegate();</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bool</span> isSupported(Locale locale) <span class="op">=&gt;</span> locale<span class="op">.</span>languageCode <span class="op">==</span> <span class="st">&#39;nn&#39;</span>;</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">Future</span><span class="op">&lt;</span>MaterialLocalizations<span class="op">&gt;</span> load(Locale locale) <span class="at">async</span> <span class="op">{</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> <span class="dt">String</span> localeName <span class="op">=</span> intl<span class="op">.</span>Intl<span class="op">.</span>canonicalizedLocale(locale<span class="op">.</span>toString());</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Yerel ayarın (bu durumda `nn`) Flutter&#39;ın kullandığı özel tarih sembolleri</span></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ve desenleri kurulumuna başlatılması gerekir.</span></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>    date_symbol_data_custom<span class="op">.</span>initializeDateFormattingCustom(</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>      locale<span class="op">:</span> localeName<span class="op">,</span></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>      patterns<span class="op">:</span> nnLocaleDatePatterns<span class="op">,</span></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>      symbols<span class="op">:</span> intl<span class="op">.</span>DateSymbols<span class="op">.</span>deserializeFromMap(nnDateSymbols)<span class="op">,</span></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> SynchronousFuture<span class="op">&lt;</span>MaterialLocalizations<span class="op">&gt;</span>(</span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>      NnMaterialLocalizations(</span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>        localeName<span class="op">:</span> localeName<span class="op">,</span></span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>        <span class="co">// `intl` kütüphanesinin NumberFormat sınıfı CLDR verilerinden oluşturulur.</span></span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Ne yazık ki, bu haritada tanımlanmayan bir yerel ayarı kullanmanın bir yolu yoktur</span></span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ve bunu aşmanın tek yolu listelenen bir yerel ayarın NumberFormat sembollerini kullanmaktır.</span></span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Bu yüzden burada &#39;en_US&#39; için sayı formatlarını kullanıyoruz.</span></span>
+<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a>        decimalFormat<span class="op">:</span> intl<span class="op">.</span>NumberFormat(<span class="st">&#39;#,##0.###&#39;</span><span class="op">,</span> <span class="st">&#39;en_US&#39;</span>)<span class="op">,</span></span>
+<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a>        twoDigitZeroPaddedFormat<span class="op">:</span> intl<span class="op">.</span>NumberFormat(<span class="st">&#39;00&#39;</span><span class="op">,</span> <span class="st">&#39;en_US&#39;</span>)<span class="op">,</span></span>
+<span id="cb35-29"><a href="#cb35-29" aria-hidden="true" tabindex="-1"></a>        <span class="co">// DateFormat burada yukarıdaki `date_symbol_data_custom.initializeDateFormattingCustom`</span></span>
+<span id="cb35-30"><a href="#cb35-30" aria-hidden="true" tabindex="-1"></a>        <span class="co">// çağrısında sağlanan sembolleri ve desenleri kullanacaktır.</span></span>
+<span id="cb35-31"><a href="#cb35-31" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Ancak alternatif olarak, yukarıdaki NumberFormat&#39;a benzer şekilde desteklenen</span></span>
+<span id="cb35-32"><a href="#cb35-32" aria-hidden="true" tabindex="-1"></a>        <span class="co">// bir yerel ayarın DateFormat sembollerini kullanmaktır.</span></span>
+<span id="cb35-33"><a href="#cb35-33" aria-hidden="true" tabindex="-1"></a>        fullYearFormat<span class="op">:</span> intl<span class="op">.</span>DateFormat(<span class="st">&#39;y&#39;</span><span class="op">,</span> localeName)<span class="op">,</span></span>
+<span id="cb35-34"><a href="#cb35-34" aria-hidden="true" tabindex="-1"></a>        compactDateFormat<span class="op">:</span> intl<span class="op">.</span>DateFormat(<span class="st">&#39;yMd&#39;</span><span class="op">,</span> localeName)<span class="op">,</span></span>
+<span id="cb35-35"><a href="#cb35-35" aria-hidden="true" tabindex="-1"></a>        shortDateFormat<span class="op">:</span> intl<span class="op">.</span>DateFormat(<span class="st">&#39;yMMMd&#39;</span><span class="op">,</span> localeName)<span class="op">,</span></span>
+<span id="cb35-36"><a href="#cb35-36" aria-hidden="true" tabindex="-1"></a>        mediumDateFormat<span class="op">:</span> intl<span class="op">.</span>DateFormat(<span class="st">&#39;EEE, MMM d&#39;</span><span class="op">,</span> localeName)<span class="op">,</span></span>
+<span id="cb35-37"><a href="#cb35-37" aria-hidden="true" tabindex="-1"></a>        longDateFormat<span class="op">:</span> intl<span class="op">.</span>DateFormat(<span class="st">&#39;EEEE, MMMM d, y&#39;</span><span class="op">,</span> localeName)<span class="op">,</span></span>
+<span id="cb35-38"><a href="#cb35-38" aria-hidden="true" tabindex="-1"></a>        yearMonthFormat<span class="op">:</span> intl<span class="op">.</span>DateFormat(<span class="st">&#39;MMMM y&#39;</span><span class="op">,</span> localeName)<span class="op">,</span></span>
+<span id="cb35-39"><a href="#cb35-39" aria-hidden="true" tabindex="-1"></a>        shortMonthDayFormat<span class="op">:</span> intl<span class="op">.</span>DateFormat(<span class="st">&#39;MMM d&#39;</span>)<span class="op">,</span></span>
+<span id="cb35-40"><a href="#cb35-40" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb35-41"><a href="#cb35-41" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb35-42"><a href="#cb35-42" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb35-43"><a href="#cb35-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-44"><a href="#cb35-44" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb35-45"><a href="#cb35-45" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bool</span> shouldReload(_NnMaterialLocalizationsDelegate old) <span class="op">=&gt;</span> <span class="cn">false</span>;</span>
+<span id="cb35-46"><a href="#cb35-46" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Yerelleştirme dizeleri hakkında daha fazla bilgi için
+<code>flutter_localizations</code> README dosyasına göz atın.</p>
+<p><code>GlobalMaterialLocalizations</code> ve
+<code>LocalizationsDelegate</code>’in dile özgü alt sınıflarını
+uyguladıktan sonra, dili ve bir temsilci örneğini uygulamanıza eklemeniz
+gerekir. Aşağıdaki kod, uygulamanın dilini Nynorsk olarak ayarlar ve
+<code>NnMaterialLocalizations</code> temsilci örneğini uygulamanın
+<code>localizationsDelegates</code> listesine ekler:</p>
+<div class="sourceCode" id="cb36"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> MaterialApp(</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  localizationsDelegates<span class="op">:</span> [</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    GlobalWidgetsLocalizations<span class="op">.</span>delegate<span class="op">,</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    GlobalMaterialLocalizations<span class="op">.</span>delegate<span class="op">,</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    NnMaterialLocalizations<span class="op">.</span>delegate<span class="op">,</span> <span class="co">// Yeni oluşturulan temsilciyi ekleyin</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  supportedLocales<span class="op">:</span> [Locale(<span class="st">&#39;en&#39;</span><span class="op">,</span> <span class="st">&#39;US&#39;</span>)<span class="op">,</span> Locale(<span class="st">&#39;nn&#39;</span>)]<span class="op">,</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  home<span class="op">:</span> Home()<span class="op">,</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<h2 data-number="2.2"
+id="alternatif-uluslararasılaştırma-iş-akışları"><span
+class="header-section-number">2.2</span> Alternatif uluslararasılaştırma
+iş akışları</h2>
+<p>Bu bölüm, Flutter uygulamanızı uluslararasılaştırmak için farklı
+yaklaşımları açıklar.</p>
+<h3 data-number="2.2.1"
+id="uygulamanın-yerelleştirilmiş-kaynakları-için-alternatif-bir-sınıf"><span
+class="header-section-number">2.2.1</span> Uygulamanın yerelleştirilmiş
+kaynakları için alternatif bir sınıf</h3>
+<p>Önceki örnek Dart <code>intl</code> paketi açısından tanımlanmıştı.
+Basitlik adına veya belki de farklı bir i18n çerçevesiyle entegre olmak
+için yerelleştirilmiş değerleri yönetmek üzere kendi yaklaşımınızı
+seçebilirsiniz.</p>
+<p><code>minimal</code> uygulaması için tam kaynak kodu.</p>
+<p>Aşağıdaki örnekte, <code>DemoLocalizations</code> sınıfı tüm
+çevirilerini doğrudan dil başına Haritalara (Maps) dahil eder:</p>
+<div class="sourceCode" id="cb37"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DemoLocalizations <span class="op">{</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  DemoLocalizations(<span class="kw">this</span><span class="op">.</span>locale);</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> Locale locale;</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">static</span> DemoLocalizations of(BuildContext context) <span class="op">{</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Localizations<span class="op">.</span>of<span class="op">&lt;</span>DemoLocalizations<span class="op">&gt;</span>(context<span class="op">,</span> DemoLocalizations)<span class="op">!</span>;</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">static</span> <span class="at">const</span> _localizedValues <span class="op">=</span> <span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="dt">Map</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">,</span> <span class="dt">String</span><span class="op">&gt;&gt;{</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;en&#39;</span><span class="op">:</span> <span class="op">{</span><span class="st">&#39;title&#39;</span><span class="op">:</span> <span class="st">&#39;Hello World&#39;</span><span class="op">},</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;es&#39;</span><span class="op">:</span> <span class="op">{</span><span class="st">&#39;title&#39;</span><span class="op">:</span> <span class="st">&#39;Hola Mundo&#39;</span><span class="op">},</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span>;</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">static</span> <span class="dt">List</span><span class="op">&lt;</span><span class="dt">String</span><span class="op">&gt;</span> languages() <span class="op">=&gt;</span> _localizedValues<span class="op">.</span>keys<span class="op">.</span>toList();</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>  <span class="dt">String</span> <span class="kw">get</span> title <span class="op">{</span></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> _localizedValues[locale<span class="op">.</span>languageCode]<span class="op">!</span>[<span class="st">&#39;title&#39;</span>]<span class="op">!</span>;</span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Minimal uygulamada <code>DemoLocalizationsDelegate</code> biraz
+farklıdır. <code>load</code> yöntemi bir <code>SynchronousFuture</code>
+döndürür çünkü <code>DemoLocalizations</code>’ın bir örneğini üretmek
+için eşzamansız bir yükleme yapılması gerekmez.</p>
+<div class="sourceCode" id="cb38"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DemoLocalizationsDelegate</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">extends</span> LocalizationsDelegate<span class="op">&lt;</span>DemoLocalizations<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> DemoLocalizationsDelegate();</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bool</span> isSupported(Locale locale) <span class="op">=&gt;</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>      DemoLocalizations<span class="op">.</span>languages()<span class="op">.</span>contains(locale<span class="op">.</span>languageCode);</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">Future</span><span class="op">&lt;</span>DemoLocalizations<span class="op">&gt;</span> load(Locale locale) <span class="op">{</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">// DemoLocalizations örneği üretmek için eşzamansız bir &quot;load&quot; işlemi gerekmediğinden</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// burada bir SynchronousFuture döndürülüyor.</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> SynchronousFuture<span class="op">&lt;</span>DemoLocalizations<span class="op">&gt;</span>(DemoLocalizations(locale));</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bool</span> shouldReload(DemoLocalizationsDelegate old) <span class="op">=&gt;</span> <span class="cn">false</span>;</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="2.2.2" id="dart-intl-araçlarını-kullanma"><span
+class="header-section-number">2.2.2</span> Dart intl araçlarını
+kullanma</h3>
+<p>Dart <code>intl</code> paketini kullanarak bir API oluşturmadan önce
+<code>intl</code> paketinin belgelerini inceleyin. Aşağıdaki liste,
+<code>intl</code> paketine bağlı bir uygulamayı yerelleştirme sürecini
+özetlemektedir:</p>
+<p>Demo uygulaması, uygulama tarafından kullanılan tüm
+yerelleştirilebilir dizeleri tanımlayan
+<code>l10n/messages_all.dart</code> adlı oluşturulmuş bir kaynak
+dosyasına bağlıdır.</p>
+<p><code>l10n/messages_all.dart</code> dosyasını yeniden oluşturmak iki
+adım gerektirir.</p>
+<p>Uygulamanın kök dizini geçerli dizin olacak şekilde,
+<code>lib/main.dart</code> dosyasından
+<code>l10n/intl_messages.arb</code> dosyasını oluşturun:</p>
+<pre class="terminal"><code>dart run intl_translation:extract_to_arb --output-dir=lib/l10n lib/main.dart</code></pre>
+<p><code>intl_messages.arb</code> dosyası, <code>main.dart</code> içinde
+tanımlanan her <code>Intl.message()</code> işlevi için bir giriş içeren
+JSON formatında bir haritadır. Bu dosya, İngilizce ve İspanyolca
+çeviriler olan <code>intl_en.arb</code> ve <code>intl_es.arb</code> için
+bir şablon görevi görür. Bu çeviriler siz, geliştirici tarafından
+oluşturulur.</p>
+<p>Uygulamanın kök dizini geçerli dizin olacak şekilde, her
+<code>intl_&lt;locale&gt;.arb</code> dosyası için
+<code>intl_messages_&lt;locale&gt;.dart</code> dosyasını ve tüm mesaj
+dosyalarını içe aktaran <code>intl_messages_all.dart</code> dosyasını
+oluşturun:</p>
+<pre class="terminal"><code>dart run intl_translation:generate_from_arb \
+    --output-dir=lib/l10n --no-use-deferred-loading \
+    lib/main.dart lib/l10n/intl_*.arb</code></pre>
+<p>Windows dosya adı joker karakterlerini (wildcarding) desteklemez.
+Bunun yerine, <code>intl_translation:extract_to_arb</code> komutuyla
+oluşturulan .arb dosyalarını listeleyin.</p>
+<pre class="terminal"><code>dart run intl_translation:generate_from_arb \
+    --output-dir=lib/l10n --no-use-deferred-loading \
+    lib/main.dart \
+    lib/l10n/intl_en.arb lib/l10n/intl_fr.arb lib/l10n/intl_messages.arb</code></pre>
+<p><code>DemoLocalizations</code> sınıfı, yerelleştirilmiş mesajları
+yüklemek için (<code>intl_messages_all.dart</code> içinde tanımlanan)
+oluşturulmuş <code>initializeMessages()</code> işlevini ve bunları
+aramak için <code>Intl.message()</code>’ı kullanır.</p>
+<h3 data-number="2.2.3" id="daha-fazla-bilgi"><span
+class="header-section-number">2.2.3</span> Daha fazla bilgi</h3>
+<p>Kod okuyarak en iyi şekilde öğreniyorsanız, aşağıdaki örneklere göz
+atın.</p>
+<ul>
+<li><a
+href="https://github.com/flutter/website/tree/main/examples/internationalization/minimal">minimal</a>:
+<code>minimal</code> örneği mümkün olduğunca basit olacak şekilde
+tasarlanmıştır.</li>
+<li><a
+href="https://github.com/flutter/website/tree/main/examples/internationalization/intl_example">intl_example</a>:
+<code>intl</code> paketi tarafından sağlanan API’leri ve araçları
+kullanır.</li>
+</ul>
+<p>Dart’ın <code>intl</code> paketi sizin için yeniyse, <a
+href="https://docs.flutter.dev/ui/internationalization#dart-tools">Dart
+intl araçlarını kullanma</a> bölümüne göz atın.</p>
+<h2 data-number="2.3" id="lisans-bilgisi"><span
+class="header-section-number">2.3</span> 📄 Lisans Bilgisi</h2>
+<p>Bu doküman, <strong>Flutter resmi dokümantasyonundan</strong>
+türetilmiş Türkçe ders notudur.</p>
+<p><strong>Orijinal kaynak:</strong><br />
+https://docs.flutter.dev/ui/internationalization</p>
+<p><strong>Türkçe çeviri ve düzenleme:</strong><br />
+<a href="mailto:htemiz@artvin.edu.tr">Doç. Dr. Hakan Temiz</a></p>
+<hr />
+<h3 data-number="2.3.1" id="lisans-kapsamı"><span
+class="header-section-number">2.3.1</span> Lisans Kapsamı</h3>
+<p>Bu dokümandaki içerikler aşağıdaki açık lisanslar kapsamında
+sunulmaktadır:</p>
+<p><strong>Metin içerikleri (anlatım ve açıklamalar):</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> Creative Commons Attribution 4.0 International
+(CC BY 4.0)<br />
+https://creativecommons.org/licenses/by/4.0/</p>
+<p>Bu lisans kapsamında: - İçerik kopyalanabilir, dağıtılabilir ve
+uyarlanabilir<br />
+- Ticari kullanım serbesttir<br />
+- Kaynak belirtilmesi zorunludur</p>
+<p><strong>Kod örnekleri:</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> BSD 3-Clause License<br />
+https://opensource.org/licenses/BSD-3-Clause</p>
+<p>Bu lisans kapsamında: - Kodlar kopyalanabilir, değiştirilebilir ve
+dağıtılabilir<br />
+- Ticari kullanım serbesttir<br />
+- Lisans bildiriminin korunması gerekir</p>
+</body>
+</html>

@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>2.10.2 Bazı Animasyon, Geçiş ve Simülasyonlar</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#hero-animasyonları" id="toc-hero-animasyonları"><span
+class="toc-section-number">1</span> Hero animasyonları</a>
+<ul>
+<li><a href="#örnekler" id="toc-örnekler"><span
+class="toc-section-number">1.1</span> Örnekler</a>
+<ul>
+<li><a href="#terminoloji" id="toc-terminoloji"><span
+class="toc-section-number">1.1.1</span> Terminoloji</a></li>
+</ul></li>
+<li><a href="#bir-hero-animasyonunun-temel-yapısı"
+id="toc-bir-hero-animasyonunun-temel-yapısı"><span
+class="toc-section-number">1.2</span> Bir hero animasyonunun temel
+yapısı</a></li>
+<li><a href="#sahne-arkası" id="toc-sahne-arkası"><span
+class="toc-section-number">1.3</span> Sahne arkası</a>
+<ul>
+<li><a href="#temel-sınıflar" id="toc-temel-sınıflar"><span
+class="toc-section-number">1.3.1</span> Temel sınıflar</a></li>
+</ul></li>
+<li><a href="#standart-hero-animasyonları"
+id="toc-standart-hero-animasyonları"><span
+class="toc-section-number">1.4</span> Standart hero animasyonları</a>
+<ul>
+<li><a href="#standart-hero-animasyonu-kodu"
+id="toc-standart-hero-animasyonu-kodu"><span
+class="toc-section-number">1.4.1</span> Standart hero animasyonu
+kodu</a></li>
+<li><a href="#neler-oluyor" id="toc-neler-oluyor"><span
+class="toc-section-number">1.4.2</span> Neler oluyor?</a></li>
+<li><a href="#photohero-sınıfı" id="toc-photohero-sınıfı"><span
+class="toc-section-number">1.4.3</span> PhotoHero sınıfı</a></li>
+<li><a href="#heroanimation-sınıfı" id="toc-heroanimation-sınıfı"><span
+class="toc-section-number">1.4.4</span> HeroAnimation sınıfı</a></li>
+</ul></li>
+<li><a href="#radyal-hero-animasyonları"
+id="toc-radyal-hero-animasyonları"><span
+class="toc-section-number">1.5</span> Radyal hero animasyonları</a>
+<ul>
+<li><a href="#radyal-hero-animasyonu-kodu"
+id="toc-radyal-hero-animasyonu-kodu"><span
+class="toc-section-number">1.5.1</span> Radyal hero animasyonu
+kodu</a></li>
+<li><a href="#neler-oluyor-1" id="toc-neler-oluyor-1"><span
+class="toc-section-number">1.5.2</span> Neler oluyor?</a></li>
+<li><a href="#photo-sınıfı" id="toc-photo-sınıfı"><span
+class="toc-section-number">1.5.3</span> Photo sınıfı</a></li>
+<li><a href="#radialexpansion-sınıfı"
+id="toc-radialexpansion-sınıfı"><span
+class="toc-section-number">1.5.4</span> RadialExpansion sınıfı</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#bir-sayfa-yolu-page-route-geçişini-canlandırma"
+id="toc-bir-sayfa-yolu-page-route-geçişini-canlandırma"><span
+class="toc-section-number">2</span> Bir Sayfa Yolu (Page Route) Geçişini
+Canlandırma</a>
+<ul>
+<li><a href="#bir-pageroutebuilder-kurun"
+id="toc-bir-pageroutebuilder-kurun"><span
+class="toc-section-number">2.0.1</span> 1. Bir PageRouteBuilder
+Kurun</a></li>
+<li><a href="#bir-tween-oluşturun" id="toc-bir-tween-oluşturun"><span
+class="toc-section-number">2.0.2</span> 2. Bir Tween Oluşturun</a></li>
+<li><a href="#bir-animatedwidget-kullanın"
+id="toc-bir-animatedwidget-kullanın"><span
+class="toc-section-number">2.0.3</span> 3. Bir AnimatedWidget
+Kullanın</a></li>
+<li><a href="#bir-curvetween-kullanın"
+id="toc-bir-curvetween-kullanın"><span
+class="toc-section-number">2.0.4</span> 4. Bir CurveTween
+Kullanın</a></li>
+<li><a href="#iki-tweeni-birleştirin"
+id="toc-iki-tweeni-birleştirin"><span
+class="toc-section-number">2.0.5</span> 5. İki Tween’i
+Birleştirin</a></li>
+<li><a href="#interaktif-örnek" id="toc-interaktif-örnek"><span
+class="toc-section-number">2.1</span> İnteraktif Örnek</a></li>
+</ul></li>
+<li><a href="#bir-widgetı-fizik-simülasyonu-kullanarak-canlandırma"
+id="toc-bir-widgetı-fizik-simülasyonu-kullanarak-canlandırma"><span
+class="toc-section-number">3</span> Bir Widget’ı Fizik Simülasyonu
+Kullanarak Canlandırma</a>
+<ul>
+<li><a href="#adım-1-bir-animasyon-denetleyicisi-kurun"
+id="toc-adım-1-bir-animasyon-denetleyicisi-kurun"><span
+class="toc-section-number">3.0.1</span> Adım 1: Bir animasyon
+denetleyicisi kurun</a></li>
+<li><a href="#adım-2-widgetı-hareketleri-kullanarak-taşıyın"
+id="toc-adım-2-widgetı-hareketleri-kullanarak-taşıyın"><span
+class="toc-section-number">3.0.2</span> Adım 2: Widget’ı hareketleri
+kullanarak taşıyın</a></li>
+<li><a href="#adım-3-widgetı-canlandırın"
+id="toc-adım-3-widgetı-canlandırın"><span
+class="toc-section-number">3.0.3</span> Adım 3: Widget’ı
+canlandırın</a></li>
+<li><a
+href="#adım-4-yaylanma-hareketini-simüle-etmek-için-hızı-hesaplayın"
+id="toc-adım-4-yaylanma-hareketini-simüle-etmek-için-hızı-hesaplayın"><span
+class="toc-section-number">3.0.4</span> Adım 4: Yaylanma hareketini
+simüle etmek için hızı hesaplayın</a></li>
+<li><a href="#interaktif-örnek-1" id="toc-interaktif-örnek-1"><span
+class="toc-section-number">3.1</span> İnteraktif Örnek</a></li>
+<li><a href="#lisans-bilgisi" id="toc-lisans-bilgisi"><span
+class="toc-section-number">3.2</span> 📄 Lisans Bilgisi</a>
+<ul>
+<li><a href="#lisans-kapsamı" id="toc-lisans-kapsamı"><span
+class="toc-section-number">3.2.1</span> Lisans Kapsamı</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1" id="hero-animasyonları"><span
+class="header-section-number">1</span> Hero animasyonları</h1>
+<p><strong>Neler öğreneceksiniz?</strong></p>
+<ul>
+<li>“Hero” (Kahraman), ekranlar arasında uçan widget’ı ifade eder.</li>
+<li>Flutter’ın <code>Hero</code> widget’ını kullanarak bir hero
+animasyonu oluşturma.</li>
+<li>Hero’yu bir ekrandan diğerine uçurma.</li>
+<li>Bir hero’yu bir ekrandan diğerine uçururken şeklini daireselden
+dikdörtgene dönüştüren animasyonu yapma.</li>
+</ul>
+<p>Flutter’daki <code>Hero</code> widget’ı, yaygın olarak
+<strong>paylaşılan öğe geçişleri (shared element transitions)</strong>
+veya <strong>paylaşılan öğe animasyonları</strong> olarak bilinen bir
+animasyon stilini uygular.</p>
+<p>Muhtemelen hero animasyonlarını birçok kez görmüşsünüzdür. Örneğin,
+bir ekran, satılık öğeleri temsil eden küçük resimlerin bir listesini
+görüntüler. Bir öğeyi seçmek, onu daha fazla ayrıntı ve bir “Satın Al”
+düğmesi içeren yeni bir ekrana uçurur. Flutter’da bir görüntüyü bir
+ekrandan diğerine uçurmaya <strong>hero animasyonu</strong> denir, ancak
+aynı hareket bazen <strong>paylaşılan öğe geçişi</strong> olarak da
+adlandırılır.</p>
+<p><a href="https://www.youtube.com/watch?v=Be9UH1kXFDw">video</a></p>
+<p>Bu kılavuz, standart hero animasyonlarının ve uçuş sırasında
+görüntüyü dairesel bir şekilden kare bir şekle dönüştüren hero
+animasyonlarının nasıl oluşturulacağını gösterir.</p>
+<h2 data-number="1.1" id="örnekler"><span
+class="header-section-number">1.1</span> Örnekler</h2>
+<p>Bu kılavuz, aşağıdaki bağlantılarda her hero animasyon stili için
+örnekler sunmaktadır:</p>
+<ul>
+<li>Standart hero animasyonu kodu</li>
+<li>Radyal hero animasyonu kodu</li>
+</ul>
+<blockquote>
+<p><strong>Flutter’da yeni misiniz?</strong> Bu sayfa, Flutter’ın
+widget’larını kullanarak nasıl düzen (layout) oluşturacağınızı
+bildiğinizi varsayar. Daha fazla bilgi için “Flutter’da Düzen Oluşturma”
+bölümüne bakın.</p>
+</blockquote>
+<h3 data-number="1.1.1" id="terminoloji"><span
+class="header-section-number">1.1.1</span> Terminoloji</h3>
+<p><strong>Route (Rota):</strong> Flutter uygulamasında bir sayfayı veya
+ekranı tanımlar.</p>
+<p>Bu animasyonu Flutter’da <code>Hero</code> widget’ları ile
+oluşturabilirsiniz. Hero, kaynaktan hedef rotaya doğru canlanırken,
+hedef rota (hero eksiğiyle) görünür hale gelir. Genellikle herolar, her
+iki rotanın da ortak sahip olduğu resimler gibi UI’nın küçük
+parçalarıdır. Kullanıcının bakış açısına göre hero, rotalar arasında
+“uçar”. Bu kılavuz, aşağıdaki hero animasyonlarının nasıl
+oluşturulacağını gösterir:</p>
+<p><strong>Standart hero animasyonları</strong> <strong>Standart bir
+hero animasyonu</strong>, hero’yu bir rotadan yeni bir rotaya uçurur,
+genellikle farklı bir konuma ve farklı bir boyuta iner.</p>
+<p>Aşağıdaki video (yavaş hızda kaydedilmiştir) tipik bir örneği
+göstermektedir. Rotanın ortasındaki paletlere dokunmak, onları yeni,
+mavi bir rotanın sol üst köşesine, daha küçük bir boyutta uçurur. Mavi
+rotadaki paletlere dokunmak (veya cihazın bir önceki rotaya dön
+hareketini kullanmak), paletleri orijinal rotaya geri uçurur.</p>
+<p><a href="https://www.youtube.com/watch?v=CEcFnqRDfgw">video</a></p>
+<p><strong>Radyal hero animasyonları</strong> <strong>Radyal hero
+animasyonunda</strong>, hero rotalar arasında uçarken şekli daireselden
+dikdörtgene değişiyor gibi görünür.</p>
+<p>Aşağıdaki video (yavaş hızda kaydedilmiştir), bir radyal hero
+animasyonu örneğini göstermektedir. Başlangıçta, rotanın altında üç
+dairesel resimden oluşan bir satır görünür. Dairesel resimlerden
+herhangi birine dokunmak, o resmi kare şeklinde görüntüleyen yeni bir
+rotaya uçurur. Kare resme dokunmak, hero’yu dairesel bir şekille
+görüntülenen orijinal rotaya geri uçurur.</p>
+<p><a href="https://www.youtube.com/watch?v=LWKENpwDKiM">video</a></p>
+<p><strong>Standart</strong> veya <strong>radyal</strong> hero
+animasyonlarına özgü bölümlere geçmeden önce, hero animasyon kodunu
+nasıl yapılandıracağınızı öğrenmek için <strong>bir hero animasyonunun
+temel yapısı</strong> bölümünü ve Flutter’ın bir hero animasyonunu nasıl
+gerçekleştirdiğini anlamak için <strong>sahne arkası</strong> bölümünü
+okuyun.</p>
+<hr />
+<h2 data-number="1.2" id="bir-hero-animasyonunun-temel-yapısı"><span
+class="header-section-number">1.2</span> Bir hero animasyonunun temel
+yapısı</h2>
+<p><strong>Amaç ne?</strong></p>
+<ul>
+<li>Animasyonu uygulamak için farklı rotalarda ancak eşleşen etiketlere
+(<code>tag</code>) sahip iki hero widget’ı kullanın.</li>
+<li><code>Navigator</code>, uygulamanın rotalarını içeren bir yığını
+(stack) yönetir.</li>
+<li><code>Navigator</code>’ın yığınına bir rota eklemek (push) veya
+yığından bir rota çıkarmak (pop), animasyonu tetikler.</li>
+<li>Flutter çerçevesi (framework), hero’nun kaynaktan hedef rotaya
+uçarken sınırlarını tanımlayan bir dikdörtgen ara değerini
+(<code>RectTween</code>) hesaplar. Uçuşu sırasında hero, her iki rotanın
+da üzerinde görünmesi için bir uygulama katmanına (overlay)
+taşınır.</li>
+</ul>
+<blockquote>
+<p><strong>Terminoloji:</strong> “Tween” veya “tweening” kavramı sizin
+için yeniyse, “Flutter’da Animasyonlar” eğitimine göz atın.</p>
+</blockquote>
+<p>Hero animasyonları iki <code>Hero</code> widget’ı kullanılarak
+uygulanır: biri kaynak rotadaki widget’ı tanımlar, diğeri ise hedef
+rotadaki widget’ı tanımlar. Kullanıcının bakış açısına göre hero
+paylaşılıyor gibi görünür ve sadece programcının bu uygulama detayını
+anlaması gerekir. Hero animasyon kodu aşağıdaki yapıya sahiptir:</p>
+<ol type="1">
+<li><strong>Kaynak hero</strong> olarak adlandırılan bir başlangıç
+<code>Hero</code> widget’ı tanımlayın. Hero, grafiksel temsilini
+(genellikle bir resim) ve tanımlayıcı bir etiketi (<code>tag</code>)
+belirtir ve kaynak rota tarafından tanımlanan o an görüntülenen widget
+ağacındadır.</li>
+<li><strong>Hedef hero</strong> olarak adlandırılan bir bitiş
+<code>Hero</code> widget’ı tanımlayın. Bu hero da grafiksel temsilini ve
+kaynak hero ile <strong>aynı etiketi</strong> belirtir. Her iki hero
+widget’ının da aynı etiketle oluşturulması <strong>esastır</strong>,
+genellikle altta yatan veriyi temsil eden bir nesne kullanılır. En iyi
+sonuçlar için, herolar neredeyse aynı widget ağaçlarına sahip
+olmalıdır.</li>
+<li>Hedef heroyu içeren bir rota oluşturun. Hedef rota, animasyonun
+sonunda var olan widget ağacını tanımlar.</li>
+<li>Hedef rotayı <code>Navigator</code>’ın yığınına ekleyerek (push)
+animasyonu tetikleyin. <code>Navigator</code> push ve pop işlemleri,
+kaynak ve hedef rotalarda eşleşen etiketlere sahip her hero çifti için
+bir hero animasyonunu tetikler.</li>
+</ol>
+<p>Flutter, Hero’nun sınırlarını başlangıç noktasından bitiş noktasına
+canlandıran (boyut ve konumu enterpolasyon yaparak) tween’i hesaplar ve
+animasyonu bir katmanda (overlay) gerçekleştirir.</p>
+<p>Bir sonraki bölüm, Flutter’ın sürecini daha ayrıntılı olarak
+açıklamaktadır.</p>
+<hr />
+<h2 data-number="1.3" id="sahne-arkası"><span
+class="header-section-number">1.3</span> Sahne arkası</h2>
+<p>Aşağıdakiler, Flutter’ın bir rotadan diğerine geçişi nasıl
+gerçekleştirdiğini açıklar.</p>
+<p><img src="images/110_hero-transition-0.png" width=350></p>
+<p><strong>Geçişten önce</strong>, kaynak hero, kaynak rotanın widget
+ağacında bekler. Hedef rota henüz mevcut değildir ve katman (overlay)
+boştur.</p>
+<p><img src="images/110_hero-transition-1.png" width=350></p>
+<p><strong><code>Navigator</code>’a bir rota eklemek (Pushing)</strong>
+animasyonu tetikler. <code>t=0.0</code> anında, Flutter şunları
+yapar:</p>
+<ul>
+<li>Material hareket spesifikasyonunda açıklandığı gibi kavisli hareketi
+kullanarak hedef herunun yolunu ekran dışında hesaplar. Flutter artık
+herunun nerede biteceğini bilir.</li>
+<li>Hedef heroyu, <strong>kaynak</strong> hero ile aynı konum ve boyutta
+katmana (overlay) yerleştirir. Katmana bir hero eklemek, Z sırasını
+değiştirir, böylece tüm rotaların üzerinde görünür.</li>
+<li>Kaynak heroyu ekran dışına taşır.</li>
+</ul>
+<p><img src="images/110_hero-transition-2.png" width=350></p>
+<p><strong>Hero uçarken</strong>, dikdörtgen sınırları, Hero’nun
+<code>createRectTween</code> özelliğinde belirtilen
+<code>Tween&lt;Rect&gt;</code> kullanılarak canlandırılır. Varsayılan
+olarak Flutter, dikdörtgenin karşı köşelerini kavisli bir yol boyunca
+canlandıran <code>MaterialRectArcTween</code>’in bir örneğini kullanır.
+(Farklı bir Tween animasyonu kullanan bir örnek için <strong>Radyal hero
+animasyonları</strong> bölümüne bakın.)</p>
+<p><img src="images/110_hero-transition-3.png" width=350></p>
+<p><strong>Uçuş tamamlandığında:</strong></p>
+<ul>
+<li>Flutter, hero widget’ını katmandan (overlay) hedef rotaya taşır.
+Katman artık boştur.</li>
+<li>Hedef hero, hedef rotadaki son konumunda görünür.</li>
+<li>Kaynak hero, rotasına geri yüklenir.</li>
+</ul>
+<p><strong>Rotayı çıkarmak (Popping)</strong> aynı işlemi
+gerçekleştirir, heroyu kaynak rotadaki boyutuna ve konumuna geri
+canlandırır.</p>
+<h3 data-number="1.3.1" id="temel-sınıflar"><span
+class="header-section-number">1.3.1</span> Temel sınıflar</h3>
+<p>Bu kılavuzdaki örnekler, hero animasyonlarını uygulamak için
+aşağıdaki sınıfları kullanır:</p>
+<p><strong>Hero</strong> Kaynaktan hedef rotaya uçan widget. Kaynak rota
+için bir Hero ve hedef rota için başka bir Hero tanımlayın ve her birine
+aynı etiketi atayın. Flutter, eşleşen etiketlere sahip hero çiftlerini
+canlandırır.</p>
+<p><strong>InkWell</strong> Heroya dokunulduğunda ne olacağını belirtir.
+<code>InkWell</code>’in <code>onTap()</code> yöntemi yeni rotayı
+oluşturur ve <code>Navigator</code>’ın yığınına ekler.</p>
+<p><strong>Navigator</strong> <code>Navigator</code>, bir rota yığınını
+yönetir. <code>Navigator</code>’ın yığınına bir rota eklemek veya
+yığından bir rota çıkarmak animasyonu tetikler.</p>
+<p><strong>Route</strong> Bir ekranı veya sayfayı belirtir. En temel
+olanların dışındaki çoğu uygulama birden fazla rotaya sahiptir.</p>
+<hr />
+<h2 data-number="1.4" id="standart-hero-animasyonları"><span
+class="header-section-number">1.4</span> Standart hero
+animasyonları</h2>
+<p><strong>Amaç ne?</strong></p>
+<ul>
+<li><code>MaterialPageRoute</code>, <code>CupertinoPageRoute</code>
+kullanarak bir rota belirtin veya <code>PageRouteBuilder</code>
+kullanarak özel bir rota oluşturun. Bu bölümdeki örnekler
+<code>MaterialPageRoute</code> kullanır.</li>
+<li>Hedefin görüntüsünü bir <code>SizedBox</code> içine sararak geçişin
+sonundaki görüntünün boyutunu değiştirin.</li>
+<li>Hedefin görüntüsünü bir düzen widget’ına yerleştirerek görüntünün
+konumunu değiştirin. Bu örnekler <code>Container</code> kullanır.</li>
+</ul>
+<h3 data-number="1.4.1" id="standart-hero-animasyonu-kodu"><span
+class="header-section-number">1.4.1</span> Standart hero animasyonu
+kodu</h3>
+<p>Aşağıdaki örneklerin her biri, bir görüntüyü bir rotadan diğerine
+uçurmayı gösterir. Bu kılavuz ilk örneği açıklamaktadır.</p>
+<p><strong>hero_animation</strong> Hero kodunu özel bir
+<code>PhotoHero</code> widget’ında kapsüller. Material hareket
+spesifikasyonunda açıklandığı gibi herunun hareketini kavisli bir yol
+boyunca canlandırır.</p>
+<p><strong>basic_hero_animation</strong> Hero widget’ını doğrudan
+kullanır. Referansınız için sağlanan bu daha temel örnek, bu kılavuzda
+açıklanmamaktadır.</p>
+<h3 data-number="1.4.2" id="neler-oluyor"><span
+class="header-section-number">1.4.2</span> Neler oluyor?</h3>
+<p>Bir görüntüyü bir rotadan diğerine uçurmak, Flutter’ın hero
+widget’ını kullanarak uygulaması kolaydır. Yeni rotayı belirtmek için
+<code>MaterialPageRoute</code> kullanıldığında, görüntü
+<code>Material Design hareket spesifikasyonu</code> tarafından
+tanımlandığı gibi kavisli bir yol boyunca uçar.</p>
+<p>Yeni bir Flutter uygulaması oluşturun ve <code>hero_animation</code>
+dosyalarını kullanarak güncelleyin.</p>
+<p><strong>Örneği çalıştırmak için:</strong></p>
+<ol type="1">
+<li>Görüntüyü farklı bir konumda ve ölçekte gösteren yeni bir rotaya
+uçurmak için ana rotadaki fotoğrafa dokunun.</li>
+<li>Görüntüye dokunarak veya cihazın “önceki rotaya dön” hareketini
+kullanarak önceki rotaya dönün.</li>
+<li><code>timeDilation</code> özelliğini kullanarak geçişi daha da
+yavaşlatabilirsiniz.</li>
+</ol>
+<h3 data-number="1.4.3" id="photohero-sınıfı"><span
+class="header-section-number">1.4.3</span> PhotoHero sınıfı</h3>
+<p>Özel <code>PhotoHero</code> sınıfı; heroyu, boyutunu, görüntüsünü ve
+dokunulduğundaki davranışını korur. <code>PhotoHero</code> aşağıdaki
+widget ağacını oluşturur:</p>
+<p>Kod şu şekildedir:</p>
+<p><img src="images/110_photohero-class.png" width=200></p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PhotoHero <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> PhotoHero(<span class="op">{</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span>key<span class="op">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>photo<span class="op">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span>onTap<span class="op">,</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>width<span class="op">,</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span>);</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> photo;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> VoidCallback<span class="op">?</span> onTap;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">double</span> width;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> SizedBox(</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>      width<span class="op">:</span> width<span class="op">,</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Hero(</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        tag<span class="op">:</span> photo<span class="op">,</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> Material(</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>          color<span class="op">:</span> Colors<span class="op">.</span>transparent<span class="op">,</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> InkWell(</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            onTap<span class="op">:</span> onTap<span class="op">,</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>            child<span class="op">:</span> Image<span class="op">.</span>asset(</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>              photo<span class="op">,</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>              fit<span class="op">:</span> BoxFit<span class="op">.</span>contain<span class="op">,</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>            )<span class="op">,</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Önemli bilgiler:</strong></p>
+<ul>
+<li>Başlangıç rotası, <code>HeroAnimation</code> uygulamanın home
+özelliği olarak sağlandığında <code>MaterialApp</code> tarafından
+dolaylı olarak (implicitly) eklenir.</li>
+<li>Bir <code>InkWell</code> görüntüyü sarar, böylece hem kaynak hem de
+hedef herolara bir dokunma hareketi eklemeyi çok kolaylaştırır.</li>
+<li>Material widget’ını şeffaf bir renkle tanımlamak, görüntünün
+hedefine uçarken arka plandan “fırlamasını” sağlar.</li>
+<li><code>SizedBox</code>, animasyonun başlangıcında ve sonunda herunun
+boyutunu belirtir.</li>
+<li>Image’ın <code>fit</code> özelliğini <code>BoxFit.contain</code>
+olarak ayarlamak, görüntünün geçiş sırasında en boy oranını
+değiştirmeden mümkün olduğunca büyük olmasını sağlar.</li>
+</ul>
+<h3 data-number="1.4.4" id="heroanimation-sınıfı"><span
+class="header-section-number">1.4.4</span> HeroAnimation sınıfı</h3>
+<p><code>HeroAnimation</code> sınıfı, kaynak ve hedef
+<code>PhotoHero</code>’ları oluşturur ve geçişi ayarlar.</p>
+<p>Kod şu şekildedir:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> HeroAnimation <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> HeroAnimation(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    timeDilation <span class="op">=</span> <span class="fl">5.0</span>; <span class="co">// 1.0 normal animasyon hızı demektir.</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Scaffold(</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>      appBar<span class="op">:</span> AppBar(</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        title<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Temel Hero Animasyonu&#39;</span>)<span class="op">,</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>      body<span class="op">:</span> Center(</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> PhotoHero(</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>          photo<span class="op">:</span> <span class="st">&#39;images/flippers-alpha.png&#39;</span><span class="op">,</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>          width<span class="op">:</span> <span class="fl">300.0</span><span class="op">,</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>          onTap<span class="op">:</span> () <span class="op">{</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>            Navigator<span class="op">.</span>of(context)<span class="op">.</span>push(MaterialPageRoute<span class="op">&lt;</span><span class="dt">void</span><span class="op">&gt;</span>(</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>              builder<span class="op">:</span> (context) <span class="op">{</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>                <span class="kw">return</span> Scaffold(</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>                  appBar<span class="op">:</span> AppBar(</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>                    title<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Paletler Sayfası&#39;</span>)<span class="op">,</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>                  )<span class="op">,</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>                  body<span class="op">:</span> Container(</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>                    <span class="co">// Arka planı maviye ayarlayarak yeni bir rota olduğunu vurgulayın.</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>                    color<span class="op">:</span> Colors<span class="op">.</span>lightBlueAccent<span class="op">,</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>                    padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>all(<span class="dv">16</span>)<span class="op">,</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>                    alignment<span class="op">:</span> Alignment<span class="op">.</span>topLeft<span class="op">,</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>                    child<span class="op">:</span> PhotoHero(</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>                      photo<span class="op">:</span> <span class="st">&#39;images/flippers-alpha.png&#39;</span><span class="op">,</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>                      width<span class="op">:</span> <span class="fl">100.0</span><span class="op">,</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>                      onTap<span class="op">:</span> () <span class="op">{</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>                        Navigator<span class="op">.</span>of(context)<span class="op">.</span>pop();</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>                      <span class="op">},</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>                    )<span class="op">,</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>                  )<span class="op">,</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>                );</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>              <span class="op">}</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>            ));</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>          <span class="op">},</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Önemli bilgiler:</strong></p>
+<ul>
+<li>Kullanıcı kaynak heroyu içeren <code>InkWell</code>’e dokunduğunda,
+kod <code>MaterialPageRoute</code> kullanarak hedef rotayı oluşturur.
+Hedef rotayı <code>Navigator</code>’ın yığınına eklemek animasyonu
+tetikler.</li>
+<li><code>Container</code>, <code>PhotoHero</code>’yu hedef rotanın sol
+üst köşesine, <code>AppBar</code>’ın altına konumlandırır.</li>
+<li>Hedef <code>PhotoHero</code> için <code>onTap()</code> yöntemi,
+<code>Navigator</code>’ın yığınını çıkarır (pop), böylece
+<code>Hero</code>’yu orijinal rotaya geri uçuran animasyonu
+tetikler.</li>
+<li>Hata ayıklama sırasında geçişi yavaşlatmak için
+<code>timeDilation</code> özelliğini kullanın.</li>
+</ul>
+<hr />
+<h2 data-number="1.5" id="radyal-hero-animasyonları"><span
+class="header-section-number">1.5</span> Radyal hero animasyonları</h2>
+<p><strong>Amaç ne?</strong></p>
+<ul>
+<li><strong>Radyal dönüşüm (radial transformation)</strong>, dairesel
+bir şekli kare bir şekle dönüştürür.</li>
+<li>Radyal bir <strong>hero</strong> animasyonu, heroyu kaynak rotadan
+hedef rotaya uçururken radyal bir dönüşüm gerçekleştirir.</li>
+<li><code>MaterialRectCenterArcTween</code>, tween animasyonunu
+tanımlar.</li>
+<li>Hedef rotayı <code>PageRouteBuilder</code> kullanarak
+oluşturun.</li>
+</ul>
+<p>Bir heroyu bir rotadan diğerine uçururken dairesel bir şekilden
+dikdörtgen bir şekle dönüştürmek, <code>Hero</code> widget’larını
+kullanarak uygulayabileceğiniz şık bir efekttir. Bunu başarmak için kod,
+iki kırpma (clip) şeklinin kesişimini canlandırır: bir daire ve bir
+kare. Animasyon boyunca, dairesel kırpma (ve görüntü)
+<code>minRadius</code>’tan <code>maxRadius</code>’a ölçeklenirken, kare
+kırpma sabit boyutunu korur. Aynı zamanda, görüntü kaynak rotadaki
+konumundan hedef rotadaki konumuna uçar.</p>
+<p>Bu animasyon karmaşık görünebilir (ve öyledir), ancak sağlanan örneği
+ihtiyaçlarınıza göre <strong>özelleştirebilirsiniz</strong>.
+<strong>Ağır iş sizin için yapılmıştır.</strong></p>
+<h3 data-number="1.5.1" id="radyal-hero-animasyonu-kodu"><span
+class="header-section-number">1.5.1</span> Radyal hero animasyonu
+kodu</h3>
+<p>Aşağıdaki örneklerin her biri radyal bir hero animasyonunu gösterir.
+Bu kılavuz ilk örneği açıklamaktadır.</p>
+<p><strong>radial_hero_animation</strong> Material hareket
+spesifikasyonunda açıklandığı gibi bir radyal hero animasyonu.</p>
+<p><strong>basic_radial_hero_animation</strong> Radyal hero
+animasyonunun en basit örneği. Hedef rotada Scaffold, Card, Column veya
+Text yoktur. Referansınız için sağlanan bu temel örnek, bu kılavuzda
+açıklanmamaktadır.</p>
+<p><strong>radial_hero_animation_animate_rectclip</strong> Dikdörtgen
+kırpmanın boyutunu da canlandırarak <code>radial_hero_animation</code>’ı
+genişletir. Referansınız için sağlanan bu daha gelişmiş örnek, bu
+kılavuzda açıklanmamaktadır.</p>
+<blockquote>
+<p><strong>Profesyonel İpucu:</strong> Radyal hero animasyonu, yuvarlak
+bir şeklin kare bir şekille kesişmesini içerir. Bunu görmek,
+<code>timeDilation</code> ile animasyonu yavaşlatsanız bile zor
+olabilir, bu nedenle geliştirme sırasında
+<code>debugPaintSizeEnabled</code> bayrağını etkinleştirmeyi
+düşünebilirsiniz.</p>
+</blockquote>
+<h3 data-number="1.5.2" id="neler-oluyor-1"><span
+class="header-section-number">1.5.2</span> Neler oluyor?</h3>
+<p>Aşağıdaki diyagram, animasyonun başında (t = 0.0) ve sonunda (t =
+1.0) kırpılmış görüntüyü göstermektedir.</p>
+<p><img src="images/110_radial-hero-animation.png" width=400></p>
+<p>Mavi gradyan (görüntüyü temsil eder), kırpma şekillerinin nerede
+kesiştiğini gösterir. Geçişin başlangıcında, kesişimin sonucu dairesel
+bir kırpmadır (<code>ClipOval</code>). Dönüşüm sırasında,
+<code>ClipOval</code> <code>minRadius</code>’tan
+<code>maxRadius</code>’a ölçeklenirken, <code>ClipRect</code> sabit bir
+boyutu korur. Geçişin sonunda, dairesel ve dikdörtgen kırpmaların
+kesişimi, hero widget’ı ile aynı boyutta bir dikdörtgen verir. Başka bir
+deyişle, geçişin sonunda görüntü artık kırpılmaz.</p>
+<p>Yeni bir Flutter uygulaması oluşturun ve
+<code>radial_hero_animation</code> GitHub dizinindeki dosyaları
+kullanarak güncelleyin.</p>
+<p><strong>Örneği çalıştırmak için:</strong></p>
+<ol type="1">
+<li>Orijinal rotayı gizleyen yeni bir rotanın ortasında konumlanmış daha
+büyük bir kareye animasyonla geçmek için üç dairesel küçük resimden
+birine dokunun.</li>
+<li>Görüntüye dokunarak veya cihazın “önceki rotaya dön” hareketini
+kullanarak önceki rotaya dönün.</li>
+<li><code>timeDilation</code> özelliğini kullanarak geçişi daha da
+yavaşlatabilirsiniz.</li>
+</ol>
+<h3 data-number="1.5.3" id="photo-sınıfı"><span
+class="header-section-number">1.5.3</span> Photo sınıfı</h3>
+<p><code>Photo</code> sınıfı, görüntüyü tutan widget ağacını
+oluşturur:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Photo <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> Photo(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">,</span> required <span class="kw">this</span><span class="op">.</span>photo<span class="op">,</span> <span class="kw">this</span><span class="op">.</span>color<span class="op">,</span> <span class="kw">this</span><span class="op">.</span>onTap<span class="op">}</span>);</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> photo;</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> Color<span class="op">?</span> color;</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> VoidCallback onTap;</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Material(</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Görüntünün şeffaflığı olan yerlerde hafif opak bir renk görünür.</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>      color<span class="op">:</span> Theme<span class="op">.</span>of(context)<span class="op">.</span>primaryColor<span class="op">.</span>withValues(alpha<span class="op">:</span> <span class="fl">0.25</span>)<span class="op">,</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> InkWell(</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        onTap<span class="op">:</span> onTap<span class="op">,</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> Image<span class="op">.</span>asset(</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>          photo<span class="op">,</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>          fit<span class="op">:</span> BoxFit<span class="op">.</span>contain<span class="op">,</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Önemli bilgiler:</strong></p>
+<ul>
+<li><code>InkWell</code>, dokunma hareketini yakalar. Çağıran işlev,
+<code>onTap()</code> işlevini <code>Photo</code>’nun yapıcısına
+iletir.</li>
+<li>Uçuş sırasında, <code>InkWell</code> sıçramasını (splash) ilk
+Material atası üzerine çizer.</li>
+<li>Material widget’ı hafif opak bir renge sahiptir, bu nedenle
+görüntünün şeffaf kısımları renkle oluşturulur. Bu, şeffaflığı olan
+görüntüler için bile daire-kare geçişinin görülmesinin kolay olmasını
+sağlar.</li>
+<li><code>Photo</code> sınıfı, widget ağacında <code>Hero</code>’yu
+içermez. Animasyonun çalışması için hero, <code>RadialExpansion</code>
+widget’ını sarmalar.</li>
+</ul>
+<h3 data-number="1.5.4" id="radialexpansion-sınıfı"><span
+class="header-section-number">1.5.4</span> RadialExpansion sınıfı</h3>
+<p>Demonun çekirdeği olan <code>RadialExpansion</code> widget’ı, geçiş
+sırasında görüntüyü kırpan widget ağacını oluşturur. Kırpılmış şekil,
+uçuş sırasında büyüyen dairesel bir kırpma ile baştan sona sabit bir
+boyutta kalan dikdörtgen bir kırpmanın kesişiminden kaynaklanır.</p>
+<p>Bunu yapmak için aşağıdaki widget ağacını oluşturur:</p>
+<p><img src="images/110_radial-expansion-class.png" width=200></p>
+<p>Kod şu şekildedir:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> RadialExpansion <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> RadialExpansion(<span class="op">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span>key<span class="op">,</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>maxRadius<span class="op">,</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span>child<span class="op">,</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span>) <span class="op">:</span> clipRectSize <span class="op">=</span> <span class="fl">2.0</span> <span class="op">*</span> (maxRadius <span class="op">/</span> math<span class="op">.</span>sqrt2);</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">double</span> maxRadius;</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">double</span> clipRectSize;</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> Widget<span class="op">?</span> child;</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> ClipOval(</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Center(</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> SizedBox(</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>          width<span class="op">:</span> clipRectSize<span class="op">,</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>          height<span class="op">:</span> clipRectSize<span class="op">,</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> ClipRect(</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>            child<span class="op">:</span> child<span class="op">,</span> <span class="co">// Fotoğraf</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Önemli bilgiler:</strong></p>
+<ul>
+<li>Hero, <code>RadialExpansion</code> widget’ını sarmalar.</li>
+<li>Hero uçarken boyutu değişir ve çocuğunun boyutunu kısıtladığı için
+<code>RadialExpansion</code> widget’ı eşleşecek şekilde boyut
+değiştirir.</li>
+<li><code>RadialExpansion</code> animasyonu, örtüşen iki kırpma (clip)
+tarafından oluşturulur.</li>
+<li>Örnek, tween enterpolasyonunu
+<code>MaterialRectCenterArcTween</code> kullanarak tanımlar. Bir hero
+animasyonu için varsayılan uçuş yolu, tweenleri heroların köşelerini
+kullanarak enterpolasyon yapar. Bu yaklaşım, radyal dönüşüm sırasında
+herunun en boy oranını etkiler, bu nedenle yeni uçuş yolu, tweenleri her
+bir herunun merkez noktasını kullanarak enterpolasyon yapmak için
+<code>MaterialRectCenterArcTween</code> kullanır.</li>
+</ul>
+<p>Kod şu şekildedir:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="at">static</span> RectTween _createRectTween(Rect<span class="op">?</span> begin<span class="op">,</span> Rect<span class="op">?</span> end) <span class="op">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> MaterialRectCenterArcTween(begin<span class="op">:</span> begin<span class="op">,</span> end<span class="op">:</span> end);</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Herunun uçuş yolu hala bir yay (arc) izler, ancak görüntünün en boy
+oranı sabit kalır.</p>
+<hr />
+<h1 data-number="2"
+id="bir-sayfa-yolu-page-route-geçişini-canlandırma"><span
+class="header-section-number">2</span> Bir Sayfa Yolu (Page Route)
+Geçişini Canlandırma</h1>
+<p>Bir sayfadan diğerine nasıl animasyonla geçilir?</p>
+<p>Material gibi bir tasarım dili, rotalar (veya ekranlar) arasında
+geçiş yaparken standart davranışlar tanımlar. Ancak bazen ekranlar
+arasında özel bir geçiş, bir uygulamayı daha benzersiz hale getirebilir.
+Buna yardımcı olmak için <code>PageRouteBuilder</code> bir
+<code>Animation</code> nesnesi sağlar. Bu <code>Animation</code>, geçiş
+animasyonunu özelleştirmek için <code>Tween</code> ve <code>Curve</code>
+nesneleriyle birlikte kullanılabilir. Bu tarif, yeni rotayı ekranın
+altından görünüme girecek şekilde canlandırarak rotalar arasında nasıl
+geçiş yapılacağını gösterir.</p>
+<p>Özel bir sayfa yolu geçişi oluşturmak için bu tarif aşağıdaki
+adımları kullanır:</p>
+<ol type="1">
+<li>Bir <code>PageRouteBuilder</code> kurun.</li>
+<li>Bir <code>Tween</code> oluşturun.</li>
+<li>Bir <code>AnimatedWidget</code> ekleyin.</li>
+<li>Bir <code>CurveTween</code> kullanın.</li>
+<li>İki <code>Tween</code>’i birleştirin.</li>
+</ol>
+<h3 data-number="2.0.1" id="bir-pageroutebuilder-kurun"><span
+class="header-section-number">2.0.1</span> 1. Bir PageRouteBuilder
+Kurun</h3>
+<p>Başlamak için, bir <code>Route</code> oluşturmak üzere
+<code>PageRouteBuilder</code> kullanın. <code>PageRouteBuilder</code>
+iki geri çağırma (callback) işlevine sahiptir: biri rotanın içeriğini
+oluşturmak için (<code>pageBuilder</code>), diğeri ise rotanın geçişini
+oluşturmak için (<code>transitionsBuilder</code>).</p>
+<blockquote>
+<p><strong>Not:</strong> <code>transitionsBuilder</code> içindeki
+<code>child</code> parametresi, <code>pageBuilder</code>’dan döndürülen
+widget’tır. <code>pageBuilder</code> işlevi yalnızca rota ilk kez
+oluşturulduğunda çağrılır. Çerçeve (framework), <code>child</code> geçiş
+boyunca aynı kaldığı için fazladan iş yapmaktan kaçınabilir.</p>
+</blockquote>
+<p>Aşağıdaki örnek iki rota oluşturur: “Go!” (Git!) düğmesi olan bir ana
+rota ve “Page 2” (Sayfa 2) başlıklı ikinci bir rota.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter/material.dart&#39;</span>;</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main() <span class="op">{</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  runApp(<span class="at">const</span> MaterialApp(home<span class="op">:</span> Page1()));</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Page1 <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> Page1(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Scaffold(</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>      appBar<span class="op">:</span> AppBar()<span class="op">,</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>      body<span class="op">:</span> Center(</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> ElevatedButton(</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>          onPressed<span class="op">:</span> () <span class="op">{</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>            Navigator<span class="op">.</span>of(context)<span class="op">.</span>push(_createRoute());</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>          <span class="op">},</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Go!&#39;</span>)<span class="op">,</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>Route<span class="op">&lt;</span><span class="dt">void</span><span class="op">&gt;</span> _createRoute() <span class="op">{</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> PageRouteBuilder(</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    pageBuilder<span class="op">:</span> (context<span class="op">,</span> animation<span class="op">,</span> secondaryAnimation) <span class="op">=&gt;</span> <span class="at">const</span> Page2()<span class="op">,</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    transitionsBuilder<span class="op">:</span> (context<span class="op">,</span> animation<span class="op">,</span> secondaryAnimation<span class="op">,</span> child) <span class="op">{</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>      <span class="kw">return</span> child;</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    <span class="op">},</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Page2 <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> Page2(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Scaffold(</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>      appBar<span class="op">:</span> AppBar()<span class="op">,</span></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>      body<span class="op">:</span> <span class="at">const</span> Center(child<span class="op">:</span> Text(<span class="st">&#39;Page 2&#39;</span>))<span class="op">,</span></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="2.0.2" id="bir-tween-oluşturun"><span
+class="header-section-number">2.0.2</span> 2. Bir Tween Oluşturun</h3>
+<p>Yeni sayfanın alttan canlanarak gelmesini sağlamak için,
+<code>Offset(0,1)</code>’den <code>Offset(0, 0)</code>’a (genellikle
+<code>Offset.zero</code> yapıcısı kullanılarak tanımlanır) doğru
+canlanması gerekir. Bu durumda <code>Offset</code>,
+<code>FractionalTranslation</code> widget’ı için bir 2B vektördür.
+<code>dy</code> argümanını 1 olarak ayarlamak, sayfanın tam yüksekliği
+kadar dikey bir ötelemeyi temsil eder.</p>
+<p><code>transitionsBuilder</code> geri çağrısının bir
+<code>animation</code> parametresi vardır. Bu, 0 ile 1 arasında değerler
+üreten bir <code>Animation&lt;double&gt;</code> nesnesidir. Bir
+<code>Tween</code> kullanarak <code>Animation&lt;double&gt;</code>’ı
+<code>Animation&lt;Offset&gt;</code>’e dönüştürün:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>transitionsBuilder<span class="op">:</span> (context<span class="op">,</span> animation<span class="op">,</span> secondaryAnimation<span class="op">,</span> child) <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> begin <span class="op">=</span> Offset(<span class="fl">0.0</span><span class="op">,</span> <span class="fl">1.0</span>);</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> end <span class="op">=</span> Offset<span class="op">.</span>zero;</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> tween <span class="op">=</span> Tween(begin<span class="op">:</span> begin<span class="op">,</span> end<span class="op">:</span> end);</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> offsetAnimation <span class="op">=</span> animation<span class="op">.</span>drive(tween);</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> child;</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="op">},</span></span></code></pre></div>
+<h3 data-number="2.0.3" id="bir-animatedwidget-kullanın"><span
+class="header-section-number">2.0.3</span> 3. Bir AnimatedWidget
+Kullanın</h3>
+<p>Flutter, animasyonun değeri değiştiğinde kendilerini yeniden
+oluşturan, <code>AnimatedWidget</code>’ı genişleten bir widget setine
+sahiptir. Örneğin, <code>SlideTransition</code> bir
+<code>Animation&lt;Offset&gt;</code> alır ve animasyonun değeri her
+değiştiğinde çocuğunu (child) öteler (bir
+<code>FractionalTranslation</code> widget’ı kullanarak).</p>
+<p><code>Animation&lt;Offset&gt;</code> ve çocuk (child) widget ile bir
+<code>SlideTransition</code> döndürün:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>transitionsBuilder<span class="op">:</span> (context<span class="op">,</span> animation<span class="op">,</span> secondaryAnimation<span class="op">,</span> child) <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> begin <span class="op">=</span> Offset(<span class="fl">0.0</span><span class="op">,</span> <span class="fl">1.0</span>);</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> end <span class="op">=</span> Offset<span class="op">.</span>zero;</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> tween <span class="op">=</span> Tween(begin<span class="op">:</span> begin<span class="op">,</span> end<span class="op">:</span> end);</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> offsetAnimation <span class="op">=</span> animation<span class="op">.</span>drive(tween);</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> SlideTransition(position<span class="op">:</span> offsetAnimation<span class="op">,</span> child<span class="op">:</span> child);</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="op">},</span></span></code></pre></div>
+<h3 data-number="2.0.4" id="bir-curvetween-kullanın"><span
+class="header-section-number">2.0.4</span> 4. Bir CurveTween
+Kullanın</h3>
+<p>Flutter, animasyonun hızını zaman içinde ayarlayan bir dizi yumuşatma
+eğrisi (easing curves) sağlar. <code>Curves</code> sınıfı, yaygın olarak
+kullanılan önceden tanımlanmış bir dizi eğri sunar. Örneğin,
+<code>Curves.easeOut</code> animasyonun hızlı başlamasını ve yavaş
+bitmesini sağlar.</p>
+<p>Bir Eğri (Curve) kullanmak için yeni bir <code>CurveTween</code>
+oluşturun ve ona bir Curve verin:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> curve <span class="op">=</span> Curves<span class="op">.</span>ease;</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> curveTween <span class="op">=</span> CurveTween(curve<span class="op">:</span> curve);</span></code></pre></div>
+<p>Bu yeni <code>Tween</code> hala 0’dan 1’e kadar değerler üretir. Bir
+sonraki adımda, 2. adımdaki <code>Tween&lt;Offset&gt;</code> ile
+birleştirilecektir.</p>
+<h3 data-number="2.0.5" id="iki-tweeni-birleştirin"><span
+class="header-section-number">2.0.5</span> 5. İki Tween’i
+Birleştirin</h3>
+<p>Tween’leri birleştirmek için <code>chain()</code> kullanın:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> begin <span class="op">=</span> Offset(<span class="fl">0.0</span><span class="op">,</span> <span class="fl">1.0</span>);</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> end <span class="op">=</span> Offset<span class="op">.</span>zero;</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> curve <span class="op">=</span> Curves<span class="op">.</span>ease;</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> tween <span class="op">=</span> Tween(begin<span class="op">:</span> begin<span class="op">,</span> end<span class="op">:</span> end)<span class="op">.</span>chain(CurveTween(curve<span class="op">:</span> curve));</span></code></pre></div>
+<p>Ardından bu tween’i <code>animation.drive()</code>’a ileterek
+kullanın. Bu, <code>SlideTransition</code> widget’ına verilebilecek yeni
+bir <code>Animation&lt;Offset&gt;</code> oluşturur:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">return</span> SlideTransition(position<span class="op">:</span> animation<span class="op">.</span>drive(tween)<span class="op">,</span> child<span class="op">:</span> child);</span></code></pre></div>
+<p>Bu yeni Tween (veya Animatable), önce <code>CurveTween</code>’i
+değerlendirip ardından <code>Tween&lt;Offset&gt;</code>’i
+değerlendirerek Offset değerleri üretir. Animasyon çalıştığında,
+değerler şu sırayla hesaplanır:</p>
+<ol type="1">
+<li><strong>Animasyon</strong> (<code>transitionsBuilder</code> geri
+çağrısına sağlanan) 0’dan 1’e kadar değerler üretir.</li>
+<li><strong>CurveTween</strong>, bu değerleri eğrisine bağlı olarak 0
+ile 1 arasındaki yeni değerlere eşler.</li>
+<li><strong>Tween<Offset></strong>, double değerlerini Offset
+değerlerine eşler.</li>
+</ol>
+<p>Yumuşatma eğrisine sahip bir <code>Animation&lt;Offset&gt;</code>
+oluşturmanın başka bir yolu da <code>CurvedAnimation</code>
+kullanmaktır:</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>transitionsBuilder<span class="op">:</span> (context<span class="op">,</span> animation<span class="op">,</span> secondaryAnimation<span class="op">,</span> child) <span class="op">{</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> begin <span class="op">=</span> Offset(<span class="fl">0.0</span><span class="op">,</span> <span class="fl">1.0</span>);</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> end <span class="op">=</span> Offset<span class="op">.</span>zero;</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> curve <span class="op">=</span> Curves<span class="op">.</span>ease;</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> tween <span class="op">=</span> Tween(begin<span class="op">:</span> begin<span class="op">,</span> end<span class="op">:</span> end);</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> curvedAnimation <span class="op">=</span> CurvedAnimation(parent<span class="op">:</span> animation<span class="op">,</span> curve<span class="op">:</span> curve);</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> SlideTransition(</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    position<span class="op">:</span> tween<span class="op">.</span>animate(curvedAnimation)<span class="op">,</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    child<span class="op">:</span> child<span class="op">,</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 data-number="2.1" id="interaktif-örnek"><span
+class="header-section-number">2.1</span> İnteraktif Örnek</h2>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter/material.dart&#39;</span>;</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main() <span class="op">{</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  runApp(<span class="at">const</span> MaterialApp(home<span class="op">:</span> Page1()));</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Page1 <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> Page1(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Scaffold(</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>      appBar<span class="op">:</span> AppBar()<span class="op">,</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>      body<span class="op">:</span> Center(</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> ElevatedButton(</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>          onPressed<span class="op">:</span> () <span class="op">{</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>            Navigator<span class="op">.</span>of(context)<span class="op">.</span>push(_createRoute());</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>          <span class="op">},</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Go!&#39;</span>)<span class="op">,</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>Route<span class="op">&lt;</span><span class="dt">void</span><span class="op">&gt;</span> _createRoute() <span class="op">{</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> PageRouteBuilder(</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    pageBuilder<span class="op">:</span> (context<span class="op">,</span> animation<span class="op">,</span> secondaryAnimation) <span class="op">=&gt;</span> <span class="at">const</span> Page2()<span class="op">,</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    transitionsBuilder<span class="op">:</span> (context<span class="op">,</span> animation<span class="op">,</span> secondaryAnimation<span class="op">,</span> child) <span class="op">{</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">const</span> begin <span class="op">=</span> Offset(<span class="fl">0.0</span><span class="op">,</span> <span class="fl">1.0</span>);</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">const</span> end <span class="op">=</span> Offset<span class="op">.</span>zero;</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">const</span> curve <span class="op">=</span> Curves<span class="op">.</span>ease;</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>      <span class="dt">var</span> tween <span class="op">=</span> Tween(begin<span class="op">:</span> begin<span class="op">,</span> end<span class="op">:</span> end)<span class="op">.</span>chain(CurveTween(curve<span class="op">:</span> curve));</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>      <span class="kw">return</span> SlideTransition(position<span class="op">:</span> animation<span class="op">.</span>drive(tween)<span class="op">,</span> child<span class="op">:</span> child);</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>    <span class="op">},</span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Page2 <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> Page2(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Scaffold(</span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>      appBar<span class="op">:</span> AppBar()<span class="op">,</span></span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>      body<span class="op">:</span> <span class="at">const</span> Center(child<span class="op">:</span> Text(<span class="st">&#39;Page 2&#39;</span>))<span class="op">,</span></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h1 data-number="3"
+id="bir-widgetı-fizik-simülasyonu-kullanarak-canlandırma"><span
+class="header-section-number">3</span> Bir Widget’ı Fizik Simülasyonu
+Kullanarak Canlandırma</h1>
+<p>Fizik simülasyonları, uygulama etkileşimlerinin gerçekçi ve
+etkileşimli hissettirmesini sağlayabilir. Örneğin, bir widget’ı sanki
+bir yaya bağlıymış veya yerçekimi ile düşüyormuş gibi davranacak şekilde
+canlandırmak isteyebilirsiniz.</p>
+<p>Bu tarif, sürüklenen bir noktadan merkeze geri dönen bir widget’ı,
+bir yay (spring) simülasyonu kullanarak nasıl hareket ettireceğinizi
+gösterir.</p>
+<p>Bu tarif şu adımları kullanır: 1. Bir animasyon denetleyicisi kurun
+2. Widget’ı hareketleri (gestures) kullanarak taşıyın 3. Widget’ı
+canlandırın 4. Yaylanma hareketini simüle etmek için hızı hesaplayın</p>
+<h3 data-number="3.0.1"
+id="adım-1-bir-animasyon-denetleyicisi-kurun"><span
+class="header-section-number">3.0.1</span> Adım 1: Bir animasyon
+denetleyicisi kurun</h3>
+<p><code>DraggableCard</code> adında bir stateful (durumlu) widget ile
+başlayın:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter/material.dart&#39;</span>;</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main() <span class="op">{</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  runApp(<span class="at">const</span> MaterialApp(home<span class="op">:</span> PhysicsCardDragDemo()));</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PhysicsCardDragDemo <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> PhysicsCardDragDemo(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Scaffold(</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>      appBar<span class="op">:</span> AppBar()<span class="op">,</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>      body<span class="op">:</span> <span class="at">const</span> DraggableCard(child<span class="op">:</span> FlutterLogo(size<span class="op">:</span> <span class="dv">128</span>))<span class="op">,</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DraggableCard <span class="kw">extends</span> StatefulWidget <span class="op">{</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> DraggableCard(<span class="op">{</span>required <span class="kw">this</span><span class="op">.</span>child<span class="op">,</span> <span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> Widget child;</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>  State<span class="op">&lt;</span>DraggableCard<span class="op">&gt;</span> createState() <span class="op">=&gt;</span> _DraggableCardState();</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> _DraggableCardState <span class="kw">extends</span> State<span class="op">&lt;</span>DraggableCard<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> initState() <span class="op">{</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span>initState();</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> dispose() <span class="op">{</span></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span>dispose();</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Align(child<span class="op">:</span> Card(child<span class="op">:</span> widget<span class="op">.</span>child));</span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><code>_DraggableCardState</code> sınıfının
+<code>SingleTickerProviderStateMixin</code>’den türetilmesini (extend)
+sağlayın. Ardından <code>initState</code> içinde bir
+<code>AnimationController</code> oluşturun ve <code>vsync</code>
+değerini <code>this</code> olarak ayarlayın.</p>
+<blockquote>
+<p><strong>Not:</strong> <code>SingleTickerProviderStateMixin</code>’i
+genişletmek, state nesnesinin <code>AnimationController</code> için bir
+<code>TickerProvider</code> olmasını sağlar. Daha fazla bilgi için
+<code>TickerProvider</code> belgelerine bakın.</p>
+</blockquote>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">// class _DraggableCardState extends State&lt;DraggableCard&gt; {</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> _DraggableCardState <span class="kw">extends</span> State<span class="op">&lt;</span>DraggableCard<span class="op">&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">with</span> SingleTickerProviderStateMixin <span class="op">{</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">late</span> AnimationController _controller;</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> initState() <span class="op">{</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span>initState();</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    _controller <span class="op">=</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        AnimationController(vsync<span class="op">:</span> <span class="kw">this</span><span class="op">,</span> duration<span class="op">:</span> <span class="at">const</span> Duration(seconds<span class="op">:</span> <span class="dv">1</span>));</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> dispose() <span class="op">{</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    _controller<span class="op">.</span>dispose();</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span>dispose();</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span></code></pre></div>
+<h3 data-number="3.0.2"
+id="adım-2-widgetı-hareketleri-kullanarak-taşıyın"><span
+class="header-section-number">3.0.2</span> Adım 2: Widget’ı hareketleri
+kullanarak taşıyın</h3>
+<p>Widget’ın sürüklendiğinde hareket etmesini sağlayın ve
+<code>_DraggableCardState</code> sınıfına bir <code>Alignment</code>
+alanı ekleyin:</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> _DraggableCardState <span class="kw">extends</span> State<span class="op">&lt;</span>DraggableCard<span class="op">&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">with</span> SingleTickerProviderStateMixin <span class="op">{</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">late</span> AnimationController _controller;</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  Alignment _dragAlignment <span class="op">=</span> Alignment<span class="op">.</span>center;</span></code></pre></div>
+<p><code>onPanDown</code>, <code>onPanUpdate</code> ve
+<code>onPanEnd</code> geri çağrılarını (callbacks) işleyen bir
+<code>GestureDetector</code> ekleyin. Hizalamayı ayarlamak için,
+widget’ın boyutunu almak üzere <code>MediaQuery</code> kullanın ve 2’ye
+bölün. (Bu işlem, “sürüklenen piksel” birimlerini <code>Align</code>
+widget’ının kullandığı koordinatlara dönüştürür.) Ardından,
+<code>Align</code> widget’ının <code>alignment</code> özelliğini
+<code>_dragAlignment</code> olarak ayarlayın:</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">var</span> size <span class="op">=</span> MediaQuery<span class="op">.</span>of(context)<span class="op">.</span>size;</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> GestureDetector(</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>      onPanDown<span class="op">:</span> (details) <span class="op">{},</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>      onPanUpdate<span class="op">:</span> (details) <span class="op">{</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>        setState(() <span class="op">{</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>          _dragAlignment <span class="op">+=</span> Alignment(</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>            details<span class="op">.</span>delta<span class="op">.</span>dx <span class="op">/</span> (size<span class="op">.</span>width <span class="op">/</span> <span class="dv">2</span>)<span class="op">,</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>            details<span class="op">.</span>delta<span class="op">.</span>dy <span class="op">/</span> (size<span class="op">.</span>height <span class="op">/</span> <span class="dv">2</span>)<span class="op">,</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>          );</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>);</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>      <span class="op">},</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>      onPanEnd<span class="op">:</span> (details) <span class="op">{},</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Align(</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>        alignment<span class="op">:</span> _dragAlignment<span class="op">,</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> Card(</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> widget<span class="op">.</span>child<span class="op">,</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span></code></pre></div>
+<h3 data-number="3.0.3" id="adım-3-widgetı-canlandırın"><span
+class="header-section-number">3.0.3</span> Adım 3: Widget’ı
+canlandırın</h3>
+<p>Widget bırakıldığında merkeze geri yaylanmalıdır.</p>
+<p>Bir <code>Animation&lt;Alignment&gt;</code> alanı ve bir
+<code>_runAnimation</code> yöntemi ekleyin. Bu yöntem, widget’ın
+sürüklendiği nokta ile merkez noktası arasında enterpolasyon yapan bir
+<code>Tween</code> tanımlar.</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> _DraggableCardState <span class="kw">extends</span> State<span class="op">&lt;</span>DraggableCard<span class="op">&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">with</span> SingleTickerProviderStateMixin <span class="op">{</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">late</span> AnimationController _controller;</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">late</span> Animation<span class="op">&lt;</span>Alignment<span class="op">&gt;</span> _animation;</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  Alignment _dragAlignment <span class="op">=</span> Alignment<span class="op">.</span>center;</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> _runAnimation() <span class="op">{</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    _animation <span class="op">=</span> _controller<span class="op">.</span>drive(</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>      AlignmentTween(begin<span class="op">:</span> _dragAlignment<span class="op">,</span> end<span class="op">:</span> Alignment<span class="op">.</span>center)<span class="op">,</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    _controller<span class="op">.</span>reset();</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    _controller<span class="op">.</span>forward();</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span></code></pre></div>
+<p>Daha sonra, <code>AnimationController</code> bir değer ürettiğinde
+<code>_dragAlignment</code>’ı güncelleyin:</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> initState() <span class="op">{</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span>initState();</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    _controller <span class="op">=</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>        AnimationController(vsync<span class="op">:</span> <span class="kw">this</span><span class="op">,</span> duration<span class="op">:</span> <span class="at">const</span> Duration(seconds<span class="op">:</span> <span class="dv">1</span>));</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    _controller<span class="op">.</span>addListener(() <span class="op">{</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>      setState(() <span class="op">{</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>        _dragAlignment <span class="op">=</span> _animation<span class="op">.</span>value;</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span>);</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>);</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span></code></pre></div>
+<p>Ardından, <code>Align</code> widget’ının <code>_dragAlignment</code>
+alanını kullanmasını sağlayın:</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>child<span class="op">:</span> Align(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  alignment<span class="op">:</span> _dragAlignment<span class="op">,</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  child<span class="op">:</span> Card(child<span class="op">:</span> widget<span class="op">.</span>child)<span class="op">,</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>)<span class="op">,</span></span></code></pre></div>
+<p>Son olarak, <code>GestureDetector</code>’ı animasyon denetleyicisini
+yönetecek şekilde güncelleyin:</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">return</span> GestureDetector(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// onPanDown: (details) {},</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  onPanDown<span class="op">:</span> (details) <span class="op">{</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    _controller<span class="op">.</span>stop();</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">},</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  onPanUpdate<span class="op">:</span> (details) <span class="op">{</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ...</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">},</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">// onPanEnd: (details) {},</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  onPanEnd<span class="op">:</span> (details) <span class="op">{</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    _runAnimation();</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="op">},</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  child<span class="op">:</span> Align(</span></code></pre></div>
+<h3 data-number="3.0.4"
+id="adım-4-yaylanma-hareketini-simüle-etmek-için-hızı-hesaplayın"><span
+class="header-section-number">3.0.4</span> Adım 4: Yaylanma hareketini
+simüle etmek için hızı hesaplayın</h3>
+<p>Son adım, widget sürüklenmesi bittikten sonraki hızını hesaplamak
+için biraz matematik yapmaktır. Bu, widget’ın geri çekilmeden önce o
+hızda gerçekçi bir şekilde devam etmesi içindir.
+(<code>_runAnimation</code> yöntemi, animasyonun başlangıç ve bitiş
+hizalamasını ayarlayarak yönü zaten belirler.)</p>
+<p>İlk olarak, <code>physics</code> paketini içe aktarın:</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter/physics.dart&#39;</span>;</span></code></pre></div>
+<p><code>onPanEnd</code> geri çağrısı bir <code>DragEndDetails</code>
+nesnesi sağlar. Bu nesne, işaretçinin ekranla teması kesildiğindeki
+hızını sağlar. Hız, saniye başına piksel cinsindendir, ancak
+<code>Align</code> widget’ı pikselleri kullanmaz. Merkezin
+<code>[0.0, 0.0]</code> olduğu <code>[-1.0, -1.0]</code> ile
+<code>[1.0, 1.0]</code> arasındaki koordinat değerlerini kullanır. 2.
+adımda hesaplanan <code>size</code>, pikselleri bu aralıktaki koordinat
+değerlerine dönüştürmek için kullanılır.</p>
+<p>Son olarak, <code>AnimationController</code>’ın bir
+<code>SpringSimulation</code> (Yay Simülasyonu) verilebilen
+<code>animateWith()</code> adında bir yöntemi vardır:</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">/// Bir [SpringSimulation] hesaplar ve çalıştırır.</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> _runAnimation(Offset pixelsPerSecond<span class="op">,</span> Size size) <span class="op">{</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    _animation <span class="op">=</span> _controller<span class="op">.</span>drive(</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>      AlignmentTween(begin<span class="op">:</span> _dragAlignment<span class="op">,</span> end<span class="op">:</span> Alignment<span class="op">.</span>center)<span class="op">,</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Animasyon denetleyicisi tarafından kullanılan birim aralığına [0,1]</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// göre hızı hesaplayın.</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> unitsPerSecondX <span class="op">=</span> pixelsPerSecond<span class="op">.</span>dx <span class="op">/</span> size<span class="op">.</span>width;</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> unitsPerSecondY <span class="op">=</span> pixelsPerSecond<span class="op">.</span>dy <span class="op">/</span> size<span class="op">.</span>height;</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> unitsPerSecond <span class="op">=</span> Offset(unitsPerSecondX<span class="op">,</span> unitsPerSecondY);</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> unitVelocity <span class="op">=</span> unitsPerSecond<span class="op">.</span>distance;</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">const</span> spring <span class="op">=</span> SpringDescription(mass<span class="op">:</span> <span class="dv">1</span><span class="op">,</span> stiffness<span class="op">:</span> <span class="dv">1</span><span class="op">,</span> damping<span class="op">:</span> <span class="dv">1</span>);</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> simulation <span class="op">=</span> SpringSimulation(spring<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="op">-</span>unitVelocity);</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>    _controller<span class="op">.</span>animateWith(simulation);</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span></code></pre></div>
+<p><code>_runAnimation()</code> yöntemini hız ve boyut ile çağırmayı
+unutmayın:</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>onPanEnd<span class="op">:</span> (details) <span class="op">{</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  _runAnimation(details<span class="op">.</span>velocity<span class="op">.</span>pixelsPerSecond<span class="op">,</span> size);</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="op">},</span></span></code></pre></div>
+<blockquote>
+<p><strong>Not:</strong> Animasyon denetleyicisi artık bir simülasyon
+kullandığına göre, <code>duration</code> (süre) argümanı artık gerekli
+değildir.</p>
+</blockquote>
+<h2 data-number="3.1" id="interaktif-örnek-1"><span
+class="header-section-number">3.1</span> İnteraktif Örnek</h2>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter/material.dart&#39;</span>;</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter/physics.dart&#39;</span>;</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main() <span class="op">{</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  runApp(<span class="at">const</span> MaterialApp(home<span class="op">:</span> PhysicsCardDragDemo()));</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PhysicsCardDragDemo <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> PhysicsCardDragDemo(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Scaffold(</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>      appBar<span class="op">:</span> AppBar()<span class="op">,</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>      body<span class="op">:</span> <span class="at">const</span> DraggableCard(child<span class="op">:</span> FlutterLogo(size<span class="op">:</span> <span class="dv">128</span>))<span class="op">,</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="co">/// A draggable card that moves back to [Alignment.center] when it&#39;s</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="co">/// released.</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DraggableCard <span class="kw">extends</span> StatefulWidget <span class="op">{</span></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> DraggableCard(<span class="op">{</span>required <span class="kw">this</span><span class="op">.</span>child<span class="op">,</span> <span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> Widget child;</span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>  State<span class="op">&lt;</span>DraggableCard<span class="op">&gt;</span> createState() <span class="op">=&gt;</span> _DraggableCardState();</span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> _DraggableCardState <span class="kw">extends</span> State<span class="op">&lt;</span>DraggableCard<span class="op">&gt;</span></span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>    <span class="kw">with</span> SingleTickerProviderStateMixin <span class="op">{</span></span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">late</span> AnimationController _controller;</span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>  <span class="co">/// The alignment of the card as it is dragged or being animated.</span></span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>  <span class="co">///</span></span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>  <span class="co">/// While the card is being dragged, this value is set to the values computed</span></span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>  <span class="co">/// in the GestureDetector onPanUpdate callback. If the animation is running,</span></span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>  <span class="co">/// this value is set to the value of the [_animation].</span></span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>  Alignment _dragAlignment <span class="op">=</span> Alignment<span class="op">.</span>center;</span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">late</span> Animation<span class="op">&lt;</span>Alignment<span class="op">&gt;</span> _animation;</span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a>  <span class="co">/// Calculates and runs a [SpringSimulation].</span></span>
+<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> _runAnimation(Offset pixelsPerSecond<span class="op">,</span> Size size) <span class="op">{</span></span>
+<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a>    _animation <span class="op">=</span> _controller<span class="op">.</span>drive(</span>
+<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a>      AlignmentTween(begin<span class="op">:</span> _dragAlignment<span class="op">,</span> end<span class="op">:</span> Alignment<span class="op">.</span>center)<span class="op">,</span></span>
+<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Calculate the velocity relative to the unit interval, [0,1],</span></span>
+<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a>    <span class="co">// used by the animation controller.</span></span>
+<span id="cb25-51"><a href="#cb25-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> unitsPerSecondX <span class="op">=</span> pixelsPerSecond<span class="op">.</span>dx <span class="op">/</span> size<span class="op">.</span>width;</span>
+<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> unitsPerSecondY <span class="op">=</span> pixelsPerSecond<span class="op">.</span>dy <span class="op">/</span> size<span class="op">.</span>height;</span>
+<span id="cb25-53"><a href="#cb25-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> unitsPerSecond <span class="op">=</span> Offset(unitsPerSecondX<span class="op">,</span> unitsPerSecondY);</span>
+<span id="cb25-54"><a href="#cb25-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> unitVelocity <span class="op">=</span> unitsPerSecond<span class="op">.</span>distance;</span>
+<span id="cb25-55"><a href="#cb25-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">const</span> spring <span class="op">=</span> SpringDescription(mass<span class="op">:</span> <span class="dv">1</span><span class="op">,</span> stiffness<span class="op">:</span> <span class="dv">1</span><span class="op">,</span> damping<span class="op">:</span> <span class="dv">1</span>);</span>
+<span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-58"><a href="#cb25-58" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> simulation <span class="op">=</span> SpringSimulation(spring<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="op">-</span>unitVelocity);</span>
+<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-60"><a href="#cb25-60" aria-hidden="true" tabindex="-1"></a>    _controller<span class="op">.</span>animateWith(simulation);</span>
+<span id="cb25-61"><a href="#cb25-61" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb25-62"><a href="#cb25-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-63"><a href="#cb25-63" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb25-64"><a href="#cb25-64" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> initState() <span class="op">{</span></span>
+<span id="cb25-65"><a href="#cb25-65" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span>initState();</span>
+<span id="cb25-66"><a href="#cb25-66" aria-hidden="true" tabindex="-1"></a>    _controller <span class="op">=</span> AnimationController(vsync<span class="op">:</span> <span class="kw">this</span>);</span>
+<span id="cb25-67"><a href="#cb25-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-68"><a href="#cb25-68" aria-hidden="true" tabindex="-1"></a>    _controller<span class="op">.</span>addListener(() <span class="op">{</span></span>
+<span id="cb25-69"><a href="#cb25-69" aria-hidden="true" tabindex="-1"></a>      setState(() <span class="op">{</span></span>
+<span id="cb25-70"><a href="#cb25-70" aria-hidden="true" tabindex="-1"></a>        _dragAlignment <span class="op">=</span> _animation<span class="op">.</span>value;</span>
+<span id="cb25-71"><a href="#cb25-71" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span>);</span>
+<span id="cb25-72"><a href="#cb25-72" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>);</span>
+<span id="cb25-73"><a href="#cb25-73" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb25-74"><a href="#cb25-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-75"><a href="#cb25-75" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb25-76"><a href="#cb25-76" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> dispose() <span class="op">{</span></span>
+<span id="cb25-77"><a href="#cb25-77" aria-hidden="true" tabindex="-1"></a>    _controller<span class="op">.</span>dispose();</span>
+<span id="cb25-78"><a href="#cb25-78" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span>dispose();</span>
+<span id="cb25-79"><a href="#cb25-79" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb25-80"><a href="#cb25-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-81"><a href="#cb25-81" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb25-82"><a href="#cb25-82" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb25-83"><a href="#cb25-83" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> size <span class="op">=</span> MediaQuery<span class="op">.</span>of(context)<span class="op">.</span>size;</span>
+<span id="cb25-84"><a href="#cb25-84" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> GestureDetector(</span>
+<span id="cb25-85"><a href="#cb25-85" aria-hidden="true" tabindex="-1"></a>      onPanDown<span class="op">:</span> (details) <span class="op">{</span></span>
+<span id="cb25-86"><a href="#cb25-86" aria-hidden="true" tabindex="-1"></a>        _controller<span class="op">.</span>stop();</span>
+<span id="cb25-87"><a href="#cb25-87" aria-hidden="true" tabindex="-1"></a>      <span class="op">},</span></span>
+<span id="cb25-88"><a href="#cb25-88" aria-hidden="true" tabindex="-1"></a>      onPanUpdate<span class="op">:</span> (details) <span class="op">{</span></span>
+<span id="cb25-89"><a href="#cb25-89" aria-hidden="true" tabindex="-1"></a>        setState(() <span class="op">{</span></span>
+<span id="cb25-90"><a href="#cb25-90" aria-hidden="true" tabindex="-1"></a>          _dragAlignment <span class="op">+=</span> Alignment(</span>
+<span id="cb25-91"><a href="#cb25-91" aria-hidden="true" tabindex="-1"></a>            details<span class="op">.</span>delta<span class="op">.</span>dx <span class="op">/</span> (size<span class="op">.</span>width <span class="op">/</span> <span class="dv">2</span>)<span class="op">,</span></span>
+<span id="cb25-92"><a href="#cb25-92" aria-hidden="true" tabindex="-1"></a>            details<span class="op">.</span>delta<span class="op">.</span>dy <span class="op">/</span> (size<span class="op">.</span>height <span class="op">/</span> <span class="dv">2</span>)<span class="op">,</span></span>
+<span id="cb25-93"><a href="#cb25-93" aria-hidden="true" tabindex="-1"></a>          );</span>
+<span id="cb25-94"><a href="#cb25-94" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>);</span>
+<span id="cb25-95"><a href="#cb25-95" aria-hidden="true" tabindex="-1"></a>      <span class="op">},</span></span>
+<span id="cb25-96"><a href="#cb25-96" aria-hidden="true" tabindex="-1"></a>      onPanEnd<span class="op">:</span> (details) <span class="op">{</span></span>
+<span id="cb25-97"><a href="#cb25-97" aria-hidden="true" tabindex="-1"></a>        _runAnimation(details<span class="op">.</span>velocity<span class="op">.</span>pixelsPerSecond<span class="op">,</span> size);</span>
+<span id="cb25-98"><a href="#cb25-98" aria-hidden="true" tabindex="-1"></a>      <span class="op">},</span></span>
+<span id="cb25-99"><a href="#cb25-99" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Align(</span>
+<span id="cb25-100"><a href="#cb25-100" aria-hidden="true" tabindex="-1"></a>        alignment<span class="op">:</span> _dragAlignment<span class="op">,</span></span>
+<span id="cb25-101"><a href="#cb25-101" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> Card(child<span class="op">:</span> widget<span class="op">.</span>child)<span class="op">,</span></span>
+<span id="cb25-102"><a href="#cb25-102" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb25-103"><a href="#cb25-103" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb25-104"><a href="#cb25-104" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb25-105"><a href="#cb25-105" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 data-number="3.2" id="lisans-bilgisi"><span
+class="header-section-number">3.2</span> 📄 Lisans Bilgisi</h2>
+<p>Bu doküman, <strong>Flutter resmi dokümantasyonundan</strong>
+türetilmiş Türkçe ders notudur.</p>
+<p><strong>Orijinal kaynak:</strong><br />
+https://docs.flutter.dev/ui/animations/hero-animations</p>
+<p><strong>Türkçe çeviri ve düzenleme:</strong><br />
+<a href="mailto:htemiz@artvin.edu.tr">Doç. Dr. Hakan Temiz</a></p>
+<hr />
+<h3 data-number="3.2.1" id="lisans-kapsamı"><span
+class="header-section-number">3.2.1</span> Lisans Kapsamı</h3>
+<p>Bu dokümandaki içerikler aşağıdaki açık lisanslar kapsamında
+sunulmaktadır:</p>
+<p><strong>Metin içerikleri (anlatım ve açıklamalar):</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> Creative Commons Attribution 4.0 International
+(CC BY 4.0)<br />
+https://creativecommons.org/licenses/by/4.0/</p>
+<p>Bu lisans kapsamında: - İçerik kopyalanabilir, dağıtılabilir ve
+uyarlanabilir<br />
+- Ticari kullanım serbesttir<br />
+- Kaynak belirtilmesi zorunludur</p>
+<p><strong>Kod örnekleri:</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> BSD 3-Clause License<br />
+https://opensource.org/licenses/BSD-3-Clause</p>
+<p>Bu lisans kapsamında: - Kodlar kopyalanabilir, değiştirilebilir ve
+dağıtılabilir<br />
+- Ticari kullanım serbesttir<br />
+- Lisans bildiriminin korunması gerekir</p>
+</body>
+</html>

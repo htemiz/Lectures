@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>2.04.2 Kayan Paralaks Efekti Oluşturma</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#kayan-bir-paralaks-efekti-oluşturun"
+id="toc-kayan-bir-paralaks-efekti-oluşturun"><span
+class="toc-section-number">1</span> Kayan bir paralaks efekti
+oluşturun</a>
+<ul>
+<li><a href="#paralaks-öğelerini-tutacak-bir-liste-oluşturun"
+id="toc-paralaks-öğelerini-tutacak-bir-liste-oluşturun"><span
+class="toc-section-number">1.1</span> Paralaks öğelerini tutacak bir
+liste oluşturun</a></li>
+<li><a href="#metin-ve-statik-resim-içeren-öğeleri-görüntüleyin"
+id="toc-metin-ve-statik-resim-içeren-öğeleri-görüntüleyin"><span
+class="toc-section-number">1.2</span> Metin ve statik resim içeren
+öğeleri görüntüleyin</a></li>
+<li><a href="#paralaks-efektini-uygulayın"
+id="toc-paralaks-efektini-uygulayın"><span
+class="toc-section-number">1.3</span> Paralaks efektini
+uygulayın</a></li>
+<li><a href="#etkileşimli-örnek" id="toc-etkileşimli-örnek"><span
+class="toc-section-number">1.4</span> Etkileşimli örnek</a></li>
+<li><a href="#lisans-bilgisi" id="toc-lisans-bilgisi"><span
+class="toc-section-number">1.5</span> 📄 Lisans Bilgisi</a>
+<ul>
+<li><a href="#lisans-kapsamı" id="toc-lisans-kapsamı"><span
+class="toc-section-number">1.5.1</span> Lisans Kapsamı</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1" id="kayan-bir-paralaks-efekti-oluşturun"><span
+class="header-section-number">1</span> Kayan bir paralaks efekti
+oluşturun</h1>
+<p>Bir uygulamada kart listesini (örneğin resim içeren) kaydırdığınızda,
+bu resimlerin ekranın geri kalanından daha yavaş kaydığını fark
+edebilirsiniz. Bu, listedeki kartların ön planda olduğu, ancak
+resimlerin kendilerinin uzaktaki arka planda durduğu gibi görünür. Bu
+efekt <strong>paralaks</strong> olarak bilinir.</p>
+<p>Bu tarifte, bir kart listesi (bir miktar metin içeren yuvarlatılmış
+köşeli) oluşturarak paralaks efekti yaratacaksınız. Her kart ayrıca bir
+resim içerir. Kartlar ekranın yukarısına doğru kayarken, her bir kartın
+içindeki resimler aşağı doğru kayar.</p>
+<p>Aşağıdaki animasyon uygulamanın davranışını göstermektedir:</p>
+<p><img src="images/70_ParallaxScrolling.webp" width=150></p>
+<h2 data-number="1.1"
+id="paralaks-öğelerini-tutacak-bir-liste-oluşturun"><span
+class="header-section-number">1.1</span> Paralaks öğelerini tutacak bir
+liste oluşturun</h2>
+<p>Paralaks kaydırma görüntüleri içeren bir liste görüntülemek için önce
+bir liste görüntülemelisiniz.</p>
+<p><code>ParallaxRecipe</code> adında yeni bir durumsuz (stateless)
+widget oluşturun. <code>ParallaxRecipe</code> içinde, bir liste
+oluşturan <code>SingleChildScrollView</code> ve <code>Column</code>
+içeren bir widget ağacı oluşturun.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ParallaxRecipe <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> ParallaxRecipe(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> <span class="at">const</span> SingleChildScrollView(child<span class="op">:</span> Column(children<span class="op">:</span> []));</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 data-number="1.2"
+id="metin-ve-statik-resim-içeren-öğeleri-görüntüleyin"><span
+class="header-section-number">1.2</span> Metin ve statik resim içeren
+öğeleri görüntüleyin</h2>
+<p>Her liste öğesi, dünyadaki yedi konumdan birini temsil eden
+yuvarlatılmış dikdörtgen bir arka plan resmi görüntüler. Bu arka plan
+resminin üzerine, sol altta konumlandırılmış konumun adı ve ülkesi
+yığılır. Arka plan resmi ile metin arasında, metnin arka plana karşı
+okunabilirliğini artıran karanlık bir gradyan bulunur.</p>
+<p>Daha önce bahsedilen görsellerden oluşan
+<code>LocationListItem</code> adlı bir durumsuz widget uygulayın.
+Şimdilik, arka plan için statik bir <code>Image</code> widget’ı
+kullanın. Daha sonra bu widget’ı paralaks versiyonuyla
+değiştireceksiniz.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>@immutable</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> LocationListItem <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> LocationListItem(<span class="op">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span>key<span class="op">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>imageUrl<span class="op">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>name<span class="op">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>country<span class="op">,</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span>);</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> imageUrl;</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> name;</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> country;</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Padding(</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>      padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>symmetric(horizontal<span class="op">:</span> <span class="dv">24</span><span class="op">,</span> vertical<span class="op">:</span> <span class="dv">16</span>)<span class="op">,</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> AspectRatio(</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        aspectRatio<span class="op">:</span> <span class="dv">16</span> <span class="op">/</span> <span class="dv">9</span><span class="op">,</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> ClipRRect(</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>          borderRadius<span class="op">:</span> BorderRadius<span class="op">.</span>circular(<span class="dv">16</span>)<span class="op">,</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> Stack(</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>            children<span class="op">:</span> [</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>              _buildParallaxBackground(context)<span class="op">,</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>              _buildGradient()<span class="op">,</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>              _buildTitleAndSubtitle()<span class="op">,</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>            ]<span class="op">,</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  Widget _buildParallaxBackground(BuildContext context) <span class="op">{</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Positioned<span class="op">.</span>fill(child<span class="op">:</span> Image<span class="op">.</span>network(imageUrl<span class="op">,</span> fit<span class="op">:</span> BoxFit<span class="op">.</span>cover));</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  Widget _buildGradient() <span class="op">{</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Positioned<span class="op">.</span>fill(</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> DecoratedBox(</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>        decoration<span class="op">:</span> BoxDecoration(</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>          gradient<span class="op">:</span> LinearGradient(</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>            colors<span class="op">:</span> [Colors<span class="op">.</span>transparent<span class="op">,</span> Colors<span class="op">.</span>black<span class="op">.</span>withValues(alpha<span class="op">:</span> <span class="fl">0.7</span>)]<span class="op">,</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>            begin<span class="op">:</span> Alignment<span class="op">.</span>topCenter<span class="op">,</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>            end<span class="op">:</span> Alignment<span class="op">.</span>bottomCenter<span class="op">,</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>            stops<span class="op">:</span> <span class="at">const</span> [<span class="fl">0.6</span><span class="op">,</span> <span class="fl">0.95</span>]<span class="op">,</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>  Widget _buildTitleAndSubtitle() <span class="op">{</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Positioned(</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>      left<span class="op">:</span> <span class="dv">20</span><span class="op">,</span></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>      bottom<span class="op">:</span> <span class="dv">20</span><span class="op">,</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Column(</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>        mainAxisSize<span class="op">:</span> MainAxisSize<span class="op">.</span>min<span class="op">,</span></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>        crossAxisAlignment<span class="op">:</span> CrossAxisAlignment<span class="op">.</span>start<span class="op">,</span></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>        children<span class="op">:</span> [</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>          Text(</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>            name<span class="op">,</span></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>            style<span class="op">:</span> <span class="at">const</span> TextStyle(</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>              color<span class="op">:</span> Colors<span class="op">.</span>white<span class="op">,</span></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>              fontSize<span class="op">:</span> <span class="dv">20</span><span class="op">,</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>              fontWeight<span class="op">:</span> FontWeight<span class="op">.</span>bold<span class="op">,</span></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>            )<span class="op">,</span></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>          Text(</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>            country<span class="op">,</span></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>            style<span class="op">:</span> <span class="at">const</span> TextStyle(color<span class="op">:</span> Colors<span class="op">.</span>white<span class="op">,</span> fontSize<span class="op">:</span> <span class="dv">14</span>)<span class="op">,</span></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>        ]<span class="op">,</span></span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Ardından, liste öğelerini <code>ParallaxRecipe</code> widget’ınıza
+ekleyin.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ParallaxRecipe <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> ParallaxRecipe(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> SingleChildScrollView(</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Column(</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        children<span class="op">:</span> [</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>          <span class="cf">for</span> (<span class="at">final</span> location <span class="kw">in</span> locations)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>            LocationListItem(</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>              imageUrl<span class="op">:</span> location<span class="op">.</span>imageUrl<span class="op">,</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>              name<span class="op">:</span> location<span class="op">.</span>name<span class="op">,</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>              country<span class="op">:</span> location<span class="op">.</span>place<span class="op">,</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>            )<span class="op">,</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        ]<span class="op">,</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Artık dünyadaki yedi benzersiz konumu görüntüleyen tipik,
+kaydırılabilir bir kart listeniz var. Bir sonraki adımda, arka plan
+resmine bir paralaks efekti ekleyeceksiniz.</p>
+<h2 data-number="1.3" id="paralaks-efektini-uygulayın"><span
+class="header-section-number">1.3</span> Paralaks efektini
+uygulayın</h2>
+<p>Paralaks kaydırma efekti, arka plan resminin listenin geri kalanının
+tersi yönde hafifçe itilmesiyle elde edilir. Liste öğeleri ekranın
+yukarısına doğru kayarken, her arka plan resmi hafifçe aşağı doğru
+kayar. Tersine, liste öğeleri ekranın aşağısına doğru kayarken, her arka
+plan resmi hafifçe yukarı doğru kayar. Görsel olarak bu, paralaks ile
+sonuçlanır.</p>
+<p>Paralaks efekti, liste öğesinin atası (ancestor)
+<code>Scrollable</code> içindeki mevcut konumuna bağlıdır. Liste
+öğesinin kaydırma konumu değiştikçe, liste öğesinin arka plan resminin
+konumu da değişmelidir. Bu çözülmesi gereken ilginç bir problemdir. Bir
+liste öğesinin <code>Scrollable</code> içindeki konumu, Flutter’ın düzen
+(layout) aşaması tamamlanana kadar mevcut değildir. Bu, arka plan
+resminin konumunun, düzen aşamasından sonra gelen boyama (paint)
+aşamasında belirlenmesi gerektiği anlamına gelir. Neyse ki Flutter,
+widget boyanmadan hemen önce bir çocuk widget’ın dönüşümü üzerinde size
+kontrol sağlamak için özel olarak tasarlanmış <code>Flow</code> adlı bir
+widget sağlar. Başka bir deyişle, boyama aşamasını yakalayabilir ve
+çocuk widget’larınızı istediğiniz gibi yeniden konumlandırmak için
+kontrolü ele alabilirsiniz.</p>
+<p><strong>Not</strong> Daha fazla bilgi edinmek için <code>Flow</code>
+widget’ı hakkındaki bu kısa Haftanın Widget’ı videosuna göz atın:</p>
+<p><strong>Not</strong> Bir çocuğun nerede boyandığından ziyade ne
+boyadığı üzerinde kontrole ihtiyacınız olduğu durumlarda, bir
+<code>CustomPaint</code> widget’ı kullanmayı düşünün. Düzen, boyama ve
+isabet testi (hit testing) üzerinde kontrole ihtiyacınız olduğu
+durumlarda, özel bir <code>RenderBox</code> tanımlamayı düşünün.</p>
+<p>Arka plan <code>Image</code> widget’ınızı bir <code>Flow</code>
+widget’ı ile sarın.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Widget _buildParallaxBackground(BuildContext context) <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> Flow(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    children<span class="op">:</span> [Image<span class="op">.</span>network(imageUrl<span class="op">,</span> fit<span class="op">:</span> BoxFit<span class="op">.</span>cover)]<span class="op">,</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><code>ParallaxFlowDelegate</code> adında yeni bir
+<code>FlowDelegate</code> tanıtın.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Widget _buildParallaxBackground(BuildContext context) <span class="op">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> Flow(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    delegate<span class="op">:</span> ParallaxFlowDelegate()<span class="op">,</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    children<span class="op">:</span> [Image<span class="op">.</span>network(imageUrl<span class="op">,</span> fit<span class="op">:</span> BoxFit<span class="op">.</span>cover)]<span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ParallaxFlowDelegate <span class="kw">extends</span> FlowDelegate <span class="op">{</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  ParallaxFlowDelegate();</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  BoxConstraints getConstraintsForChild(<span class="dt">int</span> i<span class="op">,</span> BoxConstraints constraints) <span class="op">{</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// </span><span class="al">TODO</span><span class="co">: We&#39;ll add more to this later.</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> paintChildren(FlowPaintingContext context) <span class="op">{</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">// </span><span class="al">TODO</span><span class="co">: We&#39;ll add more to this later.</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bool</span> shouldRepaint(<span class="kw">covariant</span> FlowDelegate oldDelegate) <span class="op">{</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">// </span><span class="al">TODO</span><span class="co">: We&#39;ll add more to this later.</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> <span class="cn">true</span>;</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Bir <code>FlowDelegate</code>, çocuklarının nasıl
+boyutlandırılacağını ve bu çocukların nerede boyanacağını kontrol eder.
+Bu durumda, <code>Flow</code> widget’ınızın yalnızca bir çocuğu vardır:
+arka plan resmi. Bu resim tam olarak <code>Flow</code> widget’ı kadar
+geniş olmalıdır.</p>
+<p>Arka plan resmi çocuğu için sıkı genişlik kısıtlamaları döndürün.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>BoxConstraints getConstraintsForChild(<span class="dt">int</span> i<span class="op">,</span> BoxConstraints constraints) <span class="op">{</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> BoxConstraints<span class="op">.</span>tightFor(width<span class="op">:</span> constraints<span class="op">.</span>maxWidth);</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Arka plan resimleriniz artık uygun şekilde boyutlandırıldı, ancak
+yine de her arka plan resminin dikey konumunu kaydırma konumuna göre
+hesaplamanız ve ardından boyamanız gerekiyor.</p>
+<p>Bir arka plan resminin istenen konumunu hesaplamak için ihtiyacınız
+olan üç kritik bilgi parçası vardır:</p>
+<ol type="1">
+<li>Atanın (ancestor) <code>Scrollable</code> sınırları</li>
+<li>Bireysel liste öğesinin sınırları</li>
+<li>Liste öğesine sığacak şekilde küçültüldükten sonraki görüntünün
+boyutu</li>
+</ol>
+<p><code>Scrollable</code> sınırlarına bakmak için,
+<code>FlowDelegate</code>’inize bir <code>ScrollableState</code> iletin.
+Bireysel liste öğenizin sınırlarına bakmak için, liste öğenizin
+<code>BuildContext</code>’ini <code>FlowDelegate</code>’inize iletin.
+Arka plan resminizin son boyutuna bakmak için, <code>Image</code>
+widget’ınıza bir <code>GlobalKey</code> atayın ve ardından bu
+<code>GlobalKey</code>’i <code>FlowDelegate</code>’inize iletin.</p>
+<p>Bu bilgileri <code>ParallaxFlowDelegate</code> için kullanılabilir
+hale getirin.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>@immutable</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> LocationListItem <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> GlobalKey _backgroundImageKey <span class="op">=</span> GlobalKey();</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  Widget _buildParallaxBackground(BuildContext context) <span class="op">{</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Flow(</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>      delegate<span class="op">:</span> ParallaxFlowDelegate(</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        scrollable<span class="op">:</span> Scrollable<span class="op">.</span>of(context)<span class="op">,</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        listItemContext<span class="op">:</span> context<span class="op">,</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        backgroundImageKey<span class="op">:</span> _backgroundImageKey<span class="op">,</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>      children<span class="op">:</span> [</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        Image<span class="op">.</span>network(imageUrl<span class="op">,</span> key<span class="op">:</span> _backgroundImageKey<span class="op">,</span> fit<span class="op">:</span> BoxFit<span class="op">.</span>cover)<span class="op">,</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>      ]<span class="op">,</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ParallaxFlowDelegate <span class="kw">extends</span> FlowDelegate <span class="op">{</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  ParallaxFlowDelegate(<span class="op">{</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>scrollable<span class="op">,</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>listItemContext<span class="op">,</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>backgroundImageKey<span class="op">,</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span>);</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> ScrollableState scrollable;</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> BuildContext listItemContext;</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> GlobalKey backgroundImageKey;</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Paralaks kaydırmayı uygulamak için gereken tüm bilgilere sahip
+olduktan sonra, <code>shouldRepaint()</code> yöntemini uygulayın.</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> shouldRepaint(ParallaxFlowDelegate oldDelegate) <span class="op">{</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> scrollable <span class="op">!=</span> oldDelegate<span class="op">.</span>scrollable <span class="op">||</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>      listItemContext <span class="op">!=</span> oldDelegate<span class="op">.</span>listItemContext <span class="op">||</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      backgroundImageKey <span class="op">!=</span> oldDelegate<span class="op">.</span>backgroundImageKey;</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Şimdi, paralaks efekti için düzen hesaplamalarını uygulayın.</p>
+<p>İlk olarak, bir liste öğesinin atası <code>Scrollable</code> içindeki
+piksel konumunu hesaplayın.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> paintChildren(FlowPaintingContext context) <span class="op">{</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Calculate the position of this list item within the viewport.</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> scrollableBox <span class="op">=</span> scrollable<span class="op">.</span>context<span class="op">.</span>findRenderObject() <span class="kw">as</span> RenderBox;</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> listItemBox <span class="op">=</span> listItemContext<span class="op">.</span>findRenderObject() <span class="kw">as</span> RenderBox;</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> listItemOffset <span class="op">=</span> listItemBox<span class="op">.</span>localToGlobal(</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    listItemBox<span class="op">.</span>size<span class="op">.</span>centerLeft(Offset<span class="op">.</span>zero)<span class="op">,</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    ancestor<span class="op">:</span> scrollableBox<span class="op">,</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Liste öğesinin <code>Scrollable</code>’ın en üstünden olan yüzdesini
+hesaplamak için piksel konumunu kullanın. Kaydırılabilir alanın en
+üstündeki bir liste öğesi %0 ve kaydırılabilir alanın en altındaki bir
+liste öğesi %100 üretmelidir.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> paintChildren(FlowPaintingContext context) <span class="op">{</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Calculate the position of this list item within the viewport.</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> scrollableBox <span class="op">=</span> scrollable<span class="op">.</span>context<span class="op">.</span>findRenderObject() <span class="kw">as</span> RenderBox;</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> listItemBox <span class="op">=</span> listItemContext<span class="op">.</span>findRenderObject() <span class="kw">as</span> RenderBox;</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> listItemOffset <span class="op">=</span> listItemBox<span class="op">.</span>localToGlobal(</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    listItemBox<span class="op">.</span>size<span class="op">.</span>centerLeft(Offset<span class="op">.</span>zero)<span class="op">,</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    ancestor<span class="op">:</span> scrollableBox<span class="op">,</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Determine the percent position of this list item within the</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">// scrollable area.</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> viewportDimension <span class="op">=</span> scrollable<span class="op">.</span>position<span class="op">.</span>viewportDimension;</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> scrollFraction <span class="op">=</span> (listItemOffset<span class="op">.</span>dy <span class="op">/</span> viewportDimension)<span class="op">.</span>clamp(</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.0</span><span class="op">,</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="fl">1.0</span><span class="op">,</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ···</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Bir <code>Alignment</code> hesaplamak için kaydırma yüzdesini
+kullanın. %0’da <code>Alignment(0.0, -1.0)</code> ve %100’de
+<code>Alignment(0.0, 1.0)</code> istersiniz. Bu koordinatlar sırasıyla
+üst ve alt hizalamaya karşılık gelir.</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> paintChildren(FlowPaintingContext context) <span class="op">{</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Calculate the position of this list item within the viewport.</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> scrollableBox <span class="op">=</span> scrollable<span class="op">.</span>context<span class="op">.</span>findRenderObject() <span class="kw">as</span> RenderBox;</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> listItemBox <span class="op">=</span> listItemContext<span class="op">.</span>findRenderObject() <span class="kw">as</span> RenderBox;</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> listItemOffset <span class="op">=</span> listItemBox<span class="op">.</span>localToGlobal(</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    listItemBox<span class="op">.</span>size<span class="op">.</span>centerLeft(Offset<span class="op">.</span>zero)<span class="op">,</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    ancestor<span class="op">:</span> scrollableBox<span class="op">,</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Determine the percent position of this list item within the</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">// scrollable area.</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> viewportDimension <span class="op">=</span> scrollable<span class="op">.</span>position<span class="op">.</span>viewportDimension;</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> scrollFraction <span class="op">=</span> (listItemOffset<span class="op">.</span>dy <span class="op">/</span> viewportDimension)<span class="op">.</span>clamp(</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.0</span><span class="op">,</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="fl">1.0</span><span class="op">,</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Calculate the vertical alignment of the background</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  <span class="co">// based on the scroll percent.</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> verticalAlignment <span class="op">=</span> Alignment(<span class="fl">0.0</span><span class="op">,</span> scrollFraction <span class="op">*</span> <span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span>);</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Arka plan resminin nerede konumlandırılması gerektiğini belirleyen
+bir <code>Rect</code> üretmek için, liste öğesinin boyutu ve arka plan
+resminin boyutu ile birlikte <code>verticalAlignment</code>ı
+kullanın.</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> paintChildren(FlowPaintingContext context) <span class="op">{</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Calculate the position of this list item within the viewport.</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> scrollableBox <span class="op">=</span> scrollable<span class="op">.</span>context<span class="op">.</span>findRenderObject() <span class="kw">as</span> RenderBox;</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> listItemBox <span class="op">=</span> listItemContext<span class="op">.</span>findRenderObject() <span class="kw">as</span> RenderBox;</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> listItemOffset <span class="op">=</span> listItemBox<span class="op">.</span>localToGlobal(</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    listItemBox<span class="op">.</span>size<span class="op">.</span>centerLeft(Offset<span class="op">.</span>zero)<span class="op">,</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    ancestor<span class="op">:</span> scrollableBox<span class="op">,</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Determine the percent position of this list item within the</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">// scrollable area.</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> viewportDimension <span class="op">=</span> scrollable<span class="op">.</span>position<span class="op">.</span>viewportDimension;</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> scrollFraction <span class="op">=</span> (listItemOffset<span class="op">.</span>dy <span class="op">/</span> viewportDimension)<span class="op">.</span>clamp(</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.0</span><span class="op">,</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="fl">1.0</span><span class="op">,</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Calculate the vertical alignment of the background</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  <span class="co">// based on the scroll percent.</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> verticalAlignment <span class="op">=</span> Alignment(<span class="fl">0.0</span><span class="op">,</span> scrollFraction <span class="op">*</span> <span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span>);</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Convert the background alignment into a pixel offset for</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>  <span class="co">// painting purposes.</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> backgroundSize <span class="op">=</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>      (backgroundImageKey<span class="op">.</span>currentContext<span class="op">!.</span>findRenderObject() <span class="kw">as</span> RenderBox)</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>          <span class="op">.</span>size;</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> listItemSize <span class="op">=</span> context<span class="op">.</span>size;</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> childRect <span class="op">=</span> verticalAlignment<span class="op">.</span>inscribe(</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    backgroundSize<span class="op">,</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    Offset<span class="op">.</span>zero <span class="op">&amp;</span> listItemSize<span class="op">,</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><code>childRect</code> kullanarak, arka plan resmini istenen çeviri
+(translation) dönüşümü ile boyayın. Size paralaks efektini veren şey,
+zaman içindeki bu dönüşümdür.</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> paintChildren(FlowPaintingContext context) <span class="op">{</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Calculate the position of this list item within the viewport.</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> scrollableBox <span class="op">=</span> scrollable<span class="op">.</span>context<span class="op">.</span>findRenderObject() <span class="kw">as</span> RenderBox;</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> listItemBox <span class="op">=</span> listItemContext<span class="op">.</span>findRenderObject() <span class="kw">as</span> RenderBox;</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> listItemOffset <span class="op">=</span> listItemBox<span class="op">.</span>localToGlobal(</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    listItemBox<span class="op">.</span>size<span class="op">.</span>centerLeft(Offset<span class="op">.</span>zero)<span class="op">,</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    ancestor<span class="op">:</span> scrollableBox<span class="op">,</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Determine the percent position of this list item within the</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">// scrollable area.</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> viewportDimension <span class="op">=</span> scrollable<span class="op">.</span>position<span class="op">.</span>viewportDimension;</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> scrollFraction <span class="op">=</span> (listItemOffset<span class="op">.</span>dy <span class="op">/</span> viewportDimension)<span class="op">.</span>clamp(</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.0</span><span class="op">,</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="fl">1.0</span><span class="op">,</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Calculate the vertical alignment of the background</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="co">// based on the scroll percent.</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> verticalAlignment <span class="op">=</span> Alignment(<span class="fl">0.0</span><span class="op">,</span> scrollFraction <span class="op">*</span> <span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span>);</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Convert the background alignment into a pixel offset for</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  <span class="co">// painting purposes.</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> backgroundSize <span class="op">=</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>      (backgroundImageKey<span class="op">.</span>currentContext<span class="op">!.</span>findRenderObject() <span class="kw">as</span> RenderBox)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>          <span class="op">.</span>size;</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> listItemSize <span class="op">=</span> context<span class="op">.</span>size;</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> childRect <span class="op">=</span> verticalAlignment<span class="op">.</span>inscribe(</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>    backgroundSize<span class="op">,</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>    Offset<span class="op">.</span>zero <span class="op">&amp;</span> listItemSize<span class="op">,</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Paint the background.</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>  context<span class="op">.</span>paintChild(</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">:</span> Transform<span class="op">.</span>translate(</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>      offset<span class="op">:</span> Offset(<span class="fl">0.0</span><span class="op">,</span> childRect<span class="op">.</span>top)<span class="op">,</span></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    )<span class="op">.</span>transform<span class="op">,</span></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Paralaks efektini elde etmek için son bir ayrıntıya ihtiyacınız var.
+<code>ParallaxFlowDelegate</code> girdiler değiştiğinde yeniden boyar,
+ancak <code>ParallaxFlowDelegate</code> kaydırma konumu her değiştiğinde
+yeniden boyamaz.</p>
+<p><code>ScrollableState</code>’in <code>ScrollPosition</code> değerini
+<code>FlowDelegate</code> üst sınıfına iletin, böylece
+<code>FlowDelegate</code>, <code>ScrollPosition</code> her değiştiğinde
+yeniden boyanır.</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ParallaxFlowDelegate <span class="kw">extends</span> FlowDelegate <span class="op">{</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  ParallaxFlowDelegate(<span class="op">{</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>scrollable<span class="op">,</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>listItemContext<span class="op">,</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>backgroundImageKey<span class="op">,</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span>) <span class="op">:</span> <span class="kw">super</span>(repaint<span class="op">:</span> scrollable<span class="op">.</span>position);</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Tebrikler! Artık paralaks, kayan arka plan resimlerine sahip bir kart
+listeniz var.</p>
+<h2 data-number="1.4" id="etkileşimli-örnek"><span
+class="header-section-number">1.4</span> Etkileşimli örnek</h2>
+<p>Uygulamayı çalıştırın: Paralaks efektini gözlemlemek için yukarı ve
+aşağı kaydırın.</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter/material.dart&#39;</span>;</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="st">&#39;package:flutter/rendering.dart&#39;</span>;</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> Color darkBlue <span class="op">=</span> Color<span class="op">.</span>fromARGB(<span class="dv">255</span><span class="op">,</span> <span class="dv">18</span><span class="op">,</span> <span class="dv">32</span><span class="op">,</span> <span class="dv">47</span>);</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main() <span class="op">{</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  runApp(<span class="at">const</span> MyApp());</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyApp <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> MyApp(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> MaterialApp(</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>      theme<span class="op">:</span> ThemeData<span class="op">.</span>dark()<span class="op">.</span>copyWith(scaffoldBackgroundColor<span class="op">:</span> darkBlue)<span class="op">,</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>      debugShowCheckedModeBanner<span class="op">:</span> <span class="cn">false</span><span class="op">,</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>      home<span class="op">:</span> <span class="at">const</span> Scaffold(body<span class="op">:</span> Center(child<span class="op">:</span> ExampleParallax()))<span class="op">,</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ExampleParallax <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> ExampleParallax(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> SingleChildScrollView(</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Column(</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>        children<span class="op">:</span> [</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>          <span class="cf">for</span> (<span class="at">final</span> location <span class="kw">in</span> locations)</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>            LocationListItem(</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>              imageUrl<span class="op">:</span> location<span class="op">.</span>imageUrl<span class="op">,</span></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>              name<span class="op">:</span> location<span class="op">.</span>name<span class="op">,</span></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>              country<span class="op">:</span> location<span class="op">.</span>place<span class="op">,</span></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>            )<span class="op">,</span></span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>        ]<span class="op">,</span></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> LocationListItem <span class="kw">extends</span> StatelessWidget <span class="op">{</span></span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>  LocationListItem(<span class="op">{</span></span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span>key<span class="op">,</span></span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>imageUrl<span class="op">,</span></span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>name<span class="op">,</span></span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>country<span class="op">,</span></span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span>);</span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> imageUrl;</span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> name;</span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> country;</span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> GlobalKey _backgroundImageKey <span class="op">=</span> GlobalKey();</span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Padding(</span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a>      padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>symmetric(horizontal<span class="op">:</span> <span class="dv">24</span><span class="op">,</span> vertical<span class="op">:</span> <span class="dv">16</span>)<span class="op">,</span></span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> AspectRatio(</span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a>        aspectRatio<span class="op">:</span> <span class="dv">16</span> <span class="op">/</span> <span class="dv">9</span><span class="op">,</span></span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> ClipRRect(</span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a>          borderRadius<span class="op">:</span> BorderRadius<span class="op">.</span>circular(<span class="dv">16</span>)<span class="op">,</span></span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> Stack(</span>
+<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a>            children<span class="op">:</span> [</span>
+<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a>              _buildParallaxBackground(context)<span class="op">,</span></span>
+<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a>              _buildGradient()<span class="op">,</span></span>
+<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a>              _buildTitleAndSubtitle()<span class="op">,</span></span>
+<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a>            ]<span class="op">,</span></span>
+<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a>  Widget _buildParallaxBackground(BuildContext context) <span class="op">{</span></span>
+<span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Flow(</span>
+<span id="cb15-78"><a href="#cb15-78" aria-hidden="true" tabindex="-1"></a>      delegate<span class="op">:</span> ParallaxFlowDelegate(</span>
+<span id="cb15-79"><a href="#cb15-79" aria-hidden="true" tabindex="-1"></a>        scrollable<span class="op">:</span> Scrollable<span class="op">.</span>of(context)<span class="op">,</span></span>
+<span id="cb15-80"><a href="#cb15-80" aria-hidden="true" tabindex="-1"></a>        listItemContext<span class="op">:</span> context<span class="op">,</span></span>
+<span id="cb15-81"><a href="#cb15-81" aria-hidden="true" tabindex="-1"></a>        backgroundImageKey<span class="op">:</span> _backgroundImageKey<span class="op">,</span></span>
+<span id="cb15-82"><a href="#cb15-82" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb15-83"><a href="#cb15-83" aria-hidden="true" tabindex="-1"></a>      children<span class="op">:</span> [</span>
+<span id="cb15-84"><a href="#cb15-84" aria-hidden="true" tabindex="-1"></a>        Image<span class="op">.</span>network(imageUrl<span class="op">,</span> key<span class="op">:</span> _backgroundImageKey<span class="op">,</span> fit<span class="op">:</span> BoxFit<span class="op">.</span>cover)<span class="op">,</span></span>
+<span id="cb15-85"><a href="#cb15-85" aria-hidden="true" tabindex="-1"></a>      ]<span class="op">,</span></span>
+<span id="cb15-86"><a href="#cb15-86" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb15-87"><a href="#cb15-87" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb15-88"><a href="#cb15-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-89"><a href="#cb15-89" aria-hidden="true" tabindex="-1"></a>  Widget _buildGradient() <span class="op">{</span></span>
+<span id="cb15-90"><a href="#cb15-90" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Positioned<span class="op">.</span>fill(</span>
+<span id="cb15-91"><a href="#cb15-91" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> DecoratedBox(</span>
+<span id="cb15-92"><a href="#cb15-92" aria-hidden="true" tabindex="-1"></a>        decoration<span class="op">:</span> BoxDecoration(</span>
+<span id="cb15-93"><a href="#cb15-93" aria-hidden="true" tabindex="-1"></a>          gradient<span class="op">:</span> LinearGradient(</span>
+<span id="cb15-94"><a href="#cb15-94" aria-hidden="true" tabindex="-1"></a>            colors<span class="op">:</span> [Colors<span class="op">.</span>transparent<span class="op">,</span> Colors<span class="op">.</span>black<span class="op">.</span>withValues(alpha<span class="op">:</span> <span class="fl">0.7</span>)]<span class="op">,</span></span>
+<span id="cb15-95"><a href="#cb15-95" aria-hidden="true" tabindex="-1"></a>            begin<span class="op">:</span> Alignment<span class="op">.</span>topCenter<span class="op">,</span></span>
+<span id="cb15-96"><a href="#cb15-96" aria-hidden="true" tabindex="-1"></a>            end<span class="op">:</span> Alignment<span class="op">.</span>bottomCenter<span class="op">,</span></span>
+<span id="cb15-97"><a href="#cb15-97" aria-hidden="true" tabindex="-1"></a>            stops<span class="op">:</span> <span class="at">const</span> [<span class="fl">0.6</span><span class="op">,</span> <span class="fl">0.95</span>]<span class="op">,</span></span>
+<span id="cb15-98"><a href="#cb15-98" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb15-99"><a href="#cb15-99" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb15-100"><a href="#cb15-100" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb15-101"><a href="#cb15-101" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb15-102"><a href="#cb15-102" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb15-103"><a href="#cb15-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-104"><a href="#cb15-104" aria-hidden="true" tabindex="-1"></a>  Widget _buildTitleAndSubtitle() <span class="op">{</span></span>
+<span id="cb15-105"><a href="#cb15-105" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Positioned(</span>
+<span id="cb15-106"><a href="#cb15-106" aria-hidden="true" tabindex="-1"></a>      left<span class="op">:</span> <span class="dv">20</span><span class="op">,</span></span>
+<span id="cb15-107"><a href="#cb15-107" aria-hidden="true" tabindex="-1"></a>      bottom<span class="op">:</span> <span class="dv">20</span><span class="op">,</span></span>
+<span id="cb15-108"><a href="#cb15-108" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Column(</span>
+<span id="cb15-109"><a href="#cb15-109" aria-hidden="true" tabindex="-1"></a>        mainAxisSize<span class="op">:</span> MainAxisSize<span class="op">.</span>min<span class="op">,</span></span>
+<span id="cb15-110"><a href="#cb15-110" aria-hidden="true" tabindex="-1"></a>        crossAxisAlignment<span class="op">:</span> CrossAxisAlignment<span class="op">.</span>start<span class="op">,</span></span>
+<span id="cb15-111"><a href="#cb15-111" aria-hidden="true" tabindex="-1"></a>        children<span class="op">:</span> [</span>
+<span id="cb15-112"><a href="#cb15-112" aria-hidden="true" tabindex="-1"></a>          Text(</span>
+<span id="cb15-113"><a href="#cb15-113" aria-hidden="true" tabindex="-1"></a>            name<span class="op">,</span></span>
+<span id="cb15-114"><a href="#cb15-114" aria-hidden="true" tabindex="-1"></a>            style<span class="op">:</span> <span class="at">const</span> TextStyle(</span>
+<span id="cb15-115"><a href="#cb15-115" aria-hidden="true" tabindex="-1"></a>              color<span class="op">:</span> Colors<span class="op">.</span>white<span class="op">,</span></span>
+<span id="cb15-116"><a href="#cb15-116" aria-hidden="true" tabindex="-1"></a>              fontSize<span class="op">:</span> <span class="dv">20</span><span class="op">,</span></span>
+<span id="cb15-117"><a href="#cb15-117" aria-hidden="true" tabindex="-1"></a>              fontWeight<span class="op">:</span> FontWeight<span class="op">.</span>bold<span class="op">,</span></span>
+<span id="cb15-118"><a href="#cb15-118" aria-hidden="true" tabindex="-1"></a>            )<span class="op">,</span></span>
+<span id="cb15-119"><a href="#cb15-119" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb15-120"><a href="#cb15-120" aria-hidden="true" tabindex="-1"></a>          Text(</span>
+<span id="cb15-121"><a href="#cb15-121" aria-hidden="true" tabindex="-1"></a>            country<span class="op">,</span></span>
+<span id="cb15-122"><a href="#cb15-122" aria-hidden="true" tabindex="-1"></a>            style<span class="op">:</span> <span class="at">const</span> TextStyle(color<span class="op">:</span> Colors<span class="op">.</span>white<span class="op">,</span> fontSize<span class="op">:</span> <span class="dv">14</span>)<span class="op">,</span></span>
+<span id="cb15-123"><a href="#cb15-123" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb15-124"><a href="#cb15-124" aria-hidden="true" tabindex="-1"></a>        ]<span class="op">,</span></span>
+<span id="cb15-125"><a href="#cb15-125" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb15-126"><a href="#cb15-126" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb15-127"><a href="#cb15-127" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb15-128"><a href="#cb15-128" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb15-129"><a href="#cb15-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-130"><a href="#cb15-130" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ParallaxFlowDelegate <span class="kw">extends</span> FlowDelegate <span class="op">{</span></span>
+<span id="cb15-131"><a href="#cb15-131" aria-hidden="true" tabindex="-1"></a>  ParallaxFlowDelegate(<span class="op">{</span></span>
+<span id="cb15-132"><a href="#cb15-132" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>scrollable<span class="op">,</span></span>
+<span id="cb15-133"><a href="#cb15-133" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>listItemContext<span class="op">,</span></span>
+<span id="cb15-134"><a href="#cb15-134" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>backgroundImageKey<span class="op">,</span></span>
+<span id="cb15-135"><a href="#cb15-135" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span>) <span class="op">:</span> <span class="kw">super</span>(repaint<span class="op">:</span> scrollable<span class="op">.</span>position);</span>
+<span id="cb15-136"><a href="#cb15-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-137"><a href="#cb15-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-138"><a href="#cb15-138" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> ScrollableState scrollable;</span>
+<span id="cb15-139"><a href="#cb15-139" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> BuildContext listItemContext;</span>
+<span id="cb15-140"><a href="#cb15-140" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> GlobalKey backgroundImageKey;</span>
+<span id="cb15-141"><a href="#cb15-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-142"><a href="#cb15-142" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb15-143"><a href="#cb15-143" aria-hidden="true" tabindex="-1"></a>  BoxConstraints getConstraintsForChild(<span class="dt">int</span> i<span class="op">,</span> BoxConstraints constraints) <span class="op">{</span></span>
+<span id="cb15-144"><a href="#cb15-144" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> BoxConstraints<span class="op">.</span>tightFor(width<span class="op">:</span> constraints<span class="op">.</span>maxWidth);</span>
+<span id="cb15-145"><a href="#cb15-145" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb15-146"><a href="#cb15-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-147"><a href="#cb15-147" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb15-148"><a href="#cb15-148" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> paintChildren(FlowPaintingContext context) <span class="op">{</span></span>
+<span id="cb15-149"><a href="#cb15-149" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Calculate the position of this list item within the viewport.</span></span>
+<span id="cb15-150"><a href="#cb15-150" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> scrollableBox <span class="op">=</span> scrollable<span class="op">.</span>context<span class="op">.</span>findRenderObject() <span class="kw">as</span> RenderBox;</span>
+<span id="cb15-151"><a href="#cb15-151" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> listItemBox <span class="op">=</span> listItemContext<span class="op">.</span>findRenderObject() <span class="kw">as</span> RenderBox;</span>
+<span id="cb15-152"><a href="#cb15-152" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> listItemOffset <span class="op">=</span> listItemBox<span class="op">.</span>localToGlobal(</span>
+<span id="cb15-153"><a href="#cb15-153" aria-hidden="true" tabindex="-1"></a>      listItemBox<span class="op">.</span>size<span class="op">.</span>centerLeft(Offset<span class="op">.</span>zero)<span class="op">,</span></span>
+<span id="cb15-154"><a href="#cb15-154" aria-hidden="true" tabindex="-1"></a>      ancestor<span class="op">:</span> scrollableBox<span class="op">,</span></span>
+<span id="cb15-155"><a href="#cb15-155" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb15-156"><a href="#cb15-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-157"><a href="#cb15-157" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Determine the percent position of this list item within the</span></span>
+<span id="cb15-158"><a href="#cb15-158" aria-hidden="true" tabindex="-1"></a>    <span class="co">// scrollable area.</span></span>
+<span id="cb15-159"><a href="#cb15-159" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> viewportDimension <span class="op">=</span> scrollable<span class="op">.</span>position<span class="op">.</span>viewportDimension;</span>
+<span id="cb15-160"><a href="#cb15-160" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> scrollFraction <span class="op">=</span> (listItemOffset<span class="op">.</span>dy <span class="op">/</span> viewportDimension)<span class="op">.</span>clamp(</span>
+<span id="cb15-161"><a href="#cb15-161" aria-hidden="true" tabindex="-1"></a>      <span class="fl">0.0</span><span class="op">,</span></span>
+<span id="cb15-162"><a href="#cb15-162" aria-hidden="true" tabindex="-1"></a>      <span class="fl">1.0</span><span class="op">,</span></span>
+<span id="cb15-163"><a href="#cb15-163" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb15-164"><a href="#cb15-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-165"><a href="#cb15-165" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Calculate the vertical alignment of the background</span></span>
+<span id="cb15-166"><a href="#cb15-166" aria-hidden="true" tabindex="-1"></a>    <span class="co">// based on the scroll percent.</span></span>
+<span id="cb15-167"><a href="#cb15-167" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> verticalAlignment <span class="op">=</span> Alignment(<span class="fl">0.0</span><span class="op">,</span> scrollFraction <span class="op">*</span> <span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span>);</span>
+<span id="cb15-168"><a href="#cb15-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-169"><a href="#cb15-169" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Convert the background alignment into a pixel offset for</span></span>
+<span id="cb15-170"><a href="#cb15-170" aria-hidden="true" tabindex="-1"></a>    <span class="co">// painting purposes.</span></span>
+<span id="cb15-171"><a href="#cb15-171" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> backgroundSize <span class="op">=</span></span>
+<span id="cb15-172"><a href="#cb15-172" aria-hidden="true" tabindex="-1"></a>        (backgroundImageKey<span class="op">.</span>currentContext<span class="op">!.</span>findRenderObject() <span class="kw">as</span> RenderBox)</span>
+<span id="cb15-173"><a href="#cb15-173" aria-hidden="true" tabindex="-1"></a>            <span class="op">.</span>size;</span>
+<span id="cb15-174"><a href="#cb15-174" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> listItemSize <span class="op">=</span> context<span class="op">.</span>size;</span>
+<span id="cb15-175"><a href="#cb15-175" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> childRect <span class="op">=</span> verticalAlignment<span class="op">.</span>inscribe(</span>
+<span id="cb15-176"><a href="#cb15-176" aria-hidden="true" tabindex="-1"></a>      backgroundSize<span class="op">,</span></span>
+<span id="cb15-177"><a href="#cb15-177" aria-hidden="true" tabindex="-1"></a>      Offset<span class="op">.</span>zero <span class="op">&amp;</span> listItemSize<span class="op">,</span></span>
+<span id="cb15-178"><a href="#cb15-178" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb15-179"><a href="#cb15-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-180"><a href="#cb15-180" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Paint the background.</span></span>
+<span id="cb15-181"><a href="#cb15-181" aria-hidden="true" tabindex="-1"></a>    context<span class="op">.</span>paintChild(</span>
+<span id="cb15-182"><a href="#cb15-182" aria-hidden="true" tabindex="-1"></a>      <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb15-183"><a href="#cb15-183" aria-hidden="true" tabindex="-1"></a>      transform<span class="op">:</span> Transform<span class="op">.</span>translate(</span>
+<span id="cb15-184"><a href="#cb15-184" aria-hidden="true" tabindex="-1"></a>        offset<span class="op">:</span> Offset(<span class="fl">0.0</span><span class="op">,</span> childRect<span class="op">.</span>top)<span class="op">,</span></span>
+<span id="cb15-185"><a href="#cb15-185" aria-hidden="true" tabindex="-1"></a>      )<span class="op">.</span>transform<span class="op">,</span></span>
+<span id="cb15-186"><a href="#cb15-186" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb15-187"><a href="#cb15-187" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb15-188"><a href="#cb15-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-189"><a href="#cb15-189" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb15-190"><a href="#cb15-190" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bool</span> shouldRepaint(ParallaxFlowDelegate oldDelegate) <span class="op">{</span></span>
+<span id="cb15-191"><a href="#cb15-191" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> scrollable <span class="op">!=</span> oldDelegate<span class="op">.</span>scrollable <span class="op">||</span></span>
+<span id="cb15-192"><a href="#cb15-192" aria-hidden="true" tabindex="-1"></a>        listItemContext <span class="op">!=</span> oldDelegate<span class="op">.</span>listItemContext <span class="op">||</span></span>
+<span id="cb15-193"><a href="#cb15-193" aria-hidden="true" tabindex="-1"></a>        backgroundImageKey <span class="op">!=</span> oldDelegate<span class="op">.</span>backgroundImageKey;</span>
+<span id="cb15-194"><a href="#cb15-194" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb15-195"><a href="#cb15-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-196"><a href="#cb15-196" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb15-197"><a href="#cb15-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-198"><a href="#cb15-198" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Parallax <span class="kw">extends</span> SingleChildRenderObjectWidget <span class="op">{</span></span>
+<span id="cb15-199"><a href="#cb15-199" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> Parallax(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">,</span> required Widget background<span class="op">}</span>)</span>
+<span id="cb15-200"><a href="#cb15-200" aria-hidden="true" tabindex="-1"></a>    <span class="op">:</span> <span class="kw">super</span>(child<span class="op">:</span> background);</span>
+<span id="cb15-201"><a href="#cb15-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-202"><a href="#cb15-202" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb15-203"><a href="#cb15-203" aria-hidden="true" tabindex="-1"></a>  RenderObject createRenderObject(BuildContext context) <span class="op">{</span></span>
+<span id="cb15-204"><a href="#cb15-204" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> RenderParallax(scrollable<span class="op">:</span> Scrollable<span class="op">.</span>of(context));</span>
+<span id="cb15-205"><a href="#cb15-205" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb15-206"><a href="#cb15-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-207"><a href="#cb15-207" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb15-208"><a href="#cb15-208" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> updateRenderObject(</span>
+<span id="cb15-209"><a href="#cb15-209" aria-hidden="true" tabindex="-1"></a>    BuildContext context<span class="op">,</span></span>
+<span id="cb15-210"><a href="#cb15-210" aria-hidden="true" tabindex="-1"></a>    <span class="kw">covariant</span> RenderParallax renderObject<span class="op">,</span></span>
+<span id="cb15-211"><a href="#cb15-211" aria-hidden="true" tabindex="-1"></a>  ) <span class="op">{</span></span>
+<span id="cb15-212"><a href="#cb15-212" aria-hidden="true" tabindex="-1"></a>    renderObject<span class="op">.</span>scrollable <span class="op">=</span> Scrollable<span class="op">.</span>of(context);</span>
+<span id="cb15-213"><a href="#cb15-213" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb15-214"><a href="#cb15-214" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb15-215"><a href="#cb15-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-216"><a href="#cb15-216" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ParallaxParentData <span class="kw">extends</span> ContainerBoxParentData<span class="op">&lt;</span>RenderBox<span class="op">&gt;</span> <span class="op">{}</span></span>
+<span id="cb15-217"><a href="#cb15-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-218"><a href="#cb15-218" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> RenderParallax <span class="kw">extends</span> RenderBox</span>
+<span id="cb15-219"><a href="#cb15-219" aria-hidden="true" tabindex="-1"></a>    <span class="kw">with</span> RenderObjectWithChildMixin<span class="op">&lt;</span>RenderBox<span class="op">&gt;,</span> RenderProxyBoxMixin <span class="op">{</span></span>
+<span id="cb15-220"><a href="#cb15-220" aria-hidden="true" tabindex="-1"></a>  RenderParallax(<span class="op">{</span>required ScrollableState scrollable<span class="op">}</span>)</span>
+<span id="cb15-221"><a href="#cb15-221" aria-hidden="true" tabindex="-1"></a>    <span class="op">:</span> _scrollable <span class="op">=</span> scrollable;</span>
+<span id="cb15-222"><a href="#cb15-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-223"><a href="#cb15-223" aria-hidden="true" tabindex="-1"></a>  ScrollableState _scrollable;</span>
+<span id="cb15-224"><a href="#cb15-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-225"><a href="#cb15-225" aria-hidden="true" tabindex="-1"></a>  ScrollableState <span class="kw">get</span> scrollable <span class="op">=&gt;</span> _scrollable;</span>
+<span id="cb15-226"><a href="#cb15-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-227"><a href="#cb15-227" aria-hidden="true" tabindex="-1"></a>  <span class="kw">set</span> scrollable(ScrollableState value) <span class="op">{</span></span>
+<span id="cb15-228"><a href="#cb15-228" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (value <span class="op">!=</span> _scrollable) <span class="op">{</span></span>
+<span id="cb15-229"><a href="#cb15-229" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (attached) <span class="op">{</span></span>
+<span id="cb15-230"><a href="#cb15-230" aria-hidden="true" tabindex="-1"></a>        _scrollable<span class="op">.</span>position<span class="op">.</span>removeListener(markNeedsLayout);</span>
+<span id="cb15-231"><a href="#cb15-231" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span></span>
+<span id="cb15-232"><a href="#cb15-232" aria-hidden="true" tabindex="-1"></a>      _scrollable <span class="op">=</span> value;</span>
+<span id="cb15-233"><a href="#cb15-233" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (attached) <span class="op">{</span></span>
+<span id="cb15-234"><a href="#cb15-234" aria-hidden="true" tabindex="-1"></a>        _scrollable<span class="op">.</span>position<span class="op">.</span>addListener(markNeedsLayout);</span>
+<span id="cb15-235"><a href="#cb15-235" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span></span>
+<span id="cb15-236"><a href="#cb15-236" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb15-237"><a href="#cb15-237" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb15-238"><a href="#cb15-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-239"><a href="#cb15-239" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb15-240"><a href="#cb15-240" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> attach(<span class="kw">covariant</span> PipelineOwner owner) <span class="op">{</span></span>
+<span id="cb15-241"><a href="#cb15-241" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span>attach(owner);</span>
+<span id="cb15-242"><a href="#cb15-242" aria-hidden="true" tabindex="-1"></a>    _scrollable<span class="op">.</span>position<span class="op">.</span>addListener(markNeedsLayout);</span>
+<span id="cb15-243"><a href="#cb15-243" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb15-244"><a href="#cb15-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-245"><a href="#cb15-245" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb15-246"><a href="#cb15-246" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> detach() <span class="op">{</span></span>
+<span id="cb15-247"><a href="#cb15-247" aria-hidden="true" tabindex="-1"></a>    _scrollable<span class="op">.</span>position<span class="op">.</span>removeListener(markNeedsLayout);</span>
+<span id="cb15-248"><a href="#cb15-248" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span>detach();</span>
+<span id="cb15-249"><a href="#cb15-249" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb15-250"><a href="#cb15-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-251"><a href="#cb15-251" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb15-252"><a href="#cb15-252" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> setupParentData(<span class="kw">covariant</span> RenderObject child) <span class="op">{</span></span>
+<span id="cb15-253"><a href="#cb15-253" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (child<span class="op">.</span>parentData <span class="kw">is</span><span class="op">!</span> ParallaxParentData) <span class="op">{</span></span>
+<span id="cb15-254"><a href="#cb15-254" aria-hidden="true" tabindex="-1"></a>      child<span class="op">.</span>parentData <span class="op">=</span> ParallaxParentData();</span>
+<span id="cb15-255"><a href="#cb15-255" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb15-256"><a href="#cb15-256" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb15-257"><a href="#cb15-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-258"><a href="#cb15-258" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb15-259"><a href="#cb15-259" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> performLayout() <span class="op">{</span></span>
+<span id="cb15-260"><a href="#cb15-260" aria-hidden="true" tabindex="-1"></a>    size <span class="op">=</span> constraints<span class="op">.</span>biggest;</span>
+<span id="cb15-261"><a href="#cb15-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-262"><a href="#cb15-262" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Force the background to take up all available width</span></span>
+<span id="cb15-263"><a href="#cb15-263" aria-hidden="true" tabindex="-1"></a>    <span class="co">// and then scale its height based on the image&#39;s aspect ratio.</span></span>
+<span id="cb15-264"><a href="#cb15-264" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> background <span class="op">=</span> child<span class="op">!</span>;</span>
+<span id="cb15-265"><a href="#cb15-265" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> backgroundImageConstraints <span class="op">=</span> BoxConstraints<span class="op">.</span>tightFor(</span>
+<span id="cb15-266"><a href="#cb15-266" aria-hidden="true" tabindex="-1"></a>      width<span class="op">:</span> size<span class="op">.</span>width<span class="op">,</span></span>
+<span id="cb15-267"><a href="#cb15-267" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb15-268"><a href="#cb15-268" aria-hidden="true" tabindex="-1"></a>    background<span class="op">.</span>layout(backgroundImageConstraints<span class="op">,</span> parentUsesSize<span class="op">:</span> <span class="cn">true</span>);</span>
+<span id="cb15-269"><a href="#cb15-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-270"><a href="#cb15-270" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Set the background&#39;s local offset, which is zero.</span></span>
+<span id="cb15-271"><a href="#cb15-271" aria-hidden="true" tabindex="-1"></a>    (background<span class="op">.</span>parentData <span class="kw">as</span> ParallaxParentData)<span class="op">.</span>offset <span class="op">=</span> Offset<span class="op">.</span>zero;</span>
+<span id="cb15-272"><a href="#cb15-272" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb15-273"><a href="#cb15-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-274"><a href="#cb15-274" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb15-275"><a href="#cb15-275" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> paint(PaintingContext context<span class="op">,</span> Offset offset) <span class="op">{</span></span>
+<span id="cb15-276"><a href="#cb15-276" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Get the size of the scrollable area.</span></span>
+<span id="cb15-277"><a href="#cb15-277" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> viewportDimension <span class="op">=</span> scrollable<span class="op">.</span>position<span class="op">.</span>viewportDimension;</span>
+<span id="cb15-278"><a href="#cb15-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-279"><a href="#cb15-279" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Calculate the global position of this list item.</span></span>
+<span id="cb15-280"><a href="#cb15-280" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> scrollableBox <span class="op">=</span> scrollable<span class="op">.</span>context<span class="op">.</span>findRenderObject() <span class="kw">as</span> RenderBox;</span>
+<span id="cb15-281"><a href="#cb15-281" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> backgroundOffset <span class="op">=</span> localToGlobal(</span>
+<span id="cb15-282"><a href="#cb15-282" aria-hidden="true" tabindex="-1"></a>      size<span class="op">.</span>centerLeft(Offset<span class="op">.</span>zero)<span class="op">,</span></span>
+<span id="cb15-283"><a href="#cb15-283" aria-hidden="true" tabindex="-1"></a>      ancestor<span class="op">:</span> scrollableBox<span class="op">,</span></span>
+<span id="cb15-284"><a href="#cb15-284" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb15-285"><a href="#cb15-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-286"><a href="#cb15-286" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Determine the percent position of this list item within the</span></span>
+<span id="cb15-287"><a href="#cb15-287" aria-hidden="true" tabindex="-1"></a>    <span class="co">// scrollable area.</span></span>
+<span id="cb15-288"><a href="#cb15-288" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> scrollFraction <span class="op">=</span> (backgroundOffset<span class="op">.</span>dy <span class="op">/</span> viewportDimension)<span class="op">.</span>clamp(</span>
+<span id="cb15-289"><a href="#cb15-289" aria-hidden="true" tabindex="-1"></a>      <span class="fl">0.0</span><span class="op">,</span></span>
+<span id="cb15-290"><a href="#cb15-290" aria-hidden="true" tabindex="-1"></a>      <span class="fl">1.0</span><span class="op">,</span></span>
+<span id="cb15-291"><a href="#cb15-291" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb15-292"><a href="#cb15-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-293"><a href="#cb15-293" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Calculate the vertical alignment of the background</span></span>
+<span id="cb15-294"><a href="#cb15-294" aria-hidden="true" tabindex="-1"></a>    <span class="co">// based on the scroll percent.</span></span>
+<span id="cb15-295"><a href="#cb15-295" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> verticalAlignment <span class="op">=</span> Alignment(<span class="fl">0.0</span><span class="op">,</span> scrollFraction <span class="op">*</span> <span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span>);</span>
+<span id="cb15-296"><a href="#cb15-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-297"><a href="#cb15-297" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Convert the background alignment into a pixel offset for</span></span>
+<span id="cb15-298"><a href="#cb15-298" aria-hidden="true" tabindex="-1"></a>    <span class="co">// painting purposes.</span></span>
+<span id="cb15-299"><a href="#cb15-299" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> background <span class="op">=</span> child<span class="op">!</span>;</span>
+<span id="cb15-300"><a href="#cb15-300" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> backgroundSize <span class="op">=</span> background<span class="op">.</span>size;</span>
+<span id="cb15-301"><a href="#cb15-301" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> listItemSize <span class="op">=</span> size;</span>
+<span id="cb15-302"><a href="#cb15-302" aria-hidden="true" tabindex="-1"></a>    <span class="at">final</span> childRect <span class="op">=</span> verticalAlignment<span class="op">.</span>inscribe(</span>
+<span id="cb15-303"><a href="#cb15-303" aria-hidden="true" tabindex="-1"></a>      backgroundSize<span class="op">,</span></span>
+<span id="cb15-304"><a href="#cb15-304" aria-hidden="true" tabindex="-1"></a>      Offset<span class="op">.</span>zero <span class="op">&amp;</span> listItemSize<span class="op">,</span></span>
+<span id="cb15-305"><a href="#cb15-305" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb15-306"><a href="#cb15-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-307"><a href="#cb15-307" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Paint the background.</span></span>
+<span id="cb15-308"><a href="#cb15-308" aria-hidden="true" tabindex="-1"></a>    context<span class="op">.</span>paintChild(</span>
+<span id="cb15-309"><a href="#cb15-309" aria-hidden="true" tabindex="-1"></a>      background<span class="op">,</span></span>
+<span id="cb15-310"><a href="#cb15-310" aria-hidden="true" tabindex="-1"></a>      (background<span class="op">.</span>parentData <span class="kw">as</span> ParallaxParentData)<span class="op">.</span>offset <span class="op">+</span></span>
+<span id="cb15-311"><a href="#cb15-311" aria-hidden="true" tabindex="-1"></a>          offset <span class="op">+</span></span>
+<span id="cb15-312"><a href="#cb15-312" aria-hidden="true" tabindex="-1"></a>          Offset(<span class="fl">0.0</span><span class="op">,</span> childRect<span class="op">.</span>top)<span class="op">,</span></span>
+<span id="cb15-313"><a href="#cb15-313" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb15-314"><a href="#cb15-314" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb15-315"><a href="#cb15-315" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb15-316"><a href="#cb15-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-317"><a href="#cb15-317" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Location <span class="op">{</span></span>
+<span id="cb15-318"><a href="#cb15-318" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> Location(<span class="op">{</span></span>
+<span id="cb15-319"><a href="#cb15-319" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>name<span class="op">,</span></span>
+<span id="cb15-320"><a href="#cb15-320" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>place<span class="op">,</span></span>
+<span id="cb15-321"><a href="#cb15-321" aria-hidden="true" tabindex="-1"></a>    required <span class="kw">this</span><span class="op">.</span>imageUrl<span class="op">,</span></span>
+<span id="cb15-322"><a href="#cb15-322" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span>);</span>
+<span id="cb15-323"><a href="#cb15-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-324"><a href="#cb15-324" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> name;</span>
+<span id="cb15-325"><a href="#cb15-325" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> place;</span>
+<span id="cb15-326"><a href="#cb15-326" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> imageUrl;</span>
+<span id="cb15-327"><a href="#cb15-327" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb15-328"><a href="#cb15-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-329"><a href="#cb15-329" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> urlPrefix <span class="op">=</span></span>
+<span id="cb15-330"><a href="#cb15-330" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;https://docs.flutter.dev/assets/images/exercise/effects/parallax&#39;</span>;</span>
+<span id="cb15-331"><a href="#cb15-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-332"><a href="#cb15-332" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> locations <span class="op">=</span> [</span>
+<span id="cb15-333"><a href="#cb15-333" aria-hidden="true" tabindex="-1"></a>  Location(</span>
+<span id="cb15-334"><a href="#cb15-334" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> <span class="st">&#39;Mount Rushmore&#39;</span><span class="op">,</span></span>
+<span id="cb15-335"><a href="#cb15-335" aria-hidden="true" tabindex="-1"></a>    place<span class="op">:</span> <span class="st">&#39;U.S.A&#39;</span><span class="op">,</span></span>
+<span id="cb15-336"><a href="#cb15-336" aria-hidden="true" tabindex="-1"></a>    imageUrl<span class="op">:</span> <span class="st">&#39;$urlPrefix/01-mount-rushmore.jpg&#39;</span><span class="op">,</span></span>
+<span id="cb15-337"><a href="#cb15-337" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb15-338"><a href="#cb15-338" aria-hidden="true" tabindex="-1"></a>  Location(</span>
+<span id="cb15-339"><a href="#cb15-339" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> <span class="st">&#39;Gardens By The Bay&#39;</span><span class="op">,</span></span>
+<span id="cb15-340"><a href="#cb15-340" aria-hidden="true" tabindex="-1"></a>    place<span class="op">:</span> <span class="st">&#39;Singapore&#39;</span><span class="op">,</span></span>
+<span id="cb15-341"><a href="#cb15-341" aria-hidden="true" tabindex="-1"></a>    imageUrl<span class="op">:</span> <span class="st">&#39;$urlPrefix/02-singapore.jpg&#39;</span><span class="op">,</span></span>
+<span id="cb15-342"><a href="#cb15-342" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb15-343"><a href="#cb15-343" aria-hidden="true" tabindex="-1"></a>  Location(</span>
+<span id="cb15-344"><a href="#cb15-344" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> <span class="st">&#39;Machu Picchu&#39;</span><span class="op">,</span></span>
+<span id="cb15-345"><a href="#cb15-345" aria-hidden="true" tabindex="-1"></a>    place<span class="op">:</span> <span class="st">&#39;Peru&#39;</span><span class="op">,</span></span>
+<span id="cb15-346"><a href="#cb15-346" aria-hidden="true" tabindex="-1"></a>    imageUrl<span class="op">:</span> <span class="st">&#39;$urlPrefix/03-machu-picchu.jpg&#39;</span><span class="op">,</span></span>
+<span id="cb15-347"><a href="#cb15-347" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb15-348"><a href="#cb15-348" aria-hidden="true" tabindex="-1"></a>  Location(</span>
+<span id="cb15-349"><a href="#cb15-349" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> <span class="st">&#39;Vitznau&#39;</span><span class="op">,</span></span>
+<span id="cb15-350"><a href="#cb15-350" aria-hidden="true" tabindex="-1"></a>    place<span class="op">:</span> <span class="st">&#39;Switzerland&#39;</span><span class="op">,</span></span>
+<span id="cb15-351"><a href="#cb15-351" aria-hidden="true" tabindex="-1"></a>    imageUrl<span class="op">:</span> <span class="st">&#39;$urlPrefix/04-vitznau.jpg&#39;</span><span class="op">,</span></span>
+<span id="cb15-352"><a href="#cb15-352" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb15-353"><a href="#cb15-353" aria-hidden="true" tabindex="-1"></a>  Location(</span>
+<span id="cb15-354"><a href="#cb15-354" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> <span class="st">&#39;Bali&#39;</span><span class="op">,</span></span>
+<span id="cb15-355"><a href="#cb15-355" aria-hidden="true" tabindex="-1"></a>    place<span class="op">:</span> <span class="st">&#39;Indonesia&#39;</span><span class="op">,</span></span>
+<span id="cb15-356"><a href="#cb15-356" aria-hidden="true" tabindex="-1"></a>    imageUrl<span class="op">:</span> <span class="st">&#39;$urlPrefix/05-bali.jpg&#39;</span><span class="op">,</span></span>
+<span id="cb15-357"><a href="#cb15-357" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb15-358"><a href="#cb15-358" aria-hidden="true" tabindex="-1"></a>  Location(</span>
+<span id="cb15-359"><a href="#cb15-359" aria-hidden="true" tabindex="-1"></a>    name<span class="op">:</span> <span class="st">&#39;Mexico City&#39;</span><span class="op">,</span></span>
+<span id="cb15-360"><a href="#cb15-360" aria-hidden="true" tabindex="-1"></a>    place<span class="op">:</span> <span class="st">&#39;Mexico&#39;</span><span class="op">,</span></span>
+<span id="cb15-361"><a href="#cb15-361" aria-hidden="true" tabindex="-1"></a>    imageUrl<span class="op">:</span> <span class="st">&#39;$urlPrefix/06-mexico-city.jpg&#39;</span><span class="op">,</span></span>
+<span id="cb15-362"><a href="#cb15-362" aria-hidden="true" tabindex="-1"></a>  )<span class="op">,</span></span>
+<span id="cb15-363"><a href="#cb15-363" aria-hidden="true" tabindex="-1"></a>  Location(name<span class="op">:</span> <span class="st">&#39;Cairo&#39;</span><span class="op">,</span> place<span class="op">:</span> <span class="st">&#39;Egypt&#39;</span><span class="op">,</span> imageUrl<span class="op">:</span> <span class="st">&#39;$urlPrefix/07-cairo.jpg&#39;</span>)<span class="op">,</span></span>
+<span id="cb15-364"><a href="#cb15-364" aria-hidden="true" tabindex="-1"></a>];</span></code></pre></div>
+<h2 data-number="1.5" id="lisans-bilgisi"><span
+class="header-section-number">1.5</span> 📄 Lisans Bilgisi</h2>
+<p>Bu doküman, <strong>Flutter resmi dokümantasyonundan</strong>
+türetilmiş Türkçe ders notudur.</p>
+<p><strong>Orijinal kaynak:</strong><br />
+https://docs.flutter.dev/cookbook/effects/parallax-scrolling</p>
+<p><strong>Türkçe çeviri ve düzenleme:</strong><br />
+<a href="mailto:htemiz@artvin.edu.tr">Doç. Dr. Hakan Temiz</a></p>
+<hr />
+<h3 data-number="1.5.1" id="lisans-kapsamı"><span
+class="header-section-number">1.5.1</span> Lisans Kapsamı</h3>
+<p>Bu dokümandaki içerikler aşağıdaki açık lisanslar kapsamında
+sunulmaktadır:</p>
+<p><strong>Metin içerikleri (anlatım ve açıklamalar):</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> Creative Commons Attribution 4.0 International
+(CC BY 4.0)<br />
+https://creativecommons.org/licenses/by/4.0/</p>
+<p>Bu lisans kapsamında: - İçerik kopyalanabilir, dağıtılabilir ve
+uyarlanabilir<br />
+- Ticari kullanım serbesttir<br />
+- Kaynak belirtilmesi zorunludur</p>
+<p><strong>Kod örnekleri:</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> BSD 3-Clause License<br />
+https://opensource.org/licenses/BSD-3-Clause</p>
+<p>Bu lisans kapsamında: - Kodlar kopyalanabilir, değiştirilebilir ve
+dağıtılabilir<br />
+- Ticari kullanım serbesttir<br />
+- Lisans bildiriminin korunması gerekir</p>
+</body>
+</html>

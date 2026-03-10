@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>1.7 Kullanıcı Girdisi (User Input)</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#kullanıcı-girdisini-işleme-handling-user-input"
+id="toc-kullanıcı-girdisini-işleme-handling-user-input"><span
+class="toc-section-number">1</span> Kullanıcı girdisini işleme (Handling
+user input)</a>
+<ul>
+<li><a href="#tasarım-sistemi-desteği-hakkında"
+id="toc-tasarım-sistemi-desteği-hakkında"><span
+class="toc-section-number">1.1</span> Tasarım sistemi desteği
+hakkında</a></li>
+<li><a href="#düğmeler-buttons" id="toc-düğmeler-buttons"><span
+class="toc-section-number">1.2</span> Düğmeler (Buttons)</a></li>
+<li><a href="#metin-text" id="toc-metin-text"><span
+class="toc-section-number">1.3</span> Metin (Text)</a>
+<ul>
+<li><a href="#selectabletext" id="toc-selectabletext"><span
+class="toc-section-number">1.3.1</span> SelectableText</a></li>
+<li><a href="#richtext" id="toc-richtext"><span
+class="toc-section-number">1.3.2</span> RichText</a></li>
+<li><a href="#textfield" id="toc-textfield"><span
+class="toc-section-number">1.3.3</span> TextField</a></li>
+<li><a href="#form" id="toc-form"><span
+class="toc-section-number">1.3.4</span> Form</a></li>
+</ul></li>
+<li><a href="#seçenek-grupları" id="toc-seçenek-grupları"><span
+class="toc-section-number">1.4</span> Seçenek Grupları</a>
+<ul>
+<li><a href="#segmentedbutton" id="toc-segmentedbutton"><span
+class="toc-section-number">1.4.1</span> SegmentedButton</a></li>
+<li><a href="#chip-çip" id="toc-chip-çip"><span
+class="toc-section-number">1.4.2</span> Chip (Çip)</a></li>
+<li><a href="#dropdownmenu" id="toc-dropdownmenu"><span
+class="toc-section-number">1.4.3</span> DropdownMenu</a></li>
+<li><a href="#slider-kaydırıcı" id="toc-slider-kaydırıcı"><span
+class="toc-section-number">1.4.4</span> Slider (Kaydırıcı)</a></li>
+</ul></li>
+<li><a href="#değerler-arasında-geçiş-yapma-toggle"
+id="toc-değerler-arasında-geçiş-yapma-toggle"><span
+class="toc-section-number">1.5</span> Değerler arasında geçiş yapma
+(Toggle)</a>
+<ul>
+<li><a href="#checkbox-switch-ve-radio"
+id="toc-checkbox-switch-ve-radio"><span
+class="toc-section-number">1.5.1</span> Checkbox, Switch ve
+Radio</a></li>
+</ul></li>
+<li><a href="#tarih-saat-seçimi" id="toc-tarih-saat-seçimi"><span
+class="toc-section-number">1.6</span> Tarih / Saat Seçimi</a>
+<ul>
+<li><a href="#datepickerdialog" id="toc-datepickerdialog"><span
+class="toc-section-number">1.6.1</span> DatePickerDialog</a></li>
+<li><a href="#timepickerdialog" id="toc-timepickerdialog"><span
+class="toc-section-number">1.6.2</span> TimePickerDialog</a></li>
+</ul></li>
+<li><a href="#kaydırma-ve-sürükleme-swipe-slide"
+id="toc-kaydırma-ve-sürükleme-swipe-slide"><span
+class="toc-section-number">1.7</span> Kaydırma ve Sürükleme (Swipe &amp;
+slide)</a>
+<ul>
+<li><a href="#dismissible" id="toc-dismissible"><span
+class="toc-section-number">1.7.1</span> Dismissible</a></li>
+</ul></li>
+<li><a href="#diğer-widgetler" id="toc-diğer-widgetler"><span
+class="toc-section-number">1.8</span> Diğer Widgetler?</a></li>
+<li><a href="#lisans-bilgisi" id="toc-lisans-bilgisi"><span
+class="toc-section-number">1.9</span> 📄 Lisans Bilgisi</a>
+<ul>
+<li><a href="#lisans-kapsamı" id="toc-lisans-kapsamı"><span
+class="toc-section-number">1.9.1</span> Lisans Kapsamı</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1"
+id="kullanıcı-girdisini-işleme-handling-user-input"><span
+class="header-section-number">1</span> Kullanıcı girdisini işleme
+(Handling user input)</h1>
+<p>Çok platformlu bir UI (Kullanıcı Arayüzü) çerçevesi olarak,
+kullanıcıların bir Flutter uygulamasıyla etkileşime girmesi için birçok
+farklı yol vardır. Bu bölümdeki kaynaklar, uygulamanızda kullanıcı
+etkileşimini sağlamak için kullanılan bazı yaygın widget’ları size
+tanıtır.</p>
+<p>Kaydırma (scrolling) gibi bazı kullanıcı girdi mekanizmaları,
+<strong>Düzenler (Layouts)</strong> bölümünde zaten ele alınmıştı.</p>
+<h2 data-number="1.1" id="tasarım-sistemi-desteği-hakkında"><span
+class="header-section-number">1.1</span> Tasarım sistemi desteği
+hakkında</h2>
+<p>Flutter, SDK’nın bir parçası olarak iki tasarım sistemi için önceden
+oluşturulmuş bileşenlerle birlikte gelir: <strong>Material</strong> ve
+<strong>Cupertino</strong>. Eğitim amaçlı olarak bu sayfa,
+<strong>Material 3 tasarım dili</strong> özelliklerine göre
+stillendirilmiş bileşenler olan Material widget’larına
+odaklanmaktadır.</p>
+<p>Dart ve Flutter için paket deposu olan <strong>pub.dev</strong>
+üzerindeki Flutter topluluğu, <strong>Fluent UI</strong>, <strong>macOS
+UI</strong> ve daha fazlası gibi ek tasarım dillerini oluşturur ve
+destekler. Mevcut tasarım sistemi bileşenleri ihtiyacınıza tam olarak
+uymuyorsa, Flutter kendi özel widget’larınızı oluşturmanıza olanak
+tanır; bu konu bu bölümün sonunda ele alınmaktadır. Hangi tasarım
+sistemini seçerseniz seçin, bu sayfadaki ilkeler geçerlidir.</p>
+<p><strong>Referans:</strong> Widget kataloğu, <strong>Material</strong>
+ve <strong>Cupertino</strong> kütüphanelerinde yaygın olarak kullanılan
+widget’ların bir envanterine sahiptir.</p>
+<h2 data-number="1.2" id="düğmeler-buttons"><span
+class="header-section-number">1.2</span> Düğmeler (Buttons)</h2>
+<p><img src="images/30_material-buttons.png" width=600></p>
+<p>Düğmeler, kullanıcının tıklayarak veya dokunarak kullanıcı arayüzünde
+bir eylem başlatmasına olanak tanır. Material kütüphanesi, işlevsel
+olarak benzer olan ancak çeşitli kullanım durumları için farklı şekilde
+stillendirilmiş çeşitli düğme türleri sağlar; bunlar şunları içerir:</p>
+<ul>
+<li><strong>ElevatedButton:</strong> Derinliğe sahip bir düğme.
+Genellikle düz olan düzenlere boyut katmak için yükseltilmiş düğmeleri
+kullanın.</li>
+<li><strong>FilledButton:</strong> <strong>Kaydet</strong>,
+<strong>Şimdi Katıl</strong> veya <strong>Onayla</strong> gibi bir akışı
+tamamlayan önemli, nihai eylemler için kullanılması gereken içi dolu bir
+düğme.</li>
+<li><strong>Tonal Button:</strong> <code>FilledButton</code> ve
+<code>OutlinedButton</code> arasında orta yollu bir düğme.
+<strong>İleri</strong> (Next) gibi, daha düşük öncelikli bir düğmenin
+sadece bir çerçeveden daha fazla vurgu gerektirdiği bağlamlarda
+kullanışlıdırlar.</li>
+<li><strong>OutlinedButton:</strong> Metin ve görünür bir kenarlığa
+sahip düğme. Bu düğmeler önemli olan ancak bir uygulamadaki birincil
+eylem olmayan eylemleri içerir.</li>
+<li><strong>TextButton:</strong> Kenarlığı olmayan tıklanabilir metin.
+Metin düğmelerinin görünür kenarlıkları olmadığından, bağlam için diğer
+içeriğe göre konumlarına güvenmeleri gerekir.</li>
+<li><strong>IconButton:</strong> Simgesi olan bir düğme.</li>
+<li><strong>FloatingActionButton:</strong> Birincil bir eylemi teşvik
+etmek için içeriğin üzerinde duran (yüzen) bir simge düğmesi.</li>
+<li><strong>Video:</strong> FloatingActionButton (Haftanın
+Widget’ı)</li>
+</ul>
+<p>Aşağıdaki <code>ElevatedButton</code> örnek kodunda görüldüğü gibi,
+bir düğme oluşturmanın genellikle 3 ana yönü vardır: stil (style), geri
+çağırma (callback) ve çocuğu (child):</p>
+<ol type="1">
+<li>Bir düğmenin geri çağırma işlevi olan <code>onPressed</code>,
+düğmeye tıklandığında ne olacağını belirler; bu nedenle, uygulama
+durumunuzu güncellediğiniz yer bu işlevdir. Geri çağırma
+<code>null</code> ise, düğme devre dışı bırakılır ve kullanıcı düğmeye
+bastığında hiçbir şey olmaz.</li>
+<li>Düğmenin içerik alanında görüntülenen düğmenin çocuğu
+(<code>child</code>), genellikle düğmenin amacını belirten bir metin
+veya simgedir.</li>
+<li>Son olarak, bir düğmenin stili (<code>style</code>) görünümünü
+kontrol eder: renk, kenarlık vb.</li>
+</ol>
+<p><img src="images/31_ElevatedButton.webp" width=250></p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span>;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> ElevatedButton(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    style<span class="op">:</span> ElevatedButton<span class="op">.</span>styleFrom(</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      textStyle<span class="op">:</span> <span class="at">const</span> TextStyle(fontSize<span class="op">:</span> <span class="dv">20</span>)<span class="op">,</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    onPressed<span class="op">:</span> () <span class="op">{</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      setState(() <span class="op">{</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        count <span class="op">+=</span> <span class="dv">1</span>;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span>);</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">},</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    child<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Enabled&#39;</span>)<span class="op">,</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 data-number="1.3" id="metin-text"><span
+class="header-section-number">1.3</span> Metin (Text)</h2>
+<p>Birkaç widget metin girişini destekler.</p>
+<h3 data-number="1.3.1" id="selectabletext"><span
+class="header-section-number">1.3.1</span> SelectableText</h3>
+<p>Flutter’ın <code>Text</code> widget’ı ekranda metin görüntüler, ancak
+kullanıcıların metni vurgulamasına veya kopyalamasına izin vermez.
+<code>SelectableText</code>, kullanıcı tarafından seçilebilir bir metin
+dizesi görüntüler.</p>
+<p><img src="images/30_SelectableText.webp" width=350></p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> <span class="at">const</span> SelectableText(<span class="st">&#39;&#39;&#39;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st">Two households, both alike in dignity,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="st">In fair Verona, where we lay our scene,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="st">From ancient grudge break to new mutiny,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="st">Where civil blood makes civil hands unclean.</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="st">From forth the fatal loins of these two foes&#39;&#39;&#39;</span>);</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="1.3.2" id="richtext"><span
+class="header-section-number">1.3.2</span> RichText</h3>
+<p><code>RichText</code>, uygulamanızda zengin metin dizeleri
+görüntülemenizi sağlar. <code>RichText</code>’e benzer şekilde
+<code>TextSpan</code>, metnin bölümlerini farklı metin stilleriyle
+görüntülemenize olanak tanır. Kullanıcı girdisini işlemek için değildir,
+ancak kullanıcıların metni düzenlemesine ve biçimlendirmesine izin
+veriyorsanız yararlıdır.</p>
+<p><img src="images/30_RichText.png" width=250></p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> RichText(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    text<span class="op">:</span> TextSpan(</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>      text<span class="op">:</span> <span class="st">&#39;Hello &#39;</span><span class="op">,</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      style<span class="op">:</span> DefaultTextStyle<span class="op">.</span>of(context)<span class="op">.</span>style<span class="op">,</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      children<span class="op">:</span> <span class="at">const</span> <span class="op">&lt;</span>TextSpan<span class="op">&gt;</span>[</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        TextSpan(text<span class="op">:</span> <span class="st">&#39;bold&#39;</span><span class="op">,</span> style<span class="op">:</span> TextStyle(fontWeight<span class="op">:</span> FontWeight<span class="op">.</span>bold))<span class="op">,</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        TextSpan(text<span class="op">:</span> <span class="st">&#39; world!&#39;</span>)<span class="op">,</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>      ]<span class="op">,</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="1.3.3" id="textfield"><span
+class="header-section-number">1.3.3</span> TextField</h3>
+<p>Bir <code>TextField</code>, kullanıcıların donanım veya ekran
+klavyesi kullanarak bir metin kutusuna metin girmesini sağlar.</p>
+<p><code>TextField</code>’ların birçok farklı özelliği ve yapılandırması
+vardır. Öne çıkanlardan birkaçı:</p>
+<ul>
+<li><code>InputDecoration</code>, renk ve kenarlık gibi metin alanının
+görünümünü belirler.</li>
+<li><code>controller</code>: Bir <code>TextEditingController</code>,
+düzenlenen metni kontrol eder. Neden bir denetleyiciye ihtiyacınız
+olabilir? Varsayılan olarak, uygulamanızın kullanıcıları metin alanına
+yazabilir, ancak <code>TextField</code>’ı programatik olarak kontrol
+etmek ve örneğin değerini temizlemek istiyorsanız, bir
+<code>TextEditingController</code>’a ihtiyacınız olacaktır.</li>
+<li><code>onChanged</code>: Bu geri çağırma (callback) işlevi, metin
+ekleme veya kaldırma gibi durumlarda kullanıcı metin alanının değerini
+değiştirdiğinde tetiklenir.</li>
+<li><code>onSubmitted</code>: Bu geri çağırma, kullanıcı alandaki metni
+düzenlemeyi bitirdiğini belirttiğinde tetiklenir; örneğin, metin alanı
+odaktayken “enter” tuşuna basıldığında.</li>
+</ul>
+<p>Sınıf, girilen her harfi bir daireye dönüştüren
+<code>obscureText</code> ve kullanıcının metni değiştirmesini engelleyen
+<code>readOnly</code> gibi diğer yapılandırılabilir özellikleri de
+destekler.</p>
+<p><img src="images/30_TextField.webp" width=300></p>
+<p>Bu şekil, seçili bir kenarlığı ve etiketi olan bir TextField’a
+yazılan metni göstermektedir.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="at">final</span> TextEditingController _controller <span class="op">=</span> TextEditingController();</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> TextField(</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    controller<span class="op">:</span> _controller<span class="op">,</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    decoration<span class="op">:</span> <span class="at">const</span> InputDecoration(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>      border<span class="op">:</span> OutlineInputBorder()<span class="op">,</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>      labelText<span class="op">:</span> <span class="st">&#39;Mascot Name&#39;</span><span class="op">,</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="1.3.4" id="form"><span
+class="header-section-number">1.3.4</span> Form</h3>
+<p><code>Form</code>, <code>TextField</code> gibi birden fazla form
+alanı widget’ını bir arada gruplamak için isteğe bağlı bir
+kapsayıcıdır.</p>
+<p>Her bir form alanı, ortak ata olarak <code>Form</code> widget’ı ile
+bir <code>FormField</code> widget’ına sarılmalıdır. Form alanı
+widget’larını sizin için bir <code>FormField</code> içine önceden saran
+kolaylık widget’ları mevcuttur. Örneğin, <code>TextField</code>’ın
+<code>Form</code> widget versiyonu <code>TextFormField</code>’dır.</p>
+<p>Bir <code>Form</code> kullanmak, bu <code>Form</code>’dan türeyen her
+<code>FormField</code>’ı kaydetmenizi, sıfırlamanızı ve doğrulamanızı
+sağlayan bir <code>FormState</code>’e erişim sağlar. Aşağıdaki kodda
+gösterildiği gibi, belirli bir formu tanımlamak için bir
+<code>GlobalKey</code> de sağlayabilirsiniz:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="at">final</span> GlobalKey<span class="op">&lt;</span>FormState<span class="op">&gt;</span> _formKey <span class="op">=</span> GlobalKey<span class="op">&lt;</span>FormState<span class="op">&gt;</span>();</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> Form(</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    key<span class="op">:</span> _formKey<span class="op">,</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    child<span class="op">:</span> Column(</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>      crossAxisAlignment<span class="op">:</span> CrossAxisAlignment<span class="op">.</span>start<span class="op">,</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>      children<span class="op">:</span> <span class="op">&lt;</span>Widget<span class="op">&gt;</span>[</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        TextFormField(</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>          decoration<span class="op">:</span> <span class="at">const</span> InputDecoration(</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>            hintText<span class="op">:</span> <span class="st">&#39;Enter your email&#39;</span><span class="op">,</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>          validator<span class="op">:</span> (<span class="dt">String</span><span class="op">?</span> value) <span class="op">{</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> (value <span class="op">==</span> <span class="cn">null</span> <span class="op">||</span> value<span class="op">.</span>isEmpty) <span class="op">{</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>              <span class="kw">return</span> <span class="st">&#39;Please enter some text&#39;</span>;</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>            <span class="kw">return</span> <span class="cn">null</span>;</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>          <span class="op">},</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        Padding(</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>          padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>symmetric(vertical<span class="op">:</span> <span class="fl">16.0</span>)<span class="op">,</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>          child<span class="op">:</span> ElevatedButton(</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>            onPressed<span class="op">:</span> () <span class="op">{</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>              <span class="co">// Validate returns true if the form is valid, or false otherwise.</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>              <span class="cf">if</span> (_formKey<span class="op">.</span>currentState<span class="op">!.</span>validate()) <span class="op">{</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>                <span class="co">// Process data.</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>              <span class="op">}</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>            <span class="op">},</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>            child<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Submit&#39;</span>)<span class="op">,</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>      ]<span class="op">,</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 data-number="1.4" id="seçenek-grupları"><span
+class="header-section-number">1.4</span> Seçenek Grupları</h2>
+<p>Flutter, kullanıcılara birkaç seçenek arasından seçim yapmaları için
+araçlar sağlar.</p>
+<h3 data-number="1.4.1" id="segmentedbutton"><span
+class="header-section-number">1.4.1</span> SegmentedButton</h3>
+<p><code>SegmentedButton</code>, kullanıcıların 2-5 öğeden oluşan
+minimal bir gruptan seçim yapmasına olanak tanır.</p>
+<p>Veri türü, <code>&lt;T&gt;</code>, <code>int</code>,
+<code>String</code>, <code>bool</code> gibi yerleşik bir tür veya bir
+<code>enum</code> olabilir. Bir <code>SegmentedButton</code>’ın birkaç
+ilgili özelliği vardır:</p>
+<ul>
+<li><code>segments</code>, kullanıcının seçebileceği bir “segmenti” veya
+seçeneği temsil eden <code>ButtonSegment</code>’lerin bir listesidir.
+Görsel olarak, her <code>ButtonSegment</code> bir simgeye, metin
+etiketine veya her ikisine birden sahip olabilir.</li>
+<li><code>multiSelectionEnabled</code>, kullanıcının birden fazla
+seçenek seçip seçemeyeceğini belirtir. Bu özellik varsayılan olarak
+<code>false</code>’tur.</li>
+<li><code>selected</code>, o anda seçili olan değer(ler)i tanımlar.
+<strong>Not:</strong> <code>selected</code>, <code>Set&lt;T&gt;</code>
+türündedir, bu nedenle kullanıcıların yalnızca bir değer seçmesine izin
+veriyorsanız, bu değer tek elemanlı bir <code>Set</code> olarak
+sağlanmalıdır.</li>
+<li><code>onSelectionChanged</code> geri çağırması (callback), bir
+kullanıcı herhangi bir segmenti seçtiğinde tetiklenir. Uygulama
+durumunuzu güncelleyebilmeniz için seçilen segmentlerin bir listesini
+sağlar.</li>
+</ul>
+<p>Ek stil parametreleri düğmenin görünümünü değiştirmenize olanak
+tanır. Örneğin <code>style</code>, bir <code>selectedIcon</code>
+yapılandırmanın bir yolunu sağlayan bir <code>ButtonStyle</code>
+alır.</p>
+<p><img src="images/30_segmented-button.webp" width=350></p>
+<p>Bu şekil, her bir segmentin değerini temsil eden bir simge ve metne
+sahip olduğu bir <code>SegmentedButton</code>’ı göstermektedir.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">enum</span> Calendar <span class="op">{</span> day<span class="op">,</span> week<span class="op">,</span> month<span class="op">,</span> year <span class="op">}</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">// StatefulWidget...</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>Calendar calendarView <span class="op">=</span> Calendar<span class="op">.</span>day;</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> SegmentedButton<span class="op">&lt;</span>Calendar<span class="op">&gt;</span>(</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    segments<span class="op">:</span> <span class="at">const</span> <span class="op">&lt;</span>ButtonSegment<span class="op">&lt;</span>Calendar<span class="op">&gt;&gt;</span>[</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>      ButtonSegment<span class="op">&lt;</span>Calendar<span class="op">&gt;</span>(</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>          value<span class="op">:</span> Calendar<span class="op">.</span>day<span class="op">,</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>          label<span class="op">:</span> Text(<span class="st">&#39;Day&#39;</span>)<span class="op">,</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>          icon<span class="op">:</span> Icon(Icons<span class="op">.</span>calendar_view_day))<span class="op">,</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>      ButtonSegment<span class="op">&lt;</span>Calendar<span class="op">&gt;</span>(</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>          value<span class="op">:</span> Calendar<span class="op">.</span>week<span class="op">,</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>          label<span class="op">:</span> Text(<span class="st">&#39;Week&#39;</span>)<span class="op">,</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>          icon<span class="op">:</span> Icon(Icons<span class="op">.</span>calendar_view_week))<span class="op">,</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>      ButtonSegment<span class="op">&lt;</span>Calendar<span class="op">&gt;</span>(</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>          value<span class="op">:</span> Calendar<span class="op">.</span>month<span class="op">,</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>          label<span class="op">:</span> Text(<span class="st">&#39;Month&#39;</span>)<span class="op">,</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>          icon<span class="op">:</span> Icon(Icons<span class="op">.</span>calendar_view_month))<span class="op">,</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>      ButtonSegment<span class="op">&lt;</span>Calendar<span class="op">&gt;</span>(</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>          value<span class="op">:</span> Calendar<span class="op">.</span>year<span class="op">,</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>          label<span class="op">:</span> Text(<span class="st">&#39;Year&#39;</span>)<span class="op">,</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>          icon<span class="op">:</span> Icon(Icons<span class="op">.</span>calendar_today))<span class="op">,</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    selected<span class="op">:</span> <span class="op">&lt;</span>Calendar<span class="op">&gt;{</span>calendarView<span class="op">},</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    onSelectionChanged<span class="op">:</span> (<span class="dt">Set</span><span class="op">&lt;</span>Calendar<span class="op">&gt;</span> newSelection) <span class="op">{</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>      setState(() <span class="op">{</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>        <span class="co">// By default, there is only a single segment that can be</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>        <span class="co">// selected at a time, so its value is always the first</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>        calendarView <span class="op">=</span> newSelection<span class="op">.</span>first;</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span>);</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    <span class="op">},</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="1.4.2" id="chip-çip"><span
+class="header-section-number">1.4.2</span> Chip (Çip)</h3>
+<p><code>Chip</code>, belirli bir bağlam için bir niteliği, metni,
+varlığı veya eylemi temsil etmenin kompakt bir yoludur. Belirli kullanım
+durumları için özelleşmiş <code>Chip</code> widget’ları mevcuttur:</p>
+<ul>
+<li><code>InputChip</code>, bir varlık (kişi, yer veya nesne) veya
+konuşma metni gibi karmaşık bir bilgi parçasını kompakt bir biçimde
+temsil eder.</li>
+<li><code>ChoiceChip</code>, bir seçenek kümesinden tek bir seçim
+yapılmasına izin verir. Seçim çipleri (Choice chips) ilgili açıklayıcı
+metinler veya kategoriler içerir.</li>
+<li><code>FilterChip</code>, içeriği filtrelemek için etiketler veya
+açıklayıcı kelimeler kullanır.</li>
+<li><code>ActionChip</code>, birincil içerikle ilgili bir eylemi temsil
+eder.</li>
+</ul>
+<p>Her <code>Chip</code> widget’ı bir <code>label</code> (etiket)
+gerektirir. İsteğe bağlı olarak bir <code>avatar</code>’a (simge veya
+kullanıcının profil resmi gibi) ve tetiklendiğinde çipi silen bir silme
+simgesi gösteren bir <code>onDeleted</code> geri çağırmasına sahip
+olabilir. Bir <code>Chip</code> widget’ının görünümü <code>shape</code>,
+<code>color</code> ve <code>iconTheme</code> gibi bir dizi isteğe bağlı
+parametre ayarlanarak da özelleştirilebilir.</p>
+<p>Çiplerinizin kaydığından ve uygulamanızın kenarında kesilmediğinden
+emin olmak için genellikle çocuklarını birden fazla yatay veya dikey
+dizide görüntüleyen bir widget olan <code>Wrap</code> kullanırsınız.</p>
+<p><img src="images/30_chip.png" width=320></p>
+<p>Bu şekil, her biri yuvarlak bir profil resmi ve içerik metni içeren
+iki satırlık <code>Chip</code> widget’larını göstermektedir.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> <span class="at">const</span> SizedBox(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    width<span class="op">:</span> <span class="dv">500</span><span class="op">,</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    child<span class="op">:</span> Wrap(</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>      alignment<span class="op">:</span> WrapAlignment<span class="op">.</span>center<span class="op">,</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>      spacing<span class="op">:</span> <span class="dv">8</span><span class="op">,</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>      runSpacing<span class="op">:</span> <span class="dv">4</span><span class="op">,</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>      children<span class="op">:</span> [</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        Chip(</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>          avatar<span class="op">:</span> CircleAvatar(</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>              backgroundImage<span class="op">:</span> AssetImage(<span class="st">&#39;assets/images/dash_chef.png&#39;</span>))<span class="op">,</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>          label<span class="op">:</span> Text(<span class="st">&#39;Chef Dash&#39;</span>)<span class="op">,</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        Chip(</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>          avatar<span class="op">:</span> CircleAvatar(</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>              backgroundImage<span class="op">:</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>                  AssetImage(<span class="st">&#39;assets/images/dash_firefighter.png&#39;</span>))<span class="op">,</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>          label<span class="op">:</span> Text(<span class="st">&#39;Firefighter Dash&#39;</span>)<span class="op">,</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        Chip(</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>          avatar<span class="op">:</span> CircleAvatar(</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>              backgroundImage<span class="op">:</span> AssetImage(<span class="st">&#39;assets/images/dash_musician.png&#39;</span>))<span class="op">,</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>          label<span class="op">:</span> Text(<span class="st">&#39;Musician Dash&#39;</span>)<span class="op">,</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>        Chip(</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>          avatar<span class="op">:</span> CircleAvatar(</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>              backgroundImage<span class="op">:</span> AssetImage(<span class="st">&#39;assets/images/dash_artist.png&#39;</span>))<span class="op">,</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>          label<span class="op">:</span> Text(<span class="st">&#39;Artist Dash&#39;</span>)<span class="op">,</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>      ]<span class="op">,</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="1.4.3" id="dropdownmenu"><span
+class="header-section-number">1.4.3</span> DropdownMenu</h3>
+<p>Bir <code>DropdownMenu</code>, kullanıcıların bir seçenek menüsünden
+seçim yapmasına ve seçilen metni bir <code>TextField</code> içine
+yerleştirmesine olanak tanır. Ayrıca kullanıcıların metin girişine
+dayalı olarak menü öğelerini filtrelemesine de izin verir.</p>
+<p>Yapılandırma parametreleri şunları içerir:</p>
+<ul>
+<li><code>dropdownMenuEntries</code>, her menü öğesini tanımlayan bir
+<code>DropdownMenuEntry</code> listesi sağlar. Menü, metin etiketi ve
+baştaki veya sondaki simge gibi bilgiler içerebilir. (Bu aynı zamanda
+tek zorunlu parametredir.)</li>
+<li><code>TextEditingController</code>, <code>TextField</code>’ın
+programatik olarak kontrol edilmesini sağlar.</li>
+<li><code>onSelected</code> geri çağırması (callback), kullanıcı bir
+seçenek seçtiğinde tetiklenir.</li>
+<li><code>initialSelection</code>, varsayılan değeri yapılandırmanıza
+olanak tanır.</li>
+</ul>
+<p>Widget’ın görünümünü ve davranışını özelleştirmek için ek
+parametreler de mevcuttur.</p>
+<p><img src="images/30_dropdownmenu.webp" width=180></p>
+<p>Bu şekil, 5 değer seçeneğine sahip bir DropdownMenu widget’ını
+göstermektedir. Her seçeneğin metin rengi, renk değerini temsil edecek
+şekilde stillendirilmiştir.</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">enum</span> ColorLabel <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  blue(<span class="st">&#39;Blue&#39;</span><span class="op">,</span> Colors<span class="op">.</span>blue)<span class="op">,</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  pink(<span class="st">&#39;Pink&#39;</span><span class="op">,</span> Colors<span class="op">.</span>pink)<span class="op">,</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  green(<span class="st">&#39;Green&#39;</span><span class="op">,</span> Colors<span class="op">.</span>green)<span class="op">,</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  orange(<span class="st">&#39;Orange&#39;</span><span class="op">,</span> Colors<span class="op">.</span>orange)<span class="op">,</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  grey(<span class="st">&#39;Grey&#39;</span><span class="op">,</span> Colors<span class="op">.</span>grey);</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> ColorLabel(<span class="kw">this</span><span class="op">.</span>label<span class="op">,</span> <span class="kw">this</span><span class="op">.</span>color);</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> <span class="dt">String</span> label;</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">final</span> Color color;</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">// StatefulWidget...</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> DropdownMenu<span class="op">&lt;</span>ColorLabel<span class="op">&gt;</span>(</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    initialSelection<span class="op">:</span> ColorLabel<span class="op">.</span>green<span class="op">,</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    controller<span class="op">:</span> colorController<span class="op">,</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">// requestFocusOnTap is enabled/disabled by platforms when it is null.</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">// On mobile platforms, this is false by default. Setting this to true will</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">// trigger focus request on the text field and virtual keyboard will appear</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">// afterward. On desktop platforms however, this defaults to true.</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    requestFocusOnTap<span class="op">:</span> <span class="cn">true</span><span class="op">,</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    label<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Color&#39;</span>)<span class="op">,</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    onSelected<span class="op">:</span> (ColorLabel<span class="op">?</span> color) <span class="op">{</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>      setState(() <span class="op">{</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>        selectedColor <span class="op">=</span> color;</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span>);</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    <span class="op">},</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    dropdownMenuEntries<span class="op">:</span> ColorLabel<span class="op">.</span>values</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span>map<span class="op">&lt;</span>DropdownMenuEntry<span class="op">&lt;</span>ColorLabel<span class="op">&gt;&gt;</span>(</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>          (ColorLabel color) <span class="op">{</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>            <span class="kw">return</span> DropdownMenuEntry<span class="op">&lt;</span>ColorLabel<span class="op">&gt;</span>(</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>              value<span class="op">:</span> color<span class="op">,</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>              label<span class="op">:</span> color<span class="op">.</span>label<span class="op">,</span></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>              enabled<span class="op">:</span> color<span class="op">.</span>label <span class="op">!=</span> <span class="st">&#39;Grey&#39;</span><span class="op">,</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>              style<span class="op">:</span> MenuItemButton<span class="op">.</span>styleFrom(</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>                foregroundColor<span class="op">:</span> color<span class="op">.</span>color<span class="op">,</span></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>              )<span class="op">,</span></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>            );</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span>)<span class="op">.</span>toList()<span class="op">,</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="1.4.4" id="slider-kaydırıcı"><span
+class="header-section-number">1.4.4</span> Slider (Kaydırıcı)</h3>
+<p><code>Slider</code> widget’ı, ses çubuğu gibi, kullanıcının bir
+göstergeyi hareket ettirerek bir değeri ayarlamasını sağlar.</p>
+<p><code>Slider</code> widget’ı için yapılandırma parametreleri:</p>
+<ul>
+<li><code>value</code>, kaydırıcının mevcut değerini temsil eder.</li>
+<li><code>onChanged</code>, tutamaç hareket ettirildiğinde tetiklenen
+geri çağırmadır.</li>
+<li><code>min</code> ve <code>max</code>, kaydırıcının izin verdiği
+minimum ve maksimum değerleri belirler.</li>
+<li><code>divisions</code>, kullanıcının tutamacı yol boyunca hareket
+ettirebileceği ayrık bir aralık (bölümleme) belirler.</li>
+</ul>
+<p><img src="images/30_slider.webp" width=300></p>
+<p>Bu şekil, 0.0 ile 5.0 arasında değişen ve 5 bölüme ayrılmış bir
+değere sahip kaydırıcı widget’ını göstermektedir. Gösterge sürüklendikçe
+mevcut değeri bir etiket olarak gösterir.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> _currentVolume <span class="op">=</span> <span class="dv">1</span>;</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> Slider(</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    value<span class="op">:</span> _currentVolume<span class="op">,</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    max<span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    divisions<span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    label<span class="op">:</span> _currentVolume<span class="op">.</span>toString()<span class="op">,</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    onChanged<span class="op">:</span> (<span class="dt">double</span> value) <span class="op">{</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>      setState(() <span class="op">{</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        _currentVolume <span class="op">=</span> value;</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span>);</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">},</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 data-number="1.5" id="değerler-arasında-geçiş-yapma-toggle"><span
+class="header-section-number">1.5</span> Değerler arasında geçiş yapma
+(Toggle)</h2>
+<p>Kullanıcı arayüzünüzün değerler arasında geçiş yapmasına izin
+vermenin birkaç yolu vardır.</p>
+<h3 data-number="1.5.1" id="checkbox-switch-ve-radio"><span
+class="header-section-number">1.5.1</span> Checkbox, Switch ve
+Radio</h3>
+<p>Tek bir değeri açıp kapatmak için bir seçenek sunun. Bu widget’ların
+arkasındaki işlevsel mantık aynıdır, çünkü her 3’ü de
+<code>ToggleableStateMixin</code> üzerine inşa edilmiştir, ancak her
+biri küçük sunum farklılıkları sağlar:</p>
+<ul>
+<li><strong>Checkbox (Onay Kutusu):</strong> Yanlış (false) olduğunda
+boş, doğru (true) olduğunda bir onay işaretiyle dolu olan bir
+kutudur.</li>
+<li><strong>Switch (Anahtar):</strong> Yanlış olduğunda solda duran ve
+doğru olduğunda sağa kayan bir tutamaca (handle) sahiptir.</li>
+<li><strong>Radio (Radyo Düğmesi):</strong> Yanlış olduğunda boş, doğru
+olduğunda dolu bir kutu olması bakımından <code>Checkbox</code>’a
+benzer.</li>
+</ul>
+<p><code>Checkbox</code> ve <code>Switch</code> yapılandırması şunları
+içerir:</p>
+<ul>
+<li><code>true</code> veya <code>false</code> olan bir
+<code>value</code> (değer)</li>
+<li>Kullanıcı widget’ı değiştirdiğinde tetiklenen bir
+<code>onChanged</code> geri çağırma (callback) işlevi</li>
+</ul>
+<h4 data-number="1.5.1.1" id="checkbox"><span
+class="header-section-number">1.5.1.1</span> Checkbox</h4>
+<p><img src="images/30_checkbox.webp" width=80></p>
+<p>Bu şekil, işaretlenen ve işareti kaldırılan bir onay kutusunu
+göstermektedir.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> isChecked <span class="op">=</span> <span class="cn">false</span>;</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> Checkbox(</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    checkColor<span class="op">:</span> Colors<span class="op">.</span>white<span class="op">,</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    value<span class="op">:</span> isChecked<span class="op">,</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    onChanged<span class="op">:</span> (<span class="dt">bool</span><span class="op">?</span> value) <span class="op">{</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>      setState(() <span class="op">{</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        isChecked <span class="op">=</span> value<span class="op">!</span>;</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span>);</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">},</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h4 data-number="1.5.1.2" id="switch"><span
+class="header-section-number">1.5.1.2</span> Switch</h4>
+<p><img src="images/30_Switch.webp" width=100></p>
+<p>Bu şekil, açılıp kapanan bir Switch widget’ını göstermektedir.</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> light <span class="op">=</span> <span class="cn">true</span>;</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> Switch(</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// This bool value toggles the switch.</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    value<span class="op">:</span> light<span class="op">,</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    activeThumbColor<span class="op">:</span> Colors<span class="op">.</span>red<span class="op">,</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    onChanged<span class="op">:</span> (<span class="dt">bool</span> value) <span class="op">{</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>      <span class="co">// This is called when the user toggles the switch.</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>      setState(() <span class="op">{</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>        light <span class="op">=</span> value;</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span>);</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">},</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h4 data-number="1.5.1.3" id="radyo-düğmesi-radio"><span
+class="header-section-number">1.5.1.3</span> Radyo Düğmesi (Radio)</h4>
+<p>Bir <code>RadioGroup</code>, kullanıcının birbirini dışlayan değerler
+arasında seçim yapmasına olanak tanıyan <code>Radio</code> düğmeleri
+içerir. Kullanıcı bir gruptaki bir radyo düğmesini seçtiğinde, diğer
+radyo düğmelerinin seçimi kaldırılır.</p>
+<ul>
+<li>Belirli bir <code>Radio</code> düğmesinin <code>value</code>
+özelliği, o düğmenin değerini temsil eder.</li>
+<li>Bir <code>RadioGroup</code> için seçilen değer,
+<code>groupValue</code> parametresi ile tanımlanır.</li>
+<li><code>RadioGroup</code>, <code>Switch</code> ve
+<code>Checkbox</code> gibi, kullanıcılar tıkladığında tetiklenen bir
+<code>onChanged</code> geri çağırma (callback) işlevine sahiptir.</li>
+</ul>
+<p><img src="images/30_Radio.webp" width=175></p>
+<p>Bu şekil, bir radyo düğmesi ve etiket içeren
+<code>ListTile</code>’lardan oluşan bir sütunu göstermektedir; burada
+aynı anda yalnızca bir radyo düğmesi seçilebilir.</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">enum</span> Character <span class="op">{</span> musician<span class="op">,</span> chef<span class="op">,</span> firefighter<span class="op">,</span> artist <span class="op">}</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> RadioExample <span class="kw">extends</span> StatefulWidget <span class="op">{</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> RadioExample(<span class="op">{</span><span class="kw">super</span><span class="op">.</span>key<span class="op">}</span>);</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  State<span class="op">&lt;</span>RadioExample<span class="op">&gt;</span> createState() <span class="op">=&gt;</span> _RadioExampleState();</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> _RadioExampleState <span class="kw">extends</span> State<span class="op">&lt;</span>RadioExample<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  Character<span class="op">?</span> _character <span class="op">=</span> Character<span class="op">.</span>musician;</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">void</span> setCharacter(Character<span class="op">?</span> value) <span class="op">{</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    setState(() <span class="op">{</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>      _character <span class="op">=</span> value;</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>);</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">@override</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> RadioGroup(</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>      groupValue<span class="op">:</span> _character<span class="op">,</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>      onChanged<span class="op">:</span> setCharacter<span class="op">,</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>      child<span class="op">:</span> Column(</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>        children<span class="op">:</span> <span class="op">&lt;</span>Widget<span class="op">&gt;</span>[</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>          ListTile(</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>            title<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Musician&#39;</span>)<span class="op">,</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>            leading<span class="op">:</span> Radio<span class="op">&lt;</span>Character<span class="op">&gt;</span>(value<span class="op">:</span> Character<span class="op">.</span>musician)<span class="op">,</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>          ListTile(</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>            title<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Chef&#39;</span>)<span class="op">,</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>            leading<span class="op">:</span> Radio<span class="op">&lt;</span>Character<span class="op">&gt;</span>(value<span class="op">:</span> Character<span class="op">.</span>chef)<span class="op">,</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>          ListTile(</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>            title<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Firefighter&#39;</span>)<span class="op">,</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>            leading<span class="op">:</span> Radio<span class="op">&lt;</span>Character<span class="op">&gt;</span>(value<span class="op">:</span> Character<span class="op">.</span>firefighter)<span class="op">,</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>          ListTile(</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>            title<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Artist&#39;</span>)<span class="op">,</span></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>            leading<span class="op">:</span> Radio<span class="op">&lt;</span>Character<span class="op">&gt;</span>(value<span class="op">:</span> Character<span class="op">.</span>artist)<span class="op">,</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>        ]<span class="op">,</span></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h4 data-number="1.5.1.4"
+id="bonus-checkboxlisttile-ve-switchlisttile"><span
+class="header-section-number">1.5.1.4</span> Bonus: CheckboxListTile ve
+SwitchListTile</h4>
+<p>Bu kolaylık sağlayan widget’lar, aynı onay kutusu ve anahtar
+widget’larıdır, ancak bir etiketi (bir <code>ListTile</code> olarak)
+desteklerler.</p>
+<p><img src="images/30_SpecialListTiles.webp" width=300></p>
+<p>Bu şekil, açılıp kapanan bir <code>CheckboxListTile</code> ve bir
+<code>SwitchListTile</code> içeren bir sütunu göstermektedir.</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> timeDilation <span class="op">=</span> <span class="fl">1.0</span>;</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> _lights <span class="op">=</span> <span class="cn">false</span>;</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> Column(</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    children<span class="op">:</span> [</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>      CheckboxListTile(</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        title<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Animate Slowly&#39;</span>)<span class="op">,</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>        value<span class="op">:</span> timeDilation <span class="op">!=</span> <span class="fl">1.0</span><span class="op">,</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        onChanged<span class="op">:</span> (<span class="dt">bool</span><span class="op">?</span> value) <span class="op">{</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>          setState(() <span class="op">{</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>            timeDilation <span class="op">=</span> value<span class="op">!</span> <span class="op">?</span> <span class="fl">10.0</span> <span class="op">:</span> <span class="fl">1.0</span>;</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>          <span class="op">}</span>);</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>        <span class="op">},</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>        secondary<span class="op">:</span> <span class="at">const</span> Icon(Icons<span class="op">.</span>hourglass_empty)<span class="op">,</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>      SwitchListTile(</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>        title<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Lights&#39;</span>)<span class="op">,</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>        value<span class="op">:</span> _lights<span class="op">,</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>        onChanged<span class="op">:</span> (<span class="dt">bool</span> value) <span class="op">{</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>          setState(() <span class="op">{</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>            _lights <span class="op">=</span> value;</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>          <span class="op">}</span>);</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>        <span class="op">},</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>        secondary<span class="op">:</span> <span class="at">const</span> Icon(Icons<span class="op">.</span>lightbulb_outline)<span class="op">,</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>      )<span class="op">,</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 data-number="1.6" id="tarih-saat-seçimi"><span
+class="header-section-number">1.6</span> Tarih / Saat Seçimi</h2>
+<p>Kullanıcının bir tarih ve saat seçebilmesi için widget’lar
+sağlanmıştır.</p>
+<p>Aşağıdaki bölümlerde göreceğiniz gibi, kullanıcıların bir tarih veya
+saat seçmesini sağlayan bir dizi iletişim kutusu (dialog) vardır. Farklı
+tarih türleri haricinde (tarihler için <code>DateTime</code>’a karşı
+saat için <code>TimeOfDay</code>), bu iletişim kutuları benzer şekilde
+çalışır; şunları sağlayarak yapılandırabilirsiniz:</p>
+<ul>
+<li>Varsayılan bir <code>initialDate</code> (başlangıç tarihi) veya
+<code>initialTime</code> (başlangıç saati)</li>
+<li>Görüntülenen seçici arayüzünü belirleyen bir
+<code>initialEntryMode</code></li>
+</ul>
+<h3 data-number="1.6.1" id="datepickerdialog"><span
+class="header-section-number">1.6.1</span> DatePickerDialog</h3>
+<p>Bu iletişim kutusu, kullanıcının bir tarih veya tarih aralığı
+seçmesine olanak tanır. <code>Future&lt;DateTime&gt;</code> döndüren
+<code>showDatePicker</code> işlevini çağırarak etkinleştirilir, bu
+nedenle asenkron işlev çağrısını beklemeyi (await) unutmayın!</p>
+<p><img src="images/30_DatePicker.webp" width=250></p>
+<p>Bu şekil, ‘Pick a date’ düğmesine tıklandığında görüntülenen bir
+DatePicker’ı göstermektedir.</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>DateTime<span class="op">?</span> selectedDate;</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">var</span> date <span class="op">=</span> selectedDate;</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> Column(children<span class="op">:</span> [</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    Text(</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>      date <span class="op">==</span> <span class="cn">null</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>          <span class="op">?</span> <span class="st">&#39;You haven</span><span class="sc">\\\&#39;</span><span class="st">t picked a date yet.&#39;</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>          <span class="op">:</span> DateFormat(<span class="st">&#39;MM-dd-yyyy&#39;</span>)<span class="op">.</span>format(date)<span class="op">,</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    ElevatedButton<span class="op">.</span>icon(</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>      icon<span class="op">:</span> <span class="at">const</span> Icon(Icons<span class="op">.</span>calendar_today)<span class="op">,</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>      onPressed<span class="op">:</span> () <span class="at">async</span> <span class="op">{</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>        <span class="dt">var</span> pickedDate <span class="op">=</span> <span class="at">await</span> showDatePicker(</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>          context<span class="op">:</span> context<span class="op">,</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>          initialEntryMode<span class="op">:</span> DatePickerEntryMode<span class="op">.</span>calendarOnly<span class="op">,</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>          initialDate<span class="op">:</span> DateTime<span class="op">.</span>now()<span class="op">,</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>          firstDate<span class="op">:</span> DateTime(<span class="dv">2019</span>)<span class="op">,</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>          lastDate<span class="op">:</span> DateTime(<span class="dv">2050</span>)<span class="op">,</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>        );</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>        setState(() <span class="op">{</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>          selectedDate <span class="op">=</span> pickedDate;</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>);</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>      <span class="op">},</span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>      label<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Pick a date&#39;</span>)<span class="op">,</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>  ]);</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 data-number="1.6.2" id="timepickerdialog"><span
+class="header-section-number">1.6.2</span> TimePickerDialog</h3>
+<p><code>TimePickerDialog</code>, bir saat seçici sunan bir iletişim
+kutusudur. <code>showTimePicker()</code> işlevi çağrılarak
+etkinleştirilebilir. <code>showTimePicker</code>,
+<code>Future&lt;DateTime&gt;</code> yerine
+<code>Future&lt;TimeOfDay&gt;</code> döndürür. Bir kez daha, işlev
+çağrısını beklemeyi (await) unutmayın!</p>
+<p><img src="images/30_TimePicker.webp" width=250></p>
+<p>Bu şekil, ‘Pick a time’ düğmesine tıklandığında görüntülenen bir
+TimePicker’ı göstermektedir.</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>TimeOfDay<span class="op">?</span> selectedTime;</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">var</span> time <span class="op">=</span> selectedTime;</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> Column(children<span class="op">:</span> [</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    Text(</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>      time <span class="op">==</span> <span class="cn">null</span> <span class="op">?</span> <span class="st">&#39;You haven</span><span class="sc">\\\&#39;</span><span class="st">t picked a time yet.&#39;</span> <span class="op">:</span> time<span class="op">.</span>format(context)<span class="op">,</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    )<span class="op">,</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    ElevatedButton<span class="op">.</span>icon(</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>      icon<span class="op">:</span> <span class="at">const</span> Icon(Icons<span class="op">.</span>calendar_today)<span class="op">,</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>      onPressed<span class="op">:</span> () <span class="at">async</span> <span class="op">{</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>        <span class="dt">var</span> pickedTime <span class="op">=</span> <span class="at">await</span> showTimePicker(</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>          context<span class="op">:</span> context<span class="op">,</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>          initialEntryMode<span class="op">:</span> TimePickerEntryMode<span class="op">.</span>dial<span class="op">,</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>          initialTime<span class="op">:</span> TimeOfDay<span class="op">.</span>now()<span class="op">,</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>        );</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>        setState(() <span class="op">{</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>          selectedTime <span class="op">=</span> pickedTime;</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>);</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>      <span class="op">},</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>      label<span class="op">:</span> <span class="at">const</span> Text(<span class="st">&#39;Pick a time&#39;</span>)<span class="op">,</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>  ]);</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>İpucu:</strong> <code>showDatePicker()</code> ve
+<code>showTimePicker()</code> çağırmak, sırasıyla
+<code>DatePickerDialog()</code> ve <code>TimePickerDialog()</code> ile
+<code>showDialog()</code> çağırmaya eşdeğerdir. Dahili olarak, her iki
+işlev de kendi <code>Dialog</code> widget’larıyla
+<code>showDialog()</code> işlevini kullanır. Durum geri yüklemeyi (state
+restoration) etkinleştirmek için, <code>DatePickerDialog()</code> ve
+<code>TimePickerDialog()</code>’u doğrudan <code>Navigator</code>
+yığınına da ekleyebilirsiniz (push).</p>
+<h2 data-number="1.7" id="kaydırma-ve-sürükleme-swipe-slide"><span
+class="header-section-number">1.7</span> Kaydırma ve Sürükleme (Swipe
+&amp; slide)</h2>
+<h3 data-number="1.7.1" id="dismissible"><span
+class="header-section-number">1.7.1</span> Dismissible</h3>
+<p><code>Dismissible</code>, kullanıcıların kaydırarak bir öğeyi
+kaldırmasını (dismiss) sağlayan bir widget’tır. Aşağıdakiler dahil olmak
+üzere bir dizi yapılandırma parametresine sahiptir:</p>
+<ul>
+<li>Bir <code>child</code> (çocuk) widget’ı</li>
+<li>Kullanıcı kaydırdığında tetiklenen bir <code>onDismissed</code> geri
+çağırması (callback)</li>
+<li><code>background</code> gibi stillendirme parametreleri</li>
+</ul>
+<p>Ayrıca bir <code>key</code> nesnesi eklemek de önemlidir, böylece
+widget ağacındaki kardeş <code>Dismissible</code> widget’larından
+benzersiz bir şekilde ayırt edilebilirler.</p>
+<p><img src="images/30_Dismissible.webp" width=250></p>
+<p>Bu şekil, her biri bir <code>ListTile</code> içeren
+<code>Dismissible</code> widget’lardan oluşan bir listeyi
+göstermektedir. <code>ListTile</code> üzerinde kaydırma yapmak yeşil bir
+arka planı ortaya çıkarır ve döşemenin kaybolmasını sağlar.</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode dart"><code class="sourceCode dart"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="dt">List</span><span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> items <span class="op">=</span> <span class="dt">List</span><span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;.</span>generate(<span class="dv">100</span><span class="op">,</span> (<span class="dt">int</span> index) <span class="op">=&gt;</span> index);</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">@override</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>Widget build(BuildContext context) <span class="op">{</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">return</span> ListView<span class="op">.</span>builder(</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    itemCount<span class="op">:</span> items<span class="op">.</span>length<span class="op">,</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    padding<span class="op">:</span> <span class="at">const</span> EdgeInsets<span class="op">.</span>symmetric(vertical<span class="op">:</span> <span class="dv">16</span>)<span class="op">,</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    itemBuilder<span class="op">:</span> (BuildContext context<span class="op">,</span> <span class="dt">int</span> index) <span class="op">{</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>      <span class="kw">return</span> Dismissible(</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        background<span class="op">:</span> Container(</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>          color<span class="op">:</span> Colors<span class="op">.</span>green<span class="op">,</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>        key<span class="op">:</span> ValueKey<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span>(items[index])<span class="op">,</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>        onDismissed<span class="op">:</span> (DismissDirection direction) <span class="op">{</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>          setState(() <span class="op">{</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>            items<span class="op">.</span>removeAt(index);</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>          <span class="op">}</span>);</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>        <span class="op">},</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>        child<span class="op">:</span> ListTile(</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>          title<span class="op">:</span> Text(</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;Item ${items[index]}&#39;</span><span class="op">,</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>        )<span class="op">,</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>      );</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    <span class="op">},</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>  );</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><code>Dismissible</code> widget’ını kullanarak <a
+href="https://docs.flutter.dev/cookbook/gestures/dismissible">kaydırarak
+silme (swipe to dismiss) özelliğini nasıl uygulayacağınıza</a> dair bu
+eğitime bakabilirsiniz.</p>
+<h2 data-number="1.8" id="diğer-widgetler"><span
+class="header-section-number">1.8</span> Diğer Widgetler?</h2>
+<p>Bu sayfa, Flutter uygulamanızda kullanıcı girdilerini işlemek için
+kullanabileceğiniz yaygın Material widget’larından sadece birkaçını
+içermektedir. Widget’ların tam listesi için <a
+href="https://docs.flutter.dev/ui/widgets/material">Material Widget
+kütüphanesine</a> ve <a
+href="https://api.flutter.dev/flutter/material/material-library.html">Material
+Kütüphanesi API dokümanlarına</a> göz atın.</p>
+<ul>
+<li><strong>Demo:</strong> Material kütüphanesinde bulunan kullanıcı
+girişi widget’larının derlenmiş bir örneği için Flutter’ın <a
+href="https://www.google.com/search?q=https://flutter.github.io/samples/web/material_3_demo/">Material
+3 Demosuna</a> bakın.</li>
+</ul>
+<p>Eğer Material ve Cupertino kütüphanelerinde ihtiyacınız olanı yapan
+bir widget yoksa, Flutter &amp; Dart topluluğu tarafından sahiplenilen
+ve sürdürülen paketleri bulmak için <a
+href="https://pub.dev/">pub.dev</a> adresine göz atın. Örneğin,
+<code>flutter_slidable</code> paketi, önceki bölümde açıklanan
+<code>Dismissible</code> widget’ından daha özelleştirilebilir bir
+<code>Slidable</code> widget’ı sağlar.</p>
+<h2 data-number="1.9" id="lisans-bilgisi"><span
+class="header-section-number">1.9</span> 📄 Lisans Bilgisi</h2>
+<p>Bu doküman, <strong>Flutter resmi dokümantasyonundan</strong>
+türetilmiş Türkçe ders notudur.</p>
+<p><strong>Orijinal kaynak:</strong><br />
+https://docs.flutter.dev/get-started/fundamentals/user-input</p>
+<p><strong>Türkçe çeviri ve düzenleme:</strong><br />
+<a href="mailto:htemiz@artvin.edu.tr">Doç. Dr. Hakan Temiz</a></p>
+<hr />
+<h3 data-number="1.9.1" id="lisans-kapsamı"><span
+class="header-section-number">1.9.1</span> Lisans Kapsamı</h3>
+<p>Bu dokümandaki içerikler aşağıdaki açık lisanslar kapsamında
+sunulmaktadır:</p>
+<p><strong>Metin içerikleri (anlatım ve açıklamalar):</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> Creative Commons Attribution 4.0 International
+(CC BY 4.0)<br />
+https://creativecommons.org/licenses/by/4.0/</p>
+<p>Bu lisans kapsamında: - İçerik kopyalanabilir, dağıtılabilir ve
+uyarlanabilir<br />
+- Ticari kullanım serbesttir<br />
+- Kaynak belirtilmesi zorunludur</p>
+<p><strong>Kod örnekleri:</strong><br />
+Flutter resmi dokümantasyonundan alınmış veya uyarlanmıştır.<br />
+<strong>Lisans:</strong> BSD 3-Clause License<br />
+https://opensource.org/licenses/BSD-3-Clause</p>
+<p>Bu lisans kapsamında: - Kodlar kopyalanabilir, değiştirilebilir ve
+dağıtılabilir<br />
+- Ticari kullanım serbesttir<br />
+- Lisans bildiriminin korunması gerekir</p>
+</body>
+</html>
