@@ -30,11 +30,12 @@ htemiz@artvin.edu.tr
 
 [Uygulama Katmanı (Application Layer)](https://docs.google.com/presentation/d/e/2PACX-1vRzOaf3eiXquIpnR7RjPps2_RdwETt55OI5gm4sdYYXb36luWPyRuQlshk5ABLIFT7_HIseez0JVAhy/pub?start=false&loop=false&delayms=3000) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [📥 pdf indir](https://docs.google.com/presentation/d/1IvA12U2BwyxgVzNdZaXNx-jidCSvNMQ_NZOJrWTKyQI/export/pdf)
 
-
-## 🌐 İlave Kaynaklar:
-
+</br>
+</br>
 
 ---
+
+## 🌐 İlave Kaynaklar:
 
 ## 📚 Kitaplar
 
