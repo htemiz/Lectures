@@ -19,7 +19,7 @@ htemiz@artvin.edu.tr
 
 
 
-[Veri Bağı Katmanı (Data Link Layer)](https://docs.google.com/presentation/d/e/2PACX-1vT9-35b-iRv9aCqiXhr9tP7f53b-M4cp57NArBKAVxkkPNhwbqZNk-Ptw1SWrhg99l8afepLEfmw95g/pub?start=false&loop=false&delayms=3000 &nbsp;&nbsp;&nbsp; [📥 pdf indir](https://docs.google.com/presentation/d/1ihgY5j4NspUkceom_QAVVYkovZGFpgJcTrfjK5Idh4c/export/pdf)
+[Veri Bağı Katmanı (Data Link Layer)](https://docs.google.com/presentation/d/e/2PACX-1vT9-35b-iRv9aCqiXhr9tP7f53b-M4cp57NArBKAVxkkPNhwbqZNk-Ptw1SWrhg99l8afepLEfmw95g/pub?start=false&loop=false&delayms=3000) &nbsp;&nbsp;&nbsp; [📥 pdf indir](https://docs.google.com/presentation/d/1ihgY5j4NspUkceom_QAVVYkovZGFpgJcTrfjK5Idh4c/export/pdf)
 
 
 
@@ -29,20 +29,25 @@ htemiz@artvin.edu.tr
 
 <td>
 
-[Orta Erişim Kontrol Alt Katmanı (Medium Access Control (MAC) Sublayer
-)](https://docs.google.com/presentation/d/e/2PACX-1vQ1bXC7iRcGx3SoaqfvjicnsQ6Urz0BG3opuLq5vKiuBdNNvutsIG4dGJdy1po3FlE7ENEAb4QO8p7c/pub?start=false&loop=false&delayms=3000)
+<a href="https://docs.google.com/presentation/d/e/2PACX-1vQ1bXC7iRcGx3SoaqfvjicnsQ6Urz0BG3opuLq5vKiuBdNNvutsIG4dGJdy1po3FlE7ENEAb4QO8p7c/pub?start=false&loop=false&delayms=3000">Orta Erişim Kontrol Alt Katmanı (Medium Access Control (MAC) Sublayer)</a>
+
 </td>
 
 <td>
-[📥 pdf indir](https://docs.google.com/presentation/d/18l6HAO8SiFaorm45jXoFAEHz9rg_oqKHNWTn0zUo7pU/export/pdf)
+<a href="https://docs.google.com/presentation/d/18l6HAO8SiFaorm45jXoFAEHz9rg_oqKHNWTn0zUo7pU/export/pdf">📥 pdf indir</a>
+
 </td>
 </tr>
 
 </table>
 
+
  &nbsp;&nbsp;&nbsp; 
 
 
+[Orta Erişim Kontrol Alt Katmanı (Medium Access Control (MAC) Sublayer
+)](https://docs.google.com/presentation/d/e/2PACX-1vQ1bXC7iRcGx3SoaqfvjicnsQ6Urz0BG3opuLq5vKiuBdNNvutsIG4dGJdy1po3FlE7ENEAb4QO8p7c/pub?start=false&loop=false&delayms=3000)  &nbsp;&nbsp;&nbsp;   
+[📥 pdf indir](https://docs.google.com/presentation/d/18l6HAO8SiFaorm45jXoFAEHz9rg_oqKHNWTn0zUo7pU/export/pdf)
 
 
 <table>
