@@ -1,11 +1,9 @@
 # Veri Yapıları 
 
-Doç. Dr. Hakan Temiz
+[Doç. Dr. Hakan Temiz](mailto:htemiz@artvin.edu.tr)  &nbsp; &nbsp; &nbsp;  2026<sup> &copy;</sup>
 
-htemiz@artvin.edu.tr
-
-&copy; 2026
-
+&nbsp;
+ 
 
 Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kitabı](https://github.com/htemiz/Lectures/blob/main/Python-ile-Programlamaya-Giris/Python-ile-Programlamaya-Giris.ipynb)
 
