@@ -61,7 +61,11 @@ Güncel dönem ders oturumlarındaki örnek çalışmalara [buradan](https://col
 ## İlave Kaynaklar
 
 https://python.yazbel.com/YazbelPythonProgramlamaDiliBelgeleri.pdf
+
 https://www.w3schools.com/python/default.asp?authuser=0 
+
 https://diveintopython3.problemsolving.io/?authuser=0
+
 https://docs.python.org/3/tutorial/index.html?authuser=0
+
 https://runestone.academy/runestone/books/published/pythonds/index.html?authuser=0
