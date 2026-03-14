@@ -16,7 +16,7 @@ Flutter ve Dart öğrenmek  için resmî dokümantasyon, etkileşimli eğitimler
 
 &nbsp;
 
-🔹 Resmî Kaynaklar
+### Resmî Kaynaklar
 
 https://flutter.dev/learn
 
@@ -33,7 +33,7 @@ Flutter Cookbook, küçük uygulamalar yaparak öğrenmek için faydalıdır.
 
 &nbsp;
 
-🔹 Etkileşimli Öğrenme Platformları
+### Etkileşimli Öğrenme Platformları
 
 https://dartpad.dev/
 
@@ -46,7 +46,7 @@ DartPad, tarayıcı içinde Dart ve Flutter kodu çalıştırmayı sağlar.
 
 &nbsp;
 
-🔹 Ücretsiz Video EğitimleriFlutter Resmî Kanalı
+### Ücretsiz Video EğitimleriFlutter Resmî Kanalı
 
 https://www.youtube.com/c/flutterdev
 
@@ -61,7 +61,7 @@ https://www.youtube.com/playlist?list=PL4cUxeGkcC9jLYyp2Aoh6hcWuxFDX6PBJ
 
 &nbsp;
 
-🔹 Ücretsiz Online Kurslar
+### Ücretsiz Online Kurslar
 
 https://www.freecodecamp.org/news/tag/flutter/
 
@@ -72,7 +72,7 @@ https://www.codecademy.com/learn/learn-dart
 
 &nbsp;
 
-🔹 GitHub Örnek ProjeleriFlutter Örnek Uygulamaları
+### GitHub Örnek ProjeleriFlutter Örnek Uygulamaları
 
 https://github.com/flutter/samples
 
@@ -87,7 +87,7 @@ https://github.com/iampawan/FlutterExampleApps
 
 &nbsp;
 
-🔹 Flutter Paketleri ve Kütüphaneler
+### Flutter Paketleri ve Kütüphaneler
 
 https://pub.dev/
 
@@ -96,7 +96,7 @@ https://pub.dev/flutter
 
 &nbsp;
 
-**Önerilen Öğrenme Sırası**
+### Önerilen Öğrenme Sırası
 
 1️⃣ Dart temelleri
 https://dart.dev/guides
