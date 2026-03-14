@@ -58,7 +58,8 @@ Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kita
 
 3. [Algorithms, 4th Edition (Online Materials)](https://algs4.cs.princeton.edu)
 
-
+4. [Problem Solving with Algorithms and Data Structures using Python](https://runestone.academy/ns/books/published/pythonds/index.html)
+   
 &nbsp;
 
 ### Video Dersler
