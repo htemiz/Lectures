@@ -1,8 +1,6 @@
 # Veri İletişimi ve Bilgisayar Ağları 
 
-[Doç. Dr. Hakan Temiz](mailto:htemiz@artvin.edu.tr)  &nbsp; &nbsp; &nbsp; &copy; 2026
-
-&nbsp; 
+[Doç. Dr. Hakan Temiz](mailto:htemiz@artvin.edu.tr)  &nbsp; &nbsp; &nbsp;  2026<sup>&copy;</sup>
 
 ## Online sunumlar
 
