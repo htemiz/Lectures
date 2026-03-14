@@ -60,8 +60,8 @@ Güncel dönem ders oturumlarındaki örnek çalışmalara [buradan](https://col
 
 ## İlave Kaynaklar
 
-- https://www.w3schools.com/python/default.asp?authuser=0 
-- https://diveintopython3.problemsolving.io/?authuser=0
-- https://docs.python.org/3/tutorial/index.html?authuser=0
-- https://drive.google.com/file/d/1gs1DtooK5cFfa5sli1gj91elp7fPfgsH/view?usp=classroom_web&authuser=0
-- https://runestone.academy/runestone/books/published/pythonds/index.html?authuser=0
+https://python.yazbel.com/YazbelPythonProgramlamaDiliBelgeleri.pdf
+https://www.w3schools.com/python/default.asp?authuser=0 
+https://diveintopython3.problemsolving.io/?authuser=0
+https://docs.python.org/3/tutorial/index.html?authuser=0
+https://runestone.academy/runestone/books/published/pythonds/index.html?authuser=0
