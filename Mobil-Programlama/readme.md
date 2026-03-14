@@ -16,7 +16,7 @@ Flutter ve Dart öğrenmek  için resmî dokümantasyon, etkileşimli eğitimler
 
 &nbsp;
 
-### Resmî Kaynaklar
+### Resmi Kaynaklar
 
 https://flutter.dev/learn
 
