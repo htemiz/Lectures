@@ -91,10 +91,10 @@ Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kita
 
 ### Python ile Veri Yapıları Kütüphaneleri
 
-- **collections** (deque, defaultdict, Counter)
-- **heapq** (öncelik kuyruğu)
-- **queue** (thread-safe queue yapıları)
-- **bisect** (sıralı listelerde ikili arama)
+- [**collections** (deque, defaultdict, Counter)](https://docs.python.org/3/library/collections.html)
+- [**heapq** (öncelik kuyruğu)](https://docs.python.org/3/library/heapq.html#module-heapq)
+- [**queue** (thread-safe queue yapıları)](https://docs.python.org/3/library/queue.html#module-queue)
+- [**bisect** (sıralı listelerde ikili arama)](https://docs.python.org/3/library/bisect.html#module-bisect)
 
 
 &nbsp;
