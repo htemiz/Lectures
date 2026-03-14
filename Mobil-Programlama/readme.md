@@ -40,8 +40,6 @@ https://flutter.dev/docs/get-started/codelab
 
 https://flutter.dev/docs/codelabs
 
-DartPad, tarayıcı içinde Dart ve Flutter kodu çalıştırmayı sağlar.
-
 
 &nbsp;
 
