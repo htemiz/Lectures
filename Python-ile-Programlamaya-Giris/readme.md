@@ -16,7 +16,6 @@
 
 butonuna tıklayarak Colab ortamında interaktif kullanabilirsiniz.
 </br>
-&nbsp;
 
 Konulara ait örnekler, çalışma soruları ve çözümler bölümler halinde alt klasörlerde bulunmaktadır.
 
