@@ -1,10 +1,8 @@
 # [Python ile Programlamaya Giriş](Python-ile-Programlamaya-Giris.ipynb) 
 
 &nbsp;
-&nbsp;
 [Doç. Dr. Hakan Temiz](mailto:htemiz@artvin.edu.tr)
 
-</br>
 &nbsp;
 
 İnteraktif Python kitabı ve çalışma kaynakları.
