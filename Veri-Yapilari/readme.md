@@ -29,3 +29,111 @@ Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kita
 
 [Çizgeler/Graflar (Graphs)](https://docs.google.com/presentation/d/e/2PACX-1vTlNPbDDLG-j9Iqtx_V89mMoAI1ZkGeQLS0Ca-b-4Fj6aLfTmPVoWVevIPAUuJJ7L1hZCUIliuQf2My/pub?start=false&loop=false&delayms=5000)  &nbsp;&nbsp;&nbsp; [📥 pdf indir](https://docs.google.com/presentation/d/1tmcVYbaj9VqZ_M4Xn4VktdXI_Is3y0mUD5BK6-Q_O98/export/pdf)
 
+
+&nbsp;
+
+# Veri Yapıları Dersi İçin Yararlı Kaynaklar
+
+## 🔹 Ders Kitapları
+
+1. **Introduction to Algorithms** – Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein  
+   - Veri yapıları ve algoritmalar alanında en kapsamlı ve klasik kaynaklardan biridir.
+
+2. **Data Structures and Algorithms in Python** – Michael T. Goodrich, Roberto Tamassia, Michael H. Goldwasser  
+   - Veri yapıları konularını Python dili üzerinden açıklayan güçlü bir kaynaktır.
+
+3. **Data Structures and Algorithm Analysis in C++** – Mark Allen Weiss  
+   - Veri yapılarının teorik temelleri ve C++ implementasyonları için iyi bir kaynaktır.
+
+4. **Algorithms** – Robert Sedgewick, Kevin Wayne  
+   - Princeton Üniversitesi ders kitabı olup veri yapıları ve algoritmaları görsel anlatımlarla açıklar.
+
+5. **Problem Solving with Algorithms and Data Structures Using Python** – Bradley N. Miller, David L. Ranum  
+   - Python ile veri yapıları öğrenmek isteyenler için başlangıç seviyesinde uygun bir kaynaktır.
+
+
+&nbsp;
+
+## 🔹 Ücretsiz Online Kitaplar
+
+1. **Open Data Structures**  
+   https://opendatastructures.org  
+   - Veri yapılarının teorisini ve implementasyonlarını açık şekilde anlatır.
+
+2. **VisuAlgo eBook**  
+   https://visualgo.net  
+   - Veri yapılarının animasyonlarla anlatıldığı etkileşimli bir kaynaktır.
+
+3. **Algorithms, 4th Edition (Online Materials)**  
+   https://algs4.cs.princeton.edu
+
+
+&nbsp;
+
+## 🔹 Video Dersler
+
+1. **MIT OpenCourseWare – Introduction to Algorithms**
+   https://ocw.mit.edu
+
+2. **UC Berkeley – Data Structures**
+   https://cs61b.org
+
+3. **Abdul Bari – Data Structures**
+   https://www.youtube.com/c/abdul_bari
+
+
+&nbsp;
+
+## 🔹 İnteraktif Öğrenme Siteleri
+
+- https://visualgo.net  
+- https://leetcode.com  
+- https://hackerrank.com  
+- https://geeksforgeeks.org  
+
+
+&nbsp;
+
+## 🔹 Veri Yapılarını Görselleştiren Siteler
+
+- https://visualgo.net  
+- https://www.cs.usfca.edu/~galles/visualization/Algorithms.html  
+- https://algorithm-visualizer.org  
+
+
+&nbsp;
+
+## 🔹 Problem Çözme Platformları
+
+| Platform | Özellik |
+|--------|--------|
+| LeetCode | Mülakat soruları ve veri yapıları problemleri |
+| HackerRank | Veri yapıları ve algoritma alıştırmaları |
+| Codeforces | Rekabetçi programlama |
+| AtCoder | Algoritma yarışmaları |
+| Project Euler | Matematik ağırlıklı algoritma problemleri |
+
+
+&nbsp;
+
+## 🔹 Python ile Veri Yapıları Kütüphaneleri
+
+- **collections** (deque, defaultdict, Counter)
+- **heapq** (öncelik kuyruğu)
+- **queue** (thread-safe queue yapıları)
+- **bisect** (sıralı listelerde ikili arama)
+
+
+&nbsp;
+
+## 🔹 Diğer Kaynaklar
+
+- **Big-O Cheat Sheet**  
+  https://www.bigocheatsheet.com
+
+- **Algorithm Animations**  
+  https://algorithm-visualizer.org
+
+- **Competitive Programming Handbook (PDF)**  
+  https://cses.fi/book/book.pdf
+
