@@ -54,4 +54,14 @@ Güncel dönem ders oturumlarındaki örnek çalışmalara [buradan](https://col
 * [Bölüm 09 - Gelişmiş Metin](Bolum-09-Gelişmiş-Metin/)
   
   * [Alıştırmalar](Bolum-09-Gelişmiş-Metin/Exercises_Gelismis_Metin.ipynb)
+
  
+&nbsp;
+
+## İlave Kaynaklar
+
+- https://www.w3schools.com/python/default.asp?authuser=0 
+- https://diveintopython3.problemsolving.io/?authuser=0
+- https://docs.python.org/3/tutorial/index.html?authuser=0
+- https://drive.google.com/file/d/1gs1DtooK5cFfa5sli1gj91elp7fPfgsH/view?usp=classroom_web&authuser=0
+- https://runestone.academy/runestone/books/published/pythonds/index.html?authuser=0
