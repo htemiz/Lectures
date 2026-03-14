@@ -7,8 +7,9 @@
 </br>
 &nbsp;
 
-Bu kitap, sadece bir okuma kitabı olmaktan ziyade interaktif kullanılabilmesi amacıyla Jupyter Notebook (Colab ortamında) olarak hazırlanmıştır. 
-</br>
+İnteraktif Python Kitabı.  
+
+
 &nbsp;
 
 Çalışma kitabını [buradan](Python-ile-Programlamaya-Giris.ipynb) açabilir ve dokümandaki
