@@ -28,7 +28,6 @@ https://dart.dev/tutorials
 
 https://flutter.dev/docs/cookbook
 
-Flutter Cookbook, küçük uygulamalar yaparak öğrenmek için faydalıdır.
 
 
 &nbsp;
@@ -46,17 +45,14 @@ DartPad, tarayıcı içinde Dart ve Flutter kodu çalıştırmayı sağlar.
 
 &nbsp;
 
-### Ücretsiz Video EğitimleriFlutter Resmî Kanalı
+### Ücretsiz Video Eğitimleri
 
-https://www.youtube.com/c/flutterdev
+[Resmi Flutter YouTube Kanalı](https://www.youtube.com/c/flutterdev)
 
-Flutter Crash Course (Traversy Media)
+[Flutter Crash Course (Traversy Media)](https://www.youtube.com/watch?v=1gDhl4leEzA)
 
-https://www.youtube.com/watch?v=1gDhl4leEzA
+[Flutter Beginner Tutorials (The Net Ninja)](https://www.youtube.com/playlist?list=PL4cUxeGkcC9jLYyp2Aoh6hcWuxFDX6PBJ)
 
-Flutter Beginner Tutorials (The Net Ninja)
-
-https://www.youtube.com/playlist?list=PL4cUxeGkcC9jLYyp2Aoh6hcWuxFDX6PBJ
 
 
 &nbsp;
@@ -72,17 +68,13 @@ https://www.codecademy.com/learn/learn-dart
 
 &nbsp;
 
-### GitHub Örnek ProjeleriFlutter Örnek Uygulamaları
+### GitHub Örnek Projeleri
 
-https://github.com/flutter/samples
+[Flutter Örnek Uygulamaları](https://github.com/flutter/samples)
 
-Flutter Awesome (Proje koleksiyonu)
+[Flutter Awesome (Proje koleksiyonu)](https://github.com/Solido/awesome-flutter)
 
-https://github.com/Solido/awesome-flutter
-
-Flutter UI Challenges
-
-https://github.com/iampawan/FlutterExampleApps
+[Flutter UI Challenges](https://github.com/iampawan/FlutterExampleApps)
 
 
 &nbsp;
@@ -98,20 +90,14 @@ https://pub.dev/flutter
 
 ### Önerilen Öğrenme Sırası
 
-1️⃣ Dart temelleri
-https://dart.dev/guides
+1️⃣ [Dart temelleri](https://dart.dev/guides)
 
-2️⃣ Flutter kurulum ve ilk uygulama
-https://flutter.dev/docs/get-started/install
+2️⃣ [Flutter kurulum ve ilk uygulama](https://flutter.dev/docs/get-started/install)
 
-3️⃣ Flutter layout sistemi
-https://docs.flutter.dev/development/ui/layout
+3️⃣ [Flutter layout sistemi](https://docs.flutter.dev/development/ui/layout)
 
-4️⃣ Widget mantığı
-https://docs.flutter.dev/development/ui/widgets
+4️⃣ [Widget mantığı](https://docs.flutter.dev/development/ui/widgets)
 
-5️⃣ State yönetimi
-https://docs.flutter.dev/development/data-and-backend/state-mgmt
+5️⃣ [State yönetimi](https://docs.flutter.dev/development/data-and-backend/state-mgmt)
 
-6️⃣ Küçük uygulamalar geliştirme (Cookbook)
-https://flutter.dev/docs/cookbook
+6️⃣ [Küçük uygulamalar geliştirme (Cookbook)](https://flutter.dev/docs/cookbook)
