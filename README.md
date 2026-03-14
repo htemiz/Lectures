@@ -4,12 +4,12 @@
 
 [Veri Yapıları](Veri-Yapilari/)
 
+[Veri İletişimi ve Bilgisayar Ağları](Bilgisayar-Aglari/)
 
-___
+[Mobil Programlama](Mobil-Programlama/)
 
-Doç. Dr. Hakan Temiz
 
-htemiz@artvin.edu.tr
+---
 
-&copy; 2026
+[Doç. Dr. Hakan Temiz](mailto:htemiz@artvin.edu.tr)  &nbsp; &nbsp; &nbsp;  2024-2026<sup> &copy;</sup>
 
