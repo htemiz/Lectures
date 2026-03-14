@@ -66,8 +66,27 @@ Güncel dönem ders oturumlarındaki örnek çalışmalara [buradan](https://col
 
 [Automate the Boring Stuff with Python – Al Sweigart](https://automatetheboringstuff.com/)
 
-[W3 Schools - Python Tutorial](https://www.w3schools.com/python)
+[W3Schools Python Tutorial](https://www.w3schools.com/python)
 
 [Dive into Python 3](https://diveintopython3.net/)
 
+&nbsp;
+
+## Online Videolar
+
+[FreeCodeCamp Python Kursu](https://www.youtube.com/watch?v=rfscVS0vtbw)
+
+[Corey Schafer - Python](https://www.youtube.com/c/Coreyms)
+
+[Sentdex - Python](https://www.youtube.com/c/sentdex)
+
+&nbsp;
+
+## Pratik Yapma Platformları
+
+[HackerRank](https://www.hackerrank.com/domains/python)
+
+[LeetCode](https://leetcode.com/)
+
+[Codewars](https://www.codewars.com/)
 
