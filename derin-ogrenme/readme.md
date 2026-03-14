@@ -1,6 +1,6 @@
 # Derin Öğrenme
 
-[Doç. Dr. Hakan Temiz](mailto:htemiz@artvin.edu.tr)  &nbsp; &nbsp; &nbsp;  2026<sup> &copy;</sup>
+[Doç. Dr. Hakan Temiz](mailto:htemiz@artvin.edu.tr)  &nbsp; &nbsp; &nbsp;  2026<sup>&copy;</sup>
 
 &nbsp;
  
