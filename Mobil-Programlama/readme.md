@@ -4,9 +4,9 @@ Ders notları [docs](/docs) klasörü altındadır. Notlar, kullanım kolaylığ
 
 Ders notlarına şu linklerden hızlıca erişebilirsiniz:
 
-[Dart Notları](docs/dart/)
+[Dart Notları](docs/Dart/)
 
-[Flutter Notları](docs/flutter/)
+[Flutter Notları](docs/Flutter/)
 
 
 ## İlave Kaynaklar
