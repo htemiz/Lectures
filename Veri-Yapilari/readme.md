@@ -89,7 +89,7 @@ Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kita
 
 &nbsp;
 
-### Python ile Veri Yapıları Kütüphaneleri
+### Bazı Python Veri Yapıları Kütüphaneleri
 
 - [**collections** (deque, defaultdict, Counter)](https://docs.python.org/3/library/collections.html)
 - [**heapq** (öncelik kuyruğu)](https://docs.python.org/3/library/heapq.html#module-heapq)
