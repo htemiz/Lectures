@@ -1,9 +1,8 @@
 # [Python ile Programlamaya Giriş](Python-ile-Programlamaya-Giris.ipynb) 
-Doç. Dr. Hakan Temiz
 
-htemiz@artvin.edu.tr
-
-&copy; 2020 - 2026
+&nbsp;
+&nbsp;
+[Doç. Dr. Hakan Temiz](mailto:htemiz@artvin.edu.tr) &nbsp;&nbsp;&nbsp;  2020 - 2026 <sup> &copy;</sup>
 
 </br>
 &nbsp;
