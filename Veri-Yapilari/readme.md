@@ -89,19 +89,6 @@ Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kita
 
 &nbsp;
 
-### Problem Çözme Platformları
-
-| Platform | Özellik |
-|--------|--------|
-| LeetCode | Mülakat soruları ve veri yapıları problemleri |
-| HackerRank | Veri yapıları ve algoritma alıştırmaları |
-| Codeforces | Rekabetçi programlama |
-| AtCoder | Algoritma yarışmaları |
-| Project Euler | Matematik ağırlıklı algoritma problemleri |
-
-
-&nbsp;
-
 ### Python ile Veri Yapıları Kütüphaneleri
 
 - **collections** (deque, defaultdict, Counter)
