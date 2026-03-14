@@ -53,20 +53,23 @@ Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kita
 
 1. [Open Data Structures](https://opendatastructures.org)
     
-
 2. [VisuAlgo eBook](https://visualgo.net)
 
 3. [Algorithms, 4th Edition (Online Materials)](https://algs4.cs.princeton.edu)
 
 4. [Problem Solving with Algorithms and Data Structures using Python](https://runestone.academy/ns/books/published/pythonds/index.html)
+
    
 &nbsp;
+
 
 ### Video Dersler
 
 1. [MIT OpenCourseWare – Introduction to Algorithms](https://ocw.mit.edu)
 
 2. [UC Berkeley – Data Structures](https://cs61b.org)
+
+3. [Gerry Jenkins - Python Data Structures and Algorithms Class](https://www.youtube.com/user/gjenkinslbcc)
 
 
 &nbsp;
