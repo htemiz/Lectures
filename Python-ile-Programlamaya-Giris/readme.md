@@ -7,7 +7,7 @@
 </br>
 &nbsp;
 
-İnteraktif Python Kitabı.  
+İnteraktif Python kitabı ve çalışma kaynakları.
 
 
 &nbsp;
