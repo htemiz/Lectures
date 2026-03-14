@@ -7,7 +7,7 @@
 
 İnteraktif Python kitabı ve çalışma kaynakları.
 
-Çalışma kitabını [buradan]([Python-ile-Programlamaya-Giris.ipynb](https://drive.google.com/file/d/1VJKmvVnmUxIpiNSZEVAzGgFpI8Te6_Z3/view?usp=drive_link)) açabilir ve dokümandaki <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/> butonuna tıklayarak Colab ortamında interaktif kullanabilirsiniz.
+Çalışma kitabını [buradan](https://drive.google.com/file/d/1VJKmvVnmUxIpiNSZEVAzGgFpI8Te6_Z3/view?usp=drive_link) açabilir ve dokümandaki <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/> butonuna tıklayarak Colab ortamında interaktif kullanabilirsiniz.
 
 Konulara ait örnekler, çalışma soruları ve çözümler bölümler halinde alt klasörlerde bulunmaktadır.
 
