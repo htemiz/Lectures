@@ -32,9 +32,9 @@ Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kita
 
 &nbsp;
 
-# Veri Yapıları Dersi İçin Yararlı Kaynaklar
+## Yararlı Kaynaklar
 
-## 🔹 Ders Kitapları
+### 🔹 Ders Kitapları
 
 1. **Introduction to Algorithms** – Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein  
    - Veri yapıları ve algoritmalar alanında en kapsamlı ve klasik kaynaklardan biridir.
@@ -54,7 +54,7 @@ Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kita
 
 &nbsp;
 
-## 🔹 Ücretsiz Online Kitaplar
+### 🔹 Ücretsiz Online Kitaplar
 
 1. **Open Data Structures**  
    https://opendatastructures.org  
@@ -70,7 +70,7 @@ Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kita
 
 &nbsp;
 
-## 🔹 Video Dersler
+### 🔹 Video Dersler
 
 1. **MIT OpenCourseWare – Introduction to Algorithms**
    https://ocw.mit.edu
@@ -84,7 +84,7 @@ Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kita
 
 &nbsp;
 
-## 🔹 İnteraktif Öğrenme Siteleri
+### 🔹 İnteraktif Öğrenme Siteleri
 
 - https://visualgo.net  
 - https://leetcode.com  
@@ -94,7 +94,7 @@ Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kita
 
 &nbsp;
 
-## 🔹 Veri Yapılarını Görselleştiren Siteler
+### 🔹 Veri Yapılarını Görselleştiren Siteler
 
 - https://visualgo.net  
 - https://www.cs.usfca.edu/~galles/visualization/Algorithms.html  
@@ -103,7 +103,7 @@ Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kita
 
 &nbsp;
 
-## 🔹 Problem Çözme Platformları
+### 🔹 Problem Çözme Platformları
 
 | Platform | Özellik |
 |--------|--------|
@@ -116,7 +116,7 @@ Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kita
 
 &nbsp;
 
-## 🔹 Python ile Veri Yapıları Kütüphaneleri
+### 🔹 Python ile Veri Yapıları Kütüphaneleri
 
 - **collections** (deque, defaultdict, Counter)
 - **heapq** (öncelik kuyruğu)
@@ -126,7 +126,7 @@ Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kita
 
 &nbsp;
 
-## 🔹 Diğer Kaynaklar
+### 🔹 Diğer Kaynaklar
 
 - **Big-O Cheat Sheet**  
   https://www.bigocheatsheet.com
