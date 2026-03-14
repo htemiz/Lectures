@@ -37,59 +37,45 @@ Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kita
 ### 🔹 Ders Kitapları
 
 1. **Introduction to Algorithms** – Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein  
-   - Veri yapıları ve algoritmalar alanında en kapsamlı ve klasik kaynaklardan biridir.
 
 2. **Data Structures and Algorithms in Python** – Michael T. Goodrich, Roberto Tamassia, Michael H. Goldwasser  
-   - Veri yapıları konularını Python dili üzerinden açıklayan güçlü bir kaynaktır.
 
-3. **Data Structures and Algorithm Analysis in C++** – Mark Allen Weiss  
-   - Veri yapılarının teorik temelleri ve C++ implementasyonları için iyi bir kaynaktır.
+3. **Problem Solving with Algorithms and Data Structures Using Python** – Bradley N. Miller, David L. Ranum    
 
 4. **Algorithms** – Robert Sedgewick, Kevin Wayne  
-   - Princeton Üniversitesi ders kitabı olup veri yapıları ve algoritmaları görsel anlatımlarla açıklar.
 
-5. **Problem Solving with Algorithms and Data Structures Using Python** – Bradley N. Miller, David L. Ranum  
-   - Python ile veri yapıları öğrenmek isteyenler için başlangıç seviyesinde uygun bir kaynaktır.
+5. **Data Structures and Algorithm Analysis in C++** – Mark Allen Weiss
 
 
 &nbsp;
 
 ### 🔹 Ücretsiz Online Kitaplar
 
-1. **Open Data Structures**  
-   https://opendatastructures.org  
-   - Veri yapılarının teorisini ve implementasyonlarını açık şekilde anlatır.
+1. [Open Data Structures](https://opendatastructures.org)
+    
 
-2. **VisuAlgo eBook**  
-   https://visualgo.net  
-   - Veri yapılarının animasyonlarla anlatıldığı etkileşimli bir kaynaktır.
+2. [VisuAlgo eBook](https://visualgo.net)
 
-3. **Algorithms, 4th Edition (Online Materials)**  
-   https://algs4.cs.princeton.edu
+3. [Algorithms, 4th Edition (Online Materials)](https://algs4.cs.princeton.edu)
 
 
 &nbsp;
 
 ### 🔹 Video Dersler
 
-1. **MIT OpenCourseWare – Introduction to Algorithms**
-   https://ocw.mit.edu
+1. [MIT OpenCourseWare – Introduction to Algorithms](https://ocw.mit.edu)
 
-2. **UC Berkeley – Data Structures**
-   https://cs61b.org
-
-3. **Abdul Bari – Data Structures**
-   https://www.youtube.com/c/abdul_bari
+2. [UC Berkeley – Data Structures](https://cs61b.org)
 
 
 &nbsp;
 
 ### 🔹 İnteraktif Öğrenme Siteleri
 
+- https://geeksforgeeks.org  
 - https://visualgo.net  
 - https://leetcode.com  
 - https://hackerrank.com  
-- https://geeksforgeeks.org  
 
 
 &nbsp;
