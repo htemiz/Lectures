@@ -3,7 +3,6 @@
 &nbsp;
 [Doç. Dr. Hakan Temiz](mailto:htemiz@artvin.edu.tr)
 
-&nbsp;
 
 İnteraktif Python kitabı ve çalışma kaynakları.
 
