@@ -24,9 +24,7 @@ Konulara ait örnekler, çalışma soruları ve çözümler bölümler halinde a
 
 ## Güncel Çalışmalar
 
-Güncel dönem ders oturumlarındaki örnek çalışmalara şu linkten erişebilirsiniz:
-
-[Güncel Çalışmalar](https://colab.research.google.com/drive/1Q2EgmkpAkDr2fcWF7D2FulCpY6SYQAnC?usp=sharing)
+Güncel dönem ders oturumlarındaki örnek çalışmalara [buradan](https://colab.research.google.com/drive/1Q2EgmkpAkDr2fcWF7D2FulCpY6SYQAnC?usp=sharing) erişebilirsiniz:
 
 &nbsp;
 
