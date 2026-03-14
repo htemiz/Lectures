@@ -16,12 +16,5 @@
 [**Çok Katmanlı Sinir Ağları (MLP), İleri Yayılım ve Geri Yayılım**](https://colab.research.google.com/drive/1f7XjGvJospwim8NBw4lkzNgFJEyBTh4E?ouid=116617047005222262671&usp=classroom_web&authuser=0)
 
 
-[**Optimizasyon**]([ ](https://colab.research.google.com/drive/1BDE5b0wrCHiHQezNp-ILQ9y6NDaL_SmG?ouid=116617047005222262671&usp=classroom_web&authuser=0))
-
-
-[** **]( )
-
-
-[** **]( )
-
+[**Optimizasyon**](https://colab.research.google.com/drive/1BDE5b0wrCHiHQezNp-ILQ9y6NDaL_SmG?ouid=116617047005222262671&usp=classroom_web&authuser=0)
 
