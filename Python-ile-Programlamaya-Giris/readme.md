@@ -1,4 +1,4 @@
-# [Python ile Programlamaya Giriş](Python-ile-Programlamaya-Giris.ipynb) 
+# [Python ile Programlamaya Giriş](https://colab.research.google.com/drive/1VJKmvVnmUxIpiNSZEVAzGgFpI8Te6_Z3)
 
 &nbsp;
 [Doç. Dr. Hakan Temiz](mailto:htemiz@artvin.edu.tr)
