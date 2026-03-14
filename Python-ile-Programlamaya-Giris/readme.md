@@ -2,7 +2,7 @@
 
 &nbsp;
 &nbsp;
-[Doç. Dr. Hakan Temiz](mailto:htemiz@artvin.edu.tr) &nbsp;&nbsp;&nbsp;  2020 - 2026 <sup> &copy;</sup>
+[Doç. Dr. Hakan Temiz](mailto:htemiz@artvin.edu.tr) &nbsp;&nbsp;&nbsp;  2020-2026 <sup>&copy;</sup>
 
 </br>
 &nbsp;
