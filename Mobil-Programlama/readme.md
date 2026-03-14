@@ -1,6 +1,6 @@
 ## Mobil Programlama Dersi 
 
-[Doç. Dr. Hakan Temiz](mailto:htemiz@artvin.edu.tr)  &nbsp; &nbsp; &nbsp;  2024-2026<sup>&copy;</sup>
+[Doç. Dr. Hakan Temiz](mailto:htemiz@artvin.edu.tr)
 
 &nbsp;
 
