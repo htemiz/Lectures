@@ -7,6 +7,8 @@
 
 İnteraktif Python kitabı ve çalışma kaynakları.
 
+[bradan](https://colab.research.google.com/drive/1VJKmvVnmUxIpiNSZEVAzGgFpI8Te6_Z3)
+
 Çalışma kitabını [buradan](https://drive.google.com/open?id=1VJKmvVnmUxIpiNSZEVAzGgFpI8Te6_Z3&usp=classroom_web&authuser=0) açabilir ve dokümandaki <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/> butonuna tıklayarak Colab ortamında interaktif kullanabilirsiniz.
 
 Konulara ait örnekler, çalışma soruları ve çözümler bölümler halinde alt klasörlerde bulunmaktadır.
