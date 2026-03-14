@@ -2,9 +2,6 @@
 
 [Doç. Dr. Hakan Temiz](mailto:htemiz@artvin.edu.tr)  &nbsp; &nbsp; &nbsp;  2026<sup> &copy;</sup>
 
-&nbsp;
-
- 
 Ders notları [docs](docs/) klasörü altındadır. Notlar, kullanım kolaylığı açısından birden çok formatta hazırlanmıştır. Dilediğinizi kullanabilirsiniz. GitHub üzerinden görüntülemek için markdown (.md dosyası) formatını kullanmanız tavsiye edilir.
 
 Ders notlarına şu linklerden hızlıca erişebilirsiniz:
@@ -15,8 +12,6 @@ Ders notlarına şu linklerden hızlıca erişebilirsiniz:
 
 &nbsp;
 
-
----
 
 ## İlave Kaynaklar
 
