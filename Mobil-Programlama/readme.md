@@ -13,6 +13,7 @@ Ders notlarına şu linklerden hızlıca erişebilirsiniz:
 
 Flutter ve Dart öğrenmek  için resmî dokümantasyon, etkileşimli eğitimler, video kursları ve bazı örnek proje kaynaklarını aşağıda bulabilirsiniz.
 
+
 &nbsp;
 
 🔹 Resmî Kaynaklar
@@ -22,6 +23,7 @@ https://dart.dev/guides
 https://dart.dev/tutorials
 https://flutter.dev/docs/cookbook
 Flutter Cookbook, küçük uygulamalar yaparak öğrenmek için faydalıdır.
+
 
 &nbsp;
 
@@ -34,6 +36,7 @@ https://flutter.dev/docs/get-started/codelab
 https://flutter.dev/docs/codelabs
 
 DartPad, tarayıcı içinde Dart ve Flutter kodu çalıştırmayı sağlar.
+
 
 &nbsp;
 
@@ -49,6 +52,7 @@ Flutter Beginner Tutorials (The Net Ninja)
 
 https://www.youtube.com/playlist?list=PL4cUxeGkcC9jLYyp2Aoh6hcWuxFDX6PBJ
 
+
 &nbsp;
 
 🔹 Ücretsiz Online Kurslar
@@ -58,6 +62,7 @@ https://www.freecodecamp.org/news/tag/flutter/
 https://www.udacity.com/course/build-native-mobile-apps-with-flutter--ud905
 
 https://www.codecademy.com/learn/learn-dart
+
 
 &nbsp;
 
@@ -73,6 +78,7 @@ Flutter UI Challenges
 
 https://github.com/iampawan/FlutterExampleApps
 
+
 &nbsp;
 
 🔹 Flutter Paketleri ve Kütüphaneler
@@ -81,17 +87,10 @@ https://pub.dev/
 
 https://pub.dev/flutter
 
-&nbsp;
-
-🔹 Türkçe Kaynaklar
-
-https://medium.com/flutter-turkiye
-
-https://www.youtube.com/c/FlutterTurkiye
 
 &nbsp;
 
-Önerilen Öğrenme Sırası
+**Önerilen Öğrenme Sırası**
 
 1️⃣ Dart temelleri
 https://dart.dev/guides
