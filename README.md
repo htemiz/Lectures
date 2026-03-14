@@ -8,6 +8,7 @@
 
 [Mobil Programlama](Mobil-Programlama/)
 
+[Derin Öğrenme](derin-ogrenme/)
 
 ---
 
