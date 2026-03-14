@@ -60,12 +60,14 @@ Güncel dönem ders oturumlarındaki örnek çalışmalara [buradan](https://col
 
 ## İlave Kaynaklar
 
-https://python.yazbel.com/YazbelPythonProgramlamaDiliBelgeleri.pdf
+[Yazbel Python Belgeleri](https://python.yazbel.com/YazbelPythonProgramlamaDiliBelgeleri.pdf)
 
-https://www.w3schools.com/python/default.asp?authuser=0 
+[Resmi Python Dokümanları](https://docs.python.org/3/tutorial/index.html)
 
-https://diveintopython3.problemsolving.io/?authuser=0
+[Automate the Boring Stuff with Python – Al Sweigart](https://automatetheboringstuff.com/)
 
-https://docs.python.org/3/tutorial/index.html?authuser=0
+[W3 Schools - Python Tutorial](https://www.w3schools.com/python)
 
-https://runestone.academy/runestone/books/published/pythonds/index.html?authuser=0
+[Dive into Python 3](https://diveintopython3.net/)
+
+
