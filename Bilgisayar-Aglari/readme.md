@@ -1,6 +1,6 @@
 # Veri İletişimi ve Bilgisayar Ağları 
 
-[Doç. Dr. Hakan Temiz](mailto:htemiz@artvin.edu.tr)
+[**Doç. Dr. Hakan Temiz**](mailto:htemiz@artvin.edu.tr)
 
 &nbsp;
  
