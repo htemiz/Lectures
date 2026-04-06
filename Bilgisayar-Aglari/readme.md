@@ -32,9 +32,9 @@
 
 ---
 
-## 🌐 İlave Kaynaklar:
+## İlave Kaynaklar:
 
-## 📚 Kitaplar
+## Kitaplar
 
 - 🔹 **Computer Networking: A Top-Down Approach** – James F. Kurose & Keith W. Ross  
 - 🔹 **Computer Networks** – Andrew S. Tanenbaum & David J. Wetherall  
