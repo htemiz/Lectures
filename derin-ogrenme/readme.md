@@ -48,7 +48,6 @@
 4. [Pattern Recognition and Machine Learning – Christopher Bishop](https://books.google.com.tr/books?id=Y44SyAEACAAJ)
 
 &nbsp;
-&nbsp;
 
 ### Online Kaynaklar
 
@@ -58,7 +57,7 @@
 1. [Introduction to Deep Learning (Lecture Notes)](https://academicweb.nd.edu/~lemmon/courses/deep-learning/lecture-book/deep-learning-book-2025.pdf)
 1. [Mathematical Introduction to Deep Learning](https://arxiv.org/abs/2310.20360)
 
-&nbsp;
+
 &nbsp;
 
 ### Derin Öğrenme Frameworkleri
