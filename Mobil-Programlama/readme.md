@@ -1,6 +1,6 @@
 ## Mobil Programlama Dersi 
 
-[Doç. Dr. Hakan Temiz](mailto:htemiz@artvin.edu.tr)
+[**Doç. Dr. Hakan Temiz**](mailto:htemiz@artvin.edu.tr)
 
 &nbsp;
 
@@ -9,9 +9,9 @@ Ders notları [docs](docs/) klasörü altındadır. Notlar, kullanım kolaylığ
 
 Ders notlarına şu linklerden kolayca erişebilirsiniz:
 
-[Dart Notları](docs/Dart/)
+[**Dart Notları**](docs/Dart/)
 
-[Flutter Notları](docs/Flutter/)
+[**Flutter Notları**](docs/Flutter/)
 
 &nbsp;
 
