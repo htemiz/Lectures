@@ -1,6 +1,6 @@
 # Veri Yapıları 
 
-[Doç. Dr. Hakan Temiz](mailto:htemiz@artvin.edu.tr)
+[**Doç. Dr. Hakan Temiz**](mailto:htemiz@artvin.edu.tr)
 
 &nbsp;
  
