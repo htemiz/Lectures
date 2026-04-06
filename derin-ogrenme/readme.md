@@ -50,6 +50,16 @@
 &nbsp;
 &nbsp;
 
+### Online Kaynaklar
+
+1. [The Little Book of Deep Learning](https://fleuret.org/public/lbdl.pdf)
+1. [Understanding Deep Learning](https://anthology-of-data.science/resources/prince2023udl.pdf)
+1. [Deep Learning with PyTorch](https://isip.piconepress.com/courses/temple/ece_4822/resources/books/Deep-Learning-with-PyTorch.pdf)
+1. [Introduction to Deep Learning (Lecture Notes)](https://academicweb.nd.edu/~lemmon/courses/deep-learning/lecture-book/deep-learning-book-2025.pdf)
+1. [Mathematical Introduction to Deep Learning](https://arxiv.org/abs/2310.20360)
+
+&nbsp;
+&nbsp;
 
 ### Derin Öğrenme Frameworkleri
 
