@@ -84,7 +84,7 @@ Python programlama ve Sınıflar (Classes) konusu için [Python Programlama Kita
 
 &nbsp;
 
-### Veri Yapılarını Görselleştiren Siteler
+### Veri Yapılarını Görselleştirmek için Araçlar
 
 - https://visualgo.net  
 - https://www.cs.usfca.edu/~galles/visualization/Algorithms.html  
