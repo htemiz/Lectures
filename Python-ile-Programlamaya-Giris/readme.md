@@ -1,7 +1,7 @@
 # [Python ile Programlamaya Giriş](https://colab.research.google.com/drive/1VJKmvVnmUxIpiNSZEVAzGgFpI8Te6_Z3)
 
 &nbsp;
-[Doç. Dr. Hakan Temiz](mailto:htemiz@artvin.edu.tr)
+[**Doç. Dr. Hakan Temiz**](mailto:htemiz@artvin.edu.tr)
 
 &nbsp;
 
