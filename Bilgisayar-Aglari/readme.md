@@ -16,7 +16,7 @@
 [Veri Bağı Katmanı (Data Link Layer)](https://docs.google.com/presentation/d/e/2PACX-1vT9-35b-iRv9aCqiXhr9tP7f53b-M4cp57NArBKAVxkkPNhwbqZNk-Ptw1SWrhg99l8afepLEfmw95g/pub?start=false&loop=false&delayms=3000) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [📥 pdf indir](https://docs.google.com/presentation/d/1ihgY5j4NspUkceom_QAVVYkovZGFpgJcTrfjK5Idh4c/export/pdf)
 
 
-[Orta Erişim Kontrol Alt Katmanı (Medium Access Control (MAC) Sublayer)](https://docs.google.com/presentation/d/e/2PACX-1vQ1bXC7iRcGx3SoaqfvjicnsQ6Urz0BG3opuLq5vKiuBdNNvutsIG4dGJdy1po3FlE7ENEAb4QO8p7c/pub?start=false&loop=false&delayms=3000)  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [📥 pdf indir](https://docs.google.com/presentation/d/18l6HAO8SiFaorm45jXoFAEHz9rg_oqKHNWTn0zUo7pU/export/pdf)
+[Ortam Erişim Kontrol Alt Katmanı (Medium Access Control (MAC) Sublayer)](https://docs.google.com/presentation/d/e/2PACX-1vQ1bXC7iRcGx3SoaqfvjicnsQ6Urz0BG3opuLq5vKiuBdNNvutsIG4dGJdy1po3FlE7ENEAb4QO8p7c/pub?start=false&loop=false&delayms=3000)  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [📥 pdf indir](https://docs.google.com/presentation/d/18l6HAO8SiFaorm45jXoFAEHz9rg_oqKHNWTn0zUo7pU/export/pdf)
 
 
 [Ağ Katmanı (Network Layer)](https://docs.google.com/presentation/d/e/2PACX-1vQKYX0j-X7EmgZRSzNl6bdZ8CO0YEkG4cCyso2iA-XwPde0p9GTDuVIkJJwjbp8WQ6YGoobY5noP7Cg/pub?start=false&loop=false&delayms=3000) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [📥 pdf indir](https://docs.google.com/presentation/d/1Y_WlEyGk4dyOQ1q-LaSacNm_f-vDaasFXyInK2CHsUY/export/pdf)
