@@ -19,6 +19,9 @@
 [**Optimizasyon**](https://colab.research.google.com/drive/1BDE5b0wrCHiHQezNp-ILQ9y6NDaL_SmG)
 
 
+[**Veri Setleri ve Model Eğitimi**](https://colab.research.google.com/drive/1LeeRlkYOxV1pgjfJo844RB47mNNMqMqP)
+
+
 [**Aşırı, Yetersiz ve Yeterli Öğrenme**](https://colab.research.google.com/drive/1NDPr4vrcGlh6v89LFGuILEuoGsM2m0iT)
 
 
