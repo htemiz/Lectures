@@ -23,7 +23,7 @@ Güncel dönem ders oturumlarındaki örnek çalışmalara [buradan](https://col
 
 [2025-2026](https://colab.research.google.com/drive/1Q2EgmkpAkDr2fcWF7D2FulCpY6SYQAnC)
 
-[2024-2025](https://drive.google.com/file/d/1Rz2cb2V8r0IBlE8PldNMB4NUO-JK7imj)
+[2024-2025](https://drive.google.com/drive1Rz2cb2V8r0IBlE8PldNMB4NUO-JK7imj)
 
 
 &nbsp;
