@@ -19,7 +19,7 @@ Güncel dönem ders oturumlarındaki örnek çalışmalara [buradan](https://col
 
 &nbsp;
 
-## Geçmiş Yıllara Ait Çalışmalar
+## Geçmiş Yıllar
 
 [2025-2026](https://colab.research.google.com/drive/1Q2EgmkpAkDr2fcWF7D2FulCpY6SYQAnC)
 
