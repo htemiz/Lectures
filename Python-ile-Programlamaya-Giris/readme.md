@@ -25,7 +25,6 @@ Güncel dönem ders oturumlarındaki örnek çalışmalara [buradan](https://col
 
 [2024-2025](https://colab.research.google.com/drive/1Rz2cb2V8r0IBlE8PldNMB4NUO-JK7imj)
 
-https://drive.google.com/file/d/1Rz2cb2V8r0IBlE8PldNMB4NUO-JK7imj/view?usp=sharing
 &nbsp;
 
 ## Alıştırmalar
